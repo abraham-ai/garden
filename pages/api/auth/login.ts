@@ -2,10 +2,10 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
 // SESSION
-import { withSessionRoute } from '../../util/withSession';
+import { withSessionRoute } from '../../../util/withSession';
 
 // LIBS
-import { eden } from '../../util/eden';
+import { eden } from '../../../util/eden';
 
 interface ApiRequest extends NextApiRequest {
   body: {
