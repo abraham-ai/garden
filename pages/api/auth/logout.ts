@@ -1,4 +1,5 @@
 import { withIronSessionApiRoute } from 'iron-session/next';
+import { sessionOptions } from '../../../util/withSession';
 
 // TYPES
 import { NextApiRequest, NextApiResponse } from 'next/types';
@@ -15,11 +16,5 @@ export default withIronSessionApiRoute(
       .status(200)
       .json({ success: true, isLoggedIn: false, login: '', avatarUrl: '' });
   },
-  {
-    cookieName: 'eden_art',
-    password: process.env.COOKIE_SECRET,
-    cookieOptions: {
-      secure: process.env.NODE_ENV === 'production',
-    },
-  }
+  sessionOptions
 );
