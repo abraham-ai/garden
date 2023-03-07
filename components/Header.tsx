@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useDisconnect } from 'wagmi';
 import styles from '../styles/Header.module.css';
 import EthereumAuth from './EthereumAuth';
+import ConnectButton from './ConnectButton';
 
 interface ActiveLinkProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ function ActiveLink({ children, href }: ActiveLinkProps) {
   const router = useRouter();
   const style = {
     marginRight: 10,
-    color: router.asPath === href ? 'purple' : 'black',
+    color: router.asPath === href ? 'purple' : 'gray',
   };
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -40,6 +41,7 @@ export default function Header() {
       </ul>
 
       <EthereumAuth />
+      <ConnectButton />
     </header>
   );
 }
