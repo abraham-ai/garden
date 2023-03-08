@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import AppContext from '../context/AppContext/AppContext';
+import AppContext from '../context/AppContext';
 
 import Router from 'next/router';
 import nProgress from 'nprogress';
@@ -55,7 +55,7 @@ const CustomAvatar: AvatarComponent = ({ address }) => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [isWeb3WalletConnected, setIsWeb3WalletConnected] = useState(false);
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isWeb3AuthSuccess, setIsWeb3AuthSuccess] = useState(false);
   const [authToken, setAuthToken] = useState('');
   const [userId, setUserId] = useState('');
@@ -69,8 +69,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const contextValues = {
     authToken,
     setAuthToken,
-    isWeb3WalletConnected,
-    setIsWeb3WalletConnected,
+    isWalletConnected,
+    setIsWalletConnected,
     isWeb3AuthSuccess,
     setIsWeb3AuthSuccess,
   };
@@ -78,16 +78,18 @@ export default function App({ Component, pageProps }: AppProps) {
   const { isConnected } = useAccount();
 
   useEffect(() => {
-    setIsWeb3WalletConnected(isConnected);
-  }, [isConnected, setIsWeb3WalletConnected]);
+    setIsWalletConnected(isConnected);
+  }, [isConnected, setIsWalletConnected]);
 
   return (
     <>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
-          <Component {...pageProps} />
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <AppContext.Provider value={contextValues}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
+            <Component {...pageProps} />
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </AppContext.Provider>
     </>
   );
 }
