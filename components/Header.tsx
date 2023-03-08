@@ -1,11 +1,16 @@
+import { useContext } from 'react';
+import AppContext from '../context/AppContext';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useDisconnect } from 'wagmi';
+
+import { useAccount } from 'wagmi';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 import styles from '../styles/Header.module.css';
 import EthereumAuth from './EthereumAuth';
 // import ConnectButton from './ConnectButton';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface ActiveLinkProps {
   children: React.ReactNode;
@@ -32,6 +37,9 @@ function ActiveLink({ children, href }: ActiveLinkProps) {
 }
 
 export default function Header() {
+  const context = useContext(AppContext);
+  const { isWalletConnected } = context;
+
   return (
     <header>
       <ul>
@@ -39,10 +47,10 @@ export default function Header() {
         <ActiveLink href='/garden'>Garden</ActiveLink>
         <ActiveLink href='/mycreations'>My Creations</ActiveLink>
         <ActiveLink href='/profile'>Edit Profile</ActiveLink>
+        <ConnectButton />
       </ul>
 
-      <EthereumAuth />
-      <ConnectButton />
+      {isWalletConnected ? <EthereumAuth /> : null}
     </header>
   );
 }

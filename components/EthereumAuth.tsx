@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
+import AppContext from '../context/AppContext';
 import { useAccount, useNetwork, useSignMessage } from 'wagmi';
 import { SiweMessage } from 'siwe';
 
 const EthereumAuth = () => {
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const context = useContext(AppContext);
+  const { isWalletConnected } = context;
+
   const [state, setState] = useState<{
     address?: string;
     error?: Error;
@@ -39,7 +42,7 @@ const EthereumAuth = () => {
       });
 
       // Verify signature
-      const verifyRes = await fetch('/api/verify', {
+      const verifyRes = await fetch('/api/auth/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
