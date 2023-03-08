@@ -4,7 +4,8 @@ import { useRouter } from 'next/router';
 import { useDisconnect } from 'wagmi';
 import styles from '../styles/Header.module.css';
 import EthereumAuth from './EthereumAuth';
-import ConnectButton from './ConnectButton';
+// import ConnectButton from './ConnectButton';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface ActiveLinkProps {
   children: React.ReactNode;
