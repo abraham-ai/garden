@@ -1,22 +1,38 @@
 'use client';
 
-import { useState, useCallback, useEffect, useContext } from 'react';
+import { useState, useCallback, useEffect, useContext, useMemo } from 'react';
 import AppContext from '../context/AppContext';
-import { useAccount, useNetwork, useSignMessage } from 'wagmi';
+import { useAccount, useDisconnect, useNetwork, useSignMessage } from 'wagmi';
 import { SiweMessage } from 'siwe';
 import axios from 'axios';
+import userIdType from '../interfaces/AppContext';
 
 const EthereumAuth = () => {
   const context = useContext(AppContext);
 
   const isWalletConnected = context?.isWalletConnected || false;
-  const setIsWalletConnected = context?.setIsWalletConnected || (() => {});
+
+  const setIsWalletConnected = useMemo(() => {
+    return context?.setIsWalletConnected || (() => {});
+  }, [context?.setIsWalletConnected]);
+
   const authToken = context?.authToken || '';
-  const setAuthToken = context?.setAuthToken || (() => {});
+
+  const setAuthToken = useMemo(() => {
+    return context?.setAuthToken || (() => {});
+  }, [context?.setAuthToken]);
+
   const userId = context?.userId || '';
-  const setUserId = context?.setUserId || (() => {});
+
+  const setUserId = useMemo(() => {
+    return context?.setUserId || (() => {});
+  }, [context?.setUserId]);
+
   const isSignedIn = context?.isSignedIn || false;
-  const setIsSignedIn = context?.setIsSignedIn || (() => {});
+
+  const setIsSignedIn = useMemo(() => {
+    return context?.setIsSignedIn || (() => {});
+  }, [context?.setIsSignedIn]);
 
   const [state, setState] = useState<{
     address?: string;
@@ -26,6 +42,7 @@ const EthereumAuth = () => {
   }>({});
 
   const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
 
   const { signMessage } = useSignMessage({
@@ -59,7 +76,7 @@ const EthereumAuth = () => {
     },
   });
 
-  const handleSiwe = async () => {
+  const handleSiwe = useCallback(async () => {
     if (!isConnected) return;
     // setEthAuthenticating(true);
     try {
@@ -85,7 +102,7 @@ const EthereumAuth = () => {
       // setEthMessage('Error authenticating');
       // setEthAuthenticating(false);
     }
-  };
+  }, [address, chain, isConnected, signMessage]);
 
   // Fetch user when:
   useEffect(() => {
@@ -96,18 +113,16 @@ const EthereumAuth = () => {
 
     const handler = async () => {
       try {
-        const res = await fetch('/api/me');
+        const res = await fetch('/api/auth/me');
         const json = await res.json();
 
         const { token, userId } = json;
 
-        console.log('Ethereum Auth handler');
-        console.log({ token });
-        console.log({ userId });
-
-        setAuthToken(token);
-        setUserId(`0x${userId}`);
-        // setState((x) => ({ ...x, address: json.address }));
+        if (typeof token !== 'undefined' && typeof userId !== 'undefined') {
+          setIsSignedIn(true);
+          setAuthToken(token);
+          setUserId(`0x${userId}`);
+        }
       } catch (_error) {}
     };
     // 1. page loads
@@ -116,20 +131,30 @@ const EthereumAuth = () => {
     // 2. window is focused (in case user logs out of another window)
     window.addEventListener('focus', handler);
     return () => window.removeEventListener('focus', handler);
-  }, [isWalletConnected, isConnected]);
+  }, [
+    isWalletConnected,
+    setIsWalletConnected,
+    isConnected,
+    address,
+    setAuthToken,
+    setUserId,
+    setIsSignedIn,
+  ]);
 
   if (isWalletConnected) {
     return (
       <div>
         {/* Account content goes here */}
 
-        {userId ? (
+        {typeof userId === 'string' && isSignedIn ? (
           <div>
-            <div>Signed in as {userId}</div>
             <button
               onClick={async () => {
                 await fetch('/api/auth/logout');
-                setState({});
+                setAuthToken('');
+                setUserId('');
+                setIsSignedIn(false);
+                disconnect();
               }}
             >
               Sign Out
