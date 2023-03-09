@@ -4,9 +4,11 @@ import { sessionOptions } from '../../util/withSession';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
+  const { token, userId } = req.session;
+
   switch (method) {
     case 'GET':
-      res.send({ address: req.session.siwe?.address });
+      res.send({ address: userId, token: token });
       break;
     default:
       res.setHeader('Allow', ['GET']);

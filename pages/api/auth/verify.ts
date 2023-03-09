@@ -1,23 +1,54 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next/types';
 import { SiweMessage } from 'siwe';
-import { sessionOptions } from '../../../util/withSession';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { withSessionRoute, sessionOptions } from '../../../util/withSession';
+
+import { eden } from '../../../util/eden';
+
+interface ApiRequest extends NextApiRequest {
+  body: {
+    message: string;
+    signature: string;
+    userAddress: string;
+  };
+}
+
+const handler = async (req: ApiRequest, res: NextApiResponse) => {
   const { method } = req;
   switch (method) {
     case 'POST':
+      console.log('POST!');
+      console.log(req.body);
       try {
-        const { message, signature } = req.body;
+        const message = req.body.message;
+        const signature = req.body.signature;
+        const userAddress = req.body.userAddress;
+
+        const resp = await eden.loginEth(message, signature, userAddress);
+        console.log(resp);
+
+        if (resp.error) {
+          console.info(resp.error);
+          return res.status(500).json({ error: resp.error });
+        }
+
         const siweMessage = new SiweMessage(message);
         const fields = await siweMessage.validate(signature);
 
         if (fields.nonce !== req.session.nonce)
           return res.status(422).json({ message: 'Invalid nonce.' });
 
-        req.session.siwe = fields;
+        // req.session.siwe = fields;
+
+        req.session.token = resp.token;
+        req.session.userId = userAddress;
+
+        const token = resp.token;
+
         await req.session.save();
-        res.json({ ok: true });
+
+        res.json({ ok: true, token: signature });
       } catch (_error) {
         res.json({ ok: false });
       }
@@ -28,4 +59,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default withIronSessionApiRoute(handler, sessionOptions);
+export default withSessionRoute(handler);
