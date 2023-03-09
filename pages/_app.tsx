@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../context/AppContext';
+import AppContextType from '../interfaces/AppContext';
 
 import Router from 'next/router';
 import nProgress from 'nprogress';
@@ -27,8 +28,6 @@ import Blockies from 'react-blockies';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 
-console.log(process.env.NEXT_PUBLIC_WALLET_CONNECT_ID);
-
 const { chains, provider } = configureChains(
   [mainnet],
   [
@@ -47,7 +46,6 @@ const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID as string,
 });
 
 const CustomAvatar: AvatarComponent = ({ address }) => {
@@ -55,10 +53,12 @@ const CustomAvatar: AvatarComponent = ({ address }) => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
-  const [isWeb3AuthSuccess, setIsWeb3AuthSuccess] = useState(false);
-  const [authToken, setAuthToken] = useState('');
-  const [userId, setUserId] = useState('');
+  const [isWalletConnected, setIsWalletConnected] = useState<
+    boolean | undefined
+  >(undefined);
+  const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false);
+  const [authToken, setAuthToken] = useState<string | undefined>('');
+  const [userId, setUserId] = useState<string | undefined>('');
 
   const context = useContext(AppContext);
 
@@ -71,15 +71,18 @@ export default function App({ Component, pageProps }: AppProps) {
     setAuthToken,
     isWalletConnected,
     setIsWalletConnected,
-    isWeb3AuthSuccess,
-    setIsWeb3AuthSuccess,
+    isSignedIn,
+    setIsSignedIn,
+    userId,
+    setUserId,
   };
 
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
 
   useEffect(() => {
     setIsWalletConnected(isConnected);
-  }, [isConnected, setIsWalletConnected]);
+    setUserId(address ? `0x${address}` : '');
+  }, [isConnected, setIsWalletConnected, address, setUserId]);
 
   return (
     <>
