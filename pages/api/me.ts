@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (method) {
     case 'GET':
-      res.send({ address: userId, token: token });
+      res.send({ userId: userId, token: token });
       break;
     default:
       res.setHeader('Allow', ['GET']);
