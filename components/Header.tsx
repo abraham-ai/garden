@@ -43,6 +43,9 @@ export default function Header() {
   const authToken = context?.authToken || '';
   const userId = context?.userId || '';
 
+  console.log('HEADER');
+  console.log({ userId });
+
   return (
     <header>
       <ul>

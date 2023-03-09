@@ -99,8 +99,14 @@ const EthereumAuth = () => {
         const res = await fetch('/api/me');
         const json = await res.json();
 
-        setAuthToken(json.token);
-        setUserId(json.userId);
+        const { token, userId } = json;
+
+        console.log('Ethereum Auth handler');
+        console.log({ token });
+        console.log({ userId });
+
+        setAuthToken(token);
+        setUserId(`0x${userId}`);
         // setState((x) => ({ ...x, address: json.address }));
       } catch (_error) {}
     };
