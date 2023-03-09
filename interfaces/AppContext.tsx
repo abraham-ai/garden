@@ -1,4 +1,4 @@
-type userIdType = `0x${string}` | string | undefined;
+export type userIdType = `0x${string}` | string | undefined;
 type SetStateAction<S> = S | ((prevState: S) => S);
 type Dispatch<A> = (action: A) => void;
 
