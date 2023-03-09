@@ -11,11 +11,12 @@ import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
 declare module 'iron-session' {
   interface IronSessionData {
     token?: string;
+    address?: string;
     userId?: string;
+    username?: string;
+    nonce?: string;
   }
 }
-
-// console.log(process.env.COOKIE_SECRET)
 
 export const sessionOptions = {
   password: (process.env.COOKIE_SECRET as string) || '',
