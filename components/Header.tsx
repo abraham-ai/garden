@@ -19,7 +19,7 @@ interface ActiveLinkProps {
 
 function ActiveLink({ children, href }: ActiveLinkProps) {
   const router = useRouter();
-  const style = {
+  const linkStyle = {
     marginRight: 10,
     color: router.asPath === href ? 'purple' : 'gray',
   };
@@ -30,7 +30,7 @@ function ActiveLink({ children, href }: ActiveLinkProps) {
   };
 
   return (
-    <a href={href} onClick={handleClick} style={style}>
+    <a href={href} onClick={handleClick} style={linkStyle}>
       {children}
     </a>
   );
@@ -42,9 +42,7 @@ export default function Header() {
   const isWalletConnected = context?.isWalletConnected || false;
   const authToken = context?.authToken || '';
   const userId = context?.userId || '';
-
-  console.log('HEADER');
-  console.log({ userId });
+  const isSignedIn = context?.isSignedIn || false;
 
   return (
     <header>
@@ -56,8 +54,46 @@ export default function Header() {
         <ConnectButton />
       </ul>
 
-      {authToken ? <p>AuthToken {authToken}</p> : <p>{'No AuthToken'}</p>}
-      {userId ? <p>Logged in as {userId}</p> : <p>{'Not logged in'}</p>}
+      <section className={styles.authSectionStyle}>
+        {isWalletConnected && userId ? (
+          <p>
+            <strong>{'Logged-In as: '}</strong> {userId}
+          </p>
+        ) : (
+          <p>
+            <strong>{'Logged-In as: '}</strong>
+            {'Not logged in'}
+          </p>
+        )}
+
+        <div className={styles.signedInStyle}>
+          {isWalletConnected && userId && isSignedIn ? (
+            <p>
+              <strong>{'Signed-In as: '}</strong> {userId}
+            </p>
+          ) : (
+            <p>
+              <strong>{'Signed-In as: '}</strong>
+              {'Not Signed-In'}
+            </p>
+          )}
+        </div>
+
+        <div className={styles.authStyle}>
+          {isWalletConnected && authToken && isSignedIn ? (
+            <span className={styles.tokenWrapperStyle}>
+              <strong>{'AuthToken:'}</strong>
+              <span className={styles.authToken}>{authToken}</span>
+            </span>
+          ) : (
+            <span>
+              <strong>{'AuthToken:'}</strong>
+              {'No AuthToken'}
+            </span>
+          )}
+        </div>
+      </section>
+
       {isWalletConnected ? <EthereumAuth /> : null}
     </header>
   );
