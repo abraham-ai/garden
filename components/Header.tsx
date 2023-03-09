@@ -38,7 +38,10 @@ function ActiveLink({ children, href }: ActiveLinkProps) {
 
 export default function Header() {
   const context = useContext(AppContext);
-  const { isWalletConnected } = context;
+
+  const isWalletConnected = context?.isWalletConnected || false;
+  const authToken = context?.authToken || '';
+  const userId = context?.userId || '';
 
   return (
     <header>
@@ -50,6 +53,8 @@ export default function Header() {
         <ConnectButton />
       </ul>
 
+      {authToken ? <p>AuthToken {authToken}</p> : <p>{'No AuthToken'}</p>}
+      {userId ? <p>Logged in as {userId}</p> : <p>{'Not logged in'}</p>}
       {isWalletConnected ? <EthereumAuth /> : null}
     </header>
   );

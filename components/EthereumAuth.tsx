@@ -4,29 +4,65 @@ import { useState, useCallback, useEffect, useContext } from 'react';
 import AppContext from '../context/AppContext';
 import { useAccount, useNetwork, useSignMessage } from 'wagmi';
 import { SiweMessage } from 'siwe';
+import axios from 'axios';
 
 const EthereumAuth = () => {
   const context = useContext(AppContext);
-  const { isWalletConnected } = context;
+
+  const isWalletConnected = context?.isWalletConnected || false;
+  const setIsWalletConnected = context?.setIsWalletConnected || (() => {});
+  const authToken = context?.authToken || '';
+  const setAuthToken = context?.setAuthToken || (() => {});
+  const userId = context?.userId || '';
+  const setUserId = context?.setUserId || (() => {});
+  const isSignedIn = context?.isSignedIn || false;
+  const setIsSignedIn = context?.setIsSignedIn || (() => {});
 
   const [state, setState] = useState<{
     address?: string;
     error?: Error;
     loading?: boolean;
+    authToken?: string;
   }>({});
 
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
 
-  const { signMessageAsync } = useSignMessage();
+  const { signMessage } = useSignMessage({
+    onSuccess: async (data, variables) => {
+      console.log({ address });
+      try {
+        console.info('/api/login !');
+        console.info({
+          message: variables.message,
+          signature: data,
+          userAddress: address,
+        });
+        const resp = await axios.post('/api/auth/verify', {
+          message: variables.message,
+          signature: data,
+          userAddress: address,
+        });
+        console.info(resp.data);
+        const { token } = resp.data;
+        if (token) {
+          console.info('got token', token);
+          setIsSignedIn(true);
+          setAuthToken(token);
+          setIsSignedIn(true);
+        }
+      } catch (error: any) {
+        console.info('error!', error);
+        // setEthMessage('Error authenticating');
+      }
+      // setEthAuthenticating(false);
+    },
+  });
 
-  const signIn = useCallback(async () => {
+  const handleSiwe = async () => {
+    if (!isConnected) return;
+    // setEthAuthenticating(true);
     try {
-      const chainId = chain?.id;
-      if (!address || !chainId) return;
-
-      setState((x) => ({ ...x, error: undefined, loading: true }));
-      // Fetch random nonce, create SIWE message, and sign with wallet
       const nonceRes = await fetch('/api/auth/nonce');
       const message = new SiweMessage({
         domain: window.location.host,
@@ -34,40 +70,38 @@ const EthereumAuth = () => {
         statement: 'Sign in with Ethereum to the app.',
         uri: window.location.origin,
         version: '1',
-        chainId,
+        chainId: chain?.id,
         nonce: await nonceRes.text(),
       });
-      const signature = await signMessageAsync({
-        message: message.prepareMessage(),
+      console.log(message);
+      const preparedMessage = message.prepareMessage();
+      console.info('sign message 1');
+      await signMessage({
+        message: preparedMessage,
       });
-
-      // Verify signature
-      const verifyRes = await fetch('/api/auth/verify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message, signature }),
-      });
-      if (!verifyRes.ok) throw new Error('Error verifying message');
-
-      setState((x) => ({ ...x, address, loading: false }));
-    } catch (error) {
-      setState((x) => ({ ...x, error, loading: false }));
+      console.info('sign message 2');
+    } catch (error: any) {
+      console.log(error);
+      // setEthMessage('Error authenticating');
+      // setEthAuthenticating(false);
     }
-  }, []);
+  };
 
   // Fetch user when:
   useEffect(() => {
     if (!isWalletConnected && isConnected) {
       setIsWalletConnected(true);
+      setUserId(address ? `0x${address}` : '');
     }
 
     const handler = async () => {
       try {
         const res = await fetch('/api/me');
         const json = await res.json();
-        setState((x) => ({ ...x, address: json.address }));
+
+        setAuthToken(json.token);
+        setUserId(json.userId);
+        // setState((x) => ({ ...x, address: json.address }));
       } catch (_error) {}
     };
     // 1. page loads
@@ -83,9 +117,9 @@ const EthereumAuth = () => {
       <div>
         {/* Account content goes here */}
 
-        {state.address ? (
+        {userId ? (
           <div>
-            <div>Signed in as {state.address}</div>
+            <div>Signed in as {userId}</div>
             <button
               onClick={async () => {
                 await fetch('/api/auth/logout');
@@ -96,7 +130,7 @@ const EthereumAuth = () => {
             </button>
           </div>
         ) : (
-          <button disabled={state.loading} onClick={signIn}>
+          <button disabled={state.loading} onClick={handleSiwe}>
             Sign-In with Ethereum
           </button>
         )}
