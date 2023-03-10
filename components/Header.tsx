@@ -74,7 +74,7 @@ export default function Header() {
         )}
 
         <div className={styles.signedInStyle}>
-          {isWalletConnected && userId && isSignedIn ? (
+          {isSignedIn ? (
             <p>
               <strong>{'Signed-In as: '}</strong> {userId}
             </p>
@@ -87,7 +87,7 @@ export default function Header() {
         </div>
 
         <div className={styles.authStyle}>
-          {isWalletConnected && authToken && isSignedIn ? (
+          {authToken && isSignedIn ? (
             <span className={styles.tokenWrapperStyle}>
               <strong>{'AuthToken:'}</strong>
               <span className={styles.authToken}>{authToken}</span>
