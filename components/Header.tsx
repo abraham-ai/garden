@@ -22,6 +22,7 @@ function ActiveLink({ children, href }: ActiveLinkProps) {
   const linkStyle = {
     marginRight: 10,
     color: router.asPath === href ? 'purple' : 'gray',
+    fontWeight: router.asPath === href ? 'bolder' : 'regular',
   };
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -45,12 +46,18 @@ export default function Header() {
   const isSignedIn = context?.isSignedIn || false;
 
   return (
-    <header>
+    <header className={styles.headerWrapper}>
       <ul>
         <ActiveLink href='/'>Home</ActiveLink>
         <ActiveLink href='/garden'>Garden</ActiveLink>
-        <ActiveLink href='/mycreations'>My Creations</ActiveLink>
-        <ActiveLink href='/profile'>Edit Profile</ActiveLink>
+
+        {userId ? (
+          <>
+            <ActiveLink href='/mycreations'>My Creations</ActiveLink>
+            <ActiveLink href='/profile'>Edit Profile</ActiveLink>
+          </>
+        ) : null}
+
         <ConnectButton />
       </ul>
 
