@@ -24,6 +24,7 @@
     "react-blockies": "^1.4.1",
     "react-dom": "18.2.0",
     "siwe": "^1.1.6",
+    "swr": "^2.1.0",
     "wagmi": "0.11.x"
   },
   "devDependencies": {
