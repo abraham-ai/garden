@@ -1,3 +1,15 @@
+.headerWrapper {
+  padding: 2rem;
+  min-height: 100px;
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+}
+
 .authSectionStyle {
   max-width: 500px;
 }
