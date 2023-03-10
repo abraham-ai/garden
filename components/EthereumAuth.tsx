@@ -6,6 +6,7 @@ import { useAccount, useDisconnect, useNetwork, useSignMessage } from 'wagmi';
 import { SiweMessage } from 'siwe';
 import axios from 'axios';
 import userIdType from '../interfaces/AppContext';
+import styles from '../styles/EthereumAuth.module.css';
 
 const EthereumAuth = () => {
   const context = useContext(AppContext);
@@ -143,29 +144,43 @@ const EthereumAuth = () => {
 
   if (isWalletConnected) {
     return (
-      <div>
-        {/* Account content goes here */}
+      <>
+        <section className={styles.ethereumAuthWrapper}>
+          {/* Account content goes here */}
 
-        {typeof userId === 'string' && isSignedIn ? (
-          <div>
+          {typeof userId === 'string' && isSignedIn ? (
+            <div>
+              <button
+                onClick={async () => {
+                  await fetch('/api/auth/logout');
+                  setAuthToken('');
+                  setUserId('');
+                  setIsSignedIn(false);
+                  disconnect();
+                }}
+              >
+                {'Disconnect Wallet'}
+              </button>
+            </div>
+          ) : (
+            <button disabled={state.loading} onClick={handleSiwe}>
+              {'Sign-In with Ethereum'}
+            </button>
+          )}
+
+          {typeof userId === 'string' && isSignedIn ? (
             <button
               onClick={async () => {
                 await fetch('/api/auth/logout');
                 setAuthToken('');
-                setUserId('');
                 setIsSignedIn(false);
-                disconnect();
               }}
             >
-              Sign Out
+              {'Sign-out of Eden'}
             </button>
-          </div>
-        ) : (
-          <button disabled={state.loading} onClick={handleSiwe}>
-            Sign-In with Ethereum
-          </button>
-        )}
-      </div>
+          ) : null}
+        </section>
+      </>
     );
   }
 
