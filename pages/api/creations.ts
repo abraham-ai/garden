@@ -24,6 +24,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
     Object.assign(filter, earliestTime ? { earliestTime: earliestTime } : {});
     Object.assign(filter, latestTime ? { latestTime: latestTime } : {});
     Object.assign(filter, limit ? { limit: limit } : {});
+
     const creations = await eden.getCreations(filter);
 
     console.log(creations.length);
