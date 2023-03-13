@@ -152,10 +152,10 @@ const EthereumAuth = () => {
             <div>
               <button
                 onClick={async () => {
-                  await fetch('/api/auth/logout');
-                  setAuthToken('');
-                  setUserId('');
-                  setIsSignedIn(false);
+                  // await fetch('/api/auth/logout');
+                  // setAuthToken('');
+                  // setUserId('');
+                  // setIsSignedIn(false);
                   disconnect();
                 }}
               >
