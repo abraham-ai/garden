@@ -81,7 +81,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setIsWalletConnected(isConnected);
-    setUserId(address ? `0x${address}` : '');
+    setUserId(address ? `${address}` : '');
   }, [isConnected, setIsWalletConnected, address, setUserId, userId]);
 
   return (
