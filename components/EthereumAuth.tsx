@@ -109,7 +109,7 @@ const EthereumAuth = () => {
   useEffect(() => {
     if (!isWalletConnected && isConnected) {
       setIsWalletConnected(true);
-      setUserId(address ? `0x${address}` : '');
+      setUserId(address ? `${address}` : '');
     }
 
     const handler = async () => {
@@ -122,7 +122,7 @@ const EthereumAuth = () => {
         if (typeof token !== 'undefined' && typeof userId !== 'undefined') {
           setIsSignedIn(true);
           setAuthToken(token);
-          setUserId(`0x${userId}`);
+          setUserId(`${userId}`);
         }
       } catch (_error) {}
     };
@@ -152,10 +152,6 @@ const EthereumAuth = () => {
             <div>
               <button
                 onClick={async () => {
-                  // await fetch('/api/auth/logout');
-                  // setAuthToken('');
-                  // setUserId('');
-                  // setIsSignedIn(false);
                   disconnect();
                 }}
               >
