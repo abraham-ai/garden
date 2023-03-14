@@ -1,0 +1,147 @@
+.creationCardWrapper {
+  position: relative;
+  box-shadow: unset !important;
+  background: unset;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.creationCard {
+}
+.creationCard:hover {
+  transform: unset;
+  cursor: pointer;
+}
+.creationCard:hover .creationContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 100%;
+}
+.creationCard:hover .creationActions {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+}
+.crLink {
+  height: 100%;
+}
+.crImageWrapper {
+  position: relative;
+  height: 100%;
+}
+.crImageWrapper img {
+  width: 100%;
+  height: 100%;
+}
+.crActionLeft {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  flex-direction: row;
+  flex: 1;
+  padding: 10px;
+  justify-content: space-between;
+}
+.crSocial.praise,
+.cr-social.burn {
+  color: grey;
+  filter: grayscale(100%);
+  margin: 10px;
+}
+.crSocial.praise:hover,
+.crSocial.burn:hover {
+  filter: unset;
+}
+.crSocial.remix {
+  margin-bottom: 10px;
+}
+.crSocial.bookmark {
+  margin-bottom: 10px;
+}
+.crActionRight {
+  display: flex;
+  width: auto;
+  flex-direction: column;
+  margin: 10px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 20;
+}
+.creationContent {
+  position: absolute;
+  height: 100%;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px;
+  display: none;
+  margin: 0;
+  padding: 0;
+}
+.crContenMainWrapper {
+  border-radius: 15px;
+  margin: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px);
+  padding: 20px;
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+}
+.crContentMain {
+  overflow-y: auto;
+  max-height: 150px;
+  display: flex;
+  flex-direction: column;
+}
+.crDate {
+  color: white;
+}
+.crPromptCommand {
+  font-weight: bold;
+  color: #8c7cf0;
+  font-family: courier;
+}
+.crPrompt {
+  color: white;
+}
+.crSocialWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.creationActions {
+  display: none;
+}
+.creationHeader {
+  display: inline-block;
+  margin: 8px;
+  padding: 8px;
+}
+.creationHeader > div {
+  flex: 0;
+  float: left;
+}
+.creationHeader:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 25px;
+  margin: 8px;
+  padding: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+}
+.crMetadata {
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+.closeIconWrapper:hover {
+  cursor: pointer;
+  z-index: 50;
+}
