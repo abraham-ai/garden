@@ -11,6 +11,10 @@ interface AppContext {
   setIsSignedIn: Dispatch<SetStateAction<boolean | undefined>>;
   isWalletConnected?: boolean;
   setIsWalletConnected: Dispatch<SetStateAction<boolean | undefined>>;
+  creationsData: [];
+  creationsLoading: boolean;
+  creationsMore: boolean;
+  creationsLoad: () => void;
 }
 
 export default AppContext;
