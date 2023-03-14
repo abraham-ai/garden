@@ -53,6 +53,10 @@ const CustomAvatar: AvatarComponent = ({ address }) => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  // wagmi wallet hooks
+  const { isConnected, address } = useAccount();
+
+  // auth context
   const [isWalletConnected, setIsWalletConnected] = useState<
     boolean | undefined
   >(undefined);
@@ -60,12 +64,14 @@ export default function App({ Component, pageProps }: AppProps) {
   const [authToken, setAuthToken] = useState<string | undefined>('');
   const [userId, setUserId] = useState<string | undefined>('');
 
+  // creation context
+  const [creationsData, setCreationsData] = useState<object[]>([]);
+  const [creationsLoading, setCreationsLoading] = useState<boolean>(false);
+  const [creationsMore, setCreationsMore] = useState<boolean>(true);
+  const [creationsLoad, setCreationsLoad] = useState<boolean>(false);
+
+  // init context
   const context = useContext(AppContext);
-
-  Router.events.on('routeChangeStart', nProgress.start);
-  Router.events.on('routeChangeError', nProgress.done);
-  Router.events.on('routeChangeComplete', nProgress.done);
-
   const contextValues = {
     authToken,
     setAuthToken,
@@ -75,9 +81,16 @@ export default function App({ Component, pageProps }: AppProps) {
     setIsSignedIn,
     userId,
     setUserId,
+    creationsLoading,
+    creationsData,
+    creationsMore,
+    creationsLoad,
   };
 
-  const { isConnected, address } = useAccount();
+  // routing progress bar
+  Router.events.on('routeChangeStart', nProgress.start);
+  Router.events.on('routeChangeError', nProgress.done);
+  Router.events.on('routeChangeComplete', nProgress.done);
 
   useEffect(() => {
     setIsWalletConnected(isConnected);

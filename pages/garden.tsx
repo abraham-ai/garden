@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Inter } from '@next/font/google';
-import styles from '../styles/Creations.module.css';
+import stylesHeader from '../styles/Header.module.css';
+import stylesCreationsGrid from '../styles/CreationsGrid.module.css';
 
 import Header from '../components/Header';
-import CreationsGrid from '../components/CreationGrid';
+import CreationsGrid from '../app/components/CreationsGrid';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,11 +20,12 @@ export default function Garden() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className={styles.main}>
+
+      <main className={stylesHeader.headerWrapper}>
         <Header />
       </main>
 
-      <section className={styles.creationsWrapper}>
+      <section className={stylesCreationsGrid.creationsWrapper}>
         <CreationsGrid />
       </section>
     </>

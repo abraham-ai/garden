@@ -48,7 +48,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
         await req.session.save();
 
-        res.json({ ok: true, token: signature });
+        res.json({ ok: true, token: token });
       } catch (_error) {
         res.json({ ok: false });
       }
