@@ -9,6 +9,14 @@ const nextConfig = {
     '@web3modal/ui',
     '@web3modal/core',
   ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'minio.aws.abraham.fun',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
