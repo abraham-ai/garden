@@ -1,5 +1,5 @@
 // date_str,
-export default function TimeAgo(time) {
+export default function timeAgo(time) {
   const date = new Date(time);
   date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
