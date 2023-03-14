@@ -1,0 +1,44 @@
+.creationsWrapper {
+  margin-top: 250px;
+  padding: 0 50px;
+  background-color: aliceblue;
+}
+.filterWrapper {
+  display: flex;
+}
+.filterGeneratorButtonWrapper {
+  margin-right: 5px;
+}
+.generatorButtonSelected {
+  background-color: lightgray;
+}
+
+.crGridMainWrapper {
+  width: auto;
+  padding: 0 10px;
+}
+.cr-grid-wrapper {
+  background: lime;
+}
+.cr-grid-masonry-wrapper {
+  width: 100%;
+  min-height: 393px;
+  margin-top: 20px;
+  background: lime;
+}
+.crGridMasonry {
+  display: flex;
+  gap: 10px;
+  /* margin-left: -30px; */
+  width: 100%;
+  padding: 10px;
+}
+.crGridMasonryColumn {
+  /* padding-left: 30px; */
+  background-clip: padding-box;
+}
+.cr-grid-masonry_column > .creationCard {
+  /* change div to reference your elements you put in <Masonry> */
+  background: grey;
+  margin-bottom: 30px;
+}
