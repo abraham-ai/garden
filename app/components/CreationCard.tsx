@@ -15,11 +15,13 @@ import { FaRetweet } from 'react-icons/fa';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 
 export default function CreationCard({ creation }: { creation: Creation }) {
-  const { uri, timestamp, task, user, thumbnail } = creation;
-  const { generator, config, status } = task;
-  const { width, height, text_input } = config;
+  const { uri, timestamp, task, user, thumbnail, _id } = creation;
+  // const { config, status } = task;
+  // const { width, height, text_input } = config;
 
   console.log({ creation });
+
+  // console.log(generator);
 
   const [isSaveModalActive, setIsSaveModalActive] = useState(false);
   const timeAgoTimestamp = timeAgo(timestamp);
@@ -62,18 +64,19 @@ export default function CreationCard({ creation }: { creation: Creation }) {
     <article id={`creation-card`} className={styles.creationCard}>
       <Link
         className={styles.crLink}
-        href={`/garden?creationId=${creation.key}`}
-        as={`/creation/${creation.key}`}
+        href={`/garden?creationId=${creation._id}`}
+        as={`/creation/${creation._id}`}
         scroll={false}
       >
-        <div className={styles.crImageWrapper}>
+        <span>{_id}</span>
+        {/* <div className={styles.crImageWrapper}>
           <Image
             src={thumbnail}
             height={height}
             width={width}
             alt={text_input}
           />
-        </div>
+        </div> */}
       </Link>
     </article>
   );
