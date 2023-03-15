@@ -16,11 +16,10 @@ import { BsFillBookmarkFill } from 'react-icons/bs';
 
 export default function CreationCard({ creation }: { creation: Creation }) {
   const { uri, timestamp, task, user, thumbnail, _id } = creation;
-  // const { config, status } = task;
-  // const { width, height, text_input } = config;
+  const { config, status } = task;
+  const { width, height, text_input } = config;
 
-  console.log({ creation });
-
+  // console.log({ creation });
   // console.log(generator);
 
   const [isSaveModalActive, setIsSaveModalActive] = useState(false);
@@ -67,16 +66,12 @@ export default function CreationCard({ creation }: { creation: Creation }) {
         href={`/garden?creationId=${creation._id}`}
         as={`/creation/${creation._id}`}
         scroll={false}
+        style={{ display: 'flex' }}
       >
         <span>{_id}</span>
-        {/* <div className={styles.crImageWrapper}>
-          <Image
-            src={thumbnail}
-            height={height}
-            width={width}
-            alt={text_input}
-          />
-        </div> */}
+        <div className={styles.crImageWrapper} style={{ maxWidth: 20 }}>
+          <Image src={thumbnail} height={20} width={20} alt={text_input} />
+        </div>
       </Link>
     </article>
   );
