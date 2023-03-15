@@ -17,33 +17,42 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
   const { page, limit, username, generators, earliestTime, latestTime } =
     req.query;
 
-  console.log({ req });
+  // console.log({ req });
   console.log(req.url);
-  console.log(req.body);
-  // console.log({
-  //   username,
-  //   generators,
-  //   earliestTime,
-  //   latestTime,
-  //   limit,
-  // });
-
-  const newLimit = limit ? limit : 10;
+  // console.log(req.body);
+  console.log({
+    page,
+    username,
+    generators,
+    earliestTime,
+    latestTime,
+    limit,
+  });
 
   try {
-    const filter = { limit: newLimit };
-    Object.assign(filter, username ? { username: username } : {});
-    Object.assign(filter, generators ? { generators: generators } : {});
-    Object.assign(filter, earliestTime ? { earliestTime: earliestTime } : {});
-    Object.assign(filter, latestTime ? { latestTime: latestTime } : {});
+    const filter = { limit: limit };
+    Object.assign(filter, username !== 'null' ? { username: username } : {});
+    Object.assign(
+      filter,
+      generators !== 'null' ? { generators: generators } : {}
+    );
+    Object.assign(
+      filter,
+      earliestTime !== 'null' ? { earliestTime: earliestTime } : {}
+    );
+    Object.assign(
+      filter,
+      latestTime !== 'null' ? { latestTime: latestTime } : {}
+    );
     Object.assign(filter, limit ? { limit: limit } : {});
 
+    console.log({ filter });
     const creations = await eden.getCreations(filter);
 
     console.log(creations.length);
-    // console.log({ creations });
+    // console.log(creations);
 
-    return res.status(200).json({ creations: creations });
+    return res.status(200).json(creations);
   } catch (error: any) {
     console.log(error);
     // if (error.response.data == 'jwt expired') {
