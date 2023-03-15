@@ -4,6 +4,7 @@ import React, {
   useState,
   useReducer,
   useContext,
+  createContext,
   useRef,
   useEffect,
   RefObject,
@@ -21,6 +22,7 @@ import Creation from '../../interfaces/Creation';
 import Masonry from 'react-masonry-css';
 import breakpointColumnsObj from '../../constants/breakpointColumns';
 
+const allData = new Array(25).fill(0).map((_val, i) => i + 1);
 const PAGE_LENGTH = 10;
 const perPage = 10;
 
@@ -32,22 +34,69 @@ const types = {
   loaded: 'LOADED',
 };
 
-const reducer = (state, action) => {
+interface ReducerState {
+  creationsLoading: boolean;
+  creationsMore: boolean;
+  creationsData: object[];
+  creationsAfter: number;
+}
+
+interface ReducerAction {
+  type: string;
+  newData?: number[];
+}
+
+const reducer = (state: ReducerState, action: ReducerAction) => {
   switch (action.type) {
     case types.start:
       return { ...state, loading: true };
     case types.loaded:
-      return {
-        ...state,
-        loading: false,
-        data: [...state.data, ...action.newData],
-        more: action.newData.length === perPage,
-        after: state.after + perPage,
-      };
+      if (Array.isArray(action.newData)) {
+        // Your code that handles the array
+        return {
+          ...state,
+          creationsLoading: false,
+          creationsData: [...state.creationsData, ...action.newData],
+          creationsMore: action.newData.length === perPage,
+          creationsAfter: state.creationsAfter + perPage,
+        };
+      } else {
+        console.error('Invalid newData type:', typeof action.newData);
+      }
     default:
       return state;
   }
 };
+
+const CreationsContext = createContext({});
+
+function CreationsProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(reducer, {
+    creationsLoading: false,
+    creationsMore: true,
+    creationsData: [],
+    creationsAfter: 0,
+  });
+  const { creationsLoading, creationsData, creationsMore, creationsAfter } =
+    state;
+
+  const creationsLoad = () => {
+    dispatch({ type: types.start });
+
+    setTimeout(() => {
+      const newData = allData.slice(creationsAfter, creationsAfter + perPage);
+      dispatch({ type: types.loaded, newData });
+    }, 300);
+  };
+
+  return (
+    <CreationsContext.Provider
+      value={{ creationsLoading, creationsData, creationsMore, creationsLoad }}
+    >
+      {children}
+    </CreationsContext.Provider>
+  );
+}
 
 const CreationsGrid = () => {
   const [creations, setCreations] = useState<object[]>([]);
@@ -56,29 +105,10 @@ const CreationsGrid = () => {
   const [paginate, setPaginate] = useState(true);
   const [cutoffTime, setCutoffTime] = useState<number | null>(null);
 
-  const [state, dispatch] = useReducer(reducer, {
-    loading: false,
-    more: true,
-    data: [],
-    after: 0,
-  });
-  const { creationsLoading, creationsData, creationsAfter, creationsMore } =
-    state;
-
-  const load = () => {
-    dispatch({ type: types.start });
-
-    setTimeout(() => {
-      const newData = allData.slice(after, after + perPage);
-      dispatch({ type: types.loaded, newData });
-    }, 300);
-  };
-
-  // const { creationsData, creationsLoading, creationsMore, creationsLoad } =
-  //   useContext(AppContext);
-
   const [element, setElement] = useState<HTMLLIElement | null>(null);
-  const loader = useRef(load);
+  const { creationsData, creationsLoading, creationsMore, creationsLoad } =
+    useContext(CreationsContext);
+  const loader = useRef(creationsLoad);
   const observer = useRef<IntersectionObserver>();
 
   const filter = {
@@ -89,7 +119,9 @@ const CreationsGrid = () => {
   const url = '/api/creations';
   const { data, error } = useSWR(url, (url) => fetcher(url, filter));
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    loader.current = creationsLoad;
+  }, [creationsLoad]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -100,7 +132,7 @@ const CreationsGrid = () => {
           const first = entries[0];
           console.log(first);
           if (first.isIntersecting) {
-            load();
+            loader.current();
           }
         },
         { threshold: 1 }
