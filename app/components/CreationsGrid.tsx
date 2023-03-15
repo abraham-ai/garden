@@ -8,6 +8,7 @@ import React, {
   useRef,
   useEffect,
   RefObject,
+  ReactNode,
 } from 'react';
 import AppContext from '../../context/AppContext';
 import useSWR, { SWRConfig } from 'swr';
@@ -43,7 +44,7 @@ interface ReducerState {
 
 interface ReducerAction {
   type: string;
-  newData?: number[];
+  newData?: newData?: object[] | Creations[] | Generator[];
 }
 
 const reducer = (state: ReducerState, action: ReducerAction) => {
@@ -70,7 +71,8 @@ const reducer = (state: ReducerState, action: ReducerAction) => {
 
 const CreationsContext = createContext({});
 
-function CreationsProvider({ children }: { children: React.ReactNode }) {
+function CreationsProvider({ children }: { children: ReactNode }) {
+  const [cutoffTime, setCutoffTime] = useState<number | null>(null);
   const [state, dispatch] = useReducer(reducer, {
     creationsLoading: false,
     creationsMore: true,
@@ -80,18 +82,33 @@ function CreationsProvider({ children }: { children: React.ReactNode }) {
   const { creationsLoading, creationsData, creationsMore, creationsAfter } =
     state;
 
+  const filter = {
+    latestTime: cutoffTime,
+    limit: PAGE_LENGTH,
+  };
+  const url = '/api/creations';
+  const { data, error: creationsError } = useSWR(url, (url) =>
+    fetcher(url, filter)
+  );
+
   const creationsLoad = () => {
     dispatch({ type: types.start });
 
     setTimeout(() => {
-      const newData = allData.slice(creationsAfter, creationsAfter + perPage);
+      const newData = data.slice(creationsAfter, creationsAfter + perPage);
       dispatch({ type: types.loaded, newData });
     }, 300);
   };
 
   return (
     <CreationsContext.Provider
-      value={{ creationsLoading, creationsData, creationsMore, creationsLoad }}
+      value={{
+        creationsLoading,
+        creationsData,
+        creationsMore,
+        creationsLoad,
+        creationsError,
+      }}
     >
       {children}
     </CreationsContext.Provider>
@@ -103,21 +120,17 @@ const CreationsGrid = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [paginate, setPaginate] = useState(true);
-  const [cutoffTime, setCutoffTime] = useState<number | null>(null);
 
   const [element, setElement] = useState<HTMLLIElement | null>(null);
-  const { creationsData, creationsLoading, creationsMore, creationsLoad } =
-    useContext(CreationsContext);
+  const {
+    creationsData,
+    creationsLoading,
+    creationsMore,
+    creationsLoad,
+    creationsError,
+  } = useContext(CreationsContext);
   const loader = useRef(creationsLoad);
   const observer = useRef<IntersectionObserver>();
-
-  const filter = {
-    latestTime: cutoffTime,
-    limit: PAGE_LENGTH,
-  };
-
-  const url = '/api/creations';
-  const { data, error } = useSWR(url, (url) => fetcher(url, filter));
 
   useEffect(() => {
     loader.current = creationsLoad;
@@ -169,19 +182,19 @@ const CreationsGrid = () => {
     );
   }
 
-  if (error) {
+  if (creationsError) {
     return <div>{'Error...'}</div>;
   }
-  if (!data) {
+  if (!creationsData && creationsLoading) {
     return <div>{'Loading...'}</div>;
   }
 
   return (
     <DisplayCreations
-      creations={data.creations}
+      creations={creationsData}
       generators={[
         ...new Set(
-          data.creations.map(
+          creationsData.creations.map(
             (creation) => creation.task.generator.generatorName
           )
         ),
@@ -190,13 +203,7 @@ const CreationsGrid = () => {
   );
 };
 
-function DisplayCreations({
-  creations,
-  generators,
-}: {
-  Creations;
-  Generators;
-}) {
+function DisplayCreations({ creations, generators }) {
   const [filterGenerator, setFilterGenerator] = useState(null);
 
   const filteredCreations = filterGenerator
