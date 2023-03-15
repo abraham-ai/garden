@@ -44,7 +44,7 @@ interface ReducerState {
 
 interface ReducerAction {
   type: string;
-  newData?: newData?: object[] | Creations[] | Generator[];
+  newData?: object[] | Creations[] | Generator[];
 }
 
 const reducer = (state: ReducerState, action: ReducerAction) => {
@@ -189,18 +189,20 @@ const CreationsGrid = () => {
     return <div>{'Loading...'}</div>;
   }
 
-  return (
-    <DisplayCreations
-      creations={creationsData}
-      generators={[
-        ...new Set(
-          creationsData.creations.map(
-            (creation) => creation.task.generator.generatorName
-          )
-        ),
-      ]}
-    />
-  );
+  if (typeof creationsData !== 'undefined') {
+    return (
+      <DisplayCreations
+        creations={creationsData}
+        generators={[
+          ...new Set(
+            creationsData.creations.map(
+              (creation) => creation.task.generator.generatorName
+            )
+          ),
+        ]}
+      />
+    );
+  }
 };
 
 function DisplayCreations({ creations, generators }) {
