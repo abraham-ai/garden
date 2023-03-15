@@ -13,12 +13,25 @@ interface ApiRequest extends NextApiRequest {
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  const { username, generators, earliestTime, latestTime, limit } = req.body;
+  // const { username, generators, earliestTime, latestTime, limit } = req.body;
+  const { page, limit, username, generators, earliestTime, latestTime } =
+    req.query;
 
+  console.log({ req });
+  console.log(req.url);
   console.log(req.body);
+  // console.log({
+  //   username,
+  //   generators,
+  //   earliestTime,
+  //   latestTime,
+  //   limit,
+  // });
+
+  const newLimit = limit ? limit : 10;
 
   try {
-    const filter = {};
+    const filter = { limit: newLimit };
     Object.assign(filter, username ? { username: username } : {});
     Object.assign(filter, generators ? { generators: generators } : {});
     Object.assign(filter, earliestTime ? { earliestTime: earliestTime } : {});
@@ -28,14 +41,16 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
     const creations = await eden.getCreations(filter);
 
     console.log(creations.length);
-    console.log({ creations });
+    // console.log({ creations });
 
     return res.status(200).json({ creations: creations });
   } catch (error: any) {
-    if (error.response.data == 'jwt expired') {
-      return res.status(401).json({ error: 'Authentication expired' });
-    }
-    return res.status(500).json({ error: error.response.data });
+    console.log(error);
+    // if (error.response.data == 'jwt expired') {
+    //   return res.status(401).json({ error: 'Authentication expired' });
+    // }
+    return res.status(500).json({ error: error });
+    // error.response.data
   }
 };
 
