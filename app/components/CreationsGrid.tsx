@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import axios from 'axios';
+
+import deepEqual from '../../util/deepEqual';
 
 import FilterType from '../../interfaces/Filter';
 
@@ -12,13 +14,17 @@ import styles from '../../styles/CreationsGrid.module.css';
 import breakpointColumnsObj from '../../constants/breakpointColumns';
 
 const CreationsGrid = () => {
+  const [creations, setCreations] = useState<Creation[]>([]);
   const [username, setUsername] = useState<string | null>(null);
   const [generators, setGenerators] = useState<string | null>(null);
   const [earliestTime, setEarliestTime] = useState<number | null>(null);
   const [latestTime, setLatestTime] = useState<number | null>(null);
   const [limit, setLimit] = useState<number>(10);
+  const [lastCreationEarliestTime, setLastCreationEarliestTime] = useState<
+    number | null
+  >(null);
 
-  const url = `/api/creations?page=${1}&limit=${limit}&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${latestTime}`;
+  const url = `/api/creations?page=${1}&limit=${limit}&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${lastCreationEarliestTime}`;
 
   const filter = {
     latestTime: latestTime,
@@ -33,16 +39,44 @@ const CreationsGrid = () => {
       (index) =>
         `api/creations?limit=${limit}&page=${
           index + 1
-        }&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${latestTime}`,
+        }&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${lastCreationEarliestTime}`,
       fetcher
     );
 
-  let creations = data ? [].concat(...data) : [];
+  let lastDataCreation = {};
+  let lastCreation = {};
 
-  if (creations.length > 0) {
-    // creations = creations[0].creations;
-    // console.log({ 'CREATIONS LENGTH: ': creations.length });
-    console.log(creations);
+  if (typeof data !== 'undefined') {
+    lastDataCreation = data[0][data[0].length - 1];
+
+    if (creations.length > 0) {
+      lastCreation = creations[creations.length - 1];
+    }
+  }
+
+  const handleLoadMore = () => {
+    if (!data) return;
+    setSize(size + 1);
+
+    if (lastCreationEarliestTime !== lastDataCreation.createdAt) {
+      setLastCreationEarliestTime(lastDataCreation.createdAt);
+    }
+    setCreations((prevCreations) => [...prevCreations, ...data[0]]);
+  };
+
+  console.log({ lastDataCreation, lastCreation });
+
+  if (
+    typeof data !== 'undefined' &&
+    !deepEqual(lastDataCreation, lastCreation)
+  ) {
+    if (typeof lastCreationEarliestTime === 'number') {
+      setCreations((prevCreations) => [...prevCreations, ...data[0]]);
+      setLastCreationEarliestTime(lastDataCreation.createdAt);
+    } else if (lastCreationEarliestTime === null) {
+      setCreations((prevCreations) => [...prevCreations, ...data[0]]);
+      setLastCreationEarliestTime(lastDataCreation.createdAt);
+    }
   }
 
   const isLoadingMore =
@@ -55,18 +89,19 @@ const CreationsGrid = () => {
   return (
     <>
       <span>{`Page ${size}`}</span>
-      <button onClick={() => setSize(size + 1)}>Load More</button>
       <p>
         showing {size} page(s) of {isLoadingMore ? '...' : creations.length}{' '}
         creation(s){' '}
         <button
           disabled={isLoadingMore || isReachingEnd}
-          onClick={() => setSize(size + 1)}
+          onClick={() => {
+            handleLoadMore();
+          }}
         >
           {isLoadingMore
             ? 'loading...'
             : isReachingEnd
-            ? 'no more issues'
+            ? 'no more creations'
             : 'load more'}
         </button>
         <button disabled={isRefreshing} onClick={() => mutate()}>

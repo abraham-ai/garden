@@ -23,7 +23,6 @@ import Creation from '../../interfaces/Creation';
 import Masonry from 'react-masonry-css';
 import breakpointColumnsObj from '../../constants/breakpointColumns';
 
-const allData = new Array(25).fill(0).map((_val, i) => i + 1);
 const PAGE_LENGTH = 10;
 const perPage = 10;
 
@@ -53,7 +52,6 @@ const reducer = (state: ReducerState, action: ReducerAction) => {
       return { ...state, loading: true };
     case types.loaded:
       if (Array.isArray(action.newData)) {
-        // Your code that handles the array
         return {
           ...state,
           creationsLoading: false,
