@@ -12,6 +12,7 @@
 }
 .authSectionStyle {
   max-width: 500px;
+  color: black;
 }
 .authStyle {
   display: flex;
