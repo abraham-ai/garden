@@ -15,7 +15,9 @@ import { FaRetweet } from 'react-icons/fa';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 
 export default function CreationCard({ creation }: { creation: Creation }) {
-  const { uri, timestamp, task, user, thumbnail, _id } = creation;
+  console.log(creation);
+
+  const { uri, createdAt, task, user, thumbnail, _id } = creation;
   const { config, status } = task;
   const { width, height, text_input } = config;
 
@@ -23,7 +25,7 @@ export default function CreationCard({ creation }: { creation: Creation }) {
   // console.log(generator);
 
   const [isSaveModalActive, setIsSaveModalActive] = useState(false);
-  const timeAgoTimestamp = timeAgo(timestamp);
+  const timeAgoCreatedAt = timeAgo(createdAt);
 
   const handlePraise = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -66,9 +68,10 @@ export default function CreationCard({ creation }: { creation: Creation }) {
         href={`/garden?creationId=${creation._id}`}
         as={`/creation/${creation._id}`}
         scroll={false}
-        style={{ display: 'flex' }}
+        style={{ display: 'flex', color: 'black' }}
       >
         <span>{_id}</span>
+        <b>{timeAgoCreatedAt}</b>
         <div className={styles.crImageWrapper} style={{ maxWidth: 20 }}>
           <Image src={thumbnail} height={20} width={20} alt={text_input} />
         </div>
