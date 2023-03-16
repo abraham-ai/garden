@@ -88,30 +88,36 @@ const CreationsGrid = () => {
 
   return (
     <>
-      <span>{`Page ${size}`}</span>
-      <p>
-        showing {size} page(s) of {isLoadingMore ? '...' : creations.length}{' '}
-        creation(s){' '}
-        <button
-          disabled={isLoadingMore || isReachingEnd}
-          onClick={() => {
-            handleLoadMore();
-          }}
-        >
-          {isLoadingMore
-            ? 'loading...'
-            : isReachingEnd
-            ? 'no more creations'
-            : 'load more'}
-        </button>
-        <button disabled={isRefreshing} onClick={() => mutate()}>
-          {isRefreshing ? 'refreshing...' : 'refresh'}
-        </button>
-        <button disabled={!size} onClick={() => setSize(0)}>
-          clear
-        </button>
-      </p>
-      {isEmpty ? <p>No creations found.</p> : null}
+      <section style={{ color: 'black' }}>
+        <span>{`Page ${size}`}</span>
+        <div>
+          <span className={styles.loadingState}>
+            {`showing ${size} page(s) of 
+          ${isLoadingMore ? '...' : creations.length}
+          creation(s) `}
+          </span>
+          <button
+            disabled={isLoadingMore || isReachingEnd}
+            onClick={() => {
+              handleLoadMore();
+            }}
+          >
+            {isLoadingMore
+              ? 'loading...'
+              : isReachingEnd
+              ? 'no more creations'
+              : 'load more'}
+          </button>
+          <button disabled={isRefreshing} onClick={() => mutate()}>
+            {isRefreshing ? 'refreshing...' : 'refresh'}
+          </button>
+          <button disabled={!size} onClick={() => setSize(0)}>
+            clear
+          </button>
+        </div>
+        {isEmpty ? <p>No creations found.</p> : null}
+      </section>
+
       {creations.map((creation: Creation, index: number) => {
         // <Masonry
         //   breakpointCols={breakpointColumnsObj}
