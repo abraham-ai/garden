@@ -10,7 +10,7 @@ const serverUrl = process.env.EDEN_API_URL;
 import { AiFillFire, AiOutlineFire } from 'react-icons/ai';
 import { HiSparkles, HiOutlineSparkles } from 'react-icons/hi';
 import { FaRetweet } from 'react-icons/fa';
-import { BsFillBookmarkFill } from 'react-icons/bs';
+import { BsFillBookmarkFill, BsBookmark } from 'react-icons/bs';
 import { IoIosShareAlt } from 'react-icons/io';
 
 
@@ -30,6 +30,7 @@ export default function CreationSocial({
   const [praises, setPraises] = useState(creationPraises);
   const [isPraised, setIsPraised] = useState(praisedByMe);
   const [isBurned, setIsBurned] = useState(burnedByMe);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const { address } = useAccount();
 
@@ -171,7 +172,7 @@ export default function CreationSocial({
 
           <span className='cr-social bookmark'>
             <button className='btn'>
-              <BsFillBookmarkFill className='icon' />
+                {isBookmarked ? <BsFillBookmarkFill  className='icon' /> : <BsBookmark  className='icon' />}
               <span className='text'>Save</span>
             </button>
           </span>
