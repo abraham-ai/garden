@@ -7,11 +7,9 @@
   margin-bottom: 10px;
 }
 .creationCard {
-  display: 'flex';
-  flex-direction: 'column';
-  max-width: 300px;
+  display: flex;
+  flex-direction: column;
   background: rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
 }
 .creationCard:hover {
   transform: unset;
@@ -33,10 +31,8 @@
   margin-right: 10px;
 }
 .crLink {
-  height: 100%;
   display: flex;
   color: black;
-  /* max-width: 300px; */
   background: rgba(0, 0, 0, 0.1);
   justify-content: space-between;
   margin-bottom: 10px;
