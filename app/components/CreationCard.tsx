@@ -146,7 +146,6 @@ export default function CreationCard({ creation }: { creation: Creation }) {
             <span className='cr-prompt'>{prompt}</span>
 
             <div className='cr-social-wrapper'>
-              {/* <CreationSocials /> */}
               <div style={{ display: 'flex' }}>
                 <CreationSocial
                   layout={'expanded'}
