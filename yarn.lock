@@ -4937,6 +4937,7 @@ __metadata:
     react-masonry-css: ^1.0.16
     siwe: ^1.1.6
     swr: ^2.1.0
+    tslib: ^2.5.0
     typescript: ^4.9.5
     wagmi: 0.11.x
     xstate: latest
