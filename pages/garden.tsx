@@ -1,3 +1,5 @@
+'use client';
+
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,7 +8,7 @@ import { Inter } from '@next/font/google';
 import stylesHeader from '../styles/Header.module.css';
 import stylesCreationsGrid from '../styles/CreationsGrid.module.css';
 
-import Header from '../components/Header';
+import Header from '../app/components/Header';
 import CreationsGrid from '../app/components/CreationsGrid';
 
 const inter = Inter({ subsets: ['latin'] });
