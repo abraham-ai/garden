@@ -106,8 +106,8 @@ export default function CreationCard({ creation }: { creation: Creation }) {
       style={{ display: 'flex', color: 'black', flexDirection: 'column' }}
     >
       <article id={`creation-card`} className={styles.creationCard}>
-        <div className={styles.crImageWrapper} style={{ maxWidth: 20 }}>
-          <Image src={thumbnail} height={20} width={20} alt={text_input} />
+        <div className={styles.crImageWrapper} style={{ width: '100%' }}>
+          <Image src={thumbnail} height={height} width={width} alt={text_input} />
         </div>
         <div
           className='cr-metadata'
