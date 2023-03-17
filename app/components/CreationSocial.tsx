@@ -7,22 +7,15 @@ import { useAccount } from 'wagmi';
 import axios from 'axios';
 const serverUrl = process.env.EDEN_API_URL;
 
-// ICONS
 import { AiFillFire, AiOutlineFire } from 'react-icons/ai';
 import { HiSparkles, HiOutlineSparkles } from 'react-icons/hi';
 import { FaRetweet } from 'react-icons/fa';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { IoIosShareAlt } from 'react-icons/io';
 
-// HiShare, HiOutlineShare,
-// import { ShareAltOutlined } from '@ant-design/icons'
-// import { TwitterOutlined, InstagramOutlined } from '@ant-design/icons'
 
-// TYPES
 import CreationSocialType from '../../interfaces/CreationSocial';
 
-// STYLES
-// import CreationSocialStyles from './CreationSocialStyles';
 
 export default function CreationSocial({
   layout = 'minimal',
@@ -32,7 +25,6 @@ export default function CreationSocial({
   praisedByMe,
   burnedByMe,
 }: CreationSocialType) {
-  //   const navMode = width < 718 ? 'inline' : 'horizontal';
 
   const [burns, setBurns] = useState(creationBurns);
   const [praises, setPraises] = useState(creationPraises);
@@ -43,15 +35,6 @@ export default function CreationSocial({
 
   const context = useContext(AppContext);
   const isSignedIn = context?.isSignedIn || false;
-
-  // DEBUG
-  // console.log({ creationTextInput });
-  // console.log({ creationBurns });
-  // console.log({ creationPraises });
-  // console.log({ burnedByMe });
-  // console.log({ praisedByMe });
-  // console.log({ isPraised });
-  // console.log({ isBurned });
 
   useEffect(() => {
     setIsBurned(burnedByMe);
@@ -151,12 +134,6 @@ export default function CreationSocial({
       {layout === 'minimal' ? (
         <>
           <div className='single-button-wrapper'>
-            {/* <Tooltip
-              placement='bottom'
-              title={'praise'}
-              defaultVisible={isTooltipVisible}
-              mouseEnterDelay={0.8}
-            > */}
             <button className={praiseClasses} onClick={() => praiseHandler()}>
               <span className='social-icon'>
                 {isPraised ? (
@@ -166,23 +143,15 @@ export default function CreationSocial({
                 )}
               </span>
             </button>
-            {/* </Tooltip> */}
             {praiseCount}
           </div>
 
           <div className='single-button-wrapper'>
-            {/* <Tooltip
-              placement='bottom'
-              title={'burn'}
-              defaultVisible={isTooltipVisible}
-              mouseEnterDelay={0.8}
-            > */}
             <button className={burnClasses} onClick={() => burnHandler()}>
               <span className='social-icon'>
                 {isBurned ? <AiFillFire /> : <AiOutlineFire />}
               </span>
             </button>
-            {/* </Tooltip> */}
             {burnCount}
           </div>
         </>
@@ -200,20 +169,6 @@ export default function CreationSocial({
             </span>
           </button>
 
-          {/* <span className='cr-social remix'>
-            <button className='btn'>
-              <FaRetweet className='icon' />
-              <span className='text'>{remix_count}</span>
-            </button>
-          </span> */}
-
-          {/* <span className='cr-social views'>
-          <button className='btn'>
-            <AiFillEye className='icon' />
-            <span className='text'>310</span>
-          </button>
-        </span> */}
-
           <span className='cr-social bookmark'>
             <button className='btn'>
               <BsFillBookmarkFill className='icon' />
@@ -229,21 +184,6 @@ export default function CreationSocial({
           </span>
         </>
       )}
-
-      {/* <CreationShare creationSha={creationSha} /> */}
-      {/* <span className="single-button-wrapper share">
-      <Button className="cr-share" onClick={() => setIsShared(!isShared)}>
-      <Paragraph
-      copyable={{
-          text: `${window?.appConfig?.ABRAHAM_SELF}/creation/${creationSha}`,
-          icon: [<HiOutlineShare key="copy-icon" size="36px" />, <HiShare key="copied-icon" />],
-          placement: 'bottom',
-          tooltips: ['copy link', 'link copied!'],
-        }}
-        />
-        </Button>
-    </span> */}
     </div>
-    // </CreationSocialStyles>
   );
 }
