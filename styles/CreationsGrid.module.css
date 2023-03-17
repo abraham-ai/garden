@@ -15,6 +15,9 @@
 .generatorButtonSelected {
   background-color: lightgray;
 }
+.loadMore {
+  color: black;
+}
 
 .crGridMainWrapper {
   width: auto;
