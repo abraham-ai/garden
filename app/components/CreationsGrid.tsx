@@ -1,4 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+'use client';
+
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import useSWRInfinite from 'swr/infinite';
 
 // Import xstate
@@ -42,7 +50,7 @@ const CreationsGrid = () => {
       fetcher
     );
 
-  let lastDataCreation = {};
+  let lastDataCreation = useMemo(() => {}, []);
   let lastCreation = {};
 
   function handleCreationData(lastDataCreation, lastCreation) {

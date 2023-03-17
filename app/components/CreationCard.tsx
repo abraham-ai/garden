@@ -5,6 +5,8 @@ import Link from 'next/link';
 
 import axios from 'axios';
 import timeAgo from '../../util/timeAgo';
+import abbreviateText from '../../util/abbreviateText';
+import abbreviateAddress from '../../util/abbreviateAddress';
 
 import Blockies from 'react-blockies';
 
@@ -12,6 +14,7 @@ import Creation from '../../interfaces/Creation';
 import styles from '../../styles/CreationCard.module.css';
 import CreationShare from './CreationShare';
 import CreationSocial from './CreationSocial';
+import { useReactions } from '../../hooks/useReactions';
 
 import { FaRetweet } from 'react-icons/fa';
 import { BsFillBookmarkFill } from 'react-icons/bs';
@@ -24,6 +27,9 @@ export default function CreationCard({ creation }: { creation: Creation }) {
   const { generatorName } = generator;
   const { width, height, text_input } = config;
 
+  // social reactions
+  const { praises, burns } = useReactions(creation._id);
+
   // console.log({ creation });
   // console.log(generator);
 
@@ -35,6 +41,10 @@ export default function CreationCard({ creation }: { creation: Creation }) {
   ) => {
     event.preventDefault();
     console.log('handle PRAISE 👏 !');
+    await axios.post('/api/react', {
+      creationId: creation._id,
+      reaction: '🙌',
+    });
   };
 
   const handleBurn = async (
@@ -42,6 +52,10 @@ export default function CreationCard({ creation }: { creation: Creation }) {
   ) => {
     event.preventDefault();
     console.log('handle BURN 🔥 !');
+    await axios.post('/api/react', {
+      creationId: creation._id,
+      reaction: '🔥',
+    });
   };
 
   const handleRecreation = (
@@ -59,35 +73,42 @@ export default function CreationCard({ creation }: { creation: Creation }) {
     setIsSaveModalActive(true);
   };
 
-  let displayAddress = user;
+  let displayAddress = '';
   if (typeof user === 'string') {
-    displayAddress = user?.substring(0, 6);
-    displayAddress += '...' + user.slice(-4);
+    displayAddress = abbreviateAddress(user);
   }
 
-  // Function to abbreviate the text_input to 144 characters
-  const abbreviateText = (text: string) => {
-    if (text.length > 100) {
-      return text.slice(0, 97) + '...';
-    }
-    return text;
-  };
-
+  // Function to abbreviate the text_input to 144 characters)
   // Abbreviate the text_input
-  const prompt = abbreviateText(text_input);
+  const prompt = abbreviateText(text_input, 100);
 
   return (
-    <article id={`creation-card`} className={styles.creationCard}>
-      <div className={styles.crImageWrapper} style={{ maxWidth: 20 }}>
-        <Image src={thumbnail} height={20} width={20} alt={text_input} />
-      </div>
-      <Link
-        className={styles.crLink}
-        href={`/garden?creationId=${creation._id}`}
-        as={`/creation/${creation._id}`}
-        scroll={false}
-        style={{ display: 'flex', color: 'black', flexDirection: 'column' }}
-      >
+    <Link
+      className={styles.crLink}
+      href={{
+        pathname: `/creation/${creation._id}`,
+        query: {
+          uri: uri,
+          createdAt: createdAt,
+          generatorName: generatorName,
+          width: width,
+          height: height,
+          text_input: text_input,
+          user: user,
+          thumbnail: thumbnail,
+          _id: _id,
+          status: status,
+        },
+      }}
+      // href={`/garden?creationId=${creation._id}`}
+      // as={`/creation/${creation._id}`}
+      scroll={false}
+      style={{ display: 'flex', color: 'black', flexDirection: 'column' }}
+    >
+      <article id={`creation-card`} className={styles.creationCard}>
+        <div className={styles.crImageWrapper} style={{ maxWidth: 20 }}>
+          <Image src={thumbnail} height={20} width={20} alt={text_input} />
+        </div>
         <div
           className='cr-metadata'
           style={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}
@@ -147,7 +168,7 @@ export default function CreationCard({ creation }: { creation: Creation }) {
             </div>
           </div>
         </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
   );
 }
