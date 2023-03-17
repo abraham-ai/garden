@@ -28,7 +28,7 @@ export default function CreationCard({ creation }: { creation: Creation }) {
   const { width, height, text_input } = config;
 
   // social reactions
-  const { praises, burns } = useReactions(creation._id);
+  // const { praises, burns } = useReactions(creation._id);
 
   // console.log({ creation });
   // console.log(generator);
