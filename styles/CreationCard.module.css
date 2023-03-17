@@ -7,7 +7,11 @@
   margin-bottom: 10px;
 }
 .creationCard {
+  display: 'flex';
+  flex-direction: 'column';
   max-width: 300px;
+  background: rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 .creationCard:hover {
   transform: unset;
