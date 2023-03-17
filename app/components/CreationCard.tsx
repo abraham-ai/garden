@@ -152,7 +152,7 @@ export default function CreationCard({ creation }: { creation: Creation }) {
                   creationBurns={1}
                   creationPraises={1}
                   creationSha={_id}
-                  praisedByMe={true}
+                  praisedByMe={false}
                   burnedByMe={false}
                 />
                 <CreationShare
@@ -160,7 +160,7 @@ export default function CreationCard({ creation }: { creation: Creation }) {
                   creationBurns={1}
                   creationPraises={1}
                   creationSha={_id}
-                  praisedByMe={true}
+                  praisedByMe={false}
                   burnedByMe={false}
                 />
               </div>
