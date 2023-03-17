@@ -84,6 +84,7 @@ const CreationsGrid = () => {
   console.log(data);
 
   // Define the state machine
+  // Set predictableActionArguments to true when using createMachine
   const infiniteScrollMachine = createMachine({
     id: 'infiniteScroll',
     initial: 'idle',
@@ -114,7 +115,7 @@ const CreationsGrid = () => {
         },
       },
     },
-  });
+  }, { predictableActionArguments: true });
 
   // Create a service to interpret the state machine
   const infiniteScrollService = interpret(infiniteScrollMachine)
@@ -224,7 +225,7 @@ const CreationsGrid = () => {
 
   return (
     <>
-      <section style={{ color: 'black' }}>
+      <section className={styles.creationAnalytics} style={{ color: 'black' }}>
         <span>{`Page ${size}`}</span>
         <span style={{ display: 'flex' }}>
           <b>{'Last Creation Earliest Time'}</b>
