@@ -23,6 +23,11 @@
   background-color: lightgray;
 }
 .loadMore {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin: 50px;
+  padding: 50px;
   color: black;
 }
 
