@@ -4939,6 +4939,7 @@ __metadata:
     swr: ^2.1.0
     typescript: ^4.9.5
     wagmi: 0.11.x
+    xstate: latest
   languageName: unknown
   linkType: soft
 
@@ -9347,6 +9348,13 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 97301c1c4d838fc81bd413f370f75c12aabe44527b31323b761eab3043a9ecb7e32ffd668548382c9a6a5ad3a1c3a9249608e8338e6b939f2f9540f1e21970b5
+  languageName: node
+  linkType: hard
+
+"xstate@npm:latest":
+  version: 4.37.0
+  resolution: "xstate@npm:4.37.0"
+  checksum: 8eba107721c91ba08934b68a2881f01dd9ab6f23cc2ebcdd91145ce5999db8f690b38cf1570b928c058755150fc5024bed1cafe731ff7e6750d4e64752a7ab5b
   languageName: node
   linkType: hard
 
