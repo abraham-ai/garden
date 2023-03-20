@@ -27,8 +27,8 @@
   flex: 1;
   justify-content: center;
   margin: 50px;
-  padding: 50px;
   color: black;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .crGridMainWrapper {
