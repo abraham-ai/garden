@@ -64,9 +64,9 @@ export default function CreationCard({
   };
 
   const handleCreationUpdate = useCallback(
-    (currentCreation) => {
-      console.log(currentIndex, currentCreation);
-      if (currentCreation !== undefined) {
+    (currentCreation, currentIndex) => {
+      console.log(currentIndex, currentCreation.task.config.text_input);
+      if (currentCreation !== undefined && currentIndex !== 0) {
         setUri(currentCreation.uri);
         setCreatedAt(currentCreation.createdAt);
         setGeneratorName(currentCreation.task.generator.generatorName);
@@ -77,26 +77,30 @@ export default function CreationCard({
         setThumbnail(currentCreation.thumbnail);
         setId(currentCreation._id);
       }
-    },
-    [currentIndex]
+    }
   );
 
   const handleModalTransition = (direction: string) => {
     console.log(`click ${direction}`);
+    console.log(currentIndex);
     console.log(creations);
-    console.log(currentCreation);
+    console.log(currentCreation.task.config.text_input);
     console.log(currentCreations);
 
     if (direction === 'next') {
-      console.log(currentCreations[currentIndex].createdAt);
-      console.log(currentCreations[currentIndex + 1].createdAt);
+      console.log(currentIndex, currentCreations[currentIndex].createdAt);
+      console.log(currentCreations[currentIndex].task.config.text_input);
+      console.log(currentIndex, currentCreations[currentIndex + 1].createdAt);
+      console.log(currentCreations[currentIndex + 1].task.config.text_input);
       setCurrentIndex(currentIndex + 1);
-      handleCreationUpdate(currentCreations[currentIndex + 1]);
+      // handleCreationUpdate(creations[currentIndex + 1]);
     } else if (direction === 'prev') {
-      console.log(currentCreations[currentIndex].createdAt);
-      console.log(currentCreations[currentIndex - 1].createdAt);
+      console.log(currentIndex, currentCreations[currentIndex].createdAt);
+      console.log(currentCreations[currentIndex].task.config.text_input);
+      console.log(currentIndex, currentCreations[currentIndex - 1].createdAt);
+      console.log(currentCreations[currentIndex - 1].task.config.text_input);
       setCurrentIndex(currentIndex - 1);
-      handleCreationUpdate(currentCreations[currentIndex - 1]);
+      // handleCreationUpdate(creations[currentIndex - 1]);
     }
   };
 
@@ -158,6 +162,7 @@ export default function CreationCard({
 
   return (
     <>
+      <section className={styles.creationCardWrapper}>
       <Link
         className={styles.crLink}
         // href={{
@@ -235,31 +240,33 @@ export default function CreationCard({
                 <b className='cr-prompt-command'>{`/${generatorName} `}</b>
                 <span className='cr-prompt'>{prompt}</span>
 
-                <div className='cr-social-wrapper'>
-                  <div style={{ display: 'flex' }}>
-                    <CreationSocial
-                      layout={'expanded'}
-                      creationBurns={1}
-                      creationPraises={1}
-                      creationSha={_id}
-                      praisedByMe={false}
-                      burnedByMe={false}
-                    />
-                    <CreationShare
-                      layout={'expanded'}
-                      creationBurns={1}
-                      creationPraises={1}
-                      creationSha={_id}
-                      praisedByMe={false}
-                      burnedByMe={false}
-                    />
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
         </article>
       </Link>
+      <div className='cr-social-wrapper'>
+        <div style={{ display: 'flex' }}>
+          <CreationSocial
+            layout={'expanded'}
+            creationBurns={1}
+            creationPraises={1}
+            creationSha={_id}
+            praisedByMe={false}
+            burnedByMe={false}
+          />
+          <CreationShare
+            layout={'expanded'}
+            creationBurns={1}
+            creationPraises={1}
+            creationSha={_id}
+            praisedByMe={false}
+            burnedByMe={false}
+          />
+        </div>
+      </div>
+      </section>
       <Modal
         title='Basic Modal'
         open={isModalOpen}
