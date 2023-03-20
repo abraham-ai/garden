@@ -5,11 +5,11 @@
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.1);
 }
 .creationCard {
   display: flex;
   /*   flex-direction: column; */
-  background: rgba(0, 0, 0, 0.1);
 }
 
 /* .creationCard:hover {
