@@ -27,95 +27,63 @@ import breakpointColumnsObj from '../../constants/breakpointColumns';
 
 const CreationsGrid = () => {
   const [creations, setCreations] = useState<Creation[]>([]);
-  const [username, setUsername] = useState<string | null>(null);
-  const [generators, setGenerators] = useState<string | null>(null);
-  const [earliestTime, setEarliestTime] = useState<number | null>(null);
-  const [latestTime, setLatestTime] = useState<number | null>(null);
+  const [username, setUsername] = useState<string | string>('');
+  const [generators, setGenerators] = useState<string | string>('');
+  const [earliestTime, setEarliestTime] = useState<number | string>('');
+  const [latestTime, setLatestTime] = useState<number | string>('');
   const [limit, setLimit] = useState<number>(10);
   const [lastCreationEarliestTime, setLastCreationEarliestTime] = useState<
-    number | null
-  >(null);
+    number | string
+  >('');
   const loadBelowRef = useRef<HTMLDivElement | null>(null);
-
-  const url = `/api/creations?page=${1}&limit=${limit}&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${lastCreationEarliestTime}`;
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+  const getKey = (index, previousPageData) => {
+    return `api/creations?limit=${limit}&page=${
+      index + 1
+    }&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${lastCreationEarliestTime}`;
+  };
+
   const { data, mutate, size, setSize, isValidating, isLoading, error } =
-    useSWRInfinite(
-      (index) =>
-        `api/creations?limit=${limit}&page=${
-          index + 1
-        }&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${lastCreationEarliestTime}`,
-      fetcher
-    );
-
-  let lastDataCreation = useMemo(() => {}, []);
-  let lastCreation = {};
-
-  function handleCreationData(lastDataCreation, lastCreation) {
-    // Check if lastDataCreation and lastCreation have the 'createdAt' property before accessing it
-    if (
-      typeof !data === 'undefined' &&
-      typeof lastDataCreation === 'object' &&
-      typeof lastCreation === 'object'
-    ) {
-      setCreations((prevCreations) => [...prevCreations, ...data[0]]);
-      setLastCreationEarliestTime(lastDataCreation.createdAt);
-    }
-  }
-
-  if (typeof data !== 'undefined') {
-    lastDataCreation = data[0][data[0].length - 1];
-
-    if (creations.length > 0) {
-      lastCreation = creations[creations.length - 1];
-    }
-
-    handleCreationData(lastDataCreation, lastCreation);
-  }
-
-  console.log({
-    lastDataCreation,
-    lastCreation,
-    lastCreationEarliestTime,
-    size,
-  });
-  console.log(data);
+    useSWRInfinite(getKey, fetcher);
 
   // Define the state machine
   // Set predictableActionArguments to true when using createMachine
-  const infiniteScrollMachine = createMachine({
-    id: 'infiniteScroll',
-    initial: 'idle',
-    context: {
-      lastCreationEarliestTime: null,
-    },
-    states: {
-      idle: {
-        on: {
-          LOAD_MORE: 'loading',
-        },
+  const infiniteScrollMachine = createMachine(
+    {
+      id: 'infiniteScroll',
+      initial: 'idle',
+      context: {
+        lastCreationEarliestTime: '',
       },
-      loading: {
-        invoke: {
-          src: 'handleLoadMore',
-          onDone: {
-            target: 'idle',
-            actions: assign({
-              lastCreationEarliestTime: (_, event) => event.data,
-            }),
+      states: {
+        idle: {
+          on: {
+            LOAD_MORE: 'loading',
           },
-          onError: 'error',
         },
-      },
-      error: {
-        on: {
-          RETRY: 'loading',
+        loading: {
+          invoke: {
+            src: 'handleLoadMore',
+            onDone: {
+              target: 'idle',
+              actions: assign({
+                lastCreationEarliestTime: (_, event) => event.data,
+              }),
+            },
+            onError: 'error',
+          },
+        },
+        error: {
+          on: {
+            RETRY: 'loading',
+          },
         },
       },
     },
-  }, { predictableActionArguments: true });
+    { predictableActionArguments: true }
+  );
 
   // Create a service to interpret the state machine
   const infiniteScrollService = interpret(infiniteScrollMachine)
@@ -124,54 +92,69 @@ const CreationsGrid = () => {
     })
     .start();
 
-  // Update the handleLoadMore function to send an event to the state machine
-  const handleLoadMore = useCallback(() => {
-    console.log('HANDLE LOAD MORE ----------------------------------');
-    if (!data) return;
-    setSize(size + 1);
-    let newDate = 1;
-    if (
-      typeof lastDataCreation === 'object' &&
-      lastDataCreation.hasOwnProperty('createdAt')
-    ) {
-      newDate = addSecondsToDate(
-        lastDataCreation.createdAt,
-        1000,
-        'handle more'
-      );
-      setLastCreationEarliestTime(newDate);
-      setCreations((prevCreations) => [...prevCreations, ...data[0]]);
-    }
+  const addSecondsToDate = (date, seconds) => {
+    let newDateTime = new Date(date).getTime() - seconds;
+    let newDate = new Date(newDateTime).toISOString();
+    return newDate;
+  };
 
-    // Send LOAD_MORE event to the state machine
-    infiniteScrollService.send({
-      type: 'LOAD_MORE',
-      data: newDate,
-    });
-  }, [data, infiniteScrollService, lastDataCreation, setSize, size]);
+  const handleLoadMore = useCallback(async (context) => {
+    // setSize(size + 1);
+  }, []);
 
   // Update the useEffect to listen for state changes in the state machine
   useEffect(() => {
     const subscription = infiniteScrollService.subscribe((state) => {
       if (state.changed) {
-        setLastCreationEarliestTime(state.context.lastCreationEarliestTime);
+        console.log(state.context.lastCreationEarliestTime);
+
+        if (typeof data !== 'undefined') {
+          const lastDataCreation = data[0][data[0].length - 1];
+          const lastCreation =
+            creations.length === 0 ? {} : creations[creations.length - 1];
+
+          const newDate = addSecondsToDate(lastDataCreation.createdAt, 1000);
+
+          console.log('lastDataCreation.createdAt', lastDataCreation.createdAt);
+          console.log('newDate', newDate);
+          console.log(size * 10);
+          console.log(creations.length);
+          console.log(deepEqual(lastDataCreation, lastCreation));
+
+          setCreations((prevCreations) => [...prevCreations, ...data[0]]);
+          setLastCreationEarliestTime(newDate);
+          setSize(size + 1);
+
+          // Send LOAD_MORE event to the state machine
+          infiniteScrollService.send({
+            type: 'LOAD_MORE',
+            data: newDate,
+          });
+        }
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [infiniteScrollService]);
+  }, [infiniteScrollService, creations, data, size, setSize]);
 
   // Create the intersection observer callback
   const loadMoreObserver = useCallback(
     (entries) => {
       const firstEntry = entries[0];
       if (firstEntry.isIntersecting) {
-        handleLoadMore();
+        if (typeof data !== 'undefined') {
+          setSize(size + 1);
+
+          infiniteScrollService.send({
+            type: 'LOAD_MORE',
+            // data: newDate,
+          });
+        }
       }
     },
-    [handleLoadMore]
+    [data, infiniteScrollService, setSize, size]
   );
 
   // Set up the intersection observer
@@ -181,40 +164,18 @@ const CreationsGrid = () => {
       threshold: 1.0,
     });
 
-    if (loadBelowRef.current) {
-      observer.observe(loadBelowRef.current);
+    const currentRef = loadBelowRef.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (loadBelowRef.current) {
-        observer.unobserve(loadBelowRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [loadMoreObserver]);
-
-  const addSecondsToDate = (date, seconds, context) => {
-    let newDateTime = new Date(date).getTime() - seconds;
-    let newDate = new Date(newDateTime).toISOString();
-    return newDate;
-  };
-
-  // Update only on first render when lastCreation {} is empty and lastCreationEarliestTime is null
-  if (
-    typeof data !== 'undefined' &&
-    lastCreationEarliestTime === null &&
-    Object.keys(lastCreation).length === 0 &&
-    lastDataCreation.hasOwnProperty('createdAt') &&
-    size === 1
-  ) {
-    console.log(lastDataCreation.createdAt);
-    const newDate = addSecondsToDate(
-      lastDataCreation.createdAt,
-      1000,
-      'first render'
-    );
-    setLastCreationEarliestTime(newDate);
-    setCreations((prevCreations) => [...prevCreations, ...data[0]]);
-  }
 
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
@@ -264,7 +225,7 @@ const CreationsGrid = () => {
         className={styles.crGridMasonry}
         columnClassName={styles.crGridMasonryColumn}
       >
-        {creations.map((creation: Creation) => {
+        {creations.map((creation: Creation, i: number) => {
           const generatorName = creation.task.generator.generatorName;
 
           if (
@@ -273,17 +234,19 @@ const CreationsGrid = () => {
             generatorName === 'interrogate' ||
             generatorName === 'wav2lip' ||
             generatorName === 'interpolate' ||
-            generatorName === 'real2real'
+            generatorName === 'real2real' ||
+            generatorName === 'remix'
           ) {
             return null;
-          }
-          // else if (generator === 'interpolate') {
-          //   return (
-          //     <CreationCardVideo key={creation._id} creation={creation} />
-          //   )
-          // }
-          else {
-            return <CreationCard creation={creation} key={creation._id} />;
+          } else {
+            return (
+              <CreationCard
+                creation={creation}
+                key={creation._id}
+                index={i}
+                creations={creations}
+              />
+            );
           }
         })}
       </Masonry>
