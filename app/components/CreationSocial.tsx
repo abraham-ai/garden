@@ -60,14 +60,15 @@ export default function CreationSocial({
       setIsPraised(true);
     }
 
-    const results = await axios.post(serverUrl + '/update_stats', {
-      creation: creationSha,
-      stat: 'praise',
-      opperation: praiseOpperation,
-      address: address,
-    });
+    // const results = await axios.post(serverUrl + '/update_stats', {
+    //   creation: creationSha,
+    //   stat: 'praise',
+    //   opperation: praiseOpperation,
+    //   address: address,
+    // });
 
-    setPraises(results.data.praise);
+    // setPraises(results.data.praise);
+    setIsPraised(!isPraised)
   }
 
   async function burnHandler() {
@@ -87,14 +88,15 @@ export default function CreationSocial({
       setIsBurned(true);
     }
 
-    const results = await axios.post(serverUrl + '/update_stats', {
-      creation: creationSha,
-      stat: 'burn',
-      opperation: burnOpperation,
-      address: address,
-    });
+    // const results = await axios.post(serverUrl + '/update_stats', {
+    //   creation: creationSha,
+    //   stat: 'burn',
+    //   opperation: burnOpperation,
+    //   address: address,
+    // });
 
-    setBurns(results.data.burn);
+    // setBurns(results.data.burn);
+    setIsBurned(!isBurned)
   }
 
   let praiseClasses, burnClasses;
