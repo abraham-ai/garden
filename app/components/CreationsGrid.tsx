@@ -6,13 +6,13 @@ import React, {
   useRef,
   useCallback,
   useMemo,
+  useContext,
 } from 'react';
 import useSWRInfinite from 'swr/infinite';
 
-// Import xstate
-import { createMachine, interpret, assign } from 'xstate';
+import AppContext from '../../context/AppContext';
 
-import axios from 'axios';
+import { createMachine, interpret, assign } from 'xstate';
 
 import deepEqual from '../../util/deepEqual';
 
@@ -26,7 +26,6 @@ import styles from '../../styles/CreationsGrid.module.css';
 import breakpointColumnsObj from '../../constants/breakpointColumns';
 
 const CreationsGrid = () => {
-  const [creations, setCreations] = useState<Creation[]>([]);
   const [username, setUsername] = useState<string | string>('');
   const [generators, setGenerators] = useState<string | string>('');
   const [earliestTime, setEarliestTime] = useState<number | string>('');
@@ -36,6 +35,16 @@ const CreationsGrid = () => {
     number | string
   >('');
   const loadBelowRef = useRef<HTMLDivElement | null>(null);
+
+  const context = useContext(AppContext);
+  const creationsData = useMemo(
+    () => context?.creationsData || [],
+    [context?.creationsData]
+  );
+  const setCreationsData = useMemo(
+    () => context?.setCreationsData || (() => []),
+    [context?.setCreationsData]
+  );
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -111,17 +120,30 @@ const CreationsGrid = () => {
         if (typeof data !== 'undefined') {
           const lastDataCreation = data[0][data[0].length - 1];
           const lastCreation =
-            creations.length === 0 ? {} : creations[creations.length - 1];
+            creationsData.length === 0
+              ? {}
+              : creationsData[creationsData.length - 1];
+
+          console.log(creationsData.length);
+          console.log(lastDataCreation);
+          console.log(lastDataCreation.createdAt);
+          console.log(lastCreation.createdAt);
 
           const newDate = addSecondsToDate(lastDataCreation.createdAt, 1000);
 
           console.log('lastDataCreation.createdAt', lastDataCreation.createdAt);
           console.log('newDate', newDate);
           console.log(size * 10);
-          console.log(creations.length);
-          console.log(deepEqual(lastDataCreation, lastCreation));
+          console.log(creationsData.length);
+          // console.log(deepEqual(lastDataCreation, lastCreation));
 
-          setCreations((prevCreations) => [...prevCreations, ...data[0]]);
+          console.log({ data });
+          console.log({ creationsData });
+
+          setCreationsData((prevCreations) => [
+            ...prevCreations,
+            ...(data?.[0] || []),
+          ]);
           setLastCreationEarliestTime(newDate);
           setSize(size + 1);
 
@@ -137,7 +159,14 @@ const CreationsGrid = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [infiniteScrollService, creations, data, size, setSize]);
+  }, [
+    infiniteScrollService,
+    creationsData,
+    setCreationsData,
+    data,
+    size,
+    setSize,
+  ]);
 
   // Create the intersection observer callback
   const loadMoreObserver = useCallback(
@@ -195,7 +224,7 @@ const CreationsGrid = () => {
         <div>
           <span className={styles.loadingState}>
             {`showing ${size} page(s) of 
-          ${isLoadingMore ? '...' : creations.length}
+          ${isLoadingMore ? '...' : creationsData.length}
           creation(s) `}
           </span>
           <button
@@ -225,9 +254,9 @@ const CreationsGrid = () => {
         className={styles.crGridMasonry}
         columnClassName={styles.crGridMasonryColumn}
       >
-        {creations.map((creation: Creation, i: number) => {
+        {creationsData.map((creation: Creation, i: number) => {
           const generatorName = creation.task.generator.generatorName;
-
+          // console.log({ creation });
           if (
             generatorName === 'tts' ||
             generatorName === 'complete' ||
@@ -240,12 +269,7 @@ const CreationsGrid = () => {
             return null;
           } else {
             return (
-              <CreationCard
-                creation={creation}
-                key={creation._id}
-                index={i}
-                creations={creations}
-              />
+              <CreationCard creation={creation} key={creation._id} index={i} />
             );
           }
         })}

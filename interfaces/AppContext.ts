@@ -11,10 +11,19 @@ interface AppContext {
   setIsSignedIn: Dispatch<SetStateAction<boolean | undefined>>;
   isWalletConnected?: boolean;
   setIsWalletConnected: Dispatch<SetStateAction<boolean | undefined>>;
+
   creationsData: [];
+  setCreationsData: Dispatch<SetStateAction<[]>>;
   creationsLoading: boolean;
   creationsMore: boolean;
   creationsLoad: () => void;
+
+  collections: [];
+  setCollections: Dispatch<SetStateAction<[]>>;
+  selectedCollection: string;
+  setSelectedCollection: Dispatch<SetStateAction<string>>;
+  collectionModalView: number;
+  setCollectionModalView: Dispatch<SetStateAction<number>>;
 }
 
 export default AppContext;

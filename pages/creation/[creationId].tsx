@@ -11,7 +11,7 @@ import shaURL from '../../util/shaURL';
 import abbreviateAddress from '../../util/abbreviateAddress';
 import timeAgo from '../../util/timeAgo';
 
-import useReactions from '../../hooks/useReactions';
+import useGetCreation from '../../hooks/useGetCreation';
 
 import Blockies from 'react-blockies';
 import Header from '../../app/components/Header';
@@ -61,11 +61,10 @@ const Creation: FC<CreationPageProps> = ({
   // const { generatorName } = generator;
   // const { width, height, text_input } = config;
 
-  // const { praises: praiseCount, burns: burnCount } = useReactions(_id);
+  const { creationData } = useGetCreation(creationId);
+  console.log(creationData);
 
   const isParent = true;
-
-  // const { data, mutate, isValidating, isLoading, error } = useSWR(url, fetcher);
 
   console.log(router.query.creationId);
 

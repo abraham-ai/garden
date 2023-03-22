@@ -4,31 +4,32 @@ import { eden } from '../../util/eden';
 
 interface ApiRequest extends NextApiRequest {
   body: {
-    username: string;
-    generators: string[];
-    earliestTime: number;
-    latestTime: number;
-    limit: number;
+    name: string;
   };
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
   // const { username, generators, earliestTime, latestTime, limit } = req.body;
-  const { creationId: creationIdQuery } = req.query;
-  const { creationId: creationIdBody } = req.body;
-
-  console.log({ creationIdBody });
-  console.log({ creationIdQuery });
-
+  //   const { name } = req.query;
+  const { name } = req.body;
+  console.log({ name });
   // console.log({ req });
   console.log(req.url);
-  // console.log(req.body);
+  //   console.log(req.body);
 
   try {
-    const creation = await eden.getCreation(creationId);
-    // console.log(creation);
+    let createdCollection = await eden.createCollection(name);
+    let collections = await eden.getCollections();
+    console.log(createdCollection);
+    console.log(collections);
+    const collectionName = name;
+    // result = await collections.create(name);
+    // const collections = await creation.getCollections(filter);
 
-    return res.status(200).json({ creation: creation });
+    // console.log(result);
+    // console.log(creations);
+
+    return res.status(200).json({ collectionName: name });
   } catch (error: any) {
     console.log(error);
     // if (error.response.data == 'jwt expired') {

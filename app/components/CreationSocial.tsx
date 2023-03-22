@@ -7,186 +7,112 @@ import { useAccount } from 'wagmi';
 import axios from 'axios';
 const serverUrl = process.env.EDEN_API_URL;
 
-import { AiFillFire, AiOutlineFire } from 'react-icons/ai';
-import { HiSparkles, HiOutlineSparkles } from 'react-icons/hi';
-import { FaRetweet } from 'react-icons/fa';
-import { BsFillBookmarkFill, BsBookmark } from 'react-icons/bs';
-import { IoIosShareAlt } from 'react-icons/io';
+import { Modal, Button, Input, notification, Select } from 'antd';
+import type { NotificationPlacement } from 'antd/es/notification/interface';
 
+import { FaRetweet } from 'react-icons/fa';
 
 import CreationSocialType from '../../interfaces/CreationSocial';
+import styles from '../../styles/CreationSocial.module.css';
+import CreationSaveModal from './CreationSaveModal';
 
+import SaveButton from './CreationActions/SaveButton';
+import BurnButton from './CreationActions/BurnButton';
+import PraiseButton from './CreationActions/PraiseButton';
+import ShareButton from './CreationActions/ShareButton';
+import RemixButton from './CreationActions/RemixButton';
 
-export default function CreationSocial({
+const CreationSocial = ({
   layout = 'minimal',
   creationBurns,
   creationPraises,
-  creationSha,
+  creationId,
   praisedByMe,
   burnedByMe,
-}: CreationSocialType) {
-
+}: CreationSocialType) => {
   const [burns, setBurns] = useState(creationBurns);
+  const [isBurned, setIsBurned] = useState(burnedByMe);
+
   const [praises, setPraises] = useState(creationPraises);
   const [isPraised, setIsPraised] = useState(praisedByMe);
-  const [isBurned, setIsBurned] = useState(burnedByMe);
+
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const [remixes, setRemixes] = useState(0);
+  const [isRemixed, setIsRemixed] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalView, setModalView] = useState(1);
 
   const { address } = useAccount();
 
   const context = useContext(AppContext);
   const isSignedIn = context?.isSignedIn || false;
+  const currentCreationIndex = context?.currentCreationIndex || 0;
 
   useEffect(() => {
-    setIsBurned(burnedByMe);
     setIsPraised(praisedByMe);
+    setIsBurned(burnedByMe);
     setBurns(creationBurns);
     setPraises(creationPraises);
   }, [praisedByMe, burnedByMe, creationBurns, creationPraises]);
 
-  async function praiseHandler() {
-    if (!address) {
-      return;
-    }
-    let praiseOpperation = '';
-
-    if (isPraised === true && praises > 0) {
-      setPraises(praises - 1);
-      praiseOpperation = 'decrease';
-      setIsPraised(false);
-    } else if (isPraised === false) {
-      setPraises(praises + 1);
-      praiseOpperation = 'increase';
-      setIsPraised(true);
-    }
-
-    // const results = await axios.post(serverUrl + '/update_stats', {
-    //   creation: creationSha,
-    //   stat: 'praise',
-    //   opperation: praiseOpperation,
-    //   address: address,
-    // });
-
-    // setPraises(results.data.praise);
-    setIsPraised(!isPraised)
-  }
-
-  async function burnHandler() {
-    if (!address) {
-      return;
-    }
-
-    let burnOpperation = '';
-
-    if (isBurned === true && burns > 0) {
-      setBurns(burns - 1);
-      burnOpperation = 'decrease';
-      setIsBurned(false);
-    } else if (isBurned === false) {
-      setBurns(burns + 1);
-      burnOpperation = 'increase';
-      setIsBurned(true);
-    }
-
-    // const results = await axios.post(serverUrl + '/update_stats', {
-    //   creation: creationSha,
-    //   stat: 'burn',
-    //   opperation: burnOpperation,
-    //   address: address,
-    // });
-
-    // setBurns(results.data.burn);
-    setIsBurned(!isBurned)
-  }
-
-  let praiseClasses, burnClasses;
-  if (isSignedIn) {
-    praiseClasses = isPraised ? 'cr-praise is-active' : 'cr-praise';
-    burnClasses = isBurned ? 'cr-burn is-active' : 'cr-burn';
-  } else {
-    praiseClasses = 'cr-praise disabled';
-    burnClasses = 'cr-burn disabled';
-  }
+  const [api, contextHolder] = notification.useNotification();
 
   const isTooltipVisible = isSignedIn ? null : false;
 
-  let burnCount, praiseCount;
-  if ((isSignedIn && isPraised) || isBurned) {
-    // console.log('show social based on address count');
-    burnCount =
-      burns > 1 ? <span className='social-icon-count'>{burns}</span> : null;
-    praiseCount =
-      praises > 1 ? <span className='social-icon-count'>{praises}</span> : null;
-  } else {
-    // console.log('show social based on public count');
-    burnCount =
-      burns > 0 ? <span className='social-icon-count'>{burns}</span> : null;
-    praiseCount =
-      praises > 0 ? <span className='social-icon-count'>{praises}</span> : null;
-  }
-
   return (
-    // <CreationSocialStyles id='social-buttons'>
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        flex: 1,
-      }}
-    >
-      {layout === 'minimal' ? (
-        <>
-          <div className='single-button-wrapper'>
-            <button className={praiseClasses} onClick={() => praiseHandler()}>
-              <span className='social-icon'>
-                {isPraised ? (
-                  <HiSparkles size='36px' />
-                ) : (
-                  <HiOutlineSparkles size='36px' />
-                )}
-              </span>
-            </button>
-            {praiseCount}
-          </div>
+    <>
+      <div
+        className={styles.socialTopWrapper}
+        style={{
+          width: '100%',
+          justifyContent: 'space-between',
+          position: 'absolute',
+          top: 0,
+          padding: '10px',
+        }}
+      >
+        <SaveButton
+          creationId={creationId}
+          isBookmarked={isBookmarked}
+          setIsBookmarked={setIsBookmarked}
+          setModalOpen={setModalOpen}
+          modalOpen={modalOpen}
+        />
+      </div>
 
-          <div className='single-button-wrapper'>
-            <button className={burnClasses} onClick={() => burnHandler()}>
-              <span className='social-icon'>
-                {isBurned ? <AiFillFire /> : <AiOutlineFire />}
-              </span>
-            </button>
-            {burnCount}
-          </div>
-        </>
-      ) : (
-        <>
-          <button className={praiseClasses} onClick={() => praiseHandler()}>
-            <span className='social-icon'>
-              {isPraised ? <HiSparkles /> : <HiOutlineSparkles />}
-            </span>
-          </button>
+      <div
+        className={styles.socialBottomWrapper}
+        style={{
+          alignItems: 'flex-end',
+          width: '100%',
+          justifyContent: 'space-between',
+          position: 'absolute',
+          bottom: 0,
+          padding: '10px',
+        }}
+      >
+        <BurnButton creationId={creationId} burns={burns} isBurned={isBurned} />
+        <PraiseButton
+          creationId={creationId}
+          praises={praises}
+          isPraised={isPraised}
+          setIsPraised={setIsPraised}
+        />
+        <RemixButton
+          creationId={creationId}
+          remixes={remixes}
+          isRemixed={isRemixed}
+          setIsRemixed={setIsRemixed}
+        />
+        <ShareButton creationId={creationId} />
+      </div>
+      <CreationSaveModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 
-          <button className={burnClasses} onClick={() => burnHandler()}>
-            <span className='social-icon'>
-              {isBurned ? <AiFillFire /> : <AiOutlineFire />}
-            </span>
-          </button>
-
-          <span className='cr-social bookmark'>
-            <button className='btn'>
-                {isBookmarked ? <BsFillBookmarkFill  className='icon' /> : <BsBookmark  className='icon' />}
-              <span className='text'>Save</span>
-            </button>
-          </span>
-
-          <span className='cr-social share'>
-            <button className='btn'>
-              <IoIosShareAlt className='icon' />
-              <span className='text'>Share</span>
-            </button>
-          </span>
-        </>
-      )}
-    </div>
+      {contextHolder}
+    </>
   );
-}
+};
+
+export default CreationSocial;

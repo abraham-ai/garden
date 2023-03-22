@@ -2,7 +2,7 @@ interface CreationSocial {
   layout: string;
   creationBurns: number;
   creationPraises: number;
-  creationSha: string;
+  creationId: string;
   praisedByMe: boolean;
   burnedByMe: boolean;
 }

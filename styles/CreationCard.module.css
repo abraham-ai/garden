@@ -2,14 +2,13 @@
   position: relative;
   box-shadow: unset !important;
   background: unset;
-  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 10px;
-  background: rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  /* background: rgba(0, 0, 0, 0.1); */
 }
 .creationCard {
   display: flex;
-  /*   flex-direction: column; */
+  flex-direction: column;
 }
 
 /* .creationCard:hover {
@@ -34,19 +33,28 @@
 .crLink {
   display: flex;
   color: black;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
   justify-content: space-between;
-  margin-bottom: 10px;
 }
 .crImageWrapper {
   position: relative;
   height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.crImageWrapper:hover > div:first-child {
+  display: flex;
+}
+.crImageWrapper:hover > div:nth-child(2) {
+  display: flex;
 }
 .crImageWrapper img {
   /*   width: 100%; */
   /*   height: 100%; */
-  width: auto;
-  height: 100px;
+  /* width: auto;
+  height: 100px; */
+  width: 100%;
+  height: auto;
 }
 .crActionLeft {
   position: absolute;
@@ -88,7 +96,6 @@
   height: 100%;
   right: 0;
   bottom: 0;
-  border-radius: 15px;
   display: none;
   margin: 0;
   padding: 0; */
@@ -97,9 +104,9 @@
   flex: 1;
   /* justify-content: flex-end; */
   margin-left: 10px;
+  margin-top: 10px;
 }
 .crContenMainWrapper {
-  border-radius: 15px;
   margin: 10px;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(16px);
@@ -128,7 +135,8 @@
 .crSocialWrapper {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  width: 100%;
+  height: 100%;
 }
 .creationActions {
   display: none;

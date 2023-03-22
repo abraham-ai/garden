@@ -69,6 +69,12 @@ export default function App({ Component, pageProps }: AppProps) {
   const [creationsLoading, setCreationsLoading] = useState<boolean>(false);
   const [creationsMore, setCreationsMore] = useState<boolean>(true);
   const [creationsLoad, setCreationsLoad] = useState<boolean>(false);
+  const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0);
+
+  const [collections, setCollections] = useState<string[]>([]);
+  const [selectedCollection, setSelectedCollection] =
+    useState<object>('Favorites');
+  const [collectionModalView, setCollectionModalView] = useState<string>('');
 
   // init context
   const context = useContext(AppContext);
@@ -83,8 +89,17 @@ export default function App({ Component, pageProps }: AppProps) {
     setUserId,
     creationsLoading,
     creationsData,
+    setCreationsData,
     creationsMore,
     creationsLoad,
+    currentCreationIndex,
+    setCurrentCreationIndex,
+    collections,
+    setCollections,
+    selectedCollection,
+    setSelectedCollection,
+    collectionModalView,
+    setCollectionModalView,
   };
 
   // routing progress bar
