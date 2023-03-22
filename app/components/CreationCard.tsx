@@ -262,6 +262,7 @@ export default function CreationCard({
         }
         setModalOpen={setModalOpen}
         modalOpen={modalOpen}
+        creationIndex={index}
       />
     </>
   );
