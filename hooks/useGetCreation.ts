@@ -1,27 +1,31 @@
-import useSWR from 'swr';
+import { useState, useEffect, useCallback } from 'react';
 import CreationResponse from '../interfaces/CreationResponse';
 
-const fetcher = async (url: string, postData: any) => {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(postData),
-  });
-  const data = await response.json();
-  return data;
+import axios from 'axios';
+
+const useGetCreation = (creationId) => {
+  const [creation, setCreation] = useState<CreationResponse | null>(null);
+
+  const handleGetCreation = useCallback(async (creationId) => {
+    console.log(`useGetCreation: creationId: ${creationId}`);
+    const response = await axios.post('/api/creation', {
+      creationId: creationId,
+    });
+
+    console.log(response.data);
+
+    setCreation(response.data);
+  }, []);
+
+  useEffect(() => {
+    if (typeof creationId !== 'undefined' && creationId !== null) {
+      handleGetCreation(creationId);
+    }
+  }, [creationId, handleGetCreation]);
+
+  console.log(creation);
+
+  return typeof creation !== 'undefined' ? creation : null;
 };
 
-export const useCollections = () => {
-  const { data, error, isLoading, mutate } = useSWR<CreationResponse>(
-    `/api/creation`,
-    (url: string) => fetcher(url)
-  );
-
-  //   console.log(data);
-
-  return {
-    creationData: data,
-  };
-};
-
-export default useCollections;
+export default useGetCreation;
