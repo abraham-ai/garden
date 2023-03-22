@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { ReactElement, useState, FC } from 'react';
+import { useEffect, useState, FC, ReactElement } from 'react';
 
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -42,31 +42,56 @@ const Creation: FC<CreationPageProps> = ({
   const router = useRouter();
   const creationId = router.query.creationId;
 
+  console.log(creationId);
+  console.log(router.query);
+
   const {
-    uri = '',
-    createdAt = '',
-    generatorName = '',
-    height = 0,
-    status = 0,
-    text_input = '',
-    thumbnail = '',
-    user = '',
-    width = 0,
-    _id = '',
+    uri: queryUri = '',
+    createdAt: queryCreatedAt = '',
+    generatorName: queryGeneratorName = '',
+    height: queryHeight = 0,
+    status: queryStatus = 0,
+    text_input: queryTextInput = '',
+    thumbnail: queryThumbnail = '',
+    user: queryUser = '',
+    width: queryWidth = 0,
+    _id: queryId = '',
   } = router.query;
 
   const url = `/api/creation?${creationId}`;
-  // const { uri, createdAt, task, user, thumbnail, _id } = creation;
-  // const { config, status, generator } = task;
-  // const { generatorName } = generator;
-  // const { width, height, text_input } = config;
 
-  const { creationData } = useGetCreation(creationId);
+  const [_id, setId] = useState<string>('');
+  const [user, setUser] = useState<string>('');
+  const [textInput, setTextInput] = useState<string>('');
+  const [thumbnail, setThumbnail] = useState<string>('');
+  const [uri, setUri] = useState<string>('');
+  const [createdAt, setCreatedAt] = useState<string>(0);
+  const [generatorName, setGeneratorName] = useState<string>('');
+  const [width, setWidth] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+
+  const creationData = useGetCreation(creationId);
   console.log(creationData);
 
   const isParent = true;
 
   console.log(router.query.creationId);
+
+  useEffect(() => {
+    if (typeof creationData !== 'undefined' && creationData !== null) {
+      console.log(creationData);
+      // setUri(creationData.uri);
+      // setCreatedAt(creationData.createdAt);
+      // setGeneratorName(creationData.task.generator.generatorName);
+      // setWidth(creationData.task.config.width);
+      // setHeight(creationData.task.config.height);
+      // setTextInput(creationData.task.config.text_input);
+      // setUser(creationData.user);
+      // setThumbnail(creationData.thumbnail);
+      // setId(creationData._id);
+      // setStatus(creationData.task.status);
+    }
+  }, [creationData]);
 
   return (
     <>
@@ -81,11 +106,13 @@ const Creation: FC<CreationPageProps> = ({
                   height={height}
                   style={{ width: '100%' }}
                   className='cr-img'
-                  alt={text_input}
+                  alt={textInput}
                   src={thumbnail}
                 />
               </div>
             </div>
+
+            <pre>{JSON.stringify(creationData, null, 2)}</pre>
 
             <h1>{creationId}</h1>
 
@@ -126,7 +153,7 @@ const Creation: FC<CreationPageProps> = ({
                 <span style={{ color: 'purple', fontWeight: 600 }}>
                   {'/dream'}
                 </span>
-                <h2>{text_input}</h2>
+                <h2>{textInput}</h2>
               </div>
 
               <article className='cr-main-header'>
