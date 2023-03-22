@@ -13,6 +13,8 @@ import timeAgo from '../../util/timeAgo';
 
 import useGetCreation from '../../hooks/useGetCreation';
 
+import { Button } from 'antd';
+
 import Blockies from 'react-blockies';
 import Header from '../../app/components/Header';
 
@@ -93,130 +95,140 @@ const Creation: FC<CreationPageProps> = ({
     }
   }, [creationData]);
 
+  console.log(creationData);
+
   return (
     <>
       <Header />
-      <section id='creation-wrapper'>
-        <article className='creation'>
-          <div className='cr-post'>
-            <div className={`cr-card ${size}`}>
-              <div className='cr-img-wrapper background'>
-                <Image
-                  width={width}
-                  height={height}
-                  style={{ width: '100%' }}
-                  className='cr-img'
-                  alt={textInput}
-                  src={thumbnail}
-                />
-              </div>
-            </div>
-
-            <pre>{JSON.stringify(creationData, null, 2)}</pre>
-
-            <h1>{creationId}</h1>
-
-            <div className='cr-socials'>
-              {/* <span className='cr-social praise'>
-              <button className='btn'>
-              <FaStar className='icon' />
-              <span className='text'>{praiseCount}</span>
-              </button>
-            </span> */}
-              <span className='cr-social remix'>
-                <button className='btn'>
-                  <FaRetweet className='icon' />
-                  <span className='text'>310</span>
-                </button>
-              </span>
-              <span className='cr-social bookmark'>
-                <button className='btn'>
-                  <BsFillBookmarkFill className='icon' />
-                  <span className='text'>Save</span>
-                </button>
-              </span>
-              <span className='cr-social share'>
-                <button className='btn'>
-                  <IoIosShareAlt className='icon' />
-                  <span className='text'>Share</span>
-                </button>
-              </span>
-              <span className='cr-social share'>
-                <button className='btn'>
-                  <FiMoreHorizontal className='icon' />
-                </button>
-              </span>
-            </div>
-
-            <section className='cr-main'>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ color: 'purple', fontWeight: 600 }}>
-                  {'/dream'}
-                </span>
-                <h2>{textInput}</h2>
+      <section id='creation-wrapper' style={{ marginTop: 150 }}>
+        {typeof creationData !== 'undefined' && creationData !== null ? (
+          <article className='creation'>
+            <div className='cr-post'>
+              <div className={`cr-card ${size}`}>
+                <div className='cr-img-wrapper background'>
+                  <Image
+                    width={creationData.creation.task.config.width}
+                    height={creationData.creation.task.config.height}
+                    style={{ width: '100%' }}
+                    className='cr-img'
+                    alt={creationData.creation.task.config.text_input}
+                    src={creationData.creation.thumbnail}
+                  />
+                </div>
               </div>
 
-              <article className='cr-main-header'>
-                <div className='cr-creator'>
-                  <div>
-                    <Blockies seed={user} scale={6} />
-                  </div>
+              <h1>{creationId}</h1>
+              <h2>Server: {creationData.creation._id}</h2>
 
-                  <div className='cr-creator-name-wrapper'>
-                    <h3 className='cr-creator-name'>
-                      {abbreviateAddress(user)}
-                    </h3>
-                    <div>
-                      <span>{abbreviateAddress(user)}</span>
-                      <span>{timeAgo(createdAt)}</span>
-                    </div>
-                  </div>
+              {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
+
+              <section className='cr-main'>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ color: 'purple', fontWeight: 600 }}>
+                    {'/dream'}
+                  </span>
+                  <h2>{creationData.creation.task.config.text_input}</h2>
                 </div>
 
-                <ul className='cr-properties-wrapper'>
-                  <li className='cr-property'>
-                    <span className='cr-property-type'>
-                      <MdOutlineDateRange className='icon' />
-                      <span>Date</span>
-                    </span>
-                    <span>{timeAgo(createdAt)}</span>
-                  </li>
-                  <li className='cr-property'>
-                    <span className='cr-property-type'>
-                      <SlSizeFullscreen className='icon' />
-                      <span>Size</span>
-                    </span>
-                    <span>{'512 x 512'}</span>
-                  </li>
-                  <li className='cr-property'>
-                    <span className='cr-property-type'>
-                      <BsAspectRatio className='icon' />
-                      <span>Command</span>
-                    </span>
-                    <span>/dream</span>
-                  </li>
-                  <li className='cr-property'>
-                    <span className='cr-property-type'>
-                      <BsAspectRatio className='icon' />
-                      <span>Shape</span>
-                    </span>
-                    <span>square</span>
-                  </li>
-                </ul>
-              </article>
+                <article className='cr-main-header'>
+                  <div className='cr-creator'>
+                    <div>
+                      <Blockies seed={creationData.creation.user} scale={6} />
+                    </div>
 
-              {/* {isParent ? (
-              <button className='cr-parent'>
-              <span style={{ display: 'flex', alignItems: 'center' }}>
-              <HiOutlineFingerPrint className='icon' />
-              <span className='text'>Parent</span>
-              </span>
-              <Image src={thumbnail} alt={text_input} />
-              </button>
-            ) : null} */}
-            </section>
-          </div>
-        </article>
+                    <div className='cr-creator-name-wrapper'>
+                      <h3 className='cr-creator-name'>
+                        {abbreviateAddress(creationData.creation.user)}
+                      </h3>
+                      <div>
+                        <span>
+                          {abbreviateAddress(creationData.creation.user)}
+                        </span>
+                        <span>{timeAgo(creationData.creation.createdAt)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ul className='cr-properties-wrapper'>
+                    <li className='cr-property'>
+                      <span className='cr-property-type'>
+                        <MdOutlineDateRange className='icon' />
+                        <span>Date</span>
+                      </span>
+                      <span>{timeAgo(createdAt)}</span>
+                    </li>
+                    <li className='cr-property'>
+                      <span className='cr-property-type'>
+                        <SlSizeFullscreen className='icon' />
+                        <span>Size</span>
+                      </span>
+                      <span>{'512 x 512'}</span>
+                    </li>
+                    <li className='cr-property'>
+                      <span className='cr-property-type'>
+                        <BsAspectRatio className='icon' />
+                        <span>Command</span>
+                      </span>
+                      <span>/dream</span>
+                    </li>
+                    <li className='cr-property'>
+                      <span className='cr-property-type'>
+                        <BsAspectRatio className='icon' />
+                        <span>Shape</span>
+                      </span>
+                      <span>square</span>
+                    </li>
+                  </ul>
+                </article>
+
+                <div className='cr-socials'>
+                  <span className='cr-social praise'>
+                    <Button className='btn'>
+                      <FaStar className='icon' />
+                      <span className='text'>0</span>
+                    </Button>
+                  </span>
+
+                  <span className='cr-social remix'>
+                    <Button className='btn' shape='circle'>
+                      <FaRetweet className='icon' />
+                      <span className='text'>310</span>
+                    </Button>
+                  </span>
+                  <span className='cr-social bookmark'>
+                    <Button className='btn' shape='circle'>
+                      <BsFillBookmarkFill className='icon' />
+                      <span className='text'>Save</span>
+                    </Button>
+                  </span>
+                  <span className='cr-social share'>
+                    <Button className='btn' shape='circle'>
+                      <IoIosShareAlt className='icon' />
+                      <span className='text'>Share</span>
+                    </Button>
+                  </span>
+                  <span className='cr-social share'>
+                    <Button className='btn' shape='circle'>
+                      <FiMoreHorizontal className='icon' />
+                    </Button>
+                  </span>
+                </div>
+
+                {/* {isParent ? (
+                <button className='cr-parent'>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                <HiOutlineFingerPrint className='icon' />
+                <span className='text'>Parent</span>
+                </span>
+                <Image src={thumbnail} alt={text_input} />
+                </button>
+              ) : null} */}
+              </section>
+            </div>
+          </article>
+        ) : (
+          'Loading...'
+        )}
       </section>
     </>
   );
