@@ -4,29 +4,23 @@ import { eden } from '../../util/eden';
 
 interface ApiRequest extends NextApiRequest {
   body: {
-    username: string;
-    generators: string[];
-    earliestTime: number;
-    latestTime: number;
-    limit: number;
+    creationId: string;
   };
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  // const { username, generators, earliestTime, latestTime, limit } = req.body;
-  const { creationId: creationIdQuery } = req.query;
+  // const { creationId: creationIdQuery } = req.query;
+
   const { creationId: creationIdBody } = req.body;
+  const authToken = req.session.token;
+
+  console.log(req);
 
   console.log({ creationIdBody });
-  console.log({ creationIdQuery });
-
-  // console.log({ req });
-  console.log(req.url);
-  // console.log(req.body);
 
   try {
-    const creation = await eden.getCreation(creationId);
-    // console.log(creation);
+    const creation = await eden.getCreation(creationIdBody);
+    console.log(creation);
 
     return res.status(200).json({ creation: creation });
   } catch (error: any) {
