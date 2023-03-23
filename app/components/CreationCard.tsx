@@ -16,6 +16,8 @@ import timeAgo from '../../util/timeAgo';
 import abbreviateText from '../../util/abbreviateText';
 import abbreviateAddress from '../../util/abbreviateAddress';
 
+import useGetReactionCount from '../../hooks/useGetReactionCount';
+
 import Creation from '../../interfaces/Creation';
 import Creations from '../../interfaces/Creations';
 import CreationModal from './CreationModal';
@@ -58,16 +60,38 @@ export default function CreationCard({
 
   const [isSaveModalActive, setIsSaveModalActive] = useState(false);
 
-  let praises = 0;
-  let burns = 0;
-  let praised = false;
-  let burned = false;
+  const [praises, setPraises] = useState<number>(0);
+  const [praised, setPraised] = useState<boolean>(false);
+  const [burns, setBurns] = useState<number>(0);
+  const [burned, setBurned] = useState<boolean>(false);
+
+  const reactionCountList = useGetReactionCount(creation._id);
+  console.log(reactionCountList);
 
   const timeAgoCreatedAt = timeAgo(creation.createdAt);
 
   const showModal = () => {
     setModalOpen(true);
   };
+
+  useEffect(() => {
+    console.log('USE-EFFECT REACTION COUNT LIST');
+    if (typeof reactionCountList !== 'undefined') {
+      const {
+        praises: praisesData,
+        praised: praisedData,
+        burns: burnsData,
+        burned: burnedData,
+      } = reactionCountList;
+
+      console.log({ praisesData, praisedData, burnsData, burnedData });
+
+      setPraises(praisesData);
+      setPraised(praisedData);
+      setBurns(burnsData);
+      setBurned(burnedData);
+    }
+  }, [reactionCountList]);
 
   const handleCreationUpdate = useCallback(
     (currentCreation, currentCreationIndex) => {
@@ -116,6 +140,8 @@ export default function CreationCard({
   if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
     prompt = abbreviateText(creationTextInput, 50); // 100
   }
+
+  console.log({ praises, praised, burns, burned });
 
   return (
     <>

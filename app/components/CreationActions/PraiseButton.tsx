@@ -1,4 +1,4 @@
-import React, { useState, useContext, MouseEvent } from 'react';
+import React, { useState, useEffect, useContext, MouseEvent } from 'react';
 
 import AppContext from '../../../context/AppContext';
 
@@ -8,12 +8,25 @@ import { Button } from 'antd';
 
 import { HiSparkles, HiOutlineSparkles } from 'react-icons/hi';
 
-const PraiseButton = ({ creationId }) => {
-  // praises, isPraised
+const PraiseButton = ({ creationId, praisesData, isPraisedData }) => {
   const context = useContext(AppContext);
   const isSignedIn = context?.isSignedIn || false;
-  const [isPraised, setIsPraised] = useState(false);
-  const [praises, setPraises] = useState(0);
+
+  const [praises, setPraises] = useState(praisesData);
+  const [isPraised, setIsPraised] = useState(isPraisedData);
+
+  console.log({ praises, isPraised });
+  console.log({ praisesData, isPraisedData });
+
+  useEffect(() => {
+    if (
+      typeof praisesData !== 'undefined' &&
+      typeof isPraisedData !== 'undefined'
+    ) {
+      setPraises(praisesData);
+      setIsPraised(isPraisedData);
+    }
+  }, [praisesData, isPraisedData]);
 
   const handlePraise = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>

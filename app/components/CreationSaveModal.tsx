@@ -34,7 +34,7 @@ const CreationSaveModal: FC<CreationSaveModalProps> = ({
 
   const { collectionsData } = useCollections();
 
-  console.log(collectionsData);
+  // console.log(collectionsData);
 
   const openNotification = (placement: NotificationPlacement) => {
     api.info({

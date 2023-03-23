@@ -1,4 +1,4 @@
-import React, { useState, useContext, MouseEvent } from 'react';
+import React, { useState, useEffect, useContext, MouseEvent } from 'react';
 
 import AppContext from '../../../context/AppContext';
 
@@ -8,12 +8,25 @@ import { Button } from 'antd';
 
 import { AiFillFire, AiOutlineFire } from 'react-icons/ai';
 
-const BurnButton = ({ creationId }) => {
-  // burns, isBurned
+const BurnButton = ({ creationId, burnsData, isBurnedData }) => {
   const context = useContext(AppContext);
   const isSignedIn = context?.isSignedIn || false;
-  const [isBurned, setIsBurned] = useState(false);
-  const [burns, setBurns] = useState(0);
+
+  const [burns, setBurns] = useState(burnsData);
+  const [isBurned, setIsBurned] = useState(isBurnedData);
+
+  console.log({ burns, isBurned });
+  console.log({ burnsData, isBurnedData });
+
+  useEffect(() => {
+    if (
+      typeof burnsData !== 'undefined' &&
+      typeof isBurnedData !== 'undefined'
+    ) {
+      setBurns(burnsData);
+      setIsBurned(isBurnedData);
+    }
+  }, [burnsData, isBurnedData]);
 
   const handleBurn = async (
     event: MouseEvent<HTMLButtonElement, MouseEvent>
