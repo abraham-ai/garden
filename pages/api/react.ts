@@ -24,13 +24,13 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
   try {
     const authTokenResult = await eden.setAuthToken(authToken);
-    console.log(authTokenResult);
+    // console.log(authTokenResult);
 
     let profile = await eden.getProfile();
-    console.log(profile);
+    // console.log(profile);
 
     const creation = await eden.getCreation(creationId);
-    console.log(creation);
+    // console.log(creation);
 
     const result = await creation.react(reaction);
     console.log(result);

@@ -12,18 +12,17 @@ interface ApiRequest extends NextApiRequest {
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  console.log(req);
+  // console.log(req);
   // const { reactionId: creationId } = req.body;
   const { reactionId: creationId } = req.query;
 
   console.log({ creationId });
 
-  console.log(req.body);
-  console.log(req.url);
-  console.log(req.query);
+  // console.log(req.body);
+  // console.log(req.url);
+  // console.log(req.query);
 
-  const { userId } = req.session;
-  const authToken = req.session.token;
+  const { userId, token: authToken } = req.session;
 
   if (!authToken) {
     return res.status(401).json({ error: 'Not authenticated' });
@@ -31,24 +30,27 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
   try {
     const authTokenResult = await eden.setAuthToken(authToken);
-    console.log(authTokenResult);
+    // console.log(authTokenResult);
 
     // let profile = await eden.getProfile();
     // console.log(profile);
 
     const creation = await eden.getCreation(creationId);
-    console.log(creation);
+    // console.log(creation);
 
     const reactions = await creation.getReactions(['🙌', '🔥']);
-    console.log(reactions);
+    console.log({ reactions });
 
     const praises = reactions?.filter((reaction) => reaction.reaction === '🙌');
     const burns = reactions?.filter((reaction) => reaction.reaction === '🔥');
 
+    console.log(reactions[0]?.user);
+    console.log(reactions[1]?.user);
+
     const praised =
-      userId && praises?.some((reaction) => reaction.user._id === userId);
+      userId && praises?.some((reaction) => reaction.user.username === userId);
     const burned =
-      userId && burns?.some((reaction) => reaction.user._id === userId);
+      userId && burns?.some((reaction) => reaction.user.username === userId);
 
     const result = {
       praises: praises ? praises.length : 0,
@@ -56,6 +58,8 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
       praised: praised,
       burned: burned,
     };
+
+    console.log(result);
 
     return res.status(200).json(result);
   } catch (error: any) {
