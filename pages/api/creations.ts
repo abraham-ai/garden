@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { withSessionRoute } from '../../util/withSession';
-import { eden } from '../../util/eden';
+import { EdenClient } from 'eden-sdk';
+
+const eden = new EdenClient();
 
 interface ApiRequest extends NextApiRequest {
   body: {
@@ -18,16 +20,16 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
     req.query;
 
   // console.log({ req });
-  console.log(req.url);
+  // console.log(req.url);
   // console.log(req.body);
-  console.log({
-    page,
-    username,
-    generators,
-    earliestTime,
-    latestTime,
-    limit,
-  });
+  // console.log({
+  //   page,
+  //   username,
+  //   generators,
+  //   earliestTime,
+  //   latestTime,
+  //   limit,
+  // });
 
   try {
     const filter = { limit: limit };
@@ -46,10 +48,10 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
     );
     Object.assign(filter, limit ? { limit: limit } : {});
 
-    console.log({ filter });
+    // console.log({ filter });
     const creations = await eden.getCreations(filter);
 
-    console.log(creations.length);
+    // console.log(creations.length);
     // console.log(creations);
 
     return res.status(200).json(creations);

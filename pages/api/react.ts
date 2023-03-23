@@ -23,6 +23,9 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    const authTokenResult = await eden.setAuthToken(authToken);
+    console.log(authTokenResult);
+
     let profile = await eden.getProfile();
     console.log(profile);
 

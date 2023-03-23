@@ -7,13 +7,27 @@ import Link from 'next/link';
 
 import CreationType from '../../interfaces/Creation';
 
+import styles from '../../styles/CreationId.module.css';
+
 import shaURL from '../../util/shaURL';
 import abbreviateAddress from '../../util/abbreviateAddress';
 import timeAgo from '../../util/timeAgo';
 
+import ProfilePopOver from '../../app/components/ProfilePopover';
+
 import useGetCreation from '../../hooks/useGetCreation';
 
-import { Button } from 'antd';
+import {
+  Button,
+  Col,
+  Row,
+  Text,
+  Divider,
+  Title,
+  Avatar,
+  Popover,
+  Tag,
+} from 'antd';
 
 import Blockies from 'react-blockies';
 import Header from '../../app/components/Header';
@@ -42,6 +56,17 @@ const Creation: FC<CreationPageProps> = ({
   size = 'regular',
 }) => {
   const router = useRouter();
+
+  const [isHovering, setIsHovering] = useState(true);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
   const creationId = router.query.creationId;
 
   console.log(creationId);
@@ -83,7 +108,7 @@ const Creation: FC<CreationPageProps> = ({
     if (typeof creationData !== 'undefined' && creationData !== null) {
       console.log(creationData);
       // setUri(creationData.uri);
-      // setCreatedAt(creationData.createdAt);
+      // setCreatedAt(creationData.creation.createdAt);
       // setGeneratorName(creationData.task.generator.generatorName);
       // setWidth(creationData.task.config.width);
       // setHeight(creationData.task.config.height);
@@ -100,132 +125,162 @@ const Creation: FC<CreationPageProps> = ({
   return (
     <>
       <Header />
-      <section id='creation-wrapper' style={{ marginTop: 150 }}>
+
+      <section className={styles.creationWrapper} style={{ marginTop: 150 }}>
         {typeof creationData !== 'undefined' && creationData !== null ? (
-          <article className='creation'>
-            <div className='cr-post'>
-              <div className={`cr-card ${size}`}>
-                <div className='cr-img-wrapper background'>
-                  <Image
-                    width={creationData.creation.task.config.width}
-                    height={creationData.creation.task.config.height}
-                    style={{ width: '100%' }}
-                    className='cr-img'
-                    alt={creationData.creation.task.config.text_input}
-                    src={creationData.creation.thumbnail}
-                  />
-                </div>
-              </div>
-
-              <h1>{creationId}</h1>
-              <h2>Server: {creationData.creation._id}</h2>
-
-              {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
-
-              <section className='cr-main'>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ color: 'purple', fontWeight: 600 }}>
-                    {'/dream'}
-                  </span>
-                  <h2>{creationData.creation.task.config.text_input}</h2>
-                </div>
-
-                <article className='cr-main-header'>
-                  <div className='cr-creator'>
-                    <div>
-                      <Blockies seed={creationData.creation.user} scale={6} />
+          <>
+            <Col className={styles.creation}>
+              <Row className={styles.crPost}>
+                <article className={`${styles.crCard} ${size}`}>
+                  <div
+                    className={
+                      isHovering
+                        ? `${styles.hover}, ${styles.crImgWrapper}`
+                        : `${styles.crImgWrapper}`
+                    }
+                    onMouseOver={() => handleMouseOver}
+                    onMouseOut={() => handleMouseOut}
+                  >
+                    <div className={styles.crImgWrapperMain}>
+                      <Image
+                        className='cr-img'
+                        style={{ width: '100%' }}
+                        width={creationData.creation.task.config.width}
+                        height={creationData.creation.task.config.height}
+                        alt={creationData.creation.task.config.text_input}
+                        src={creationData.creation.thumbnail}
+                      />
                     </div>
 
-                    <div className='cr-creator-name-wrapper'>
-                      <h3 className='cr-creator-name'>
-                        {abbreviateAddress(creationData.creation.user)}
-                      </h3>
-                      <div>
-                        <span>
-                          {abbreviateAddress(creationData.creation.user)}
-                        </span>
-                        <span>{timeAgo(creationData.creation.createdAt)}</span>
-                      </div>
+                    <div className={(styles.crImgWrapper, styles.background)}>
+                      <Image
+                        className={styles.crImg}
+                        style={{ width: '100%' }}
+                        width={creationData.creation.task.config.width}
+                        height={creationData.creation.task.config.height}
+                        alt={creationData.creation.task.config.text_input}
+                        src={creationData.creation.thumbnail}
+                      />
                     </div>
                   </div>
-
-                  <ul className='cr-properties-wrapper'>
-                    <li className='cr-property'>
-                      <span className='cr-property-type'>
-                        <MdOutlineDateRange className='icon' />
-                        <span>Date</span>
-                      </span>
-                      <span>{timeAgo(createdAt)}</span>
-                    </li>
-                    <li className='cr-property'>
-                      <span className='cr-property-type'>
-                        <SlSizeFullscreen className='icon' />
-                        <span>Size</span>
-                      </span>
-                      <span>{'512 x 512'}</span>
-                    </li>
-                    <li className='cr-property'>
-                      <span className='cr-property-type'>
-                        <BsAspectRatio className='icon' />
-                        <span>Command</span>
-                      </span>
-                      <span>/dream</span>
-                    </li>
-                    <li className='cr-property'>
-                      <span className='cr-property-type'>
-                        <BsAspectRatio className='icon' />
-                        <span>Shape</span>
-                      </span>
-                      <span>square</span>
-                    </li>
-                  </ul>
                 </article>
+              </Row>
+            </Col>
 
-                <div className='cr-socials'>
-                  <span className='cr-social praise'>
-                    <Button className='btn'>
-                      <FaStar className='icon' />
-                      <span className='text'>0</span>
-                    </Button>
-                  </span>
+            <article className={styles.creation}>
+              <div className={styles.crPost}>
+                <h1>{creationId}</h1>
+                <h2>Server: {creationData.creation._id}</h2>
 
-                  <span className='cr-social remix'>
-                    <Button className='btn' shape='circle'>
-                      <FaRetweet className='icon' />
-                      <span className='text'>310</span>
-                    </Button>
-                  </span>
-                  <span className='cr-social bookmark'>
-                    <Button className='btn' shape='circle'>
-                      <BsFillBookmarkFill className='icon' />
-                      <span className='text'>Save</span>
-                    </Button>
-                  </span>
-                  <span className='cr-social share'>
-                    <Button className='btn' shape='circle'>
-                      <IoIosShareAlt className='icon' />
-                      <span className='text'>Share</span>
-                    </Button>
-                  </span>
-                  <span className='cr-social share'>
-                    <Button className='btn' shape='circle'>
-                      <FiMoreHorizontal className='icon' />
-                    </Button>
-                  </span>
-                </div>
+                {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
-                {/* {isParent ? (
-                <button className='cr-parent'>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                <HiOutlineFingerPrint className='icon' />
-                <span className='text'>Parent</span>
-                </span>
-                <Image src={thumbnail} alt={text_input} />
-                </button>
-              ) : null} */}
-              </section>
-            </div>
-          </article>
+                <section className={styles.crMain}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ color: 'purple', fontWeight: 600 }}>
+                      {'/dream'}
+                    </span>
+                    <h2>{creationData.creation.task.config.text_input}</h2>
+                  </div>
+
+                  <article className={styles.crMainHeader}>
+                    <div className={styles.crCreator}>
+                      <div>
+                        <Blockies seed={creationData.creation.user} scale={6} />
+                      </div>
+
+                      <div className='cr-creator-name-wrapper'>
+                        <h3 className='cr-creator-name'>
+                          {abbreviateAddress(creationData.creation.user)}
+                        </h3>
+                        <div>
+                          <span>
+                            {abbreviateAddress(creationData.creation.user)}
+                          </span>
+                          <span>
+                            {timeAgo(creationData.creation.createdAt)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ul className={styles.crPropertiesWrapper}>
+                      <li className={styles.crProperty}>
+                        <span className={styles.crPropertyType}>
+                          <MdOutlineDateRange className='icon' />
+                          <span>Date</span>
+                        </span>
+                        <span>{timeAgo(createdAt)}</span>
+                      </li>
+                      <li className={styles.crProperty}>
+                        <span className={styles.crPropertyType}>
+                          <SlSizeFullscreen className='icon' />
+                          <span>Size</span>
+                        </span>
+                        <span>{'512 x 512'}</span>
+                      </li>
+                      <li className={styles.crProperty}>
+                        <span className={styles.crPropertyType}>
+                          <BsAspectRatio className='icon' />
+                          <span>Command</span>
+                        </span>
+                        <span>/dream</span>
+                      </li>
+                      <li className={styles.crProperty}>
+                        <span className={styles.crPropertyType}>
+                          <BsAspectRatio className={styles.icon} />
+                          <span>Shape</span>
+                        </span>
+                        <span>square</span>
+                      </li>
+                    </ul>
+                  </article>
+
+                  <div className={styles.crSocials}>
+                    <span className={(styles.crSocial, styles.praise)}>
+                      <Button className={styles.btn}>
+                        <FaStar className={styles.icon} />
+                        <span className={styles.text}>0</span>
+                      </Button>
+                    </span>
+
+                    <span className={(styles.crSocial, styles.remix)}>
+                      <Button className={styles.btn} shape='circle'>
+                        <FaRetweet className={styles.icon} />
+                        <span className={styles.text}>310</span>
+                      </Button>
+                    </span>
+                    <span className='cr-social bookmark'>
+                      <Button className={styles.btn} shape='circle'>
+                        <BsFillBookmarkFill className={styles.icon} />
+                        <span className={styles.text}>Save</span>
+                      </Button>
+                    </span>
+                    <span className='cr-social share'>
+                      <Button className={styles.btn} shape='circle'>
+                        <IoIosShareAlt className={styles.icon} />
+                        <span className={styles.text}>Share</span>
+                      </Button>
+                    </span>
+                    <span className='cr-social share'>
+                      <Button className={styles.btn} shape='circle'>
+                        <FiMoreHorizontal className={styles.icon} />
+                      </Button>
+                    </span>
+                  </div>
+
+                  {/* {isParent ? (
+                  <button className='cr-parent'>
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                  <HiOutlineFingerPrint className='icon' />
+                  <span className='text'>Parent</span>
+                  </span>
+                  <Image src={thumbnail} alt={text_input} />
+                  </button>
+                ) : null} */}
+                </section>
+              </div>
+            </article>
+          </>
         ) : (
           'Loading...'
         )}

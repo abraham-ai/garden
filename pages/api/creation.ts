@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { withSessionRoute } from '../../util/withSession';
-import { eden } from '../../util/eden';
+import { EdenClient } from 'eden-sdk';
+
+const eden = new EdenClient();
 
 interface ApiRequest extends NextApiRequest {
   body: {
@@ -14,13 +16,13 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
   const { creationId: creationIdBody } = req.body;
   const authToken = req.session.token;
 
-  console.log(req);
+  // console.log(req);
 
-  console.log({ creationIdBody });
+  // console.log({ creationIdBody });
 
   try {
     const creation = await eden.getCreation(creationIdBody);
-    console.log(creation);
+    // console.log(creation);
 
     return res.status(200).json({ creation: creation });
   } catch (error: any) {
