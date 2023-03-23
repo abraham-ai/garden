@@ -61,6 +61,9 @@ const CreationSocial = ({
 
   const isTooltipVisible = isSignedIn ? null : false;
 
+  console.log({ creationPraises, praisedByMe, creationBurns, burnedByMe });
+  console.log({ praises, isPraised, burns, isBurned });
+
   return (
     <>
       <div
@@ -93,11 +96,16 @@ const CreationSocial = ({
           padding: '10px',
         }}
       >
-        <BurnButton creationId={creationId} burns={burns} isBurned={isBurned} />
+        <BurnButton
+          creationId={creationId}
+          burnsData={burns}
+          isBurnedData={isBurned}
+          setIsBurned={setIsBurned}
+        />
         <PraiseButton
           creationId={creationId}
-          praises={praises}
-          isPraised={isPraised}
+          praisesData={praises}
+          isPraisedData={isPraised}
           setIsPraised={setIsPraised}
         />
         <RemixButton
