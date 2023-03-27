@@ -1,5 +1,5 @@
 // date_str,
-export default function timeAgo(time) {
+export default function timeAgo(time: number) {
   const date = new Date(time);
   date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
@@ -9,9 +9,9 @@ export default function timeAgo(time) {
     case 'string':
       time = +new Date(time);
       break;
-    case 'object':
-      if (time.constructor === Date) time = time.getTime();
-      break;
+    // case 'object':
+    //   if (time.constructor === Date) time = time.getTime();
+    //   break;
     default:
       time = +new Date();
   }

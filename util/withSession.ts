@@ -1,11 +1,9 @@
-// TYPES
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
   NextApiHandler,
 } from 'next/types';
 
-// SESSION
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
 
 declare module 'iron-session' {

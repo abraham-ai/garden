@@ -1,4 +1,7 @@
-export default function deepEqual(object1, object2) {
+export default function deepEqual(
+  object1: Record<string, unknown>,
+  object2: Record<string, unknown>
+): boolean {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
   if (keys1.length !== keys2.length) {
@@ -9,7 +12,11 @@ export default function deepEqual(object1, object2) {
     const val2 = object2[key];
     const areObjects = isObject(val1) && isObject(val2);
     if (
-      (areObjects && !deepEqual(val1, val2)) ||
+      (areObjects &&
+        !deepEqual(
+          val1 as Record<string, unknown>,
+          val2 as Record<string, unknown>
+        )) ||
       (!areObjects && val1 !== val2)
     ) {
       return false;
@@ -17,6 +24,6 @@ export default function deepEqual(object1, object2) {
   }
   return true;
 }
-function isObject(object) {
+function isObject(object: unknown): boolean {
   return object != null && typeof object === 'object';
 }
