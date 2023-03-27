@@ -1,7 +1,10 @@
 import useSWR from 'swr';
-import ReactionsResponse from '../interfaces/ReactionResponse';
+import CollectionsResponse from '../interfaces/CollectionsResponse';
 
-const fetcher = async (url: string, postData: any) => {
+const fetcher = async (url: string, postData?: any) => {
+  if (!postData) {
+    throw new Error("An argument for 'postData' was not provided.");
+  }
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

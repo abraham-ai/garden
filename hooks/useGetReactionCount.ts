@@ -20,7 +20,7 @@ interface ReactionsResponse {
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const useGetReactionCount = (creationId: string) => {
-  console.log(creationId);
+  // console.log(creationId);
   //   const { data, error, isLoading, mutate } = useSWR<ReactionsResponse>(
   //     `/api/reactions/${creationId}`,
   //     (url: string, creationId: string) =>
@@ -34,7 +34,7 @@ const useGetReactionCount = (creationId: string) => {
     fetcher
   );
 
-  console.log(data);
+  // console.log(data);
 
   //   return {
   //     praises: data?.praises || 0,

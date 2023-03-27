@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import CreationResponse from '../interfaces/CreationResponse';
+import Creation from '../interfaces/Creation';
 
 import axios from 'axios';
 
 const useGetCreation = (creationId) => {
-  const [creation, setCreation] = useState<CreationResponse | null>(null);
+  const [creation, setCreation] = useState<Creation | null>(null);
 
   const handleGetCreation = useCallback(async (creationId) => {
     console.log(`useGetCreation: creationId: ${creationId}`);
@@ -12,7 +12,7 @@ const useGetCreation = (creationId) => {
       creationId: creationId,
     });
 
-    console.log(response.data);
+    // console.log(response.data);
 
     setCreation(response.data);
   }, []);
@@ -23,7 +23,7 @@ const useGetCreation = (creationId) => {
     }
   }, [creationId, handleGetCreation]);
 
-  console.log(creation);
+  // console.log(creation);
 
   return typeof creation !== 'undefined' ? creation : null;
 };
