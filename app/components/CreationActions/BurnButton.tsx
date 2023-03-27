@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, MouseEvent } from 'react';
+import React, { useState, useEffect, useContext, MouseEvent, FC } from 'react';
 
 import AppContext from '../../../context/AppContext';
 
@@ -8,15 +8,26 @@ import { Button } from 'antd';
 
 import { AiFillFire, AiOutlineFire } from 'react-icons/ai';
 
-const BurnButton = ({ creationId, burnsData, isBurnedData }) => {
+interface BurnButtonTypes {
+  creationId: string;
+  burnsData: number;
+  isBurnedData: boolean;
+  setIsBurned: (value: boolean) => void;
+}
+
+const BurnButton: FC<BurnButtonTypes> = ({
+  creationId,
+  burnsData,
+  isBurnedData,
+}: BurnButtonTypes) => {
   const context = useContext(AppContext);
   const isSignedIn = context?.isSignedIn || false;
 
   const [burns, setBurns] = useState(burnsData);
   const [isBurned, setIsBurned] = useState(isBurnedData);
 
-  console.log({ burns, isBurned });
-  console.log({ burnsData, isBurnedData });
+  // console.log({ burns, isBurned });
+  // console.log({ burnsData, isBurnedData });
 
   useEffect(() => {
     if (
@@ -28,15 +39,13 @@ const BurnButton = ({ creationId, burnsData, isBurnedData }) => {
     }
   }, [burnsData, isBurnedData]);
 
-  const handleBurn = async (
-    event: MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    console.log('handle BURN 🔥 !');
+  const handleBurn = async () => {
+    // console.log('handle BURN 🔥 !');
     const { data } = await axios.post('/api/react', {
       creationId: creationId,
       reaction: '🔥',
     });
-    console.log({ data });
+    // console.log({ data });
 
     let burnOpperation = '';
 

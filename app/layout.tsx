@@ -1,6 +1,6 @@
 'use client';
 
-import '../styles/globals.css';
+import './styles/globals.css';
 import React, { FC, ReactNode, useState, useEffect, useContext } from 'react';
 import AppContext from '../context/AppContext';
 import AppContextType from '../interfaces/AppContext';
@@ -28,7 +28,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 
 import Blockies from 'react-blockies';
 
-import '../styles/globals.css';
+import './styles/globals.css';
 import type { AppProps } from 'next/app';
 
 const { chains, provider } = configureChains(
@@ -105,7 +105,7 @@ const App: FC<PageAppProps> = ({ children, Component, pageProps }) => {
   }, [isConnected, setIsWalletConnected, address, setUserId, userId]);
 
   return (
-    <AppContext.Provider value={contextValues}>
+    <AppContext.Provider value={{...contextValues, setCreationsData: undefined, creations: undefined, creationIndex: undefined, setCurrentCreationIndex: undefined, authToken: authToken, currentCreationIndex: undefined, collections: undefined, setCollections: undefined, selectedCollection: undefined, creationsLoad: false as unknown as () => void, setSelectedCollection: undefined, collectionModalView: undefined, setCollectionModalView: undefined }}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
           {children}
@@ -116,3 +116,22 @@ const App: FC<PageAppProps> = ({ children, Component, pageProps }) => {
 };
 
 export default App;
+
+
+// 'use client';
+
+// import React, { FC, ReactNode } from 'react';
+
+// interface LayoutProps {
+//   children: ReactNode;
+// }
+
+// const GardenLayout: FC<LayoutProps> = ({
+//   children,
+// }: {
+//   children: ReactNode;
+// }) => {
+//   return <div className='garden-layout-wrapper'>{children}</div>;
+// };
+
+// export default GardenLayout;

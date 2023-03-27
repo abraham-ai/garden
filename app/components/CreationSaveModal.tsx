@@ -6,6 +6,8 @@ import axios from 'axios';
 
 import useCollections from '../../hooks/useCollections';
 
+import Collection from '../../interfaces/Collection'
+
 import { Modal, Button, Input, notification } from 'antd';
 import type { NotificationPlacement } from 'antd/es/notification/interface';
 
@@ -53,13 +55,13 @@ const CreationSaveModal: FC<CreationSaveModalProps> = ({
   };
 
   const handleCreateCollection = async (inputCollectionName: string) => {
-    console.log('handleCreateCollection');
+    // console.log('handleCreateCollection');
     const { data } = await axios.post('/api/collection', {
       name: inputCollectionName,
     });
 
     // console.log(`Created: ${data.collectionName}`);
-    setCollections([...collections, data.collectionName]);
+    setCollections(prevCollections => [...prevCollections, data.collectionName]);
     setSelectedCollection(data.collectionName);
     handleModalCleanUp();
   };
@@ -79,12 +81,10 @@ const CreationSaveModal: FC<CreationSaveModalProps> = ({
         <span>{'Suggestions'}</span>
         <div
           style={{
-            display: 'flex',
             flexDirection: 'column',
-            display: 'flex',
           }}
         >
-          {collections.map((collection, i) => {
+          {collections.map((collection: Collection, i: number) => {
             return <Button key={i}>{collection.name}</Button>;
           })}
         </div>
@@ -97,7 +97,6 @@ const CreationSaveModal: FC<CreationSaveModalProps> = ({
       <div
         className='modalView2'
         style={{
-          display: 'flex',
           flexDirection: 'column',
           display: collectionModalView === 2 ? 'flex' : 'none',
         }}

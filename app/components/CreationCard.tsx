@@ -36,7 +36,7 @@ export default function CreationCard({
 }) {
   // console.log(creation);
 
-  const { context } = useContext(AppContext);
+  const context = useContext(AppContext);
   const currentCreationIndex = context?.currentCreationIndex || 0;
   const creationsData = useMemo(
     () => context?.creationsData || [],
@@ -45,7 +45,7 @@ export default function CreationCard({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [currentCreation, setCurrentCreation] = useState<Creation>(
-    creationsData[currentCreationIndex]
+    creationsData[currentCreationIndex] as Creation
   );
 
   const [_id, setId] = useState<string>('');
@@ -53,7 +53,7 @@ export default function CreationCard({
   const [textInput, setTextInput] = useState<string>('');
   const [thumbnail, setThumbnail] = useState<string>('');
   const [uri, setUri] = useState<string>('');
-  const [createdAt, setCreatedAt] = useState<string>(0);
+  const [createdAt, setCreatedAt] = useState<string>('');
   const [generatorName, setGeneratorName] = useState<string>('');
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
@@ -65,17 +65,19 @@ export default function CreationCard({
   const [burns, setBurns] = useState<number>(0);
   const [burned, setBurned] = useState<boolean>(false);
 
+  const [status, setStatus] = useState<string>('');
+
   const reactionCountList = useGetReactionCount(creation._id);
   console.log(reactionCountList);
 
-  const timeAgoCreatedAt = timeAgo(creation.createdAt);
+  const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt));
 
   const showModal = () => {
     setModalOpen(true);
   };
 
   useEffect(() => {
-    console.log('USE-EFFECT REACTION COUNT LIST');
+    // console.log('USE-EFFECT REACTION COUNT LIST');
     if (typeof reactionCountList !== 'undefined') {
       const {
         praises: praisesData,
@@ -84,7 +86,7 @@ export default function CreationCard({
         burned: burnedData,
       } = reactionCountList;
 
-      console.log({ praisesData, praisedData, burnsData, burnedData });
+      // console.log({ praisesData, praisedData, burnsData, burnedData });
 
       setPraises(praisesData);
       setPraised(praisedData);
@@ -99,10 +101,10 @@ export default function CreationCard({
         typeof currentCreation !== 'undefined' &&
         currentCreationIndex !== 0
       ) {
-        console.log(
-          currentCreationIndex,
-          currentCreation.task.config.text_input
-        );
+        // console.log(
+        //   currentCreationIndex,
+        //   currentCreation.task.config.text_input
+        // );
         setUri(currentCreation.uri);
         setCreatedAt(currentCreation.createdAt);
         setGeneratorName(currentCreation.task.generator.generatorName);
@@ -120,7 +122,7 @@ export default function CreationCard({
 
   useEffect(() => {
     setCurrentCreation(creation);
-    handleCreationUpdate(creationsData[currentCreationIndex]);
+    handleCreationUpdate(creationsData[currentCreationIndex], currentCreationIndex);
   }, [
     creation,
     creationsData,
@@ -147,7 +149,7 @@ export default function CreationCard({
     <>
       <section className={styles.creationCardWrapper}>
         <article id={`creation-card`} className={styles.creationCard}>
-          <div className={styles.crTopWrapper} style={{ display: 'flex' }}>
+          <div className={styles.crTopWrapper}>
             <div className={styles.crImageWrapper}>
               {creation.thumbnail === '' ? (
                 <Skeleton />
@@ -183,7 +185,6 @@ export default function CreationCard({
                     as={`/creation/${creation._id}`}
                     scroll={false}
                     style={{
-                      display: 'flex',
                       color: 'black',
                       flexDirection: 'column',
                     }}
@@ -225,21 +226,21 @@ export default function CreationCard({
           onClick={() => showModal()}
         >
           <div className={styles.creationContent}>
-            {/* <div
-                className='cr-metadata'
-                style={{
-                  display: 'flex',
-                  flex: 1,
-                  justifyContent: 'space-around',
-                }}
-              >
-                <span>{creation._id}</span>
-                <span>
-                  {creation.task.status === 'completed'
-                    ? '✓'
-                    : creation.task.status}
-                </span>
-              </div> */}
+            <div
+              className='cr-metadata'
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'flex-start',
+              }}
+            >
+              <span style={{ fontFamily: 'courier' }}>{creation._id}</span>
+              <span style={{ fontFamily: 'courier' }}>
+                {creation.task.status === 'completed'
+                  ? '✓'
+                  : creation.task.status}
+              </span>
+            </div>
 
             <div className='cr-content-main-wrapper'>
               <div className='cr-content-main'>
@@ -282,7 +283,7 @@ export default function CreationCard({
       </section>
       <CreationModal
         creation={
-          typeof creationsData[currentCreationIndex]?._id === 'undefined'
+          typeof creationsData[currentCreationIndex] === 'undefined' || typeof (creationsData[currentCreationIndex] as Creation)._id === 'undefined'
             ? creation
             : creationsData[currentCreationIndex]
         }

@@ -48,7 +48,7 @@ const EthereumAuth = () => {
 
   const { signMessage } = useSignMessage({
     onSuccess: async (data, variables) => {
-      console.log({ address });
+      // console.log({ address });
       try {
         console.info('/api/login !');
         console.info({
@@ -91,7 +91,7 @@ const EthereumAuth = () => {
         chainId: chain?.id,
         nonce: await nonceRes.text(),
       });
-      console.log(message);
+      // console.log(message);
       const preparedMessage = message.prepareMessage();
       console.info('sign message 1');
       await signMessage({
@@ -99,7 +99,7 @@ const EthereumAuth = () => {
       });
       console.info('sign message 2');
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       // setEthMessage('Error authenticating');
       // setEthAuthenticating(false);
     }

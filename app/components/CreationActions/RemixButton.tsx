@@ -8,12 +8,19 @@ import { Button } from 'antd';
 
 import { FaRetweet } from 'react-icons/fa';
 
-const RemixButton = ({ creationId, isRemixed, remixes }) => {
+interface RemixButtonTypes {
+  creationId: string;
+  remixes: number;
+  isRemixed: boolean;
+  setIsRemixed: (value: boolean) => void;
+}
+
+const RemixButton = ({ creationId, isRemixed, remixes }: RemixButtonTypes) => {
   const context = useContext(AppContext);
   const isSignedIn = context?.isSignedIn || false;
 
-  const remixHandler = (event: MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log('handle Remix 🔀 !');
+  const remixHandler = () => {
+    // console.log('handle Remix 🔀 !');
   };
 
   let remixClass;

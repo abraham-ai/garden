@@ -8,11 +8,10 @@ import { useRouter } from 'next/router';
 
 import Creation from '../../../interfaces/Creation';
 
-import shaURL from '../../../util/shaURL';
 import abbreviateAddress from '../../../util/abbreviateAddress';
 import timeAgo from '../../../util/timeAgo';
 
-import useReactions from '../../../hooks/useReactions';
+// import useReactions from '../../hooks/useReactions';
 
 import Blockies from 'react-blockies';
 

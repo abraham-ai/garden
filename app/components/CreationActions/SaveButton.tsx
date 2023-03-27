@@ -3,6 +3,9 @@ import React, { useContext } from 'react';
 import AppContext from '../../../context/AppContext';
 
 import { Button, Popover, notification, Select } from 'antd';
+import type { NotificationPlacement } from 'antd/es/notification/interface';
+
+import axios from 'axios';
 
 import { BsFillBookmarkFill, BsBookmark } from 'react-icons/bs';
 
@@ -16,6 +19,9 @@ const SaveButton = ({
   const isSignedIn = context?.isSignedIn || false;
   const selectedCollection = context?.selectedCollection || 'Favorites';
   const setCollectionModalView = context?.setCollectionModalView || (() => 1);
+  const collections = context?.collections || [];
+  const setCollections = context?.setCollections || (() => []);
+  const setSelectedCollection = context?.setSelectedCollection || (() => {});
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -29,10 +35,8 @@ const SaveButton = ({
     });
   };
 
-  const handleSave = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    console.log('handle SAVE 🔖!');
+  const handleSave = () => {
+    // console.log('handle SAVE 🔖!');
     setIsBookmarked(!isBookmarked);
     showSaveNotification();
   };
@@ -42,30 +46,30 @@ const SaveButton = ({
   };
 
   const handleCollectionSelect = (value: string) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     if (value === 'new') {
       setModalOpen(true);
       setCollectionModalView(1);
-      setInputCollectionName('');
+      // setInputCollectionName('');
     }
   };
 
   const handleCreateCollection = async (inputCollectionName) => {
-    console.log('handleCreateCollection');
+    // console.log('handleCreateCollection');
     const { data } = await axios.post('/api/collection', {
       name: inputCollectionName,
     });
 
-    console.log(`Created: ${data.result}`);
+    // console.log(`Created: ${data.result}`);
     setSelectedCollection(data.result);
-    setCollections([...collections, data.result]);
+    setCollections(prevState => [...prevState, data.result]);  
     handleModalCleanUp();
   };
 
   const handleModalCleanUp = () => {
     setModalOpen(false);
     setCollectionModalView(1);
-    setInputCollectionName('');
+    // setInputCollectionName('');
     openNotification('bottom');
   };
 
@@ -88,7 +92,7 @@ const SaveButton = ({
           justifyContent: 'space-between',
         }}
       >
-        <Select
+        {/* <Select
           defaultValue={selectedCollection}
           style={{ width: 120 }}
           onChange={handleCollectionSelect}
@@ -105,7 +109,7 @@ const SaveButton = ({
               options: [{ label: 'New', value: 'new' }],
             },
           ]}
-        />
+        /> */}
         <Button className='btn' shape={'round'} onClick={() => handleSave()}>
           {isBookmarked ? (
             <BsFillBookmarkFill className='icon' />

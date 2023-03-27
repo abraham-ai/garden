@@ -1,11 +1,13 @@
-import { Button, Popover, Text } from 'antd';
+import { Button, Popover, Typography } from 'antd';
+const { Text } = Typography;
 
-import CreatorProfileAddress from '@/components/Creator/CreatorProfileAddress/CreatorProfileAddress';
+import CreatorProfileAddress from './Creator/CreatorProfileAddress';
 
-const ProfilePopOver = ({ profileAddress }) => {
+const ProfilePopOver = ({ profileAddress }: { profileAddress: string }) => {
   return (
     <>
       <Button>Avatar</Button>
+      <CreatorProfileAddress profileAddress={profileAddress} />
 
       <Popover>
         <Text>profileAddress</Text>

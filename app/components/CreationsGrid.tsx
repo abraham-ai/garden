@@ -42,7 +42,7 @@ const CreationsGrid = () => {
     [context?.creationsData]
   );
   const setCreationsData = useMemo(
-    () => context?.setCreationsData || (() => []),
+    () => context?.setCreationsData,
     [context?.setCreationsData]
   );
 
@@ -91,13 +91,12 @@ const CreationsGrid = () => {
         },
       },
     },
-    { predictableActionArguments: true }
   );
 
   // Create a service to interpret the state machine
   const infiniteScrollService = interpret(infiniteScrollMachine)
     .onTransition((state) => {
-      console.log('Transitioned to state:', state.value);
+      // console.log('Transitioned to state:', state.value);
     })
     .start();
 
@@ -107,7 +106,7 @@ const CreationsGrid = () => {
     return newDate;
   };
 
-  const handleLoadMore = useCallback(async (context) => {
+  const handleLoadMore = useCallback(async () => {
     // setSize(size + 1);
   }, []);
 
@@ -115,7 +114,7 @@ const CreationsGrid = () => {
   useEffect(() => {
     const subscription = infiniteScrollService.subscribe((state) => {
       if (state.changed) {
-        console.log(state.context.lastCreationEarliestTime);
+        // console.log(state.context.lastCreationEarliestTime);
 
         if (typeof data !== 'undefined') {
           const lastDataCreation = data[0][data[0].length - 1];
@@ -124,26 +123,27 @@ const CreationsGrid = () => {
               ? {}
               : creationsData[creationsData.length - 1];
 
-          console.log(creationsData.length);
-          console.log(lastDataCreation);
-          console.log(lastDataCreation.createdAt);
-          console.log(lastCreation.createdAt);
+          // console.log(creationsData.length);
+          // console.log(lastDataCreation);
+          // console.log(lastDataCreation.createdAt);
+          // console.log(lastCreation.createdAt);
 
           const newDate = addSecondsToDate(lastDataCreation.createdAt, 1000);
 
-          console.log('lastDataCreation.createdAt', lastDataCreation.createdAt);
-          console.log('newDate', newDate);
-          console.log(size * 10);
-          console.log(creationsData.length);
+          // console.log('lastDataCreation.createdAt', lastDataCreation.createdAt);
+          // console.log('newDate', newDate);
+          // console.log(size * 10);
+          // console.log(creationsData.length);
           // console.log(deepEqual(lastDataCreation, lastCreation));
 
-          console.log({ data });
-          console.log({ creationsData });
+          // console.log({ data });
+          // console.log({ creationsData });
 
-          setCreationsData((prevCreations) => [
+          setCreationsData((prevCreations: Creation[]) => [
             ...prevCreations,
-            ...(data?.[0] || []),
-          ]);
+            ...(data?.[0] || []) as Creation[],
+          ] as []);
+
           setLastCreationEarliestTime(newDate);
           setSize(size + 1);
 

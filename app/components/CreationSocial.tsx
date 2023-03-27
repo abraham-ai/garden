@@ -61,8 +61,8 @@ const CreationSocial = ({
 
   const isTooltipVisible = isSignedIn ? null : false;
 
-  console.log({ creationPraises, praisedByMe, creationBurns, burnedByMe });
-  console.log({ praises, isPraised, burns, isBurned });
+  // console.log({ creationPraises, praisedByMe, creationBurns, burnedByMe });
+  // console.log({ praises, isPraised, burns, isBurned });
 
   return (
     <>
@@ -77,11 +77,10 @@ const CreationSocial = ({
         }}
       >
         <SaveButton
-          creationId={creationId}
           isBookmarked={isBookmarked}
           setIsBookmarked={setIsBookmarked}
-          setModalOpen={setModalOpen}
           modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
         />
       </div>
 

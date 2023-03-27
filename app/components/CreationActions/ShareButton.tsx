@@ -7,7 +7,7 @@ import ShareExtraButton from './ShareExtraButton';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { IoIosShareAlt } from 'react-icons/io';
 
-const ShareButton = () => {
+const ShareButton = ({ creationId}: { creationId: string }) => {
   return (
     <div className='cr-socials-main' style={{ display: 'flex' }}>
       <span className='cr-social share'>
