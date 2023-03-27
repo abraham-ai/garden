@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { withSessionRoute } from '../../util/withSession';
-import { EdenClient } from 'eden-sdk';
 
+import { EdenClient } from 'eden-sdk';
 const eden = new EdenClient();
 
 interface ApiRequest extends NextApiRequest {
@@ -12,13 +12,13 @@ interface ApiRequest extends NextApiRequest {
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
   //   const { name } = req.query;
-  const { userId } = req.body;
+  const { name: userId } = req.body;
 
   // console.log({ req });
   // console.log(req.url);
 
   try {
-    let collections = await eden.getCollections();
+    let collections = await eden.getCollections(userId);
     // console.log(collections);
     return res.status(200).json({ result: collections });
   } catch (error: any) {

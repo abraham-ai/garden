@@ -4,7 +4,8 @@ import { SiweMessage } from 'siwe';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { withSessionRoute, sessionOptions } from '../../../util/withSession';
 
-import { eden } from '../../../util/eden';
+import { EdenClient } from 'eden-sdk';
+const eden = new EdenClient();
 
 interface ApiRequest extends NextApiRequest {
   body: {
@@ -18,15 +19,15 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
   const { method } = req;
   switch (method) {
     case 'POST':
-      console.log('POST!');
-      console.log(req.body);
+      // console.log('POST!');
+      // console.log(req.body);
       try {
         const message = req.body.message;
         const signature = req.body.signature;
         const userAddress = req.body.userAddress;
 
         const resp = await eden.loginEth(message, signature, userAddress);
-        console.log(resp);
+        // console.log(resp);
 
         if (resp.error) {
           console.info(resp.error);

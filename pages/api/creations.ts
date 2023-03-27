@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { withSessionRoute } from '../../util/withSession';
-import { EdenClient } from 'eden-sdk';
 
+import { EdenClient } from 'eden-sdk';
 const eden = new EdenClient();
 
 interface ApiRequest extends NextApiRequest {

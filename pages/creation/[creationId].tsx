@@ -1,3 +1,4 @@
+import React from 'react';
 import useSWR from 'swr';
 import { useEffect, useState, FC, ReactElement } from 'react';
 
@@ -5,11 +6,10 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import CreationType from '../../interfaces/Creation';
+import CreationResponse from '../../interfaces/CreationResponse';
 
 import styles from '../../styles/CreationId.module.css';
 
-import shaURL from '../../util/shaURL';
 import abbreviateAddress from '../../util/abbreviateAddress';
 import timeAgo from '../../util/timeAgo';
 
@@ -21,13 +21,14 @@ import {
   Button,
   Col,
   Row,
-  Text,
   Divider,
-  Title,
+  Typography,
   Avatar,
   Popover,
   Tag,
 } from 'antd';
+
+const { Title, Text, Paragraph } = Typography;
 
 import Blockies from 'react-blockies';
 import Header from '../../app/components/Header';
@@ -44,7 +45,7 @@ import { SlSizeFullscreen } from 'react-icons/sl';
 
 interface CreationPageProps {
   params: { id: string };
-  creation: CreationType;
+  creation: CreationResponse;
   size?: string;
 }
 
@@ -54,7 +55,7 @@ const Creation: FC<CreationPageProps> = ({
   params,
   creation,
   size = 'regular',
-}) => {
+}: CreationPageProps) => {
   const router = useRouter();
 
   const [isHovering, setIsHovering] = useState(true);
@@ -69,8 +70,8 @@ const Creation: FC<CreationPageProps> = ({
 
   const creationId = router.query.creationId;
 
-  console.log(creationId);
-  console.log(router.query);
+  // console.log(creationId);
+  // console.log(router.query);
 
   const {
     uri: queryUri = '',
@@ -92,21 +93,21 @@ const Creation: FC<CreationPageProps> = ({
   const [textInput, setTextInput] = useState<string>('');
   const [thumbnail, setThumbnail] = useState<string>('');
   const [uri, setUri] = useState<string>('');
-  const [createdAt, setCreatedAt] = useState<string>(0);
+  const [createdAt, setCreatedAt] = useState<string>('');
   const [generatorName, setGeneratorName] = useState<string>('');
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
 
   const creationData = useGetCreation(creationId);
-  console.log(creationData);
+  // console.log(creationData);
 
   const isParent = true;
 
-  console.log(router.query.creationId);
+  // console.log(router.query.creationId);
 
-  useEffect(() => {
-    if (typeof creationData !== 'undefined' && creationData !== null) {
-      console.log(creationData);
+  // useEffect(() => {
+  //   if (typeof creationData !== 'undefined' && creationData !== null) {
+      // console.log(creationData);
       // setUri(creationData.uri);
       // setCreatedAt(creationData.creation.createdAt);
       // setGeneratorName(creationData.task.generator.generatorName);
@@ -117,10 +118,10 @@ const Creation: FC<CreationPageProps> = ({
       // setThumbnail(creationData.thumbnail);
       // setId(creationData._id);
       // setStatus(creationData.task.status);
-    }
-  }, [creationData]);
+  //   }
+  // }, [creationData]);
 
-  console.log(creationData);
+  // console.log(creationData);
 
   return (
     <>
@@ -145,10 +146,10 @@ const Creation: FC<CreationPageProps> = ({
                       <Image
                         className='cr-img'
                         style={{ width: '100%' }}
-                        width={creationData.creation.task.config.width}
-                        height={creationData.creation.task.config.height}
-                        alt={creationData.creation.task.config.text_input}
-                        src={creationData.creation.thumbnail}
+                        width={creationData.task.config.width}
+                        height={creationData.task.config.height}
+                        alt={creationData.task.config.text_input}
+                        src={creationData.thumbnail}
                       />
                     </div>
 
@@ -156,10 +157,9 @@ const Creation: FC<CreationPageProps> = ({
                       <Image
                         className={styles.crImg}
                         style={{ width: '100%' }}
-                        width={creationData.creation.task.config.width}
-                        height={creationData.creation.task.config.height}
-                        alt={creationData.creation.task.config.text_input}
-                        src={creationData.creation.thumbnail}
+                        height={creationData.task.config.height}
+                        alt={creationData.task.config.text_input}
+                        src={creationData.thumbnail}
                       />
                     </div>
                   </div>
@@ -170,7 +170,7 @@ const Creation: FC<CreationPageProps> = ({
             <article className={styles.creation}>
               <div className={styles.crPost}>
                 <h1>{creationId}</h1>
-                <h2>Server: {creationData.creation._id}</h2>
+                <h2>Server: {creationData._id}</h2>
 
                 {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
@@ -179,25 +179,25 @@ const Creation: FC<CreationPageProps> = ({
                     <span style={{ color: 'purple', fontWeight: 600 }}>
                       {'/dream'}
                     </span>
-                    <h2>{creationData.creation.task.config.text_input}</h2>
+                    <h2>{creationData.task.config.text_input}</h2>
                   </div>
 
                   <article className={styles.crMainHeader}>
                     <div className={styles.crCreator}>
                       <div>
-                        <Blockies seed={creationData.creation.user} scale={6} />
+                        <Blockies seed={creationData.user} scale={6} />
                       </div>
 
                       <div className='cr-creator-name-wrapper'>
                         <h3 className='cr-creator-name'>
-                          {abbreviateAddress(creationData.creation.user)}
+                          {abbreviateAddress(creationData.user)}
                         </h3>
                         <div>
                           <span>
-                            {abbreviateAddress(creationData.creation.user)}
+                            {abbreviateAddress(creationData.user)}
                           </span>
                           <span>
-                            {timeAgo(creationData.creation.createdAt)}
+                            {timeAgo(parseInt(creationData.createdAt))}
                           </span>
                         </div>
                       </div>
@@ -209,7 +209,7 @@ const Creation: FC<CreationPageProps> = ({
                           <MdOutlineDateRange className='icon' />
                           <span>Date</span>
                         </span>
-                        <span>{timeAgo(createdAt)}</span>
+                        <span>{timeAgo(parseInt(createdAt))}</span>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>

@@ -1,11 +1,9 @@
-// TYPES
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
-// SESSION
 import { withSessionRoute } from '../../../util/withSession';
 
-// LIBS
-import { eden } from '../../../util/eden';
+import { EdenClient } from 'eden-sdk';
+const eden = new EdenClient();
 
 interface ApiRequest extends NextApiRequest {
   body: {
@@ -18,19 +16,19 @@ interface ApiRequest extends NextApiRequest {
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
   const { message, signature, userAddress } = req.body;
 
-  console.log({ message, signature, userAddress });
+  // console.log({ message, signature, userAddress });
 
   try {
     const resp = await eden.loginEth(message, signature, userAddress);
 
-    console.log(resp);
+    // console.log(resp);
 
     req.session.token = resp.token;
     req.session.userId = userAddress;
 
     const token = resp.token;
 
-    console.log({ token });
+    // console.log({ token });
 
     await req.session.save();
 

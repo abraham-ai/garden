@@ -4,25 +4,22 @@ import { withSessionRoute } from '../../../util/withSession';
 import { EdenClient } from 'eden-sdk';
 const eden = new EdenClient();
 
-interface ApiRequest extends NextApiRequest {
+interface ApiRequest extends Omit<NextApiRequest, 'query'> {
   body: {
     creationId: string;
     reaction: string;
   };
+  query: {
+    reactionId: string;
+  };
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  // console.log(req);
-  // const { reactionId: creationId } = req.body;
   const { reactionId: creationId } = req.query;
 
   console.log({ creationId });
 
-  // console.log(req.body);
-  // console.log(req.url);
-  // console.log(req.query);
-
-  const { userId, token: authToken } = req.session;
+  const { userId, token: authToken } = (req as any).session;
 
   if (!authToken) {
     return res.status(401).json({ error: 'Not authenticated' });
@@ -30,27 +27,28 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
   try {
     const authTokenResult = await eden.setAuthToken(authToken);
-    // console.log(authTokenResult);
-
-    // let profile = await eden.getProfile();
-    // console.log(profile);
 
     const creation = await eden.getCreation(creationId);
-    // console.log(creation);
 
     const reactions = await creation.getReactions(['🙌', '🔥']);
     console.log({ reactions });
 
-    const praises = reactions?.filter((reaction) => reaction.reaction === '🙌');
-    const burns = reactions?.filter((reaction) => reaction.reaction === '🔥');
+    const praises = reactions?.filter(
+      (reaction: any) => reaction.reaction === '🙌'
+    );
+    const burns = reactions?.filter(
+      (reaction: any) => reaction.reaction === '🔥'
+    );
 
     console.log(reactions[0]?.user);
     console.log(reactions[1]?.user);
 
     const praised =
-      userId && praises?.some((reaction) => reaction.user.username === userId);
+      userId &&
+      praises?.some((reaction: any) => reaction.user.username === userId);
     const burned =
-      userId && burns?.some((reaction) => reaction.user.username === userId);
+      userId &&
+      burns?.some((reaction: any) => reaction.user.username === userId);
 
     const result = {
       praises: praises ? praises.length : 0,

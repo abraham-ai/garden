@@ -48,11 +48,11 @@ const wagmiClient = createClient({
   provider,
 });
 
-const CustomAvatar: AvatarComponent = ({ address }) => {
+const CustomAvatar: AvatarComponent = ({ address }: { address: string }) => {
   return <Blockies seed={address} />;
 };
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ AppComponent, pageProps }: { AppComponent: AppProps<{}>; pageProps: any }) {
   // wagmi wallet hooks
   const { isConnected, address } = useAccount();
 
@@ -73,7 +73,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [collections, setCollections] = useState<string[]>([]);
   const [selectedCollection, setSelectedCollection] =
-    useState<object>('Favorites');
+    useState<string>('Favorites');
   const [collectionModalView, setCollectionModalView] = useState<string>('');
 
   // init context
@@ -114,10 +114,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <AppContext.Provider value={contextValues}>
+      <AppContext.Provider value={{...contextValues, creations: [] as unknown as [], creationIndex: 0, creationsLoad: () => {}, collectionModalView: '' as unknown as string, setCollectionModalView: (value: React.SetStateAction<number | undefined>) => {} }}>
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
-            <Component {...pageProps} />
+            {pageProps && typeof AppComponent === 'function' && <AppComponent {...pageProps} as any />}
           </RainbowKitProvider>
         </WagmiConfig>
       </AppContext.Provider>
