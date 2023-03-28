@@ -1,7 +1,6 @@
 /* styled.article
   padding: 0 0 20px 0;
   margin-top: 60px;
-  // background: pink;
   width: 100%;
   position: relative;
   display: flex;
@@ -10,7 +9,6 @@
 /*** CREATION ***/
 .creation {
   display: flex;
-  // background: blue;
 }
 @media (max-width: 1400px) {
   .creation {
@@ -34,24 +32,14 @@
   display: flex;
   justify-content: center;
   flex: 1 1 auto !important;
-  // min-width: 100%;
-  // min-width: 1200px;
   min-height: 198px;
-  /* min-height: 450px; */
   position: relative;
   border-radius: 16px;
   overflow: hidden;
   margin: 20px;
   max-height: 700px;
   /* border: 1px solid #dbdbdb; */
-  // transition: 300ms;
-  // background: turquoise;
 }
-// .cr-card:hover {
-//   transform: translateY(-4px);
-//   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 30%) !important;
-//   cursor: pointer;
-// }
 .crCard .ant-card-body {
   padding: 0;
   display: flex;
@@ -72,7 +60,6 @@
 /*** CR-IMG WRAPPER MAIN***/
 .crImgWrapper.main {
   /* height: 0; */
-  // min-width: 100%;
   /* padding-bottom: 100%; */
   /* min-height: 240px; */
   position: relative;
@@ -114,17 +101,6 @@
   border: 4px solid black;
 }
 
-// .ant-image:hover {
-//   transition: ease-in-out;
-// }
-// .ant-image:hover {
-//   /* background-color: rgba(0, 0, 0, 0.03) !important; */
-//   background-color: #005effa8 !important;
-//   /* box-shadow: 0 2px 12px 0 rgb(0 0 0 / 30%) !important; */
-// }
-// .ant-image-mask:hover {
-//   opacity: 0.25;
-// }
 .crStatus {
   display: flex;
   flex: 1;
@@ -150,7 +126,6 @@
 }
 /*** CR-MAIN-HEADER ***/
 .crMainHeader {
-  // background: lime;
   display: flex;
   align-items: center;
 }
@@ -196,7 +171,6 @@
 /*** CR-CREATOR PROFILE ***/
 .crCreatorProfile {
   margin: 0 10px 0 0;
-  // background: red;
 }
 /*** CR-CREATOR-NAME WRAPPER ***/
 .crCreatorNameWrapper {
@@ -313,7 +287,6 @@
 @media (max-width: 930px) {
   .crPropertiesWrapper {
     display: flex;
-    // background: orange;
     flex-direction: column;
     width: 100%;
   }
@@ -329,7 +302,6 @@
   padding: 3px 10px;
   margin-bottom: 10px;
   border-radius: 20px;
-  // background: cyan;
 }
 @media only screen and (max-width: 930px) {
   .cr-property {
@@ -358,7 +330,6 @@ button.cr-parent.ant-btn-link.ant-btn {
   border-radius: 10px;
   margin-top: 10px;
   padding: 5px 10px 10px 10px;
-  // background: red;
 }
 .cr-parent .text {
   font-size: 1rem;
@@ -375,14 +346,12 @@ button.cr-parent.ant-btn-link.ant-btn img {
 }
 /*** CR-RELATED ***/
 .cr-related {
-  // background: orange;
 }
 .cr-related h3 {
   margin: 0;
 }
 /*** CR-RELATED SEARCH MORE ***/
 .cr-search-more {
-  // background: pink;
   display: flex;
   align-items: center;
 }
@@ -390,7 +359,6 @@ button.cr-parent.ant-btn-link.ant-btn img {
   font-size: 1.2rem;
   transform: rotate(40deg);
   margin-left: 5px;
-  // background: blue;
 }
 /*** CR-RELATED CREATIONS ***/
 .cr-related-creations {
@@ -399,9 +367,6 @@ button.cr-parent.ant-btn-link.ant-btn img {
   grid-gap: 20px;
   flex: 1;
   margin-top: 20px;
-  // flex-direction: column;
-  // margin-top: 10px;
-  // background: orange;
   overflow: hidden;
 }
 @media (max-width: 930px) {
@@ -417,7 +382,6 @@ button.cr-parent.ant-btn-link.ant-btn img {
   flex-direction: column;
   gap: 10px;
   margin: 0 0 15px 0;
-  // background: yellow;
 }
 .cr-related-creation:hover {
   cursor: pointer;
