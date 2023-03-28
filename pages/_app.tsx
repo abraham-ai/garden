@@ -116,6 +116,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <AppContext.Provider value={{...contextValues, creations: [] as unknown as [], creationIndex: 0, creationsLoad: () => {}, collectionModalView: '' as unknown as string, setCollectionModalView: (value: React.SetStateAction<number | undefined>) => {} }}>
+
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
             <Component {...pageProps} />
