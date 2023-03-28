@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Header from '../components/Header';
 import styles from '../styles/Home.module.css';
 
-import { Inter } from '@next/font/google';
+import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 

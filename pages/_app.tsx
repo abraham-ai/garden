@@ -52,7 +52,8 @@ const CustomAvatar: AvatarComponent = ({ address }: { address: string }) => {
   return <Blockies seed={address} />;
 };
 
-export default function App({ AppComponent, pageProps }: { AppComponent: AppProps<{}>; pageProps: any }) {
+export default function App({ Component, pageProps }: AppProps) {
+
   // wagmi wallet hooks
   const { isConnected, address } = useAccount();
 
@@ -117,7 +118,7 @@ export default function App({ AppComponent, pageProps }: { AppComponent: AppProp
       <AppContext.Provider value={{...contextValues, creations: [] as unknown as [], creationIndex: 0, creationsLoad: () => {}, collectionModalView: '' as unknown as string, setCollectionModalView: (value: React.SetStateAction<number | undefined>) => {} }}>
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
-            {pageProps && typeof AppComponent === 'function' && <AppComponent {...pageProps} as any />}
+            <Component {...pageProps} />
           </RainbowKitProvider>
         </WagmiConfig>
       </AppContext.Provider>

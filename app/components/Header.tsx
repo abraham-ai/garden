@@ -62,8 +62,7 @@ export default function Header() {
   return (
     <header className={styles.headerWrapper}>
       <ul>
-        <ActiveLink href='/'>Home</ActiveLink>
-        <ActiveLink href='/garden'>Garden</ActiveLink>
+        <ActiveLink href='/'>Garden</ActiveLink>
 
         {userId ? (
           <>

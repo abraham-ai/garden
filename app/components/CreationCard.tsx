@@ -181,7 +181,7 @@ export default function CreationCard({
                     //     status: status,
                     //   },
                     // }}
-                    href={`/garden?creationId=${creation._id}`}
+                    href={`/?creationId=${creation._id}`}
                     as={`/creation/${creation._id}`}
                     scroll={false}
                     style={{
@@ -219,7 +219,7 @@ export default function CreationCard({
           //     status: status,
           //   },
           // }}
-          href={`/garden?creationId=${creation._id}`}
+          href={`?creationId=${creation._id}`}
           as={`/creation/${creation._id}`}
           scroll={false}
           style={{ display: 'flex', color: 'black', flexDirection: 'column' }}
