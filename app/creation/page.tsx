@@ -3,7 +3,7 @@ import { FC } from 'react';
 interface pageProps {}
 
 const Creation: FC<pageProps> = () => {
-  return <section>{'TEST'}</section>;
+  return <section>{'Test Creation'}</section>;
 };
 
 export default Creation;
