@@ -121,7 +121,10 @@ const Creation: FC<CreationPageProps> = ({
   //   }
   // }, [creationData]);
 
-  // console.log(creationData);
+  if (typeof creationData !== 'undefined' && creationData !== null) {
+    console.log(creationData);
+    console.log(creationData.creation.task.config.text_input);
+  }
 
   return (
     <>
@@ -144,12 +147,12 @@ const Creation: FC<CreationPageProps> = ({
                   >
                     <div className={styles.crImgWrapperMain}>
                       <Image
-                        className='cr-img'
+                        className={styles.crImg}
                         style={{ width: '100%' }}
-                        width={creationData.task.config.width}
-                        height={creationData.task.config.height}
-                        alt={creationData.task.config.text_input}
-                        src={creationData.thumbnail}
+                        width={creationData.creation.task.config.width}
+                        height={creationData.creation.task.config.height}
+                        alt={creationData.creation.task.config.text_input}
+                        src={creationData.creation.thumbnail}
                       />
                     </div>
 
@@ -157,9 +160,10 @@ const Creation: FC<CreationPageProps> = ({
                       <Image
                         className={styles.crImg}
                         style={{ width: '100%' }}
-                        height={creationData.task.config.height}
-                        alt={creationData.task.config.text_input}
-                        src={creationData.thumbnail}
+                        width={creationData.creation.task.config.width}
+                        height={creationData.creation.task.config.height}
+                        alt={creationData.creation.task.config.text_input}
+                        src={creationData.creation.thumbnail}
                       />
                     </div>
                   </div>
@@ -170,7 +174,7 @@ const Creation: FC<CreationPageProps> = ({
             <article className={styles.creation}>
               <div className={styles.crPost}>
                 <h1>{creationId}</h1>
-                <h2>Server: {creationData._id}</h2>
+                <h2>Server: {creationData.creation._id}</h2>
 
                 {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
@@ -179,25 +183,25 @@ const Creation: FC<CreationPageProps> = ({
                     <span style={{ color: 'purple', fontWeight: 600 }}>
                       {'/dream'}
                     </span>
-                    <h2>{creationData.task.config.text_input}</h2>
+                    <h2>{creationData.creation.task.config.text_input}</h2>
                   </div>
 
                   <article className={styles.crMainHeader}>
                     <div className={styles.crCreator}>
                       <div>
-                        <Blockies seed={creationData.user} scale={6} />
+                        <Blockies seed={creationData.creation.user} scale={6} />
                       </div>
 
                       <div className='cr-creator-name-wrapper'>
                         <h3 className='cr-creator-name'>
-                          {abbreviateAddress(creationData.user)}
+                          {abbreviateAddress(creationData.creation.user)}
                         </h3>
                         <div>
                           <span>
-                            {abbreviateAddress(creationData.user)}
+                            {abbreviateAddress(creationData.creation.user)}
                           </span>
                           <span>
-                            {timeAgo(parseInt(creationData.createdAt))}
+                            {timeAgo(parseInt(creationData.creation.createdAt))}
                           </span>
                         </div>
                       </div>
@@ -207,61 +211,54 @@ const Creation: FC<CreationPageProps> = ({
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <MdOutlineDateRange className='icon' />
-                          <span>Date</span>
+                          <span>{'Date'}</span>
                         </span>
-                        <span>{timeAgo(parseInt(createdAt))}</span>
+                        <span>{timeAgo(parseInt(creationData.creation.createdAt))}</span>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <SlSizeFullscreen className='icon' />
-                          <span>Size</span>
+                          <span>{'Size'}</span>
                         </span>
                         <span>{'512 x 512'}</span>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <BsAspectRatio className='icon' />
-                          <span>Command</span>
+                          <span>{'Command'}</span>
                         </span>
-                        <span>/dream</span>
+                        <span>{'/dream'}</span>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <BsAspectRatio className={styles.icon} />
-                          <span>Shape</span>
+                          <span>{'Shape'}</span>
                         </span>
-                        <span>square</span>
+                        <span>{'square'}</span>
                       </li>
                     </ul>
                   </article>
 
                   <div className={styles.crSocials}>
-                    <span className={(styles.crSocial, styles.praise)}>
-                      <Button className={styles.btn}>
-                        <FaStar className={styles.icon} />
-                        <span className={styles.text}>0</span>
-                      </Button>
-                    </span>
-
                     <span className={(styles.crSocial, styles.remix)}>
                       <Button className={styles.btn} shape='circle'>
                         <FaRetweet className={styles.icon} />
                         <span className={styles.text}>310</span>
                       </Button>
                     </span>
-                    <span className='cr-social bookmark'>
+                    <span className={styles.crSocial}>
                       <Button className={styles.btn} shape='circle'>
                         <BsFillBookmarkFill className={styles.icon} />
-                        <span className={styles.text}>Save</span>
+                        <span className={styles.text}>{'Save'}</span>
                       </Button>
                     </span>
-                    <span className='cr-social share'>
+                    <span className={styles.crSocial}>
                       <Button className={styles.btn} shape='circle'>
                         <IoIosShareAlt className={styles.icon} />
-                        <span className={styles.text}>Share</span>
+                        <span className={styles.text}>{'Share'}</span>
                       </Button>
                     </span>
-                    <span className='cr-social share'>
+                    <span className={styles.crSocial}>
                       <Button className={styles.btn} shape='circle'>
                         <FiMoreHorizontal className={styles.icon} />
                       </Button>
