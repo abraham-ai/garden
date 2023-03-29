@@ -38,7 +38,9 @@ const SaveButton = ({
   const handleSave = () => {
     // console.log('handle SAVE 🔖!');
     setIsBookmarked(!isBookmarked);
-    showSaveNotification();
+    // showSaveNotification();
+    setModalOpen(true);
+    setCollectionModalView(1)
   };
 
   const showModal = () => {
@@ -78,7 +80,7 @@ const SaveButton = ({
       message: `Collection ${selectedCollection} created!`,
       description:
         'View your collection in the Collections tab or on your profile page.',
-      placement,
+      placement: 'bottom',
     });
   };
 

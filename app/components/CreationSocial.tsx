@@ -13,7 +13,6 @@ import type { NotificationPlacement } from 'antd/es/notification/interface';
 import { FaRetweet } from 'react-icons/fa';
 
 import CreationSocialType from '../../interfaces/CreationSocial';
-import styles from '../../styles/CreationSocial.module.css';
 import CreationSaveModal from './CreationSaveModal';
 
 import SaveButton from './CreationActions/SaveButton';
@@ -21,6 +20,24 @@ import BurnButton from './CreationActions/BurnButton';
 import PraiseButton from './CreationActions/PraiseButton';
 import ShareButton from './CreationActions/ShareButton';
 import RemixButton from './CreationActions/RemixButton';
+
+const styles = {
+  socialTopWrapper: {
+    width: '100%',
+    justifyContent: 'space-between',
+    position: 'absolute',
+    top: 0,
+    padding: '10px',
+  },
+  socialBottomWrapper: {
+    alignItems: 'flex-end',
+    width: '100%',
+    justifyContent: 'space-between',
+    position: 'absolute',
+    bottom: 0,
+    padding: '10px',
+  }
+}
 
 const CreationSocial = ({
   layout = 'minimal',
@@ -67,14 +84,7 @@ const CreationSocial = ({
   return (
     <>
       <div
-        className={styles.socialTopWrapper}
-        style={{
-          width: '100%',
-          justifyContent: 'space-between',
-          position: 'absolute',
-          top: 0,
-          padding: '10px',
-        }}
+        style={styles.socialTopWrapper}
       >
         <SaveButton
           isBookmarked={isBookmarked}
@@ -85,15 +95,7 @@ const CreationSocial = ({
       </div>
 
       <div
-        className={styles.socialBottomWrapper}
-        style={{
-          alignItems: 'flex-end',
-          width: '100%',
-          justifyContent: 'space-between',
-          position: 'absolute',
-          bottom: 0,
-          padding: '10px',
-        }}
+        style={styles.socialBottomWrapper}
       >
         <BurnButton
           creationId={creationId}

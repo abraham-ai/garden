@@ -18,8 +18,8 @@ const CreationModal = ({
   const creations = context?.creations || [];
 
   const handleModalTransition = (direction: string) => {
-    console.log(`click ${direction}`);
-    console.log(currentCreationIndex);
+    // console.log(`click ${direction}`);
+    // console.log(currentCreationIndex);
 
     if (direction === 'next') {
       setCurrentCreationIndex(currentCreationIndex + 1);

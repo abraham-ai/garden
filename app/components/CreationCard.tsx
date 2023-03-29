@@ -68,7 +68,7 @@ export default function CreationCard({
   const [status, setStatus] = useState<string>('');
 
   const reactionCountList = useGetReactionCount(creation._id);
-  console.log(reactionCountList);
+  // console.log(reactionCountList);
 
   const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt));
 
@@ -143,7 +143,7 @@ export default function CreationCard({
     prompt = abbreviateText(creationTextInput, 50); // 100
   }
 
-  console.log({ praises, praised, burns, burned });
+  // console.log({ praises, praised, burns, burned });
 
   return (
     <>
