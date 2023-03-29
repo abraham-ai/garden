@@ -121,10 +121,14 @@ const Creation: FC<CreationPageProps> = ({
   //   }
   // }, [creationData]);
 
+  let timeAgoCreatedAt = 0;
   if (typeof creationData !== 'undefined' && creationData !== null) {
     console.log(creationData);
     console.log(creationData.creation.task.config.text_input);
+    timeAgoCreatedAt = timeAgo(parseInt(creationData.creation.createdAt));
+    console.log(timeAgoCreatedAt)
   }
+
 
   return (
     <>
@@ -174,7 +178,7 @@ const Creation: FC<CreationPageProps> = ({
             <article className={styles.creation}>
               <div className={styles.crPost}>
                 <h1>{creationId}</h1>
-                <h2>Server: {creationData.creation._id}</h2>
+                <h2>{'Server:'} {creationData.creation._id}</h2>
 
                 {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
@@ -201,7 +205,7 @@ const Creation: FC<CreationPageProps> = ({
                             {abbreviateAddress(creationData.creation.user)}
                           </span>
                           <span>
-                            {timeAgo(parseInt(creationData.creation.createdAt))}
+                            {timeAgoCreatedAt}
                           </span>
                         </div>
                       </div>
@@ -213,7 +217,7 @@ const Creation: FC<CreationPageProps> = ({
                           <MdOutlineDateRange className='icon' />
                           <span>{'Date'}</span>
                         </span>
-                        <span>{timeAgo(parseInt(creationData.creation.createdAt))}</span>
+                        <span>{timeAgoCreatedAt}</span>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>

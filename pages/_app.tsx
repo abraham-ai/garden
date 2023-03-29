@@ -74,7 +74,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [collections, setCollections] = useState<string[]>([]);
   const [selectedCollection, setSelectedCollection] =
-    useState<string>('Favorites');
+    useState<string>('');
   const [collectionModalView, setCollectionModalView] = useState<string>('');
 
   // init context
