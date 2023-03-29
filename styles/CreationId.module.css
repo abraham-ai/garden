@@ -304,24 +304,24 @@
   border-radius: 20px;
 }
 @media only screen and (max-width: 930px) {
-  .cr-property {
+  .crProperty {
     width: 100%;
   }
 }
 /*** CR-PROPERTY TYPE ***/
-.cr-property-type {
+.crProperty-type {
   display: flex;
   align-items: center;
 }
-.cr-property .icon {
+.crProperty .icon {
   font-size: 1.2rem;
 }
-.cr-property .ant-typography {
+.crProperty .ant-typography {
   font-size: 1rem;
   margin-left: 5px;
 }
 /*** CR-PARENT ***/
-button.cr-parent.ant-btn-link.ant-btn {
+button.crParent.ant-btn-link.ant-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -331,37 +331,37 @@ button.cr-parent.ant-btn-link.ant-btn {
   margin-top: 10px;
   padding: 5px 10px 10px 10px;
 }
-.cr-parent .text {
+.crParent .text {
   font-size: 1rem;
 }
-.cr-parent .icon {
+.crParent .icon {
   margin-right: 5px;
   font-size: 1rem;
 }
 /*** CR-PARENT CREATION ***/
-button.cr-parent.ant-btn-link.ant-btn img {
+button.crParent.ant-btn-link.ant-btn img {
   width: 80px;
   height: 80px;
   border-radius: 5px;
 }
 /*** CR-RELATED ***/
-.cr-related {
+.crRelated {
 }
-.cr-related h3 {
+.crRelated h3 {
   margin: 0;
 }
 /*** CR-RELATED SEARCH MORE ***/
-.cr-search-more {
+.crSearchMore {
   display: flex;
   align-items: center;
 }
-.cr-search-more .search-icon {
+.crSearchMore .searchIcon {
   font-size: 1.2rem;
   transform: rotate(40deg);
   margin-left: 5px;
 }
 /*** CR-RELATED CREATIONS ***/
-.cr-related-creations {
+.crRelatedCreations {
   display: grid;
   grid: auto-flow / 200px 200px;
   grid-gap: 20px;
@@ -370,12 +370,12 @@ button.cr-parent.ant-btn-link.ant-btn img {
   overflow: hidden;
 }
 @media (max-width: 930px) {
-  .cr-related-creations {
+  .crRelatedCreations {
     grid: auto-flow / 1fr 1fr;
   }
 }
 /*** CR-RELATED CREATION ***/
-.cr-related-creation {
+.crRelatedCreation {
   flex: 1;
   overflow: hidden;
   display: flex;
@@ -383,22 +383,22 @@ button.cr-parent.ant-btn-link.ant-btn img {
   gap: 10px;
   margin: 0 0 15px 0;
 }
-.cr-related-creation:hover {
+.crRelatedCreation:hover {
   cursor: pointer;
 }
 /*** CR-RELATED CREATION IMG ***/
-.cr-related-creation-img {
+.crRelatedCreationImg {
   display: flex;
   flex: 1;
   width: 100%;
   max-width: 200px;
 }
 @media (max-width: 930px) {
-  .cr-related-creation-img {
+  .crRelatedCreationImg {
     max-width: unset;
   }
 }
-.cr-related-creation-img img {
+.crRelatedCreationImg img {
   border-radius: 5px;
   width: 100%;
   margin-right: 10px;
@@ -412,46 +412,46 @@ button.cr-parent.ant-btn-link.ant-btn img {
   min-height: 200px;
   min-width: unset;
 }
-#creations.mini .cr-buttons {
+#creations.mini .crButtons {
   flex-direction: column;
 }
 /*** CR-CARD MINI CR-BUTTON ***/
-#creations.mini .cr-buttons > div {
+#creations.mini .crButtons > div {
   display: flex;
   flex-direction: column;
 }
-#creations.mini .cr-card.mini .cr-text {
+#creations.mini .crCard.mini .crText {
   font-size: 14px;
   min-height: 95px;
   line-height: 1em;
 }
-#creations.mini .cr-eth-url > div {
+#creations.mini .crEthUrl > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 }
-#creations.mini .cr-eth-url .ant-typography {
+#creations.mini .crEthUrl .antTypography {
   padding: 8px 0 0 0;
 }
-.current-stat {
+.currentStat {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 5px 0 0 10px;
 }
-.social-icon {
+.socialIcon {
   display: flex;
   align-items: center;
 }
-.creation-current-stat .count {
+.creationCurrentStat .count {
   font-weight: 600;
 }
-.creation-current-stat .social-icon.praise svg {
+.creationCurrentStat .socialIcon.praise svg {
   color: rgb(121, 75, 196);
   border-color: rgb(121, 75, 196);
 }
-.creation-current-stat .social-icon.burn svg {
+.creationCurrentStat .socialIcon.burn svg {
   color: rgb(249, 4, 128);
   border-color: rgb(249, 4, 128);
 }
