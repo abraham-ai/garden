@@ -1,30 +1,32 @@
 import useSWR from 'swr';
 import CollectionsResponse from '../interfaces/CollectionsResponse';
 
-const fetcher = async (url: string, postData?: any) => {
-  if (!postData) {
-    throw new Error("An argument for 'postData' was not provided.");
-  }
+const fetcher = async (url: string) => {
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(postData),
   });
   const data = await response.json();
   return data;
 };
 
-export const useCollections = () => {
+export const useGetCollections = () => {
   const { data, error, isLoading, mutate } = useSWR<CollectionsResponse>(
-    `/api/collections`,
+    `/api/collections/get`,
     (url: string) => fetcher(url)
   );
 
-  //   console.log(data);
+  let collectionsData;
+  if (typeof data !== 'undefined' && data !== null) {
+    collectionsData = data.result
+  }
+  
+  console.log('USE GET-COLLECTIONS')
+  console.log(data);
 
   return {
-    collectionsData: data,
+    collectionsData
   };
 };
 
-export default useCollections;
+export default useGetCollections;

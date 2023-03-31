@@ -12,7 +12,7 @@ export default function useModalLogic() {
   };
 
   const handleCreateCollection = async (inputCollectionName) => {
-    const { data } = await axios.post('/api/collection', {
+    const { data } = await axios.post('/api/collection/save', {
       name: inputCollectionName,
     });
 
