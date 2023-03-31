@@ -87,22 +87,32 @@ const BurnButton: FC<BurnButtonTypes> = ({
     burnClasses = 'cr-burn disabled';
   }
 
+  const burnGray = (
+    <span style={{ filter: 'grayscale(1)' }}>{'🔥'}</span>
+  )
+
+  const burnFilled = (
+    <span>{'🔥'}</span>
+  )
+
   return (
     <div className='single-button-wrapper'>
       <Button
         className={burnClasses}
         shape='round'
+        type='link'
         onClick={() => handleBurn()}
         style={{
           display: 'flex',
           alignItems: 'center',
+          height: 'auto'
         }}
       >
         <span
           className='social-icon'
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          {isBurned ? <AiFillFire /> : <AiOutlineFire />}
+          {isBurned ? burnFilled : burnGray}
         </span>
         <span>{burns}</span>
       </Button>

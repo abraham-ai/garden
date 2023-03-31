@@ -40,7 +40,7 @@ const SaveButton = ({
     setIsBookmarked(!isBookmarked);
     // showSaveNotification();
     setModalOpen(true);
-    setCollectionModalView(1)
+    setCollectionModalView(0)
   };
 
   const showModal = () => {
@@ -58,7 +58,7 @@ const SaveButton = ({
 
   const handleCreateCollection = async (inputCollectionName) => {
     // console.log('handleCreateCollection');
-    const { data } = await axios.post('/api/collection', {
+    const { data } = await axios.post('/api/collection/create', {
       name: inputCollectionName,
     });
 
@@ -70,7 +70,7 @@ const SaveButton = ({
 
   const handleModalCleanUp = () => {
     setModalOpen(false);
-    setCollectionModalView(1);
+    setCollectionModalView(0);
     // setInputCollectionName('');
     openNotification('bottom');
   };

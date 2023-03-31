@@ -8,6 +8,8 @@ import axios from 'axios';
 import userIdType from '../../interfaces/AppContext';
 import styles from '../../styles/EthereumAuth.module.css';
 
+import { Button } from 'antd';
+
 const EthereumAuth = () => {
   const context = useContext(AppContext);
 
@@ -150,22 +152,22 @@ const EthereumAuth = () => {
 
           {typeof userId === 'string' && isSignedIn ? (
             <div>
-              <button
+              <Button
                 onClick={async () => {
                   disconnect();
                 }}
               >
                 {'Disconnect Wallet'}
-              </button>
+              </Button>
             </div>
           ) : (
-            <button disabled={state.loading} onClick={handleSiwe}>
+            <Button disabled={state.loading} onClick={handleSiwe}>
               {'Sign-In with Ethereum'}
-            </button>
+            </Button>
           )}
 
           {typeof userId === 'string' && isSignedIn ? (
-            <button
+            <Button
               onClick={async () => {
                 await fetch('/api/auth/logout');
                 setAuthToken('');
@@ -173,7 +175,7 @@ const EthereumAuth = () => {
               }}
             >
               {'Sign-out of Eden'}
-            </button>
+            </Button>
           ) : null}
         </section>
       </>

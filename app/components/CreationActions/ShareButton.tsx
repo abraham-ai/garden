@@ -17,11 +17,11 @@ const ShareButton = ({ creationId}: { creationId: string }) => {
         </Button>
       </span>
 
-      <div className='cr-socials-extra'>
+      <div className='crSocialsExtra'>
         <Popover placement='topRight' content={<ShareExtraButton />}>
-          <span className='cr-social share'>
+          <span className='crSocialShare'>
             <Button
-              className='btn'
+              className='crSocialBtn'
               shape='circle'
               style={{ alignItems: 'center' }}
             >

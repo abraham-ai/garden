@@ -1,4 +1,6 @@
-'use client';
+import { useState } from 'react';
+import { Popover, Tooltip, Button } from 'antd';
+import { BsGear } from 'react-icons/bs';
 
 import { useContext } from 'react';
 import AppContext from '../../context/AppContext';
@@ -12,6 +14,9 @@ import { useRouter } from 'next/router';
 
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+
+import { Typography } from 'antd'
+const { Text } = Typography;
 
 import styles from '../../styles/Header.module.css';
 import EthereumAuth from './EthereumAuth';
@@ -49,6 +54,8 @@ export default function Header() {
   const userId = context?.userId || '';
   const isSignedIn = context?.isSignedIn || false;
 
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
   let displayAddress = '';
   if (typeof userId === 'string') {
     displayAddress = abbreviateAddress(userId);
@@ -59,22 +66,9 @@ export default function Header() {
     displayAuthToken = abbreviateText(authToken, 80);
   }
 
-  return (
-    <header className={styles.headerWrapper}>
-      <ul>
-        <ActiveLink href='/'>Garden</ActiveLink>
-
-        {userId ? (
-          <>
-            <ActiveLink href='/mycreations'>My Creations</ActiveLink>
-            <ActiveLink href='/profile'>Edit Profile</ActiveLink>
-          </>
-        ) : null}
-      </ul>
-
-      <section className={styles.authSectionStyle}>
-        <ConnectButton />
-        {isWalletConnected ? <EthereumAuth /> : null}
+  const content = (
+    <>
+      {isWalletConnected ? <EthereumAuth /> : null}
 
         {isWalletConnected && userId ? (
           <p>
@@ -86,32 +80,65 @@ export default function Header() {
             {'Not logged in'}
           </p>
         )}
+  <div className={styles.signedInStyle}>
+    {isSignedIn ? (
+        <p>
+          <strong>{'Signed-In as: '}</strong> {displayAddress}
+        </p>
+      ) : (
+        <p>
+          <strong>{'Signed-In as: '}</strong>
+          {'Not Signed-In'}
+        </p>
+      )}
+    </div>
 
-        <div className={styles.signedInStyle}>
-          {isSignedIn ? (
-            <p>
-              <strong>{'Signed-In as: '}</strong> {displayAddress}
-            </p>
-          ) : (
-            <p>
-              <strong>{'Signed-In as: '}</strong>
-              {'Not Signed-In'}
-            </p>
-          )}
-        </div>
+    <div className={styles.authStyle}>
+      {authToken && isSignedIn ? (
+        <span className={styles.tokenWrapperStyle}>
+          <strong>{'AuthToken:'}</strong>
+          <span className={styles.authToken}>{displayAuthToken}</span>
+        </span>
+      ) : (
+        <span>
+          <strong>{'AuthToken:'}</strong>
+          {'No AuthToken'}
+        </span>
+      )}
+    </div>
+  </>
+);
 
-        <div className={styles.authStyle}>
-          {authToken && isSignedIn ? (
-            <span className={styles.tokenWrapperStyle}>
-              <strong>{'AuthToken:'}</strong>
-              <span className={styles.authToken}>{displayAuthToken}</span>
-            </span>
-          ) : (
-            <span>
-              <strong>{'AuthToken:'}</strong>
-              {'No AuthToken'}
-            </span>
-          )}
+  return (
+    <header className={styles.headerWrapper}>
+      <ul className={styles.linksWrapper}>
+        <ActiveLink href='/'>
+          <Text>{'Garden'}</Text>
+        </ActiveLink>
+
+        {/* {userId ? (
+          <>
+          <ActiveLink href='/mycreations'>My Creations</ActiveLink>
+          <ActiveLink href='/profile'>Edit Profile</ActiveLink>
+          </>
+        ) : null} */}
+      </ul>
+
+      <section className={styles.authSectionStyle}>
+
+        <Link href='/' style={{ zIndex: 100 }}>
+          <Image src={'/eden-logo-512x512.png'} width={40} height={40} alt={'Eden logo'}/>
+        </Link>
+        
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Popover content={content} trigger='click' placement='bottom'>
+          <Tooltip>
+            <Button type='link' shape='circle' style={{ marginRight: 10 }}>
+              <BsGear style={{ fontSize: '1.5rem' }} />
+            </Button>
+          </Tooltip>
+        </Popover>
+        <ConnectButton />
         </div>
       </section>
     </header>

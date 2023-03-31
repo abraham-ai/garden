@@ -148,13 +148,13 @@ export default function CreationCard({
   return (
     <>
       <section className={styles.creationCardWrapper}>
-        <article id={`creation-card`} className={styles.creationCard}>
+        <article id={`creationCard`} className={styles.creationCard}>
           <div className={styles.crTopWrapper}>
             <div className={styles.crImageWrapper}>
               {creation.thumbnail === '' ? (
                 <Skeleton />
               ) : (
-                <>
+                <section styles={{ display: 'flex', flexDirection: 'column', position: 'absolute', top: 0 }}>
                   <CreationSocial
                     layout={'expanded'}
                     creationBurns={burns}
@@ -163,6 +163,43 @@ export default function CreationCard({
                     praisedByMe={praised}
                     burnedByMe={burned}
                   />
+
+                  <div className='crContentMainWrapper'>
+                    <div className='crContentMain'>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-start',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <div>
+                          <b className='crPromptCommand'>{`/${creation.task.generator.generatorName} `}</b>
+                          <span className='crPrompt'>{prompt}</span>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div
+                              style={{
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                width: '32px',
+                                height: '32px',
+                                marginRight: 10,
+                                background: 'orange',
+                              }}
+                            >
+                              <Blockies seed={creation.user} />
+                            </div>
+                            <span>{displayAddress}</span>
+                          </div>
+                          <span className='crDate'>{timeAgoCreatedAt}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <Link
                     className={styles.crLink}
@@ -197,7 +234,7 @@ export default function CreationCard({
                       alt={creation.task.config.text_input}
                     />
                   </Link>
-                </>
+                </section>
               )}
             </div>
           </div>
@@ -227,7 +264,7 @@ export default function CreationCard({
         >
           <div className={styles.creationContent}>
             <div
-              className='cr-metadata'
+              className='crMetadata'
               style={{
                 display: 'flex',
                 flex: 1,
@@ -240,43 +277,6 @@ export default function CreationCard({
                   ? '✓'
                   : creation.task.status}
               </span>
-            </div>
-
-            <div className='cr-content-main-wrapper'>
-              <div className='cr-content-main'>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <b className='cr-prompt-command'>{`/${creation.task.generator.generatorName} `}</b>
-                    <span className='cr-prompt'>{prompt}</span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <div
-                        style={{
-                          borderRadius: '50%',
-                          overflow: 'hidden',
-                          width: '32px',
-                          height: '32px',
-                          marginRight: 10,
-                          background: 'orange',
-                        }}
-                      >
-                        <Blockies seed={creation.user} />
-                      </div>
-                      <span>{displayAddress}</span>
-                    </div>
-                    <span className='cr-date'>{timeAgoCreatedAt}</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </Link>

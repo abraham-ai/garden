@@ -74,6 +74,14 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
     praiseClasses = 'cr-praise disabled';
   }
 
+  const praiseGray = (
+    <span style={{ filter: 'grayscale(1)' }}>{'🙌'}</span>
+  )
+
+  const praiseFilled = (
+    <span>{'🙌'}</span>
+  )
+
   return (
     <div className='single-button-wrapper'>
       <Button
@@ -90,7 +98,7 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
           className='social-icon'
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          {isPraised ? <HiSparkles /> : <HiOutlineSparkles />}
+          {isPraised ? prayFilled : praiseGray}
         </span>
         <span>{praises}</span>
       </Button>

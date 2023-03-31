@@ -92,11 +92,6 @@ const CreationSocial = ({
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
         />
-      </div>
-
-      <div
-        style={styles.socialBottomWrapper}
-      >
         <BurnButton
           creationId={creationId}
           burnsData={burns}
@@ -109,15 +104,21 @@ const CreationSocial = ({
           isPraisedData={isPraised}
           setIsPraised={setIsPraised}
         />
-        <RemixButton
+        {/* <RemixButton
           creationId={creationId}
           remixes={remixes}
           isRemixed={isRemixed}
           setIsRemixed={setIsRemixed}
-        />
+        /> */}
         <ShareButton creationId={creationId} />
       </div>
-      <CreationSaveModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+
+      {/* <div
+        style={styles.socialBottomWrapper}
+      >
+      </div> */}
+
+      <CreationSaveModal modalOpen={modalOpen} setModalOpen={setModalOpen} creationId={creationId} />
 
       {contextHolder}
     </>
