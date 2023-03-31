@@ -116,3 +116,9 @@ a {
   background: grey;
   margin-bottom: 30px;
 }
+
+/* ANTD CUSTOM */
+.ant-modal-content {
+  border-radius: 20px !important;
+  background: red;
+}

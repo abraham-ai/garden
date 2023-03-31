@@ -1,5 +1,5 @@
 .headerWrapper {
-  padding: 2rem;
+  /* padding: 2rem; */
   min-height: 100px;
   position: fixed;
   width: 100vw;
@@ -7,13 +7,24 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  background-color: white;
   z-index: 100;
 }
+.linksWrapper {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  align-items: center;
+  margin: 7px 0;
+}
 .authSectionStyle {
-  max-width: 300px;
-  margin-right: 50px;
+  padding: 10px 20px;
   color: black;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 .authStyle {
   display: flex;

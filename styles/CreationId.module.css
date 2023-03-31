@@ -58,7 +58,7 @@
   display: flex;
 }
 /*** CR-IMG WRAPPER MAIN***/
-.crImgWrapper.main {
+.crImgWrapperMain {
   /* height: 0; */
   /* padding-bottom: 100%; */
   /* min-height: 240px; */
@@ -66,14 +66,14 @@
   z-index: 70;
 }
 .crImgWrapper > span {
-  display: block;
+/*   display: block;
   top: 0;
   width: 100%;
   position: absolute;
-  height: 100%;
+  height: 100%; */
 }
 /*** CR-IMG WRAPPER BACKGROUND ***/
-.crImgWrapper.background {
+.crImgWrapperBackground {
   display: flex;
   justify-content: center;
   position: absolute;
@@ -87,7 +87,7 @@
   z-index: 0;
   background: black;
 }
-.crImgWrapper.background img {
+.crImgWrapperBackground img {
   width: 100%;
   opacity: 0.3;
   margin: 0;
@@ -258,7 +258,7 @@
   margin-bottom: 20px;
 }
 /*** CR-SOCIAL BUTTON **/
-.crSocial .btn {
+.crSocialBtn {
   display: flex;
   flex-direction: column;
   height: 50px;
@@ -267,14 +267,14 @@
   margin: 0;
 }
 /*** CR-SOCIAL ICON **/
-.crSocial .icon {
+.crSocialIcon {
   color: white;
   min-height: 32px;
   min-width: 32px;
   filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4));
 }
 /*** CR-SOCIAL TEXT **/
-.crSocial .text {
+.crSocialText {
   color: white;
   font-size: 14px;
   font-weight: 400;
