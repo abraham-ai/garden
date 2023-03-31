@@ -1,5 +1,5 @@
 const breakpointColumnsObj = {
-  default: 4,
+  default: 3,
   1100: 5,
   700: 2,
   580: 1,
