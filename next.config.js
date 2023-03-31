@@ -19,6 +19,7 @@ const nextConfig = {
         hostname: 'minio.aws.abraham.fun',
       },
     ],
+    path:'/'
   },
   env: {
     NEXT_PUBLIC_ALCHEMY_API_KEY: 'hNqWR45RXI-Ek16H1acYUqVbK1GJcV_6',
