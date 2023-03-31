@@ -72,10 +72,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const [creationsLoad, setCreationsLoad] = useState<boolean>(false);
   const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0);
 
-  const [collections, setCollections] = useState<string[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
   const [selectedCollection, setSelectedCollection] =
     useState<string>('');
-  const [collectionModalView, setCollectionModalView] = useState<string>('');
+  const [collectionModalView, setCollectionModalView] = useState<number>(0);
 
   // init context
   const context = useContext(AppContext);
@@ -115,8 +115,19 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <AppContext.Provider value={{...contextValues, creations: [] as unknown as [], creationIndex: 0, creationsLoad: () => {}, collectionModalView: '' as unknown as string, setCollectionModalView: (value: React.SetStateAction<number | undefined>) => {} }}>
-
+      <AppContext.Provider 
+        value={{...contextValues, 
+          creations: [] as unknown as [],
+          creationIndex: 0,
+          creationsLoad: () => {},
+          collections,
+          setCollections,
+          selectedCollection,
+          setSelectedCollection,
+          collectionModalView,
+          setCollectionModalView,
+        }}
+      >
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
             <Component {...pageProps} />

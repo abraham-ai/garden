@@ -17,13 +17,13 @@ interface ApiRequest extends Omit<NextApiRequest, 'query'> {
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
   const { reactionId: creationId } = req.query;
 
-  console.log({ creationId });
+  // console.log({ creationId });
 
   const { userId, token: authToken } = (req as any).session;
 
-  if (!authToken) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
+  // if (!authToken) {
+  //   return res.status(401).json({ error: 'Not authenticated' });
+  // }
 
   try {
     const authTokenResult = await eden.setAuthToken(authToken);
@@ -31,7 +31,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
     const creation = await eden.getCreation(creationId);
 
     const reactions = await creation.getReactions(['🙌', '🔥']);
-    console.log({ reactions });
+    // console.log({ reactions });
 
     const praises = reactions?.filter(
       (reaction: any) => reaction.reaction === '🙌'
@@ -40,8 +40,8 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
       (reaction: any) => reaction.reaction === '🔥'
     );
 
-    console.log(reactions[0]?.user);
-    console.log(reactions[1]?.user);
+    // console.log(reactions[0]?.user);
+    // console.log(reactions[1]?.user);
 
     const praised =
       userId &&
@@ -57,7 +57,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
       burned: burned,
     };
 
-    console.log(result);
+    // console.log(result);
 
     return res.status(200).json(result);
   } catch (error: any) {

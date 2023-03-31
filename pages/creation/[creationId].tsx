@@ -134,12 +134,45 @@ const Creation: FC<CreationPageProps> = ({
     <>
       <Header />
 
-      <section className={styles.creationWrapper} style={{ marginTop: 150 }}>
+      <section className={styles.creationWrapper} style={{ marginTop: 90 }}>
         {typeof creationData !== 'undefined' && creationData !== null ? (
           <>
             <Col className={styles.creation}>
               <Row className={styles.crPost}>
                 <article className={`${styles.crCard} ${size}`}>
+                  
+                  <div className={styles.crSocials}>
+                    <span className={(styles.crSocial)}>
+                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
+                        <span style={{ fontSize: '2rem' }}>🔥</span>
+                        <Text className={styles.crSocialText}>{0}</Text>
+                      </Button>
+                    </span>
+                    <span className={(styles.crSocial)}>
+                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
+                        <span style={{ fontSize: '2rem' }}>🙌 </span>
+                        <Text className={styles.crSocialText}>{0}</Text>
+                      </Button>
+                    </span>
+                    <span className={styles.crSocial}>
+                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
+                        <BsFillBookmarkFill className={styles.crSocialIcon} />
+                        <Text className={styles.crSocialText}>{'Save'}</Text>
+                      </Button>
+                    </span>
+                    <span className={styles.crSocial}>
+                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
+                        <IoIosShareAlt className={styles.crSocialIcon} />
+                        <Text className={styles.crSocialText}>{'Share'}</Text>
+                      </Button>
+                    </span>
+                    <span className={styles.crSocial}>
+                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
+                        <FiMoreHorizontal className={styles.crSocialIcon} />
+                      </Button>
+                    </span>
+                  </div>
+
                   <div
                     className={
                       isHovering
@@ -160,7 +193,7 @@ const Creation: FC<CreationPageProps> = ({
                       />
                     </div>
 
-                    <div className={(styles.crImgWrapper, styles.background)}>
+                    <div className={(styles.crImgWrapperBackground)}>
                       <Image
                         className={styles.crImg}
                         style={{ width: '100%' }}
@@ -177,17 +210,17 @@ const Creation: FC<CreationPageProps> = ({
 
             <article className={styles.creation}>
               <div className={styles.crPost}>
-                <h1>{creationId}</h1>
-                <h2>{'Server:'} {creationData.creation._id}</h2>
+                <Text>{creationId}</Text>
+                <Text>{'Server:'} {creationData.creation._id}</Text>
 
                 {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
                 <section className={styles.crMain}>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ color: 'purple', fontWeight: 600 }}>
+                    <Text style={{ color: 'purple', fontWeight: 600 }}>
                       {'/dream'}
-                    </span>
-                    <h2>{creationData.creation.task.config.text_input}</h2>
+                    </Text>
+                    <Text>{creationData.creation.task.config.text_input}</Text>
                   </div>
 
                   <article className={styles.crMainHeader}>
@@ -196,17 +229,17 @@ const Creation: FC<CreationPageProps> = ({
                         <Blockies seed={creationData.creation.user} scale={6} />
                       </div>
 
-                      <div className='cr-creator-name-wrapper'>
-                        <h3 className='cr-creator-name'>
+                      <div className='crCreatorNameWrapper'>
+                        <Text className='crCreatorName'>
                           {abbreviateAddress(creationData.creation.user)}
-                        </h3>
+                        </Text>
                         <div>
-                          <span>
+                          <Text>
                             {abbreviateAddress(creationData.creation.user)}
-                          </span>
-                          <span>
+                          </Text>
+                          <Text>
                             {timeAgoCreatedAt}
-                          </span>
+                          </Text>
                         </div>
                       </div>
                     </div>
@@ -215,59 +248,34 @@ const Creation: FC<CreationPageProps> = ({
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <MdOutlineDateRange className='icon' />
-                          <span>{'Date'}</span>
+                          <Text>{'Date'}</Text>
                         </span>
-                        <span>{timeAgoCreatedAt}</span>
+                        <Text>{timeAgoCreatedAt}</Text>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <SlSizeFullscreen className='icon' />
-                          <span>{'Size'}</span>
+                          <Text>{'Size'}</Text>
                         </span>
-                        <span>{'512 x 512'}</span>
+                        <Text>{'512 x 512'}</Text>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <BsAspectRatio className='icon' />
-                          <span>{'Command'}</span>
+                          <Text>{'Command'}</Text>
                         </span>
-                        <span>{'/dream'}</span>
+                        <Text>{'/dream'}</Text>
                       </li>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
                           <BsAspectRatio className={styles.icon} />
-                          <span>{'Shape'}</span>
+                          <Text>{'Shape'}</Text>
                         </span>
-                        <span>{'square'}</span>
+                        <Text>{'square'}</Text>
                       </li>
                     </ul>
                   </article>
 
-                  <div className={styles.crSocials}>
-                    <span className={(styles.crSocial, styles.remix)}>
-                      <Button className={styles.btn} shape='circle'>
-                        <FaRetweet className={styles.icon} />
-                        <span className={styles.text}>310</span>
-                      </Button>
-                    </span>
-                    <span className={styles.crSocial}>
-                      <Button className={styles.btn} shape='circle'>
-                        <BsFillBookmarkFill className={styles.icon} />
-                        <span className={styles.text}>{'Save'}</span>
-                      </Button>
-                    </span>
-                    <span className={styles.crSocial}>
-                      <Button className={styles.btn} shape='circle'>
-                        <IoIosShareAlt className={styles.icon} />
-                        <span className={styles.text}>{'Share'}</span>
-                      </Button>
-                    </span>
-                    <span className={styles.crSocial}>
-                      <Button className={styles.btn} shape='circle'>
-                        <FiMoreHorizontal className={styles.icon} />
-                      </Button>
-                    </span>
-                  </div>
 
                   {/* {isParent ? (
                   <button className='cr-parent'>
