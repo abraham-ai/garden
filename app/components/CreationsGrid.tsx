@@ -26,6 +26,8 @@ import styles from '../../styles/CreationsGrid.module.css';
 import breakpointColumnsObj from '../../constants/breakpointColumns';
 
 const CreationsGrid = () => {
+  const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false);
+
   const [username, setUsername] = useState<string | string>('');
   const [generators, setGenerators] = useState<string | string>('');
   const [earliestTime, setEarliestTime] = useState<number | string>('');
@@ -215,39 +217,41 @@ const CreationsGrid = () => {
 
   return (
     <>
-      <section className={styles.creationAnalytics} style={{ color: 'black' }}>
-        <span>{`Page ${size}`}</span>
-        <span style={{ display: 'flex' }}>
-          <b>{'Last Creation Earliest Time'}</b>
-          <p>{lastCreationEarliestTime}</p>
-        </span>
-        <div>
-          <span className={styles.loadingState}>
-            {`showing ${size} page(s) of 
-          ${isLoadingMore ? '...' : creationsData.length}
-          creation(s) `}
+      { isScrollAnalytics ? 
+        <section className={styles.creationAnalytics} style={{ color: 'black' }}>
+          <span>{`Page ${size}`}</span>
+          <span style={{ display: 'flex' }}>
+            <b>{'Last Creation Earliest Time'}</b>
+            <p>{lastCreationEarliestTime}</p>
           </span>
-          <button
-            disabled={isLoadingMore || isReachingEnd}
-            onClick={() => {
-              handleLoadMore();
-            }}
-          >
-            {isLoadingMore
-              ? 'loading...'
-              : isReachingEnd
-              ? 'no more creations'
-              : 'load more'}
-          </button>
-          <button disabled={isRefreshing} onClick={() => mutate()}>
-            {isRefreshing ? 'refreshing...' : 'refresh'}
-          </button>
-          <button disabled={!size} onClick={() => setSize(0)}>
-            clear
-          </button>
-        </div>
-        {isEmpty ? <p>No creations found.</p> : null}
-      </section>
+          <div>
+            <span className={styles.loadingState}>
+              {`showing ${size} page(s) of 
+            ${isLoadingMore ? '...' : creationsData.length}
+            creation(s) `}
+            </span>
+            <button
+              disabled={isLoadingMore || isReachingEnd}
+              onClick={() => {
+                handleLoadMore();
+              }}
+            >
+              {isLoadingMore
+                ? 'loading...'
+                : isReachingEnd
+                ? 'no more creations'
+                : 'load more'}
+            </button>
+            <button disabled={isRefreshing} onClick={() => mutate()}>
+              {isRefreshing ? 'refreshing...' : 'refresh'}
+            </button>
+            <button disabled={!size} onClick={() => setSize(0)}>
+              clear
+            </button>
+          </div>
+          {isEmpty ? <p>No creations found.</p> : null}
+        </section>
+      : null }
 
       <Masonry
         breakpointCols={breakpointColumnsObj}

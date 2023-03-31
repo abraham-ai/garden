@@ -57,7 +57,7 @@ const CreationSaveModal: FC<CreationSaveModalProps> = ({
     context?.setCollectionModalView(value);
   };
 
-  const inputCollectionRef = useRef<InputRef>(null);
+  // const inputCollectionRef = useRef<InputRef>(null);
 
   const { collectionsData } = useGetCollections();
 
@@ -200,7 +200,7 @@ const CreationSaveModal: FC<CreationSaveModalProps> = ({
                 onChange={(e) => {
                   setInputCollectionName(e.target.value);
                 }}
-                ref={inputCollectionRef}
+                // ref={inputCollectionRef}
               />
               <Button
                 type={'primary'}

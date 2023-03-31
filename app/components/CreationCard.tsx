@@ -154,7 +154,7 @@ export default function CreationCard({
               {creation.thumbnail === '' ? (
                 <Skeleton />
               ) : (
-                <section styles={{ display: 'flex', flexDirection: 'column', position: 'absolute', top: 0 }}>
+                <section styles={{ display: 'flex', flexDirection: 'column', position: 'absolute', top: 0, background: 'red' }}>
                   <CreationSocial
                     layout={'expanded'}
                     creationBurns={burns}
@@ -262,7 +262,7 @@ export default function CreationCard({
           style={{ display: 'flex', color: 'black', flexDirection: 'column' }}
           onClick={() => showModal()}
         >
-          <div className={styles.creationContent}>
+          {/* <div className={styles.creationContent}>
             <div
               className='crMetadata'
               style={{
@@ -278,7 +278,7 @@ export default function CreationCard({
                   : creation.task.status}
               </span>
             </div>
-          </div>
+          </div> */}
         </Link>
       </section>
       <CreationModal

@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { Popover, Tooltip, Button } from 'antd';
-import { BsGear } from 'react-icons/bs';
 
 import { useContext } from 'react';
 import AppContext from '../../context/AppContext';
@@ -15,11 +13,13 @@ import { useRouter } from 'next/router';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
-import { Typography } from 'antd'
+import { Typography, Tooltip, Popover, Button } from 'antd'
 const { Text } = Typography;
 
 import styles from '../../styles/Header.module.css';
 import EthereumAuth from './EthereumAuth';
+
+import { BsGear } from 'react-icons/bs';
 
 interface ActiveLinkProps {
   children: React.ReactNode;
@@ -132,7 +132,7 @@ export default function Header() {
         
         <div style={{ display: 'flex', alignItems: 'center' }}>
         <Popover content={content} trigger='click' placement='bottom'>
-          <Tooltip>
+          <Tooltip placement="bottom" title={<span>Settings</span>}>
             <Button type='link' shape='circle' style={{ marginRight: 10 }}>
               <BsGear style={{ fontSize: '1.5rem' }} />
             </Button>
