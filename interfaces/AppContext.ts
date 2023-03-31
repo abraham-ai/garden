@@ -30,7 +30,7 @@ interface AppContext {
   selectedCollection: string;
   setSelectedCollection: Dispatch<SetStateAction<string>>;
   
-  collectionModalView: React.ReactNode;
+  collectionModalView: number;
   setCollectionModalView: Dispatch<SetStateAction<number>>;
 }
 
