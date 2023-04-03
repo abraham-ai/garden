@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import React, {
   useState,
@@ -6,39 +6,45 @@ import React, {
   useRef,
   useCallback,
   useMemo,
-  useContext,
-} from 'react';
-import useSWRInfinite from 'swr/infinite';
+  useContext
+} from 'react'
+import useSWRInfinite from 'swr/infinite'
 
-import AppContext from '../../context/AppContext';
+import AppContext from '../../context/AppContext'
 
-import { createMachine, interpret, assign } from 'xstate';
+import { createMachine, interpret, assign } from 'xstate'
 
-import deepEqual from '../../util/deepEqual';
+import deepEqual from '../../util/deepEqual'
 
-import FilterType from '../../interfaces/Filter';
+import FilterType from '../../interfaces/Filter'
 
-import CreationCard from './CreationCard';
-import Creation from '../../interfaces/Creation';
+import CreationCard from './CreationCard'
+import type Creation from '../../interfaces/Creation'
 
-import Masonry from 'react-masonry-css';
-import styles from '../../styles/CreationsGrid.module.css';
-import breakpointColumnsObj from '../../constants/breakpointColumns';
+import { Button, Spin, Row } from 'antd'
+
+import Masonry from 'react-masonry-css'
+import styles from '../../styles/CreationsGrid.module.css'
+import breakpointColumnsObj from '../../constants/breakpointColumns'
+
+import { LoadingOutlined } from '@ant-design/icons'
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const CreationsGrid = () => {
-  const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false);
+  const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
-  const [username, setUsername] = useState<string | string>('');
-  const [generators, setGenerators] = useState<string | string>('');
-  const [earliestTime, setEarliestTime] = useState<number | string>('');
-  const [latestTime, setLatestTime] = useState<number | string>('');
-  const [limit, setLimit] = useState<number>(10);
+  const [username, setUsername] = useState<string | string>('')
+  const [generators, setGenerators] = useState<string | string>('')
+  const [earliestTime, setEarliestTime] = useState<number | string>('')
+  const [latestTime, setLatestTime] = useState<number | string>('')
+  const [limit, setLimit] = useState<number>(10)
   const [lastCreationEarliestTime, setLastCreationEarliestTime] = useState<
     number | string
-  >('');
-  const loadBelowRef = useRef<HTMLDivElement | null>(null);
+  >('')
+  const loadBelowRef = useRef<HTMLDivElement | null>(null)
 
-  const context = useContext(AppContext);
+  const context = useContext(AppContext)
   const creationsData = useMemo(
     () => context?.creationsData || [],
     [context?.creationsData]
@@ -51,7 +57,7 @@ const CreationsGrid = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const getKey = (index, previousPageData) => {
-    return `api/creations?limit=${limit}&page=${
+    return `/api/creations?limit=${limit}&page=${
       index + 1
     }&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${lastCreationEarliestTime}`;
   };
@@ -160,40 +166,40 @@ const CreationsGrid = () => {
 
     return () => {
       subscription.unsubscribe();
-    };
+    }
   }, [
     infiniteScrollService,
     creationsData,
     setCreationsData,
     data,
     size,
-    setSize,
-  ]);
+    setSize
+  ])
 
   // Create the intersection observer callback
   const loadMoreObserver = useCallback(
     (entries) => {
-      const firstEntry = entries[0];
+      const firstEntry = entries[0]
       if (firstEntry.isIntersecting) {
         if (typeof data !== 'undefined') {
-          setSize(size + 1);
+          setSize(size + 1)
 
           infiniteScrollService.send({
             type: 'LOAD_MORE',
             // data: newDate,
-          });
+          })
         }
       }
     },
     [data, infiniteScrollService, setSize, size]
-  );
+  )
 
   // Set up the intersection observer
   useEffect(() => {
     const observer = new IntersectionObserver(loadMoreObserver, {
       rootMargin: '0px',
       threshold: 1.0,
-    });
+    })
 
     const currentRef = loadBelowRef.current;
 
@@ -206,14 +212,14 @@ const CreationsGrid = () => {
         observer.unobserve(currentRef);
       }
     };
-  }, [loadMoreObserver]);
+  }, [loadMoreObserver])
 
   const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
-  const isEmpty = data?.[0]?.length === 0;
+    isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined')
+  const isEmpty = data?.[0]?.length === 0
   const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.length < limit);
-  const isRefreshing = isValidating && data && data.length === size;
+    isEmpty || (data && data[data.length - 1]?.length < limit)
+  const isRefreshing = isValidating && data && data.length === size
 
   return (
     <>
@@ -230,7 +236,7 @@ const CreationsGrid = () => {
             ${isLoadingMore ? '...' : creationsData.length}
             creation(s) `}
             </span>
-            <button
+            <Button
               disabled={isLoadingMore || isReachingEnd}
               onClick={() => {
                 handleLoadMore();
@@ -241,13 +247,13 @@ const CreationsGrid = () => {
                 : isReachingEnd
                 ? 'no more creations'
                 : 'load more'}
-            </button>
-            <button disabled={isRefreshing} onClick={() => mutate()}>
+            </Button>
+            <Button disabled={isRefreshing} onClick={() => mutate()}>
               {isRefreshing ? 'refreshing...' : 'refresh'}
-            </button>
-            <button disabled={!size} onClick={() => setSize(0)}>
+            </Button>
+            <Button disabled={!size} onClick={() => setSize(0)}>
               clear
-            </button>
+            </Button>
           </div>
           {isEmpty ? <p>No creations found.</p> : null}
         </section>
@@ -278,9 +284,10 @@ const CreationsGrid = () => {
           }
         })}
       </Masonry>
-      <div ref={loadBelowRef} className={styles.loadMore}>
-        {'LOAD MORE'}
-      </div>
+
+      <Row ref={loadBelowRef} className={styles.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>
+        <Spin indicator={antIcon} />
+      </Row>
     </>
   );
 };

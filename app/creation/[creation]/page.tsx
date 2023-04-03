@@ -1,50 +1,50 @@
-'use client';
+'use client'
 
-import { ReactElement, useState, FC } from 'react';
+import { ReactElement, useState, FC } from 'react'
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import Creation from '../../../interfaces/Creation';
+import Creation from '../../../interfaces/Creation'
 
-import abbreviateAddress from '../../../util/abbreviateAddress';
-import timeAgo from '../../../util/timeAgo';
+import abbreviateAddress from '../../../util/abbreviateAddress'
+import timeAgo from '../../../util/timeAgo'
 
-// import useReactions from '../../hooks/useReactions';
+// import useReactions from '../../hooks/useReactions'
 
-import Blockies from 'react-blockies';
+import Blockies from 'react-blockies'
 
-import { FiMoreHorizontal } from 'react-icons/fi';
-import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa';
-import { IoIosShareAlt } from 'react-icons/io';
-import { AiFillEye, AiFillFire } from 'react-icons/ai';
-import { BiUserPlus } from 'react-icons/bi';
-import { HiOutlineArrowNarrowUp, HiOutlineFingerPrint } from 'react-icons/hi'; // HiCommandLine
-import { MdOutlineDateRange } from 'react-icons/md';
-import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs';
-import { SlSizeFullscreen } from 'react-icons/sl';
+import { FiMoreHorizontal } from 'react-icons/fi'
+import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa'
+import { IoIosShareAlt } from 'react-icons/io'
+import { AiFillEye, AiFillFire } from 'react-icons/ai'
+import { BiUserPlus } from 'react-icons/bi'
+import { HiOutlineArrowNarrowUp, HiOutlineFingerPrint } from 'react-icons/hi' // HiCommandLine
+import { MdOutlineDateRange } from 'react-icons/md'
+import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs'
+import { SlSizeFullscreen } from 'react-icons/sl'
 
 interface pageProps {
-  params: { id: string };
-  creation: Creation;
-  size?: string;
+  params: { id: string }
+  creation: Creation
+  size?: string
 }
 const Creation: FC<pageProps> = ({ params, creation, size = 'regular' }) => {
-  // const { pathname, query, asPath } = router;
+  // const { pathname, query, asPath } = router
 
-  // const { uri, createdAt, task, user, thumbnail, _id } = creation;
-  // const { config, status, generator } = task;
-  // const { generatorName } = generator;
-  // const { width, height, text_input } = config;
+  // const { uri, createdAt, task, user, thumbnail, _id } = creation
+  // const { config, status, generator } = task
+  // const { generatorName } = generator
+  // const { width, height, text_input } = config
 
-  // const { praises: praiseCount, burns: burnCount } = useReactions(_id);
+  // const { praises: praiseCount, burns: burnCount } = useReactions(_id)
 
-  // const isParent = true;
+  // const isParent = true
 
-  // return <div className='creation'>{params.id}</div>;
-  return <section>{'TEST'}</section>;
-};
+  // return <div className='creation'>{params.id}</div>
+  return <section>{'TEST CREATION'}</section>
+}
 
 // <section id='creation-wrapper'>
 //   <article className='creation'>
@@ -163,4 +163,4 @@ const Creation: FC<pageProps> = ({ params, creation, size = 'regular' }) => {
 //   </article>
 // </section>
 
-export default Creation;
+export default Creation

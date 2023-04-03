@@ -1,41 +1,38 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
 
-import AppContext from '../../context/AppContext';
+import AppContext from '../../context/AppContext'
 
-import { useAccount } from 'wagmi';
+import { useAccount } from 'wagmi'
 
-import axios from 'axios';
-const serverUrl = process.env.EDEN_API_URL;
+import { notification } from 'antd'
 
-import { Modal, Button, Input, notification, Select } from 'antd';
-import type { NotificationPlacement } from 'antd/es/notification/interface';
+// Modal, Button, Input, Select
+// import type { NotificationPlacement } from 'antd/es/notification/interface'
 
-import { FaRetweet } from 'react-icons/fa';
+// import { FaRetweet } from 'react-icons/fa'
 
-import CreationSocialType from '../../interfaces/CreationSocial';
-import CreationSaveModal from './CreationSaveModal';
+import type CreationSocialType from '../../interfaces/CreationSocial'
 
-import SaveButton from './CreationActions/SaveButton';
-import BurnButton from './CreationActions/BurnButton';
-import PraiseButton from './CreationActions/PraiseButton';
-import ShareButton from './CreationActions/ShareButton';
-import RemixButton from './CreationActions/RemixButton';
+import CreationSaveModal from './CreationSaveModal'
+
+import SaveButton from './CreationActions/SaveButton'
+import BurnButton from './CreationActions/BurnButton'
+import PraiseButton from './CreationActions/PraiseButton'
+import ShareButton from './CreationActions/ShareButton'
+// import RemixButton from './CreationActions/RemixButton'
+
+const serverUrl = process.env.EDEN_API_URL
 
 const styles = {
   socialTopWrapper: {
     width: '100%',
     justifyContent: 'space-between',
-    position: 'absolute',
     top: 0,
-    padding: '10px',
-  },
-  socialBottomWrapper: {
-    alignItems: 'flex-end',
-    width: '100%',
-    justifyContent: 'space-between',
     position: 'absolute',
-    bottom: 0,
     padding: '10px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    zIndex: 150
   }
 }
 
@@ -47,82 +44,79 @@ const CreationSocial = ({
   praisedByMe,
   burnedByMe,
 }: CreationSocialType) => {
-  const [burns, setBurns] = useState(creationBurns);
-  const [isBurned, setIsBurned] = useState(burnedByMe);
+  const [burns, setBurns] = useState(creationBurns)
+  const [isBurned, setIsBurned] = useState(burnedByMe)
 
-  const [praises, setPraises] = useState(creationPraises);
-  const [isPraised, setIsPraised] = useState(praisedByMe);
+  const [praises, setPraises] = useState(creationPraises)
+  const [isPraised, setIsPraised] = useState(praisedByMe)
 
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false)
 
-  const [remixes, setRemixes] = useState(0);
-  const [isRemixed, setIsRemixed] = useState(false);
+  // const [remixes, setRemixes] = useState(0)
+  // const [isRemixed, setIsRemixed] = useState(false)
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalView, setModalView] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalView, setModalView] = useState(1)
 
-  const { address } = useAccount();
+  const { address } = useAccount()
 
-  const context = useContext(AppContext);
-  const isSignedIn = context?.isSignedIn || false;
-  const currentCreationIndex = context?.currentCreationIndex || 0;
+  const context = useContext(AppContext)
+  const isSignedIn = context?.isSignedIn || false
+  const currentCreationIndex = context?.currentCreationIndex || 0
 
   useEffect(() => {
-    setIsPraised(praisedByMe);
-    setIsBurned(burnedByMe);
-    setBurns(creationBurns);
-    setPraises(creationPraises);
-  }, [praisedByMe, burnedByMe, creationBurns, creationPraises]);
+    setIsPraised(praisedByMe)
+    setIsBurned(burnedByMe)
+    setBurns(creationBurns)
+    setPraises(creationPraises)
+  }, [praisedByMe, burnedByMe, creationBurns, creationPraises])
 
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = notification.useNotification()
 
-  const isTooltipVisible = isSignedIn ? null : false;
+  const isTooltipVisible = isSignedIn ? null : false
 
-  // console.log({ creationPraises, praisedByMe, creationBurns, burnedByMe });
-  // console.log({ praises, isPraised, burns, isBurned });
+  // console.log({ creationPraises, praisedByMe, creationBurns, burnedByMe })
+  // console.log({ praises, isPraised, burns, isBurned })
 
   return (
     <>
-      <div
-        style={styles.socialTopWrapper}
-      >
-        <SaveButton
-          isBookmarked={isBookmarked}
-          setIsBookmarked={setIsBookmarked}
-          modalOpen={modalOpen}
-          setModalOpen={setModalOpen}
-        />
-        <BurnButton
-          creationId={creationId}
-          burnsData={burns}
-          isBurnedData={isBurned}
-          setIsBurned={setIsBurned}
-        />
-        <PraiseButton
-          creationId={creationId}
-          praisesData={praises}
-          isPraisedData={isPraised}
-          setIsPraised={setIsPraised}
-        />
+        <article style={{ display: 'flex', alignItems: 'flex-start', position: 'absolute', top: 5, paddingTop: 10, zIndex: 150 }}>
+          <BurnButton
+            creationId={creationId}
+            burnsData={burns}
+            isBurnedData={isBurned}
+            setIsBurned={setIsBurned}
+            />
+          <PraiseButton
+            creationId={creationId}
+            praisesData={praises}
+            isPraisedData={isPraised}
+            setIsPraised={setIsPraised}
+            />
+        </article>
+
         {/* <RemixButton
           creationId={creationId}
           remixes={remixes}
           isRemixed={isRemixed}
           setIsRemixed={setIsRemixed}
         /> */}
-        <ShareButton creationId={creationId} />
-      </div>
 
-      {/* <div
-        style={styles.socialBottomWrapper}
-      >
-      </div> */}
+        <article style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', position: 'absolute', right: 5, paddingRight: 10, zIndex: 150 }}>
+          <SaveButton
+            isBookmarked={isBookmarked}
+            setIsBookmarked={setIsBookmarked}
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+          />
+          <ShareButton creationId={creationId} />
+        </article>
 
       <CreationSaveModal modalOpen={modalOpen} setModalOpen={setModalOpen} creationId={creationId} />
 
       {contextHolder}
     </>
-  );
-};
+  )
+}
 
-export default CreationSocial;
+export default CreationSocial

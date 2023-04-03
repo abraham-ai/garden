@@ -1,95 +1,123 @@
-import { useState } from 'react';
+import React, { useState, useContext } from 'react'
+import AppContext from '../../context/AppContext'
 
-import { useContext } from 'react';
-import AppContext from '../../context/AppContext';
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import abbreviateAddress from '../../util/abbreviateAddress';
-import abbreviateText from '../../util/abbreviateText';
+import useWindowDimensions from '../../hooks/useWindowDimensions'
+import abbreviateAddress from '../../util/abbreviateAddress'
+import abbreviateText from '../../util/abbreviateText'
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useAccount } from 'wagmi'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
-import { useAccount } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Typography, Tooltip, Popover, Button, Select, Space } from 'antd'
+const { Text, Paragraph } = Typography
 
-import { Typography, Tooltip, Popover, Button } from 'antd'
-const { Text } = Typography;
+import styles from '../../styles/Header.module.css'
+import EthereumAuth from './EthereumAuth'
 
-import styles from '../../styles/Header.module.css';
-import EthereumAuth from './EthereumAuth';
-
-import { BsGear } from 'react-icons/bs';
+import { BsGear } from 'react-icons/bs'
 
 interface ActiveLinkProps {
-  children: React.ReactNode;
-  href: string;
+  children: React.ReactNode
+  href: string
 }
 
 function ActiveLink({ children, href }: ActiveLinkProps) {
-  const router = useRouter();
+  const router = useRouter()
   const linkStyle = {
     marginRight: 10,
     color: router.asPath === href ? 'purple' : 'gray',
     fontWeight: router.asPath === href ? 'bolder' : 'regular',
-  };
+  }
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    router.push(href);
-  };
+    e.preventDefault()
+    router.push(href)
+  }
+
+
 
   return (
     <a href={href} onClick={handleClick} style={linkStyle}>
       {children}
     </a>
-  );
+  )
 }
 
 export default function Header() {
-  const context = useContext(AppContext);
+  const context = useContext(AppContext)
 
-  const isWalletConnected = context?.isWalletConnected || false;
-  const authToken = context?.authToken || '';
-  const userId = context?.userId || '';
-  const isSignedIn = context?.isSignedIn || false;
+  const router = useRouter()
 
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const isWalletConnected = context?.isWalletConnected || false
+  const authToken = context?.authToken || ''
+  const userId = context?.userId || ''
+  const isSignedIn = context?.isSignedIn || false
 
-  let displayAddress = '';
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+
+  const { width = 0 } = useWindowDimensions()
+
+  let displayAddress = ''
   if (typeof userId === 'string') {
-    displayAddress = abbreviateAddress(userId);
+    displayAddress = abbreviateAddress(userId)
   }
 
-  let displayAuthToken = '';
+  let displayAuthToken = ''
   if (typeof authToken === 'string') {
-    displayAuthToken = abbreviateText(authToken, 80);
+    displayAuthToken = abbreviateText(authToken, 80)
+  }
+
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`)
+    if (value === 'garden') {
+      router.push('/')
+    } else {
+      router.push(`/${value}`)
+    }
+  }
+
+  const handleDefaultSelectValue = () => {
+    if (router.asPath === '/') {
+      return 'garden'
+    } else if (router.asPath === '/editprofile') {
+      return 'editprofile'
+    } else if (router.asPath === '/mycreations') {
+      return 'mycreations'
+    } else if (router.asPath === '/about') {
+      return 'about'
+    } else {
+      return 'garden'
+    }
   }
 
   const content = (
     <>
       {isWalletConnected ? <EthereumAuth /> : null}
 
-        {isWalletConnected && userId ? (
-          <p>
+      {isWalletConnected && userId ? (
+          <Paragraph>
             <strong>{'Logged-In as: '}</strong> {displayAddress}
-          </p>
+          </Paragraph>
         ) : (
-          <p>
+          <Paragraph>
             <strong>{'Logged-In as: '}</strong>
             {'Not logged in'}
-          </p>
+          </Paragraph>
         )}
-  <div className={styles.signedInStyle}>
+      <div className={styles.signedInStyle}>
     {isSignedIn ? (
-        <p>
+        <Paragraph>
           <strong>{'Signed-In as: '}</strong> {displayAddress}
-        </p>
+        </Paragraph>
       ) : (
-        <p>
+        <Paragraph>
           <strong>{'Signed-In as: '}</strong>
           {'Not Signed-In'}
-        </p>
+        </Paragraph>
       )}
     </div>
 
@@ -106,22 +134,51 @@ export default function Header() {
         </span>
       )}
     </div>
-  </>
-);
+    </>
+  )
 
   return (
     <header className={styles.headerWrapper}>
       <ul className={styles.linksWrapper}>
-        <ActiveLink href='/'>
-          <Text>{'Garden'}</Text>
-        </ActiveLink>
+        
 
-        {/* {userId ? (
+
+        {width > 1280 ? (
           <>
-          <ActiveLink href='/mycreations'>My Creations</ActiveLink>
-          <ActiveLink href='/profile'>Edit Profile</ActiveLink>
+            <ActiveLink href='/'>
+              <Text>{'Garden'}</Text>
+            </ActiveLink>
+          {userId ? (
+            <>
+            <ActiveLink href='/mycreations'>
+              <Text>{'My Creations'}</Text>
+            </ActiveLink>
+            <ActiveLink href='/profile'>
+              <Text>{'Edit Profile'}</Text>
+            </ActiveLink>
+            </>
+          ) : null}
           </>
-        ) : null} */}
+        ): (
+          <Space wrap>
+          <Select
+            className='navbarSelect'
+            defaultValue={handleDefaultSelectValue()}
+            style={{ width: 150, border: 'none' }}
+            onChange={handleChange}
+            options={[
+              { value: 'garden', label: 'Garden' },
+              { value: 'about', label: 'About' },
+              { value: 'mycreations', label: 'My Creations' },
+              { value: 'editprofile', label: 'Edit Profile' }
+            ]}
+          />
+        </Space>
+        )}
+
+
+
+        
       </ul>
 
       <section className={styles.authSectionStyle}>
@@ -132,15 +189,15 @@ export default function Header() {
         
         <div style={{ display: 'flex', alignItems: 'center' }}>
         <Popover content={content} trigger='click' placement='bottom'>
-          <Tooltip placement="bottom" title={<span>Settings</span>}>
+          {/* <Tooltip placement="bottom" title={<span>Settings</span>}> */}
             <Button type='link' shape='circle' style={{ marginRight: 10 }}>
               <BsGear style={{ fontSize: '1.5rem' }} />
             </Button>
-          </Tooltip>
+          {/* </Tooltip> */}
         </Popover>
         <ConnectButton />
         </div>
       </section>
     </header>
-  );
+  )
 }

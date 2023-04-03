@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useContext, MouseEvent, FC } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
+import type { FC } from 'react'
 
-import AppContext from '../../../context/AppContext';
+import AppContext from '../../../context/AppContext'
 
-import axios from 'axios';
+import axios from 'axios'
 
-import { Button } from 'antd';
-
-import { AiFillFire, AiOutlineFire } from 'react-icons/ai';
+import { Button, Typography } from 'antd'
+const { Text } = Typography
 
 interface BurnButtonTypes {
-  creationId: string;
-  burnsData: number;
-  isBurnedData: boolean;
-  setIsBurned: (value: boolean) => void;
+  creationId: string
+  burnsData: number
+  isBurnedData: boolean
+  setIsBurned: (value: boolean) => void
 }
 
 const BurnButton: FC<BurnButtonTypes> = ({
@@ -20,43 +20,45 @@ const BurnButton: FC<BurnButtonTypes> = ({
   burnsData,
   isBurnedData,
 }: BurnButtonTypes) => {
-  const context = useContext(AppContext);
-  const isSignedIn = context?.isSignedIn || false;
+  const context = useContext(AppContext)
+  const isSignedIn = context?.isSignedIn || false
 
-  const [burns, setBurns] = useState(burnsData);
-  const [isBurned, setIsBurned] = useState(isBurnedData);
+  const [burns, setBurns] = useState(burnsData)
+  const [isBurned, setIsBurned] = useState(isBurnedData)
 
-  // console.log({ burns, isBurned });
-  // console.log({ burnsData, isBurnedData });
+  const [isBurnHovering, setIsBurnHovering] = useState(false)
+
+  // console.log({ burns, isBurned })
+  // console.log({ burnsData, isBurnedData })
 
   useEffect(() => {
     if (
       typeof burnsData !== 'undefined' &&
       typeof isBurnedData !== 'undefined'
     ) {
-      setBurns(burnsData);
-      setIsBurned(isBurnedData);
+      setBurns(burnsData)
+      setIsBurned(isBurnedData)
     }
-  }, [burnsData, isBurnedData]);
+  }, [burnsData, isBurnedData])
 
   const handleBurn = async () => {
-    // console.log('handle BURN 🔥 !');
-    const { data } = await axios.post('/api/react', {
-      creationId: creationId,
-      reaction: '🔥',
-    });
-    // console.log({ data });
+    // console.log('handle BURN 🔥 !')
+    await axios.post('/api/react', {
+      creationId,
+      reaction: '🔥'
+    })
+    // console.log({ data })
 
-    let burnOpperation = '';
+    let burnOpperation = ''
 
     if (isBurned === true && burns > 0) {
-      setBurns(burns - 1);
-      burnOpperation = 'decrease';
-      setIsBurned(false);
+      setBurns(burns - 1)
+      burnOpperation = 'decrease'
+      setIsBurned(false)
     } else if (isBurned === false) {
-      setBurns(burns + 1);
-      burnOpperation = 'increase';
-      setIsBurned(true);
+      setBurns(burns + 1)
+      burnOpperation = 'increase'
+      setIsBurned(true)
     }
 
     // const results = await axios.post(serverUrl + '/update_stats', {
@@ -64,39 +66,50 @@ const BurnButton: FC<BurnButtonTypes> = ({
     //   stat: 'burn',
     //   opperation: burnOpperation,
     //   address: address,
-    // });
+    // })
 
-    // setBurns(results.data.burn);
-    setIsBurned(!isBurned);
-  };
+    // setBurns(results.data.burn)
 
-  let burnCount;
+    setIsBurned(!isBurned)
+  }
+
+  let burnCount
 
   if (isSignedIn && isBurned) {
     burnCount =
-      burns > 1 ? <span className='social-icon-count'>{burns}</span> : null;
+      burns > 1 ? <span className='social-icon-count'>{burns}</span> : null
   } else {
     burnCount =
-      burns > 0 ? <span className='social-icon-count'>{burns}</span> : null;
+      burns > 0 ? <span className='social-icon-count'>{burns}</span> : null
   }
 
-  let burnClasses;
+  let burnClasses
   if (isSignedIn) {
-    burnClasses = isBurned ? 'cr-burn is-active' : 'cr-burn';
+    burnClasses = isBurned ? 'crBurn isActive' : 'crBurn'
   } else {
-    burnClasses = 'cr-burn disabled';
+    burnClasses = 'crBurn disabled'
   }
 
   const burnGray = (
-    <span style={{ filter: 'grayscale(1)' }}>{'🔥'}</span>
+    <span style={{ filter: 'grayscale(1)', fontSize: '1.8rem' }}>{'🔥'}</span>
   )
 
   const burnFilled = (
-    <span>{'🔥'}</span>
+    <span style={{ fontSize: '1.8rem' }}>{'🔥'}</span>
   )
 
+  const handleMouseOver = () => {
+    console.log('handleMouseOver')
+    setIsBurnHovering(true)
+  }
+
+  const handleMouseOut = () => {
+    console.log('handleMouseOut')
+    setIsBurnHovering(false)
+  }
+
   return (
-    <div className='single-button-wrapper'>
+    <div className='socialButtonWrapper' style={{ display: 'flex', alignItems: 'center' }}>
       <Button
         className={burnClasses}
         shape='round'
@@ -105,19 +118,26 @@ const BurnButton: FC<BurnButtonTypes> = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: 'auto'
+          justifyContent: 'center',
+          background: 'rgba(84, 84, 84, 0.5)',
+          width: 50,
+          height: 50,
+          border: 'none',
+          transition: '1s',
         }}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
       >
         <span
           className='social-icon'
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          {isBurned ? burnFilled : burnGray}
+          {isBurned === true || isBurnHovering === true ? burnFilled : burnGray}
         </span>
-        <span>{burns}</span>
       </Button>
+      <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', margin: ' 0 20px 0 10px', fontWeight: 'bold' }}>{burns}</Text>
     </div>
-  );
-};
+  )
+}
 
-export default BurnButton;
+export default BurnButton

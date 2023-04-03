@@ -1,109 +1,128 @@
-import React, { useState, useEffect, useContext, MouseEvent } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
 
-import AppContext from '../../../context/AppContext';
+import AppContext from '../../../context/AppContext'
 
-import axios from 'axios';
+import axios from 'axios'
 
-import { Button } from 'antd';
-
-import { HiSparkles, HiOutlineSparkles } from 'react-icons/hi';
+import { Button, Typography } from 'antd'
+const { Text } = Typography
 
 interface PraiseButtonTypes {
-  creationId: string;
-  praisesData: number;
-  isPraisedData: boolean;
-  setIsPraised: (value: boolean) => void;
+  creationId: string
+  praisesData: number
+  isPraisedData: boolean
+  setIsPraised: (value: boolean) => void
 }
 
 const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTypes) => {
-  const context = useContext(AppContext);
-  const isSignedIn = context?.isSignedIn || false;
+  const context = useContext(AppContext)
+  const isSignedIn = context?.isSignedIn || false
 
-  const [praises, setPraises] = useState(praisesData);
-  const [isPraised, setIsPraised] = useState(isPraisedData);
+  const [praises, setPraises] = useState(praisesData)
+  const [isPraised, setIsPraised] = useState(isPraisedData)
 
-  // console.log({ praises, isPraised });
-  // console.log({ praisesData, isPraisedData });
+  const [isPraiseHovering, setIsPraiseHovering] = useState(false)
+
+  // console.log({ praises, isPraised })
+  // console.log({ praisesData, isPraisedData })
 
   useEffect(() => {
     if (
       typeof praisesData !== 'undefined' &&
       typeof isPraisedData !== 'undefined'
     ) {
-      setPraises(praisesData);
-      setIsPraised(isPraisedData);
+      setPraises(praisesData)
+      setIsPraised(isPraisedData)
     }
-  }, [praisesData, isPraisedData]);
+  }, [praisesData, isPraisedData])
 
   const handlePraise = async () => {
-    // console.log('handle PRAISE 👏 !');
-    const { data } = await axios.post('/api/react', {
-      creationId: creationId,
-      reaction: '🙌',
-    });
-    // console.log({ data });
+    // console.log('handle PRAISE 👏 !')
+    await axios.post('/api/react', {
+      creationId,
+      reaction: '🙌'
+    })
+    // console.log({ data })
 
-    let praiseOpperation = '';
+    let praiseOpperation = ''
 
     if (isPraised === true && praises > 0) {
-      setPraises(praises - 1);
-      praiseOpperation = 'decrease';
-      setIsPraised(false);
+      setPraises(praises - 1)
+      praiseOpperation = 'decrease'
+      setIsPraised(false)
     } else if (isPraised === false) {
-      setPraises(praises + 1);
-      praiseOpperation = 'increase';
-      setIsPraised(true);
+      setPraises(praises + 1)
+      praiseOpperation = 'increase'
+      setIsPraised(true)
     }
 
-    setIsPraised(!isPraised);
-  };
-
-  let praiseCount;
-  if (isSignedIn && isPraised) {
-    praiseCount =
-      praises > 1 ? <span className='social-icon-count'>{praises}</span> : null;
-  } else {
-    praiseCount =
-      praises > 0 ? <span className='social-icon-count'>{praises}</span> : null;
+    setIsPraised(!isPraised)
   }
 
-  let praiseClasses;
-  if (isSignedIn) {
-    praiseClasses = isPraised ? 'cr-praise is-active' : 'cr-praise';
+  let praiseCount
+  if (isSignedIn && isPraised) {
+    praiseCount =
+      praises > 1 ? <span className='social-icon-count'>{praises}</span> : null
   } else {
-    praiseClasses = 'cr-praise disabled';
+    praiseCount =
+      praises > 0 ? <span className='social-icon-count'>{praises}</span> : null
+  }
+
+  let praiseClasses
+  if (isSignedIn) {
+    praiseClasses = isPraised ? 'cr-praise is-active' : 'cr-praise'
+  } else {
+    praiseClasses = 'cr-praise disabled'
   }
 
   const praiseGray = (
-    <span style={{ filter: 'grayscale(1)' }}>{'🙌'}</span>
+    <span style={{ filter: 'grayscale(1)', fontSize: '1.8rem', marginBottom: 6 }}>{'🙌'}</span>
   )
 
   const praiseFilled = (
-    <span>{'🙌'}</span>
+    <span style={{ fontSize: '1.8rem', marginBottom: 6 }}>{'🙌'}</span>
   )
 
+  const handleMouseOver = () => {
+    console.log('handleMouseOver')
+    setIsPraiseHovering(true)
+  }
+
+  const handleMouseOut = () => {
+    console.log('handleMouseOut')
+    setIsPraiseHovering(false)
+  }
+
   return (
-    <div className='single-button-wrapper'>
+    <div className='socialButtonWrapper' style={{ display: 'flex', alignItems: 'center' }}>
       <Button
         className={praiseClasses}
-        shape='round'
+        shape='circle'
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          background: 'rgba(84, 84, 84, 0.5)',
+          width: 50,
+          height: 50,
+          border: 'none',
+          transition: '1s',
         }}
         onClick={() => handlePraise()}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
       >
         <span
           className='social-icon'
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          {isPraised ? prayFilled : praiseGray}
+          {isPraised === true || isPraiseHovering === true ? praiseFilled : praiseGray}
         </span>
-        <span>{praises}</span>
       </Button>
+        <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>{praises}</Text>
     </div>
-  );
-};
+  )
+}
 
-export default PraiseButton;
+export default PraiseButton
+
