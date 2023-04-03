@@ -16,7 +16,7 @@ interface ApiRequest extends NextApiRequest {
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
   //   const { name } = req.query;
   const { collectionId, creationId } = req.body;
-  const { userId, authToken } = req.session
+  const { userId, token: authToken } = req.session
   // console.log({ name });
   // console.log({ req });
   // console.log(req.url);

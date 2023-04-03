@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AppContext from '../context/AppContext';
-import AppContextType from '../interfaces/AppContext';
+import React, { useState, useEffect, useContext } from 'react'
+import AppContext from '../context/AppContext'
+import AppContextType from '../interfaces/AppContext'
 
-import Router from 'next/router';
-import nProgress from 'nprogress';
-import 'nprogress/nprogress.css';
+import Router from 'next/router'
+import nProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 import {
   WagmiConfig,
@@ -12,21 +12,21 @@ import {
   configureChains,
   mainnet,
   useAccount,
-} from 'wagmi';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
+} from 'wagmi'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { publicProvider } from 'wagmi/providers/public'
 
 import {
   RainbowKitProvider,
   AvatarComponent,
   getDefaultWallets,
-} from '@rainbow-me/rainbowkit';
-import '@rainbow-me/rainbowkit/styles.css';
+} from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
 
-import Blockies from 'react-blockies';
+import Blockies from 'react-blockies'
 
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
 
 const { chains, provider } = configureChains(
   [mainnet],
@@ -36,49 +36,49 @@ const { chains, provider } = configureChains(
     }),
     publicProvider(),
   ]
-);
+)
 const { connectors } = getDefaultWallets({
   appName: 'Eden Art AI',
   chains,
-});
+})
 
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-});
+})
 
 const CustomAvatar: AvatarComponent = ({ address }: { address: string }) => {
-  return <Blockies seed={address} />;
-};
+  return <Blockies seed={address} />
+}
 
 export default function App({ Component, pageProps }: AppProps) {
 
   // wagmi wallet hooks
-  const { isConnected, address } = useAccount();
+  const { isConnected, address } = useAccount()
 
   // auth context
   const [isWalletConnected, setIsWalletConnected] = useState<
     boolean | undefined
-  >(undefined);
-  const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false);
-  const [authToken, setAuthToken] = useState<string | undefined>('');
-  const [userId, setUserId] = useState<string | undefined>('');
+  >(undefined)
+  const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false)
+  const [authToken, setAuthToken] = useState<string | undefined>('')
+  const [userId, setUserId] = useState<string | undefined>('')
 
   // creation context
-  const [creationsData, setCreationsData] = useState<object[]>([]);
-  const [creationsLoading, setCreationsLoading] = useState<boolean>(false);
-  const [creationsMore, setCreationsMore] = useState<boolean>(true);
-  const [creationsLoad, setCreationsLoad] = useState<boolean>(false);
-  const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0);
+  const [creationsData, setCreationsData] = useState<object[]>([])
+  const [creationsLoading, setCreationsLoading] = useState<boolean>(false)
+  const [creationsMore, setCreationsMore] = useState<boolean>(true)
+  const [creationsLoad, setCreationsLoad] = useState<boolean>(false)
+  const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0)
 
-  const [collections, setCollections] = useState<Collection[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([])
   const [selectedCollection, setSelectedCollection] =
-    useState<string>('');
-  const [collectionModalView, setCollectionModalView] = useState<number>(0);
+    useState<string>('')
+  const [collectionModalView, setCollectionModalView] = useState<number>(0)
 
   // init context
-  const context = useContext(AppContext);
+  const context = useContext(AppContext)
   const contextValues = {
     authToken,
     setAuthToken,
@@ -101,17 +101,17 @@ export default function App({ Component, pageProps }: AppProps) {
     setSelectedCollection,
     collectionModalView,
     setCollectionModalView,
-  };
+  }
 
   // routing progress bar
-  Router.events.on('routeChangeStart', nProgress.start);
-  Router.events.on('routeChangeError', nProgress.done);
-  Router.events.on('routeChangeComplete', nProgress.done);
+  Router.events.on('routeChangeStart', nProgress.start)
+  Router.events.on('routeChangeError', nProgress.done)
+  Router.events.on('routeChangeComplete', nProgress.done)
 
   useEffect(() => {
-    setIsWalletConnected(isConnected);
-    setUserId(address ? `${address}` : '');
-  }, [isConnected, setIsWalletConnected, address, setUserId, userId]);
+    setIsWalletConnected(isConnected)
+    setUserId(address ? `${address}` : '')
+  }, [isConnected, setIsWalletConnected, address, setUserId, userId])
 
   return (
     <>
@@ -135,5 +135,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </WagmiConfig>
       </AppContext.Provider>
     </>
-  );
+  )
 }

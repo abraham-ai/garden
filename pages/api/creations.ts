@@ -32,35 +32,35 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
   // });
 
   try {
-    const filter = { limit: limit };
-    Object.assign(filter, username !== 'null' ? { username: username } : {});
+    const filter = { limit: limit }
+    Object.assign(filter, username !== 'null' ? { username: username } : {})
     Object.assign(
       filter,
       generators !== 'null' ? { generators: generators } : {}
-    );
+    )
     Object.assign(
       filter,
       earliestTime !== 'null' ? { earliestTime: earliestTime } : {}
-    );
+    )
     Object.assign(
       filter,
       latestTime !== 'null' ? { latestTime: latestTime } : {}
-    );
-    Object.assign(filter, limit ? { limit: limit } : {});
+    )
+    Object.assign(filter, limit ? { limit: limit } : {})
 
     // console.log({ filter });
-    const creations = await eden.getCreations(filter);
+    const creations = await eden.getCreations(filter)
 
     // console.log(creations.length);
     // console.log(creations);
 
-    return res.status(200).json(creations);
+    return res.status(200).json(creations)
   } catch (error: any) {
     console.log(error);
     // if (error.response.data == 'jwt expired') {
     //   return res.status(401).json({ error: 'Authentication expired' });
     // }
-    return res.status(500).json({ error: error });
+    return res.status(500).json({ error: error })
     // error.response.data
   }
 };

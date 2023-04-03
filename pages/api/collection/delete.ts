@@ -12,7 +12,7 @@ interface ApiRequest extends NextApiRequest {
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
   const { collectionId } = req.body;
-  const { userId, authToken } = req.session
+  const { userId, token: authToken } = req.session
 
   try {
     const authTokenResult = await eden.setAuthToken(authToken);

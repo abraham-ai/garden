@@ -6,19 +6,14 @@ const eden = new EdenClient();
 
 interface ApiRequest extends NextApiRequest {
   body: {
-    name: string;
+    collectionName: string;
+    creationId: string
   };
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  // const { username, generators, earliestTime, latestTime, limit } = req.body;
-  //   const { name } = req.query;
-  const { name: collectionName, creationId } = req.body;
-  const { userId, authToken } = req.session
-  // console.log({ name });
-  // console.log({ req });
-  // console.log(req.url);
-  //   console.log(req.body);
+  const { collectionName, creationId } = req.body;
+  const { userId, token: authToken } = req.session
 
   try {
     const authTokenResult = await eden.setAuthToken(authToken);

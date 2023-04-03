@@ -1,21 +1,21 @@
-import React from 'react';
-import useSWR from 'swr';
-import { useEffect, useState, FC, ReactElement } from 'react';
+import React from 'react'
+import useSWR from 'swr'
+import { useEffect, useState, FC, ReactElement } from 'react'
 
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/router'
+import Image from 'next/image'
+import Link from 'next/link'
 
-import CreationResponse from '../../interfaces/CreationResponse';
+import CreationResponse from '../../interfaces/CreationResponse'
 
-import styles from '../../styles/CreationId.module.css';
+import styles from '../../styles/CreationId.module.css'
 
-import abbreviateAddress from '../../util/abbreviateAddress';
-import timeAgo from '../../util/timeAgo';
+import abbreviateAddress from '../../util/abbreviateAddress'
+import timeAgo from '../../util/timeAgo'
 
-import ProfilePopOver from '../../app/components/ProfilePopover';
+import ProfilePopOver from '../../app/components/ProfilePopover'
 
-import useGetCreation from '../../hooks/useGetCreation';
+import useGetCreation from '../../hooks/useGetCreation'
 
 import {
   Button,
@@ -26,52 +26,52 @@ import {
   Avatar,
   Popover,
   Tag,
-} from 'antd';
+} from 'antd'
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text, Paragraph } = Typography
 
-import Blockies from 'react-blockies';
-import Header from '../../app/components/Header';
+import Blockies from 'react-blockies'
+import Header from '../../app/components/Header'
 
-import { FiMoreHorizontal } from 'react-icons/fi';
-import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa';
-import { IoIosShareAlt } from 'react-icons/io';
-import { AiFillEye, AiFillFire } from 'react-icons/ai';
-import { BiUserPlus } from 'react-icons/bi';
-import { HiOutlineArrowNarrowUp, HiOutlineFingerPrint } from 'react-icons/hi'; // HiCommandLine
-import { MdOutlineDateRange } from 'react-icons/md';
-import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs';
-import { SlSizeFullscreen } from 'react-icons/sl';
+import { FiMoreHorizontal } from 'react-icons/fi'
+import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa'
+import { IoIosShareAlt } from 'react-icons/io'
+import { AiFillEye, AiFillFire } from 'react-icons/ai'
+import { BiUserPlus } from 'react-icons/bi'
+import { HiOutlineArrowNarrowUp, HiOutlineFingerPrint } from 'react-icons/hi' // HiCommandLine
+import { MdOutlineDateRange } from 'react-icons/md'
+import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs'
+import { SlSizeFullscreen } from 'react-icons/sl'
 
 interface CreationPageProps {
-  params: { id: string };
-  creation: CreationResponse;
-  size?: string;
+  params: { id: string }
+  creation: CreationResponse
+  size?: string
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const Creation: FC<CreationPageProps> = ({
   params,
   creation,
   size = 'regular',
 }: CreationPageProps) => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [isHovering, setIsHovering] = useState(true);
+  const [isHovering, setIsHovering] = useState(true)
 
   const handleMouseOver = () => {
-    setIsHovering(true);
-  };
+    setIsHovering(true)
+  }
 
   const handleMouseOut = () => {
-    setIsHovering(false);
-  };
+    setIsHovering(false)
+  }
 
-  const creationId = router.query.creationId;
+  const creationId = router.query.creationId
 
-  // console.log(creationId);
-  // console.log(router.query);
+  // console.log(creationId)
+  // console.log(router.query)
 
   const {
     uri: queryUri = '',
@@ -84,48 +84,48 @@ const Creation: FC<CreationPageProps> = ({
     user: queryUser = '',
     width: queryWidth = 0,
     _id: queryId = '',
-  } = router.query;
+  } = router.query
 
-  const url = `/api/creation?${creationId}`;
+  const url = `/api/creation?${creationId}`
 
-  const [_id, setId] = useState<string>('');
-  const [user, setUser] = useState<string>('');
-  const [textInput, setTextInput] = useState<string>('');
-  const [thumbnail, setThumbnail] = useState<string>('');
-  const [uri, setUri] = useState<string>('');
-  const [createdAt, setCreatedAt] = useState<string>('');
-  const [generatorName, setGeneratorName] = useState<string>('');
-  const [width, setWidth] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
+  const [_id, setId] = useState<string>('')
+  const [user, setUser] = useState<string>('')
+  const [textInput, setTextInput] = useState<string>('')
+  const [thumbnail, setThumbnail] = useState<string>('')
+  const [uri, setUri] = useState<string>('')
+  const [createdAt, setCreatedAt] = useState<string>('')
+  const [generatorName, setGeneratorName] = useState<string>('')
+  const [width, setWidth] = useState<number>(0)
+  const [height, setHeight] = useState<number>(0)
 
-  const creationData = useGetCreation(creationId);
-  // console.log(creationData);
+  const creationData = useGetCreation(creationId)
+  // console.log(creationData)
 
-  const isParent = true;
+  const isParent = true
 
-  // console.log(router.query.creationId);
+  // console.log(router.query.creationId)
 
   // useEffect(() => {
   //   if (typeof creationData !== 'undefined' && creationData !== null) {
-      // console.log(creationData);
-      // setUri(creationData.uri);
-      // setCreatedAt(creationData.creation.createdAt);
-      // setGeneratorName(creationData.task.generator.generatorName);
-      // setWidth(creationData.task.config.width);
-      // setHeight(creationData.task.config.height);
-      // setTextInput(creationData.task.config.text_input);
-      // setUser(creationData.user);
-      // setThumbnail(creationData.thumbnail);
-      // setId(creationData._id);
-      // setStatus(creationData.task.status);
+      // console.log(creationData)
+      // setUri(creationData.uri)
+      // setCreatedAt(creationData.creation.createdAt)
+      // setGeneratorName(creationData.task.generator.generatorName)
+      // setWidth(creationData.task.config.width)
+      // setHeight(creationData.task.config.height)
+      // setTextInput(creationData.task.config.text_input)
+      // setUser(creationData.user)
+      // setThumbnail(creationData.thumbnail)
+      // setId(creationData._id)
+      // setStatus(creationData.task.status)
   //   }
-  // }, [creationData]);
+  // }, [creationData])
 
-  let timeAgoCreatedAt = 0;
+  let timeAgoCreatedAt = 0
   if (typeof creationData !== 'undefined' && creationData !== null) {
-    console.log(creationData);
-    console.log(creationData.creation.task.config.text_input);
-    timeAgoCreatedAt = timeAgo(parseInt(creationData.creation.createdAt));
+    console.log(creationData)
+    console.log(creationData.creation.task.config.text_input)
+    timeAgoCreatedAt = timeAgo(parseInt(creationData.creation.createdAt))
     console.log(timeAgoCreatedAt)
   }
 
@@ -295,7 +295,7 @@ const Creation: FC<CreationPageProps> = ({
         )}
       </section>
     </>
-  );
-};
+  )
+}
 
-export default Creation;
+export default Creation
