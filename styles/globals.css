@@ -122,3 +122,37 @@ a {
   border-radius: 20px !important;
   background: red;
 }
+
+/* ANTD CUSTOM CREATION CARD */
+:where(.css-dev-only-do-not-override-mxhywb).ant-modal .ant-modal-content {
+  padding: 0;
+}
+:where(.css-dev-only-do-not-override-mxhywb).ant-modal .ant-modal-footer {
+  margin-top: 0;
+}
+:where(.css-dev-only-do-not-override-mxhywb).ant-modal .ant-modal-body {
+  align-items: center;
+  display: flex;
+}
+
+.ant-modal-wrap {
+  display: flex;
+}
+.ant-modal {
+  display: flex;
+  align-items: center;
+  position: relative;
+  transform-origin: unset;
+  top: 0;
+}
+
+
+/* NAVBAR CUSTOM */
+.navbarSelect .ant-select-selector {
+  border: none !important;
+  text-align: center;
+}
+
+:where(.css-dev-only-do-not-override-mxhywb).ant-select-single.ant-select-show-arrow .ant-select-selection-item {
+  font-weight: 600 !important;
+}

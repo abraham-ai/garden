@@ -1,13 +1,14 @@
 .headerWrapper {
   /* padding: 2rem; */
-  min-height: 100px;
+  min-height: 70px;
   position: fixed;
   width: 100vw;
   top: 0;
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  z-index: 100;
+  z-index: 200;
+  backdrop-filter: blur(16px);
 }
 .linksWrapper {
   position: absolute;
