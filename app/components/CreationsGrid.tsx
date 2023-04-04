@@ -19,20 +19,19 @@ import deepEqual from '../../util/deepEqual'
 import FilterType from '../../interfaces/Filter'
 
 import CreationCard from './CreationCard'
+import CreationsMasonry from './Creations/CreationsMasonry'
 import type Creation from '../../interfaces/Creation'
 
 import { Button, Spin, Row } from 'antd'
 
-import Masonry from 'react-masonry-css'
 import styles from '../../styles/CreationsGrid.module.css'
-import breakpointColumnsObj from '../../constants/breakpointColumns'
 
 import { LoadingOutlined } from '@ant-design/icons'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const CreationsGrid = () => {
-  const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
+  const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(true)
 
   const [username, setUsername] = useState<string | string>('')
   const [generators, setGenerators] = useState<string | string>('')
@@ -185,7 +184,7 @@ const CreationsGrid = () => {
           setSize(size + 1)
 
           infiniteScrollService.send({
-            type: 'LOAD_MORE',
+            type: 'LOAD_MORE'
             // data: newDate,
           })
         }
@@ -198,7 +197,7 @@ const CreationsGrid = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(loadMoreObserver, {
       rootMargin: '0px',
-      threshold: 1.0,
+      threshold: 1.0
     })
 
     const currentRef = loadBelowRef.current
@@ -259,31 +258,7 @@ const CreationsGrid = () => {
         </section>
       : null }
 
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className={styles.crGridMasonry}
-        columnClassName={styles.crGridMasonryColumn}
-      >
-        {creationsData.map((creation: Creation, i: number) => {
-          const generatorName = creation.task.generator.generatorName
-          // console.log({ creation })
-          if (
-            generatorName === 'tts' ||
-            generatorName === 'complete' ||
-            generatorName === 'interrogate' ||
-            generatorName === 'wav2lip' ||
-            generatorName === 'interpolate' ||
-            generatorName === 'real2real' ||
-            generatorName === 'remix'
-          ) {
-            return null
-          } else {
-            return (
-              <CreationCard creation={creation} key={creation._id} index={i} />
-            )
-          }
-        })}
-      </Masonry>
+      <CreationsMasonry creations={creationsData} />
 
       <Row ref={loadBelowRef} className={styles.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>
         <Spin indicator={antIcon} />
