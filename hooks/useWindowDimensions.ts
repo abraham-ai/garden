@@ -6,19 +6,19 @@ function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window
     return {
       width,
-      height,
+      height
     }
   } else {
     return {
       width: 0,
-      height: 0,
+      height: 0
     }
   }
 }
 
 export default function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions(),
+    getWindowDimensions()
   )
 
   useEffect(() => {
@@ -27,8 +27,15 @@ export default function useWindowDimensions() {
     }
 
     window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    return () => { window.removeEventListener('resize', handleResize) }
   }, [])
 
-  return windowDimensions
+  if (typeof windowDimensions !== 'undefined') {
+    return windowDimensions
+  } else {
+    return {
+      width: 0,
+      height: 0
+    }
+  }
 }

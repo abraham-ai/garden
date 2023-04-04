@@ -119,7 +119,7 @@ a {
 
 /* ANTD CUSTOM */
 .ant-modal-content {
-  border-radius: 20px !important;
+  border-radius: 10px !important;
   background: red;
 }
 

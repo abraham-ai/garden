@@ -4,9 +4,9 @@
   background: unset;
   overflow: hidden;
   margin-bottom: 30px;
-  -webkit-transition: 300ms;
-  transition: 300ms;
-  border-radius: 20px;
+  /* -webkit-transition: 300ms;
+  transition: 300ms; */
+  border-radius: 10px;
 }
 .crCardHoverWrapper {
   position: relative;
@@ -14,13 +14,13 @@
   background: unset;
   overflow: hidden;
   margin-bottom: 30px;
-  -webkit-transform: translateY(-4px);
+  /* -webkit-transform: translateY(-4px);
   -ms-transform: translateY(-4px);
   transform: translateY(-4px);
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 30%) !important;
   -webkit-transition: 300ms;
-  transition: 300ms;
-  border-radius: 20px;
+  transition: 300ms; */
+  border-radius: 10px;
 }
 .crCard {
   display: flex;
@@ -35,7 +35,7 @@
 .crImageWrapper {
   position: relative;
   height: 100%;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .crImageWrapper:hover > div:first-child {
@@ -60,11 +60,11 @@
   z-index: 100;
 }
 .crImageBlurMask {
-  backdrop-filter: blur(40px);
-  mask-image: linear-gradient(transparent, transparent 50%);
-  transition: 300ms;
-  -webkit-transition: 300ms;
-  -webkit-mask-image: linear-gradient(to top, transparent 20%, black 100%);
+  /* backdrop-filter: blur(40px); */
+  /* mask-image: linear-gradient(transparent, transparent 50%); */
+  /* transition: 300ms; */
+  /* -webkit-transition: 300ms; */
+  /* -webkit-mask-image: linear-gradient(to top, transparent 20%, black 100%); */
   z-index: 100;
   background: rgba(0, 0, 0, 1);
 }
@@ -73,7 +73,7 @@
   width: 100%;
   height: 100%;
   z-index: 10;
-  /*   background: rgba(0, 0, 0, 0.5); */
+  /* background: rgba(0, 0, 0, 0.5); */
 }
 .crActionLeft {
   position: absolute;
@@ -133,6 +133,11 @@
 }
 .promptWrapper {
   margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  /* mask-image: linear-gradient(transparent, transparent 50%); */
 }
 .crContentMain {
   overflow-y: auto;

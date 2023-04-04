@@ -8,11 +8,22 @@
 .loadingState {
   color: black;
 }
+/* CREATIONS WRAPPER */
 .creationsWrapper {
   margin-top: 250px;
   padding: 0 50px;
-  /* background-color: white; */
 }
+@media (max-width: 1024px) {
+  .creationsWrapper {
+    padding: 0 20px;
+  }
+}
+@media (max-width: 768px) {
+  .creationsWrapper {
+    padding: 0 10px;
+  }
+}
+
 .filterWrapper {
   display: flex;
 }

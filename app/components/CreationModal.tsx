@@ -135,7 +135,6 @@ const CreationModal = ({
                 <Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
               </article>
 
-              
               <article className={styles.promptWrapper}>
                 <Text className={styles.crPromptCommand}>{`/${creation.task.generator.generatorName} `}</Text>
                 <Text className={styles.crPrompt}>{prompt}</Text>

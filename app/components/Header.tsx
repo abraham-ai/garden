@@ -59,7 +59,7 @@ export default function Header() {
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
-  const { width = 0 } = useWindowDimensions()
+  const { width } = useWindowDimensions()
 
   let displayAddress = ''
   if (typeof userId === 'string') {
@@ -96,97 +96,102 @@ export default function Header() {
 
   const content = (
     <>
-      {isWalletConnected ? <EthereumAuth /> : null}
+      {isWalletConnected === true ? <EthereumAuth /> : null }
 
-      {isWalletConnected && userId ? (
-          <Paragraph>
-            <strong>{'Logged-In as: '}</strong> {displayAddress}
-          </Paragraph>
-        ) : (
-          <Paragraph>
-            <strong>{'Logged-In as: '}</strong>
-            {'Not logged in'}
-          </Paragraph>
-        )}
-      <div className={styles.signedInStyle}>
-    {isSignedIn ? (
-        <Paragraph>
-          <strong>{'Signed-In as: '}</strong> {displayAddress}
-        </Paragraph>
-      ) : (
-        <Paragraph>
-          <strong>{'Signed-In as: '}</strong>
-          {'Not Signed-In'}
-        </Paragraph>
-      )}
-    </div>
+      { isWalletConnected === true && typeof userId !== 'undefined'
+        ? (
+            <Paragraph>
+              <strong>{'Logged-In as: '}</strong> {displayAddress}
+            </Paragraph>
+          )
+        : (
+            <Paragraph>
+              <strong>{'Logged-In as: '}</strong>
+              {'Not logged in'}
+            </Paragraph>
+          )
+      }
 
-    <div className={styles.authStyle}>
-      {authToken && isSignedIn ? (
-        <span className={styles.tokenWrapperStyle}>
-          <strong>{'AuthToken:'}</strong>
-          <span className={styles.authToken}>{displayAuthToken}</span>
-        </span>
-      ) : (
-        <span>
-          <strong>{'AuthToken:'}</strong>
-          {'No AuthToken'}
-        </span>
-      )}
-    </div>
+        <div className={styles.signedInStyle}>
+          { isSignedIn === true
+            ? (
+              <Paragraph>
+                <strong>{'Signed-In as: '}</strong> {displayAddress}
+              </Paragraph>
+              )
+            : (
+                <Paragraph>
+                  <strong>{'Signed-In as: '}</strong>
+                  {'Not Signed-In'}
+                </Paragraph>
+              )
+          }
+        </div>
+
+      <div className={styles.authStyle}>
+        { typeof authToken === 'undefined' && isSignedIn === true
+          ? (
+            <span className={styles.tokenWrapperStyle}>
+              <strong>{'AuthToken:'}</strong>
+              <span className={styles.authToken}>{displayAuthToken}</span>
+            </span>
+            )
+          : (
+            <span>
+              <strong>{'AuthToken:'}</strong>
+              {'No AuthToken'}
+            </span>
+            )
+        }
+      </div>
     </>
   )
 
   return (
     <header className={styles.headerWrapper}>
       <ul className={styles.linksWrapper}>
-        
 
-
-        {width > 1280 ? (
-          <>
-            <ActiveLink href='/'>
-              <Text>{'Garden'}</Text>
-            </ActiveLink>
-          {userId ? (
-            <>
-            <ActiveLink href='/mycreations'>
-              <Text>{'My Creations'}</Text>
-            </ActiveLink>
-            <ActiveLink href='/profile'>
-              <Text>{'Edit Profile'}</Text>
-            </ActiveLink>
-            </>
-          ) : null}
-          </>
-        ): (
-          <Space wrap>
-          <Select
-            className='navbarSelect'
-            defaultValue={handleDefaultSelectValue()}
-            style={{ width: 150, border: 'none' }}
-            onChange={handleChange}
-            options={[
-              { value: 'garden', label: 'Garden' },
-              { value: 'about', label: 'About' },
-              { value: 'mycreations', label: 'My Creations' },
-              { value: 'editprofile', label: 'Edit Profile' }
-            ]}
-          />
-        </Space>
-        )}
-
-
-
-        
+        {width > 1280
+          ? (
+              <>
+                <ActiveLink href='/'>
+                  <Text>{'Garden'}</Text>
+                </ActiveLink>
+                {userId !== 'undefined'
+                  ? (
+                      <>
+                        <ActiveLink href='/mycreations'>
+                          <Text>{'My Creations'}</Text>
+                        </ActiveLink>
+                        <ActiveLink href='/profile'>
+                          <Text>{'Edit Profile'}</Text>
+                        </ActiveLink>
+                      </>
+                    )
+                  : null }
+              </>
+            )
+          : (
+              <Space wrap>
+                <Select
+                  className='navbarSelect'
+                  defaultValue={handleDefaultSelectValue()}
+                  style={{ width: 150, border: 'none' }}
+                  onChange={handleChange}
+                  options={[
+                    { value: 'garden', label: 'Garden' },
+                    { value: 'mycreations', label: 'My Creations' },
+                    { value: 'editprofile', label: 'Edit Profile' }
+                  ]}
+                />
+              </Space>
+            )}
       </ul>
 
       <section className={styles.authSectionStyle}>
-
         <Link href='/' style={{ zIndex: 100 }}>
           <Image src={'/eden-logo-512x512.png'} width={40} height={40} alt={'Eden logo'}/>
         </Link>
-        
         <div style={{ display: 'flex', alignItems: 'center' }}>
         <Popover content={content} trigger='click' placement='bottom'>
           {/* <Tooltip placement="bottom" title={<span>Settings</span>}> */}
