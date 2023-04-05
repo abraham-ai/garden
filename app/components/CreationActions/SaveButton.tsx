@@ -98,7 +98,7 @@ const SaveButton = ({
     })
   }
 
-  const bgHoverStyles = isSaveHovering === true ? 'rgb(26, 115, 232, 0.4)' : 'rgba(84, 84, 84, 0.5)'
+  const bgHoverStyles = isSaveHovering === true ? 'rgb(26, 115, 232, 0.4)' : 'rgba(0, 0, 0, 0.5)'
 
   return (
     <>

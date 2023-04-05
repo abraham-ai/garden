@@ -42,7 +42,7 @@ const CreationModal = ({
   // console.log(creation)
 
   let displayAddress = ''
-  if (typeof user === 'string') {
+  if (typeof creation.user === 'string') {
     displayAddress = abbreviateAddress(creation.user)
   }
 
@@ -62,7 +62,7 @@ const CreationModal = ({
       width={'90vw'}
       footer={<></>}
       onCancel={() => { setModalOpen(false) }}
-      style={{ display: 'flex', alignItems: 'center' }}
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
         <Button
           shape='circle'
@@ -71,7 +71,7 @@ const CreationModal = ({
         >
           {'<'}
         </Button>
-      <div style={{ display: 'flex', alignItems: 'center', borderRadius: 20, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', alignItems: 'center', borderRadius: 10, overflow: 'hidden' }}>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex' }}>
@@ -85,7 +85,8 @@ const CreationModal = ({
                 position: 'relative',
                 overflow: 'hidden',
                 maxHeight: 800,
-                alignItems: 'center'
+                alignItems: 'center',
+                display: 'flex'
                 // padding: '0px 80px'
               }}
             >
@@ -130,7 +131,7 @@ const CreationModal = ({
                   >
                     <Blockies seed={creation.user} />
                   </span>
-                  <Text className={styles.displayAddress}>{displayAddress}</Text>
+                  <Text className={styles.displayAddress} style={{ color: 'black' }}>{displayAddress}</Text>
                 </div>
                 <Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
               </article>
@@ -140,7 +141,7 @@ const CreationModal = ({
                 <Text className={styles.crPrompt}>{prompt}</Text>
               </article>
 
-                <span style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: 10, flex: 1, justifyContent: 'flex-end' }}>
+                <span style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: 10, flex: 0, justifyContent: 'flex-end' }}>
                   <Text style={{ fontFamily: 'courier' }}>{creation._id}</Text>
                   <Text style={{ fontFamily: 'courier' }}>
                     {currentCreationIndex === 0 ? creationIndex : currentCreationIndex}

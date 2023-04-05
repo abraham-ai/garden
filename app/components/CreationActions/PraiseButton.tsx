@@ -97,16 +97,16 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
     <div className='socialButtonWrapper' style={{ display: 'flex', alignItems: 'center' }}>
       <Button
         className={praiseClasses}
-        shape='circle'
+        shape='round'
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'rgba(84, 84, 84, 0.5)',
-          width: 50,
+          background: 'rgba(0, 0, 0, 0.5)',
+          width: 100,
           height: 50,
           border: 'none',
-          transition: '1s',
+          transition: '1s'
         }}
         onClick={() => handlePraise()}
         onMouseOver={handleMouseOver}
@@ -118,11 +118,10 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
         >
           {isPraised === true || isPraiseHovering === true ? praiseFilled : praiseGray}
         </span>
-      </Button>
         <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>{praises}</Text>
+      </Button>
     </div>
   )
 }
 
 export default PraiseButton
-

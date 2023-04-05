@@ -203,9 +203,8 @@ export default function CreationCard({
                             <article className={styles.promptWrapper}>
                               <Text className={styles.crPromptCommand}>{`/${creation.task.generator.generatorName} `}</Text>
                               <Text className={styles.crPrompt}>{prompt}</Text>
-                            </article>
 
-                            <article style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
                               <Link
                                 href={{
                                   pathname: `/creator/${creation.user}`,
@@ -227,7 +226,8 @@ export default function CreationCard({
                                 <Text className={styles.displayAddress}>{displayAddress}</Text>
                               </Link>
                               <Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
-                            </article>
+                            </div>
+                                    </article>
                           </div>
                         </div>
 

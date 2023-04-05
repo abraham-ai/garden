@@ -119,11 +119,12 @@ const BurnButton: FC<BurnButtonTypes> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'rgba(84, 84, 84, 0.5)',
-          width: 50,
+          background: 'rgba(0, 0, 0, 0.5)',
+          width: 100,
           height: 50,
           border: 'none',
           transition: '1s',
+          marginRight: 10
         }}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
@@ -134,8 +135,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
         >
           {isBurned === true || isBurnHovering === true ? burnFilled : burnGray}
         </span>
+        <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', margin: ' 0 20px 0 10px', fontWeight: 'bold' }}>{burns}</Text>
       </Button>
-      <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', margin: ' 0 20px 0 10px', fontWeight: 'bold' }}>{burns}</Text>
     </div>
   )
 }

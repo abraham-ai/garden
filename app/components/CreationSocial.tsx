@@ -80,7 +80,7 @@ const CreationSocial = ({
 
   return (
     <>
-        <article style={{ display: 'flex', alignItems: 'flex-start', position: 'absolute', top: 5, paddingTop: 10, zIndex: 150 }}>
+        <article style={{ display: 'flex', alignItems: 'flex-start', position: 'absolute', top: 20, left: 20, zIndex: 150 }}>
           <BurnButton
             creationId={creationId}
             burnsData={burns}
@@ -102,7 +102,7 @@ const CreationSocial = ({
           setIsRemixed={setIsRemixed}
         /> */}
 
-        <article style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', position: 'absolute', right: 5, paddingRight: 10, zIndex: 150 }}>
+        <article style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', position: 'absolute', right: 20, top: 20, zIndex: 150 }}>
           <SaveButton
             isBookmarked={isBookmarked}
             setIsBookmarked={setIsBookmarked}
