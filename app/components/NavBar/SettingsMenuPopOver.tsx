@@ -4,7 +4,7 @@ import EthereumAuth from '../EthereumAuth'
 import styles from '../../../styles/Header.module.css'
 
 import { Typography } from 'antd'
-const { Paragraph } = Typography
+const { Paragraph, Text } = Typography
 
 const SettingsMenuPopOver = ({ 
 	isWalletConnected,
@@ -19,30 +19,30 @@ const SettingsMenuPopOver = ({
 	
 			{ isWalletConnected === true && typeof userId !== 'undefined'
 			? (
-				<Paragraph>
+				<Text>
 					<strong>{'Logged-In as: '}</strong> {displayAddress}
-				</Paragraph>
+				</Text>
 				)
 			: (
-				<Paragraph>
+				<Text>
 					<strong>{'Logged-In as: '}</strong>
 					{'Not logged in'}
-				</Paragraph>
+				</Text>
 				)
 			}
 	
 			<div className={styles.signedInStyle}>
 				{ isSignedIn === true
 				? (
-					<Paragraph>
+					<Text>
 					<strong>{'Signed-In as: '}</strong> {displayAddress}
-					</Paragraph>
+					</Text>
 					)
 				: ( 
-					<Paragraph>
+					<Text>
 						<strong>{'Signed-In as: '}</strong>
 						{'Not Signed-In'}
-					</Paragraph>
+					</Text>
 					)
 				}
 			</div>

@@ -4,29 +4,21 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback,
   useMemo,
   useContext
 } from 'react'
-import useSWRInfinite from 'swr/infinite'
 
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 
-import { createMachine, interpret, assign } from 'xstate'
-
-import deepEqual from '../../util/deepEqual'
-
-import FilterType from '../../interfaces/Filter'
-
-import CreationCard from './CreationCard'
+import CreationCard from '../CreationCard'
 import type Creation from '../../interfaces/Creation'
 import type Creations from '../../interfaces/Creations'
 
-import { Button, Row, Spin } from 'antd'
+import { Row, Spin } from 'antd'
 
 import Masonry from 'react-masonry-css'
-import styles from '../../styles/CreationsGrid.module.css'
-import breakpointColumnsObj from '../../constants/breakpointColumns'
+import styles from '../../../styles/CreationsGrid.module.css'
+import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
 import { LoadingOutlined } from '@ant-design/icons'
 

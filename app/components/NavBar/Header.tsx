@@ -105,7 +105,7 @@ export default function Header() {
       ])
     } else {
       return ([
-        { value: 'graden', lavel: 'Garden' }
+        { value: 'garden', label: 'Garden' }
       ])
     }
   }
@@ -144,7 +144,7 @@ export default function Header() {
                         defaultValue={handleDefaultSelectValue()}
                         style={{ width: 150, border: 'none' }}
                         onChange={handleChange}
-                        options={[handleSelectOptions()]}
+                        options={handleSelectOptions()}
                         />
                     </Space>
                   )
