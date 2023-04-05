@@ -157,10 +157,14 @@ export default function CreationCard({
   if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
     if (creation.task.config.height > 550) {
       prompt = abbreviateText(creationTextInput, 80) // 100
+    }  else if (creation.task.config.height > 500) {
+      prompt = abbreviateText(creationTextInput, 40) // 100
     } else if (creation.task.config.height > 450) {
       prompt = abbreviateText(creationTextInput, 30) // 100
-    } else {
+    } else if (creation.task.config.height > 400) {
       prompt = abbreviateText(creationTextInput, 25) // 100
+    } else {
+      prompt = abbreviateText(creationTextInput, 20) // 100
     }
   }
 

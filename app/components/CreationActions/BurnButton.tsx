@@ -18,7 +18,7 @@ interface BurnButtonTypes {
 const BurnButton: FC<BurnButtonTypes> = ({
   creationId,
   burnsData,
-  isBurnedData,
+  isBurnedData
 }: BurnButtonTypes) => {
   const context = useContext(AppContext)
   const isSignedIn = context?.isSignedIn || false
@@ -43,34 +43,39 @@ const BurnButton: FC<BurnButtonTypes> = ({
 
   const handleBurn = async () => {
     // console.log('handle BURN 🔥 !')
-    await axios.post('/api/react', {
-      creationId,
-      reaction: '🔥'
-    })
-    // console.log({ data })
 
-    let burnOpperation = ''
-
-    if (isBurned === true && burns > 0) {
-      setBurns(burns - 1)
-      burnOpperation = 'decrease'
-      setIsBurned(false)
-    } else if (isBurned === false) {
-      setBurns(burns + 1)
-      burnOpperation = 'increase'
-      setIsBurned(true)
+    if (isSignedIn === false) {
+      return
+    } else {
+      await axios.post('/api/react', {
+        creationId,
+        reaction: '🔥'
+      })
+      // console.log({ data })
+      
+      let burnOpperation = ''
+  
+      if (isBurned === true && burns > 0) {
+        setBurns(burns - 1)
+        burnOpperation = 'decrease'
+        setIsBurned(false)
+      } else if (isBurned === false) {
+        setBurns(burns + 1)
+        burnOpperation = 'increase'
+        setIsBurned(true)
+      }
+  
+      // const results = await axios.post(serverUrl + '/update_stats', {
+      //   creation: creationSha,
+      //   stat: 'burn',
+      //   opperation: burnOpperation,
+      //   address: address,
+      // })
+  
+      // setBurns(results.data.burn)
+  
+      setIsBurned(!isBurned)
     }
-
-    // const results = await axios.post(serverUrl + '/update_stats', {
-    //   creation: creationSha,
-    //   stat: 'burn',
-    //   opperation: burnOpperation,
-    //   address: address,
-    // })
-
-    // setBurns(results.data.burn)
-
-    setIsBurned(!isBurned)
   }
 
   let burnCount

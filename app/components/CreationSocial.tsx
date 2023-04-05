@@ -102,7 +102,7 @@ const CreationSocial = ({
           setIsRemixed={setIsRemixed}
         /> */}
 
-        <article style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', position: 'absolute', right: 20, top: 20, zIndex: 150 }}>
+        <article style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', position: 'absolute', right: 20, top: 20, zIndex: 150 }}>
           <SaveButton
             isBookmarked={isBookmarked}
             setIsBookmarked={setIsBookmarked}

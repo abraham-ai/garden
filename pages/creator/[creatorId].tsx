@@ -14,7 +14,7 @@ import timeAgo from '../../util/timeAgo'
 import useGetCreator from '../../hooks/useGetCreator'
 
 import Blockies from 'react-blockies'
-import Header from '../../app/components/Header'
+import Header from '../../app/components/NavBar/Header'
 import CreationsGridSimple from '../../app/components/CreationsGridSimple'
 import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 

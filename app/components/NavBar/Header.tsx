@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react'
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import useWindowDimensions from '../../hooks/useWindowDimensions'
-import abbreviateAddress from '../../util/abbreviateAddress'
-import abbreviateText from '../../util/abbreviateText'
+import useWindowDimensions from '../../../hooks/useWindowDimensions'
+import abbreviateAddress from '../../../util/abbreviateAddress'
+import abbreviateText from '../../../util/abbreviateText'
 
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
@@ -15,8 +15,10 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { Typography, Tooltip, Popover, Button, Select, Space } from 'antd'
 const { Text, Paragraph } = Typography
 
-import styles from '../../styles/Header.module.css'
-import EthereumAuth from './EthereumAuth'
+import styles from '../../../styles/Header.module.css'
+
+import SettingsMenuPopOver from './SettingsMenuPopOver'
+import EthereumAuth from '../EthereumAuth'
 
 import { BsGear } from 'react-icons/bs'
 
@@ -94,64 +96,25 @@ export default function Header() {
     }
   }
 
-  const content = (
-    <>
-      {isWalletConnected === true ? <EthereumAuth /> : null }
-
-      { isWalletConnected === true && typeof userId !== 'undefined'
-        ? (
-            <Paragraph>
-              <strong>{'Logged-In as: '}</strong> {displayAddress}
-            </Paragraph>
-          )
-        : (
-            <Paragraph>
-              <strong>{'Logged-In as: '}</strong>
-              {'Not logged in'}
-            </Paragraph>
-          )
-      }
-
-        <div className={styles.signedInStyle}>
-          { isSignedIn === true
-            ? (
-              <Paragraph>
-                <strong>{'Signed-In as: '}</strong> {displayAddress}
-              </Paragraph>
-              )
-            : (
-                <Paragraph>
-                  <strong>{'Signed-In as: '}</strong>
-                  {'Not Signed-In'}
-                </Paragraph>
-              )
-          }
-        </div>
-
-      <div className={styles.authStyle}>
-        { typeof authToken === 'undefined' && isSignedIn === true
-          ? (
-            <span className={styles.tokenWrapperStyle}>
-              <strong>{'AuthToken:'}</strong>
-              <span className={styles.authToken}>{displayAuthToken}</span>
-            </span>
-            )
-          : (
-            <span>
-              <strong>{'AuthToken:'}</strong>
-              {'No AuthToken'}
-            </span>
-            )
-        }
-      </div>
-    </>
-  )
+  const handleSelectOptions = () => {
+    if (isSignedIn === true) {
+      return ([
+        { value: 'garden', label: 'Garden' },
+        { value: 'mycreations', label: 'My Creations' },
+        { value: 'editprofile', label: 'Edit Profile' }
+      ])
+    } else {
+      return ([
+        { value: 'graden', lavel: 'Garden' }
+      ])
+    }
+  }
 
   return (
     <header className={styles.headerWrapper}>
       <ul className={styles.linksWrapper}>
 
-        {width > 1280
+        { width > 1280
           ? (
               <>
                 <ActiveLink href='/'>
@@ -172,20 +135,26 @@ export default function Header() {
               </>
             )
           : (
-              <Space wrap>
-                <Select
-                  className='navbarSelect'
-                  defaultValue={handleDefaultSelectValue()}
-                  style={{ width: 150, border: 'none' }}
-                  onChange={handleChange}
-                  options={[
-                    { value: 'garden', label: 'Garden' },
-                    { value: 'mycreations', label: 'My Creations' },
-                    { value: 'editprofile', label: 'Edit Profile' }
-                  ]}
-                />
-              </Space>
-            )}
+						isSignedIn === true
+							? 
+                  (
+                    <Space wrap>
+                      <Select
+                        className='navbarSelect'
+                        defaultValue={handleDefaultSelectValue()}
+                        style={{ width: 150, border: 'none' }}
+                        onChange={handleChange}
+                        options={[handleSelectOptions()]}
+                        />
+                    </Space>
+                  )
+                : (
+                  <ActiveLink href='/'>
+										<Text>{'Garden'}</Text>
+									</ActiveLink>
+                )
+              
+          )}
       </ul>
 
       <section className={styles.authSectionStyle}>
@@ -193,14 +162,24 @@ export default function Header() {
           <Image src={'/eden-logo-512x512.png'} width={40} height={40} alt={'Eden logo'}/>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Popover content={content} trigger='click' placement='bottom'>
-          {/* <Tooltip placement="bottom" title={<span>Settings</span>}> */}
-            <Button type='link' shape='circle' style={{ marginRight: 10 }}>
-              <BsGear style={{ fontSize: '1.5rem' }} />
-            </Button>
-          {/* </Tooltip> */}
-        </Popover>
-        <ConnectButton />
+          <Popover
+              content={<SettingsMenuPopOver
+                isWalletConnected={isWalletConnected}
+                userId={userId}
+                displayAddress={displayAddress}
+                isSignedIn={isSignedIn}
+                authToken={authToken}
+              />}
+              trigger='click'
+              placement='bottom'
+            >
+            {/* <Tooltip placement="bottom" title={<span>Settings</span>}> */}
+              <Button type='link' shape='circle' style={{ marginRight: 10 }}>
+                <BsGear style={{ fontSize: '1.5rem' }} />
+              </Button>
+            {/* </Tooltip> */}
+          </Popover>
+          <ConnectButton />
         </div>
       </section>
     </header>

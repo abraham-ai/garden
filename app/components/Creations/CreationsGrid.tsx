@@ -32,7 +32,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const CreationsGrid = (): JSX.Element => {
-		const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(true)
+		const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 	
 		const [username, setUsername] = useState<string | string>('')
 		const [generators, setGenerators] = useState<string | string>('')

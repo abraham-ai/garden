@@ -6,9 +6,12 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import CreationResponse from '../../interfaces/CreationResponse'
+import type CreationResponse from '../../interfaces/CreationResponse'
 
 import styles from '../../styles/CreationId.module.css'
+
+import Blockies from 'react-blockies'
+import Header from '../../app/components/NavBar/Header'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
@@ -29,9 +32,6 @@ import {
 } from 'antd'
 
 const { Title, Text, Paragraph } = Typography
-
-import Blockies from 'react-blockies'
-import Header from '../../app/components/Header'
 
 import { FiMoreHorizontal } from 'react-icons/fi'
 import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa'

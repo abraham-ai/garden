@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import Header from '../app/components/Header'
+import Header from '../app/components/NavBar/Header'
 
 import {
   Alert,

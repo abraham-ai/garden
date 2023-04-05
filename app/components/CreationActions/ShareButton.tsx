@@ -28,7 +28,7 @@ const ShareButton = ({ creationId}: { creationId: string }) => {
 
   return (
     <div className='crSocialsMain'
-      style={{ display: 'flex', flexDirection: 'column' }}
+      style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >

@@ -7,7 +7,7 @@ import { Inter } from 'next/font/google'
 
 import AppContext from '../context/AppContext'
 
-import Header from '../app/components/Header'
+import Header from '../app/components/NavBar/Header'
 import CreationsGridSimple from '../app/components/CreationsGridSimple'
 
 import Blockies from 'react-blockies'

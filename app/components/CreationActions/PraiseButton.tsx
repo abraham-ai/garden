@@ -37,26 +37,30 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
   }, [praisesData, isPraisedData])
 
   const handlePraise = async () => {
-    // console.log('handle PRAISE 👏 !')
-    await axios.post('/api/react', {
-      creationId,
-      reaction: '🙌'
-    })
-    // console.log({ data })
-
-    let praiseOpperation = ''
-
-    if (isPraised === true && praises > 0) {
-      setPraises(praises - 1)
-      praiseOpperation = 'decrease'
-      setIsPraised(false)
-    } else if (isPraised === false) {
-      setPraises(praises + 1)
-      praiseOpperation = 'increase'
-      setIsPraised(true)
+    if (isSignedIn === false) {
+      return
+    } else {
+      // console.log('handle PRAISE 👏 !')
+      await axios.post('/api/react', {
+        creationId,
+        reaction: '🙌'
+      })
+      // console.log({ data })
+      
+      let praiseOpperation = ''
+      
+      if (isPraised === true && praises > 0) {
+        setPraises(praises - 1)
+        praiseOpperation = 'decrease'
+        setIsPraised(false)
+      } else if (isPraised === false) {
+        setPraises(praises + 1)
+        praiseOpperation = 'increase'
+        setIsPraised(true)
+      }
+      
+      setIsPraised(!isPraised)
     }
-
-    setIsPraised(!isPraised)
   }
 
   let praiseCount

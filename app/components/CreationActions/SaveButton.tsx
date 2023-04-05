@@ -40,6 +40,9 @@ const SaveButton = ({
   }
 
   const handleSave = () => {
+    if (isSignedIn === false) {
+      return
+    }
     // console.log('handle SAVE 🔖!')
     setIsBookmarked(!isBookmarked)
     // showSaveNotification()
