@@ -1,11 +1,11 @@
-// import Head from 'next/head';
-// import Link from 'next/link';
+// import Head from 'next/head'
+// import Link from 'next/link'
 
-// import { Inter } from 'next/font/google';
+// import { Inter } from 'next/font/google'
 
 
 
-// const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] })
 
 // export default function IndexPage() {
 //   return (
@@ -25,25 +25,24 @@
     //     <CreationsGrid />
     //   </section>
     // </>
-//   );
+//   )
 // }
 
+import Head from 'next/head'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Inter } from 'next/font/google'
 
-import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Inter } from 'next/font/google';
+import Header from '../app/components/Header'
+import CreationsGrid from '../app/components/Creations/CreationsGrid'
 
-import Header from '../app/components/Header';
-import CreationsGrid from '../app/components/CreationsGrid';
+import stylesHeader from '../styles/Header.module.css'
+import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
 
-import stylesHeader from '../styles/Header.module.css';
-import stylesCreationsGrid from '../styles/CreationsGrid.module.css';
+const inter = Inter({ subsets: ['latin'] })
 
-const inter = Inter({ subsets: ['latin'] });
-
-export default function Index() {
-  return (
+export default function Index (): JSX.Element {
+	return (
     <>
       <Head>
         <title>Eden Art</title>
@@ -62,5 +61,5 @@ export default function Index() {
       </section>
     </>
     </>
-  );
+  )
 }

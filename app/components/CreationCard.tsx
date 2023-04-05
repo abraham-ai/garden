@@ -135,12 +135,12 @@ export default function CreationCard({
   ])
 
   const handleMouseOver = () => {
-    console.log('handleMouseOver')
+    // console.log('handleMouseOver')
     setIsCreationHovering(true)
   }
 
   const handleMouseOut = () => {
-    console.log('handleMouseOut')
+    // console.log('handleMouseOut')
     setIsCreationHovering(false)
   }
 
@@ -165,8 +165,7 @@ export default function CreationCard({
   }
 
   // console.log({ praises, praised, burns, burned })
-
-  console.log({ isCreationHovering })
+  // console.log({ isCreationHovering })
 
   const hoverStyles = isCreationHovering === true ? styles.crCardHoverWrapper : styles.crCardWrapper
 
