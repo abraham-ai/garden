@@ -1,0 +1,45 @@
+.modalView1,
+.modalView2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.textNotification,
+.textBold {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.row {
+  margin-bottom: 5px;
+}
+
+.button {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.buttonCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.buttonLink {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.input,
+.buttonPrimary {
+  margin-top: 10px;
+}
+
+.debugModalView {
+  display: flex;
+  justify-content: flex-start;
+  color: silver;
+  font-family: courier;
+}
