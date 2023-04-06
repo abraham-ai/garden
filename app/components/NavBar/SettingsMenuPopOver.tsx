@@ -4,9 +4,9 @@ import EthereumAuth from '../EthereumAuth'
 import styles from '../../../styles/Header.module.css'
 
 import { Typography } from 'antd'
-const { Paragraph, Text } = Typography
+const { Text } = Typography
 
-const SettingsMenuPopOver = ({ 
+const SettingsMenuPopOver = ({
 	isWalletConnected,
 	userId,
 	displayAddress,
@@ -14,12 +14,10 @@ const SettingsMenuPopOver = ({
 	authToken,
 	displayAuthToken
 }: { userId: string, displayAddress: string, isSignIn: boolean, authToken: string, displayAuthToken: string }): JSX.Element => {
-	
 	// console.log({ authToken })
-	
 	return (
 		<>
-			{isWalletConnected === true ? <EthereumAuth /> : null }
+			{ isWalletConnected === true ? <EthereumAuth /> : null }
 	
 			{ isWalletConnected === true && typeof userId !== 'undefined'
 			? (

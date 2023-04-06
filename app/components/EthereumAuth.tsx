@@ -2,14 +2,11 @@
 
 import { useState, useCallback, useEffect, useContext, useMemo } from 'react'
 import AppContext from '../../context/AppContext'
-import { useAccount, useDisconnect, useNetwork, useSignMessage } from 'wagmi'
+import { useAccount, useNetwork, useSignMessage } from 'wagmi'
 import { SiweMessage } from 'siwe'
 import axios from 'axios'
-import userIdType from '../../interfaces/AppContext'
-import styles from '../../styles/EthereumAuth.module.css'
 
-import { Button, Typography, Row } from 'antd'
-const { Text } = Typography
+import EthereumAccount from './EthereumAccount'
 
 const EthereumAuth = () => {
   const context = useContext(AppContext)
@@ -46,7 +43,6 @@ const EthereumAuth = () => {
   }>({})
 
   const { address, isConnected } = useAccount()
-  const { disconnect } = useDisconnect()
   const { chain } = useNetwork()
 
   const { signMessage } = useSignMessage({
@@ -62,11 +58,11 @@ const EthereumAuth = () => {
         const resp = await axios.post('/api/auth/verify', {
           message: variables.message,
           signature: data,
-          userAddress: address,
+          userAddress: address
         })
         console.info(resp.data)
         const { token } = resp.data
-        if (token) {
+        if (typeof token === 'string') {
           console.info('got token', token)
           setIsSignedIn(true)
           setAuthToken(token)
@@ -77,11 +73,11 @@ const EthereumAuth = () => {
         // setEthMessage('Error authenticating')
       }
       // setEthAuthenticating(false)
-    },
+    }
   })
 
   const handleSiwe = useCallback(async () => {
-    if (!isConnected) return
+    if (isConnected === false ) return
     // setEthAuthenticating(true)
     try {
       const nonceRes = await fetch('/api/auth/nonce')
@@ -142,53 +138,15 @@ const EthereumAuth = () => {
     address,
     setAuthToken,
     setUserId,
-    setIsSignedIn,
+    setIsSignedIn
   ])
 
-  if (isWalletConnected) {
-    return (
-      <>
-        <section className={styles.ethereumAuthWrapper}>
-          {/* Account content goes here */}
-
-          <Text level={2} style={{ fontWeight: 'bold', fontSize: '1rem', marginBottom: 10, color: 'gray' }}>{'Settings'}</Text>
-
-          <Row style={{ display: 'flex', marginBottom: 20 }}>
-            {typeof userId === 'string' && isSignedIn ? (
-              <div>
-                <Button
-                  onClick={async () => {
-                    disconnect()
-                  }}
-                  >
-                  {'Disconnect Wallet'}
-                </Button>
-              </div>
-            ) : (
-              <Button type='primary' shape='round' disabled={state.loading} onClick={handleSiwe}>
-                {'Sign-In with Ethereum'}
-              </Button>
-            )}
-
-          {typeof userId === 'string' && isSignedIn ? (
-            <Button
-            onClick={async () => {
-              await fetch('/api/auth/logout')
-              setAuthToken('')
-              setIsSignedIn(false)
-            }}
-            style={{ marginLeft: 10 }}
-            >
-              {'Sign-out of Eden'}
-            </Button>
-          ) : null}
-          </Row>
-        </section>
-      </>
-    )
-  }
-
-  return <div>{/* Connect wallet content goes here */}</div>
+  return (
+    <EthereumAccount 
+      state={state}
+      handleSiwe={handleSiwe}
+      />
+  )
 }
 
 export default EthereumAuth

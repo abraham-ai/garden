@@ -19,6 +19,7 @@ import styles from '../../../styles/Header.module.css'
 
 import SettingsMenuPopOver from './SettingsMenuPopOver'
 import EthereumAuth from '../EthereumAuth'
+import EthereumVerify from '../EthereumVerify'
 
 import { BsGear } from 'react-icons/bs'
 
@@ -113,6 +114,7 @@ export default function Header() {
   return (
     <header className={styles.headerWrapper}>
       <ul className={styles.linksWrapper}>
+        <EthereumVerify />
 
         { width > 1280
           ? (
