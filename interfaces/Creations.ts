@@ -1,7 +1,7 @@
-import Creation from '../interfaces/Creation';
+import Creation from '../interfaces/Creation'
 
 interface Creations {
-  creations: Creation[];
+  creations: Creation[]
 }
 
-export default Creations;
+export default Creations
