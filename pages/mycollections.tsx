@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -17,11 +18,13 @@ import useGetCollections from '../hooks/useGetCollections'
 
 import abbreviateAddress from '../util/abbreviateAddress'
 
+import type { Collection } from '../interfaces/Collection'
+
 import { Typography, Button, Avatar, Row, Spin } from 'antd'
 const { Title, Text } = Typography
 
-import { LoadingOutlined } from '@ant-design/icons'
 
+import { LoadingOutlined } from '@ant-design/icons'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 import stylesHeader from '../styles/Header.module.css'
@@ -34,6 +37,8 @@ const MyCollections: FC<BurnButtonTypes> = () => {
 	const context = useContext(AppContext)
 	const userId = context?.userId || ''
 
+	const router = useRouter()
+
   let displayAddress = ''
   if (typeof userId === 'string') {
     displayAddress = abbreviateAddress(userId)
@@ -41,6 +46,10 @@ const MyCollections: FC<BurnButtonTypes> = () => {
 
   const { collectionsData: myCollectionsData } = useGetCollections()
   console.log({ myCollectionsData })
+
+	const handleClickCollection = (collectionId: string) => {
+		router.push(`/collection/${collectionId}`)
+	}
 
   return (
     <>
@@ -114,9 +123,13 @@ const MyCollections: FC<BurnButtonTypes> = () => {
             </article>
 
 			{typeof myCollectionsData !== 'undefined' && myCollectionsData !== null ? (
-				<section className={stylesCreationsGrid.creationsWrapper} style={{ marginTop: 50 }}>
+				<section className={stylesCreationsGrid.creationsWrapper} style={{ marginTop: 50, display: 'flex', justifyContent: 'center' }}>
 					{ myCollectionsData.map((collection: Collection) => {
-						return <li>{collection.name}</li>
+						return (
+							<Button style={{ minWidth: 200, minHeight: 200, borderRadius: 10, margin: 10 }} onClick={handleClickCollection(collection._id)}>
+								<Text style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{collection.name}</Text>
+							</Button>
+						)
 					})}
 				</section>
 			): (<Row style={{ display: 'flex', justifyContent: 'center' }}>

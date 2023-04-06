@@ -11,7 +11,7 @@ import {
   createClient,
   configureChains,
   mainnet,
-  useAccount,
+  useAccount
 } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
