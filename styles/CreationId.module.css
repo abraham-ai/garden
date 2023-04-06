@@ -6,20 +6,32 @@
   display: flex;
   flex-direction: column; */
 
+.creationWrapper {
+  display: flex;
+  margin: 90px;
+  justify-content: center;
+}
+
 /*** CREATION ***/
 .creation {
   display: flex;
+  flex: 1 1 600px;
 }
 @media (max-width: 1400px) {
   .creation {
     display: flex;
     flex-direction: column;
+    flex: 1 1 600px;
   }
 }
 /*** CR-POST ***/
 .crPost {
   width: 100%;
   flex-direction: column;
+}
+/*** CR-POST-TEXT ***/
+.crPostText {
+  max-width: 350px;
 }
 @media (max-width: 930px) {
   .crPost {
@@ -37,7 +49,7 @@
   border-radius: 16px;
   overflow: hidden;
   margin: 20px;
-  max-height: 700px;
+  /* max-height: 700px; */
   /* border: 1px solid #dbdbdb; */
 }
 .crCard .ant-card-body {
@@ -49,7 +61,6 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  background: yellow;
   z-index: 0;
   left: 0;
   top: 0;
@@ -97,7 +108,6 @@
 .crImage {
   z-index: 10;
   width: 100%;
-  background: yellow;
   border: 4px solid black;
 }
 
@@ -109,8 +119,9 @@
 .crMain {
   z-index: 10;
   width: 100%;
-  padding: 0 0 0 20px;
-  margin-right: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 @media (max-width: 930px) {
   .crMain {
@@ -175,8 +186,8 @@
 /*** CR-CREATOR-NAME WRAPPER ***/
 .crCreatorNameWrapper {
   display: flex;
-  flex: 1;
-  flex-direction: column;
+  align-items: center;
+  margin-left: 10px;
 }
 /*** CR-CREATOR-NAME ***/
 .crCreatorName {
@@ -282,7 +293,7 @@
 }
 /*** CR-PROPERTIES WRAPPER ***/
 .crPropertiesWrapper {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 @media (max-width: 930px) {
   .crPropertiesWrapper {
@@ -299,9 +310,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3px 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
   border-radius: 10px;
+}
+.crProperty > span {
+  display: flex;
+  align-items: center;
+}
+.crProperty > span > span {
+  margin-left: 10px;
 }
 @media only screen and (max-width: 930px) {
   .crProperty {

@@ -14,19 +14,18 @@ import {
   Typography,
   Col,
   Row,
-  Upload,
+  Upload
 } from 'antd'
+
+import styles from '../styles/EditProfile.module.css'
+import { PlusOutlined } from '@ant-design/icons'
 
 const { TextArea } = Input
 const { Title, Text } = Typography
-const { Content } = Layout // Header, 
+const { Content } = Layout // Header
 
-import styles from '../styles/EditProfile.module.css'
-
-import { PlusOutlined } from '@ant-design/icons'
-
-const EditProfile = () => {
-    const [componentDisabled, setComponentDisabled] = useState<boolean>(false)
+const EditProfile = (): JSX.Element => {
+  const [componentDisabled, setComponentDisabled] = useState<boolean>(false)
   const [isUsernameAvailable] = useState<boolean>(false) // setIsUsernameAvailable
 
   const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
@@ -41,9 +40,6 @@ const EditProfile = () => {
   return (
 		<>
 			<Header/>
-
-      {/* <Header className="profile-header">
-      </Header> */}
 
       <Content className={styles.contentWrapper}>
 				<Row style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
@@ -60,16 +56,16 @@ const EditProfile = () => {
           >
             <Row className={styles.formRow}>
               <Space className={styles.formHeader}>
-                <Text className={styles.formTitle}>Enter your details</Text>
+                <Text className={styles.formTitle}>{'Enter your details'}</Text>
               </Space>
               <Col className={styles.formInfo} span={12}>
                 <Form.Item
                   className={styles.formItem}
                   label={
                     <Space className={styles.formLabelWrapper}>
-                      <Text className={styles.formLabel}>Name</Text>
+                      <Text className={styles.formLabel}>{'Name'}</Text>
                       <Text className="formLabelOptional" type="secondary">
-                        Optional
+                        {'Optional'}
                       </Text>
                     </Space>
                   }
@@ -84,9 +80,9 @@ const EditProfile = () => {
                   style={{ marginBottom: 15 }}
                   label={
                     <Space className="formLabelWrapper">
-                      <Text className="formLabel">Username</Text>
+                      <Text className="formLabel">{'Username'}</Text>
                       <Text className="formLabelOptional" type="secondary">
-                        Optional
+                        {'Optional'}
                       </Text>
                     </Space>
                   }
@@ -120,11 +116,11 @@ const EditProfile = () => {
               <Col className="formInfo" span={12}>
                 <Space className="formHeader">
                   <Text className="formTitle">
-                    Receive email notifications
+                    {'Receive email notifications'}
                   </Text>
                   <Text className="formDescription">
-                    Add your email address to receive notifications about your
-                    activity on Eden. This will not be shown on your profile.
+                    {'Add your email address to receive notifications about your'}
+                    {'activity on Eden. This will not be shown on your profile.'}
                   </Text>
                 </Space>
               </Col>
@@ -133,7 +129,7 @@ const EditProfile = () => {
                   className="formItem"
                   label={
                     <Space className="formLabelWrapper">
-                      <Text className="formLabel">Email</Text>
+                      <Text className="formLabel">{'Email'}</Text>
                     </Space>
                   }
                   labelCol={{ span: 24 }}
@@ -146,16 +142,16 @@ const EditProfile = () => {
 
             <Row className="formRow">
               <Space className="formHeader">
-                <Text className="formTitle">Add a short bio</Text>
+                <Text className="formTitle">{'Add a short bio'}</Text>
               </Space>
               <Col className="formInfo" span={12}>
                 <Form.Item
                   className="formItem textArea"
                   label={
                     <Space className="formLabelWrapper textArea">
-                      <Text className="formLabel">Enter a short bio</Text>
+                      <Text className="formLabel">{'Enter a short bio'}</Text>
                       <Text className="formLabelOptional" type="secondary">
-                        Optional
+                        {'Optional'}
                       </Text>
                     </Space>
                   }
@@ -174,7 +170,7 @@ const EditProfile = () => {
             <Row className="formRow">
               <Col className="formInfo" span={12}>
                 <Space className="formHeader">
-                  <Text className="formTitle">Upload a profile image</Text>
+                  <Text className="formTitle">{'Upload a profile image'}</Text>
                   <Text className="formDescription">
                     {'Recommended size: 1000x1000px'}
                   </Text>
@@ -194,9 +190,9 @@ const EditProfile = () => {
                   colon={false}
                   label={
                     <Space className="formLabelWrapper">
-                      <Text className="formLabel">Upload</Text>
+                      <Text className="formLabel">{'Upload'}</Text>
                       <Text className="formLabelOptional" type="secondary">
-                        Optional
+                        {'Optional'}
                       </Text>
                     </Space>
                   }
@@ -209,7 +205,7 @@ const EditProfile = () => {
                   >
                     <div>
                       <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>Upload</div>
+                      <div style={{ marginTop: 8 }}>{'Upload'}</div>
                     </div>
                   </Upload>
                 </Form.Item>
@@ -219,7 +215,7 @@ const EditProfile = () => {
             <Row className="formRow">
               <Col className="formInfo" span={12}>
                 <Space className="formHeader">
-                  <Text className="formTitle">Upload a cover image</Text>
+                  <Text className="formTitle">{'Upload a cover image'}</Text>
                   <Text className="formDescription">
                     {'Recommended size: 1500x1500px'}
                   </Text>
@@ -239,9 +235,9 @@ const EditProfile = () => {
                   colon={false}
                   label={
                     <Space className="formLabelWrapper">
-                      <Text className="formLabel">Upload</Text>
+                      <Text className="formLabel">{'Upload'}</Text>
                       <Text className="formLabelOptional" type="secondary">
-                        Optional
+                        {'Optional'}
                       </Text>
                     </Space>
                   }
@@ -254,7 +250,7 @@ const EditProfile = () => {
                   >
                     <div>
                       <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>Upload</div>
+                      <div style={{ marginTop: 8 }}>{'Upload'}</div>
                     </div>
                   </Upload>
                 </Form.Item>
@@ -264,18 +260,18 @@ const EditProfile = () => {
             <Row className="formRow">
               <Col className="formInfo" span={12}>
                 <Space className="formHeader">
-                  <Text className="formTitle">Verify your profile</Text>
+                  <Text className="formTitle">{'Verify your profile'}</Text>
                   <Text>
-                    Show the Eden community that your profile is authentic.
+                    {'Show the Eden community that your profile is authentic.'}
                   </Text>
                 </Space>
               </Col>
               <Col span={12}>
                 <Tag className="formTag" closable onClose={log}>
-                  @custom_username Twitter
+                  {'@custom_username Twitter'}
                 </Tag>
                 <Tag className="formTag" closable onClose={log}>
-                  @custom_username Instagram
+                  {'@custom_username Instagram'}
                 </Tag>
               </Col>
             </Row>
@@ -287,8 +283,8 @@ const EditProfile = () => {
                 style={{ flex: 0, minHeight: 'unset', paddingBottom: 15 }}
               >
                 <Space className="formHeader">
-                  <Text className="formTitle">Add links to</Text>
-                  <Text className="formTitle">your social media profiles</Text>
+                  <Text className="formTitle">{'Add links to'}</Text>
+                  <Text className="formTitle">{'your social media profiles'}</Text>
                 </Space>
               </Col>
               <Col span={24} style={{ flex: 1 }}>
@@ -331,7 +327,9 @@ const EditProfile = () => {
             </Row>
 
             <Form.Item className="formSubmit">
-              <Button style={{ width: '100%' }}>Save changes</Button>
+              <Button style={{ width: '100%' }}>
+                {'Save changes'}
+              </Button>
             </Form.Item>
           </Form>
         </Card>

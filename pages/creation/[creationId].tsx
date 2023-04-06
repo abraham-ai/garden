@@ -1,6 +1,7 @@
-import React from 'react'
+import type { FC } from 'react'
+
+import React, { useState } from 'react'
 import useSWR from 'swr'
-import { useEffect, useState, FC, ReactElement } from 'react'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -15,8 +16,6 @@ import Header from '../../app/components/NavBar/Header'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
-
-import ProfilePopOver from '../../app/components/ProfilePopover'
 
 import useGetCreation from '../../hooks/useGetCreation'
 
@@ -134,7 +133,7 @@ const Creation: FC<CreationPageProps> = ({
     <>
       <Header />
 
-      <section className={styles.creationWrapper} style={{ marginTop: 90 }}>
+      <section className={styles.creationWrapper}>
         {typeof creationData !== 'undefined' && creationData !== null ? (
           <>
             <Col className={styles.creation}>
@@ -208,42 +207,45 @@ const Creation: FC<CreationPageProps> = ({
               </Row>
             </Col>
 
-            <article className={styles.creation}>
-              <div className={styles.crPost}>
-                <Text>{creationId}</Text>
-                <Text>{'Server:'} {creationData.creation._id}</Text>
+            <article className={styles.creationText}>
+              <div className={styles.crPostText}>
+                {/* <Text>{creationId}</Text> */}
+                {/* <Text>{'Server:'} {creationData.creation._id}</Text> */}
 
                 {/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
                 <section className={styles.crMain}>
+                  <article className={styles.crMainHeader}>
+                    <div className={styles.crCreator}>
+
+                    <Avatar
+                      className="profileAvatarWrapper"
+                      style={{ display: 'flex', flex: 1 }}
+                      size={50}
+                      icon={<Blockies scale={6} seed={creationData.creation.user} />}
+                    />
+                      <div className={styles.crCreatorNameWrapper}>
+                        {/* <Text className='crCreatorName'>
+                          {abbreviateAddress(creationData.creation.user)}
+                        </Text> */}
+                          <Title level={3} className="profileName" style={{ marginTop: 10 }}>
+                            {abbreviateAddress(creationData.creation.user)}
+                          </Title>
+                          <Text>
+                            {timeAgoCreatedAt}
+                          </Text>
+                      </div>
+                    </div>
+
+                    
+                  </article>
+
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <Text style={{ color: 'purple', fontWeight: 600 }}>
                       {'/dream'}
                     </Text>
-                    <Text>{creationData.creation.task.config.text_input}</Text>
-                  </div>
-
-                  <article className={styles.crMainHeader}>
-                    <div className={styles.crCreator}>
-                      <div>
-                        <Blockies seed={creationData.creation.user} scale={6} />
-                      </div>
-
-                      <div className='crCreatorNameWrapper'>
-                        <Text className='crCreatorName'>
-                          {abbreviateAddress(creationData.creation.user)}
-                        </Text>
-                        <div>
-                          <Text>
-                            {abbreviateAddress(creationData.creation.user)}
-                          </Text>
-                          <Text>
-                            {timeAgoCreatedAt}
-                          </Text>
-                        </div>
-                      </div>
-                    </div>
-
+                    <Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>{creationData.creation.task.config.text_input}</Text>
+                  
                     <ul className={styles.crPropertiesWrapper}>
                       <li className={styles.crProperty}>
                         <span className={styles.crPropertyType}>
@@ -274,7 +276,8 @@ const Creation: FC<CreationPageProps> = ({
                         <Text>{'square'}</Text>
                       </li>
                     </ul>
-                  </article>
+                  </div>
+
 
 
                   {/* {isParent ? (

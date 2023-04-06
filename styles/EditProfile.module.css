@@ -204,15 +204,11 @@
 				max-width: unset;   
 		}
 @media(min-width: 40em) {
-		background: cyan;
 } 
 @media(min-width: 50em) {
-		background: orange;
 } 
 @media(min-width: 60em) {
-		background: yellow;
 } 
 @media(min-width: 80em) {
-		background: purple;
 } 
 }

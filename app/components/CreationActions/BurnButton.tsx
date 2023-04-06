@@ -130,30 +130,42 @@ const BurnButton: FC<BurnButtonTypes> = ({
   }
     
   return (
-    <Button
-      className={`${String(styles.socialIcon)} ${String(burnClasses)}`}
-      size='large'
-      type='text'
-      onClick={handleBurn}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-      >
-        {isBurned === true && isBurnHovering === true
-          ? 
+    <div className='socialButtonWrapper' style={{ display: 'flex', alignItems: 'center' }}>
+      <Button
+        className={burnClasses}
+        size='large'
+        type='text'
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(0, 0, 0, 0.5)',
+          width: 100,
+          height: 50,
+          border: 'none',
+          transition: '1s'
+        }}
+        onClick={handleBurn}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+        >
+          {isBurned === true && isBurnHovering === true
+            ? 
             (
               <>
-                {burnFilled}
-                {burnCount}
-              </>
-            )
-          : (
-              <>
-                {burnGray}
-                {burnCount}
-              </>
-            )
-        }
-    </Button>
+                  {burnFilled}
+                  {burnCount}
+                </>
+              )
+              : (
+                <>
+                  {burnGray}
+                  {burnCount}
+                </>
+              )
+            }
+      </Button>
+    </div>
   )
 }
 

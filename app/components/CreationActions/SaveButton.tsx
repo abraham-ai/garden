@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 
 import AppContext from '../../../context/AppContext'
 
-import { Button, Popover, notification, Select } from 'antd'
+import { Button, notification } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 
 import axios from 'axios'
@@ -32,7 +32,7 @@ const SaveButton = ({
 
   const [api, contextHolder] = notification.useNotification()
   
-  console.log({ isSignedIn })
+  // console.log({ isSignedIn })
 
   const showSaveNotification = (): void => {
     api.info({
@@ -45,13 +45,13 @@ const SaveButton = ({
   }
 
   const handleSave = (): void => {
-    console.log({ isSignedIn })
+    // console.log({ isSignedIn })
     if (isSignedIn === false) {
       return
     } else if (isSignedIn === true && isWalletConnected === false) {
       return
     } else {
-      // console.log('handle SAVE 🔖!')
+      console.log('handle SAVE 🔖!')
       setIsBookmarked(isBookmarked === true ? false : true)
       // showSaveNotification()
       setModalOpen(true)
@@ -66,11 +66,11 @@ const SaveButton = ({
   const handleCreateCollection = async (inputCollectionName): Promise<void> => {
     // console.log('handleCreateCollection')
     const { data } = await axios.post('/api/collection/create', {
-      name: inputCollectionName,
+      collectionName: inputCollectionName
     })
 
     // console.log(`Created: ${data.result}`)
-    setSelectedCollection(data.result)
+    // setSelectedCollection(data.result)
     setCollections(prevState => [...prevState, data.result])
     handleModalCleanUp()
   }
@@ -83,12 +83,12 @@ const SaveButton = ({
   }
 
   const handleMouseOver = (): void => {
-    console.log('handleMouseOver')
+    // console.log('handleMouseOver')
     setIsSaveHovering(true)
   }
 
   const handleMouseOut = (): void => {
-    console.log('handleMouseOut')
+    // console.log('handleMouseOut')
     setIsSaveHovering(false)
   }
 

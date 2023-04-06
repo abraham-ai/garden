@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
+import type { MouseEvent } from 'react'
 import AppContext from '../../../context/AppContext'
 
 import Image from 'next/image'
@@ -9,39 +10,39 @@ import useWindowDimensions from '../../../hooks/useWindowDimensions'
 import abbreviateAddress from '../../../util/abbreviateAddress'
 import abbreviateText from '../../../util/abbreviateText'
 
-import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-
-import { Typography, Tooltip, Popover, Button, Select, Space } from 'antd'
-const { Text, Paragraph } = Typography
 
 import styles from '../../../styles/Header.module.css'
 
 import SettingsMenuPopOver from './SettingsMenuPopOver'
-import EthereumAuth from '../EthereumAuth'
 import EthereumVerify from '../EthereumVerify'
+// import EthereumAuth from '../EthereumAuth'
 
 import { BsGear } from 'react-icons/bs'
+
+import { Typography, Tooltip, Popover, Button, Select, Space } from 'antd'
+const { Text } = Typography
+
 
 interface ActiveLinkProps {
   children: React.ReactNode
   href: string
 }
 
-function ActiveLink({ children, href }: ActiveLinkProps) {
+const ActiveLink = ({ children, href }: ActiveLinkProps): JSX.Element => {
   const router = useRouter()
+	const { asPath } = router
+
   const linkStyle = {
     marginRight: 10,
-    color: router.asPath === href ? 'purple' : 'gray',
-    fontWeight: router.asPath === href ? 'bolder' : 'regular',
+    color: asPath === href ? 'purple' : 'gray',
+    fontWeight: asPath === href ? 'bolder' : 'regular'
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
     e.preventDefault()
     router.push(href)
   }
-
-
 
   return (
     <a href={href} onClick={handleClick} style={linkStyle}>
@@ -50,11 +51,10 @@ function ActiveLink({ children, href }: ActiveLinkProps) {
   )
 }
 
-export default function Header() {
-  const context = useContext(AppContext)
-
+const Header = (): JSX.Element => {
   const router = useRouter()
 
+  const context = useContext(AppContext)
   const isWalletConnected = context?.isWalletConnected || false
   const authToken = context?.authToken || ''
   const userId = context?.userId || ''
@@ -196,3 +196,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

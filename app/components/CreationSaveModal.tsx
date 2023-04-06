@@ -13,6 +13,7 @@ import { Modal, Button, Input, notification, Typography, Row, Col } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 
 import { BiLeftArrowAlt } from 'react-icons/bi'
+import { MdOutlineAdd } from 'react-icons/md'
 
 import styles from '../../styles/CreationSaveModal.module.css'
 
@@ -79,7 +80,14 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
 		setCollectionModalView(1)
 	}
 
-	const handleCreateCollection = async (inputCollectionName: string): Promise<void> => {
+	const handleModalCleanUp = (): void => {
+    setModalOpen(false)
+    setCollectionModalView(0)
+    // setInputCollectionName('')
+    openNotification('bottom')
+  }
+
+	const handleCreateCollection = async (e, inputCollectionName: string, creationId: string): Promise<void> => {
 		const { data } = await axios.post('/api/collection/create', {
 			collectionName: inputCollectionName,
 			creationId
@@ -92,8 +100,8 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
 
 	const handleSaveToCollection = async (collectionId, creationId): Promise<void> => {
 		const { data } = await axios.post('/api/collection/save', {
-			collectionId: collectionId,
-			creationId: creationId
+			collectionId,
+			creationId
 		})
 
 		console.log({ data })
@@ -143,15 +151,16 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
             <article className={styles.modalView1}>
               { collections.length > 0 ?
                 <>
-                  <Text className={styles.textBold}>{'Your Collections.'}</Text>
+                  <Text className={styles.saveModalCollectionTitle}>{'Your Collections.'}</Text>
                   <Col>
                     {collections.map((collection: Collection, i: number) => {
                       return (
                         <Row key={i} className={styles.row}>
                           <Button
-                            shape='round' onClick={() => handleSaveToCollection(collection._id, creationId)}
+                            shape='round'
+														onClick={() => { handleSaveToCollection(collection._id, creationId) }}
                             className={styles.button}
-                            >
+                          >
                               {collection.name}
                           </Button>
                         </Row>
@@ -160,10 +169,27 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
                   </Col>
                 </>
               :
-              <Text className={styles.textNotification}>{'You don’t have any collections yet.'}</Text>
+								<Text className={styles.textNotification}>{'You don’t have any collections yet.'}</Text>
             }
-              <Button shape='round' type='primary' onClick={() => { handleFirstModal() }} className={styles.buttonPrimary}>
-                {'Create a collection'}
+              <Button
+								shape='round'
+								type='primary'
+								icon={
+									<span style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											marginRight: 10
+										}}
+									>
+										<MdOutlineAdd style={{ fontSize: '1.3rem' }} />
+									</span>
+								}
+								onClick={() => { handleFirstModal() }}
+								className={styles.buttonPrimary}
+								style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+							>
+                {'Create a new collection'}
               </Button>
             </article>
           :
@@ -176,7 +202,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
                   ?
                   <>
                       <Row className={styles.row}>
-                        <Button type='link' 
+                        <Button type='link'
                           className={styles.buttonLink} onClick={() => { setCollectionModalView(0) }}>
                             <BiLeftArrowAlt size={'1.2rem'} />
                         </Button>
@@ -227,7 +253,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
                           shape='round'
                           className={styles.buttonPrimary}
                           disabled={inputCollectionName === '' ? true : false}
-                          onClick={() => { handleCreateCollection(inputCollectionName, creationId) }}
+                          onClick={(e) => { handleCreateCollection(e, inputCollectionName, creationId) }}
                           >
                           {'Create'}
                         </Button>

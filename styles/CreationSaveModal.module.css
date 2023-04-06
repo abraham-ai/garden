@@ -9,6 +9,11 @@
   font-weight: bold;
   font-size: 1rem;
 }
+.saveModalCollectionTitle {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
 
 .row {
   margin-bottom: 5px;
