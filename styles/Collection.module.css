@@ -1,0 +1,6 @@
+.collectionWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 90px;
+    flex-direction: column;
+}
