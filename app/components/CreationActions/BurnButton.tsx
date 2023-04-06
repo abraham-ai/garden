@@ -22,6 +22,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 }: BurnButtonTypes) => {
   const context = useContext(AppContext)
   const isSignedIn = context?.isSignedIn || false
+  const isWalletConnected = context?.isWalletConnected || false
 
   const [burns, setBurns] = useState(burnsData)
   const [isBurned, setIsBurned] = useState(isBurnedData)
@@ -41,10 +42,10 @@ const BurnButton: FC<BurnButtonTypes> = ({
     }
   }, [burnsData, isBurnedData])
 
-  const handleBurn = async () => {
+  const handleBurn = async (): Promise<void> => {
     // console.log('handle BURN 🔥 !')
 
-    if (isSignedIn === false) {
+    if (isSignedIn === false && isWalletConnected === false) {
       return
     } else {
       await axios.post('/api/react', {
@@ -74,13 +75,13 @@ const BurnButton: FC<BurnButtonTypes> = ({
   
       // setBurns(results.data.burn)
   
-      setIsBurned(!isBurned)
+      setIsBurned(isBurned === true ? false : true)
     }
   }
 
   let burnCount
 
-  if (isSignedIn && isBurned) {
+  if (isSignedIn === true && isBurned === true) {
     burnCount =
       burns > 1 ? <span className='social-icon-count'>{burns}</span> : null
   } else {
@@ -89,8 +90,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
   }
 
   let burnClasses
-  if (isSignedIn) {
-    burnClasses = isBurned ? 'crBurn isActive' : 'crBurn'
+  if (isSignedIn === true) {
+    burnClasses = isBurned === true ? 'crBurn isActive' : 'crBurn'
   } else {
     burnClasses = 'crBurn disabled'
   }

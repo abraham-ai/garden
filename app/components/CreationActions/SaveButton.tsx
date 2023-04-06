@@ -20,7 +20,10 @@ const SaveButton = ({
   const [isSaveHovering, setIsSaveHovering] = useState(false)
 
   const context = useContext(AppContext)
+
   const isSignedIn = context?.isSignedIn || false
+  const isWalletConnected = context?.isWalletConnected || false
+  
   const selectedCollection = context?.selectedCollection || 'Favorites'
   const setCollectionModalView = context?.setCollectionModalView || (() => 1)
   const collections = context?.collections || []
@@ -28,7 +31,6 @@ const SaveButton = ({
   const setSelectedCollection = context?.setSelectedCollection || (() => {})
 
   const [api, contextHolder] = notification.useNotification()
-
   
   console.log({ isSignedIn })
 
@@ -44,7 +46,7 @@ const SaveButton = ({
 
   const handleSave = () => {
     console.log({ isSignedIn })
-    if (isSignedIn === false) {
+    if (isSignedIn === false && isWalletConnected === false) {
       return
     }
     // console.log('handle SAVE 🔖!')

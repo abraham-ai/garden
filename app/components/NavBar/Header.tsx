@@ -59,9 +59,7 @@ export default function Header() {
   const authToken = context?.authToken || ''
   const userId = context?.userId || ''
   const isSignedIn = context?.isSignedIn || false
-
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-
+  
   const { width } = useWindowDimensions()
 
   let displayAddress = ''
@@ -74,7 +72,7 @@ export default function Header() {
     displayAuthToken = abbreviateText(authToken, 80)
   }
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: string): void => {
     console.log(`selected ${value}`)
     if (value === 'garden') {
       router.push('/')
@@ -83,25 +81,35 @@ export default function Header() {
     }
   }
 
-  const handleDefaultSelectValue = () => {
-    if (router.asPath === '/') {
+  const handleDefaultSelectValue = (): void => {
+    const { asPath } = router
+    // const { collection } = router.query
+
+    // console.log('handleDefaultSelectValue')
+    // console.log({ asPath })
+    // console.log({ collection })
+
+    if (asPath === '/') {
       return 'garden'
-    } else if (router.asPath === '/editprofile') {
+    } else if (asPath === '/editprofile') {
       return 'editprofile'
-    } else if (router.asPath === '/mycreations') {
+    } else if (asPath === '/mycreations') {
       return 'mycreations'
-    } else if (router.asPath === '/about') {
-      return 'about'
+    } else if (asPath === '/mycollections') {
+      return 'mycollections'
+    } else if (asPath.includes('/collection') === true) {
+        return 'mycollections'
     } else {
       return 'garden'
     }
   }
 
-  const handleSelectOptions = () => {
+  const handleSelectOptions = (): void => {
     if (isSignedIn === true) {
       return ([
         { value: 'garden', label: 'Garden' },
         { value: 'mycreations', label: 'My Creations' },
+        { value: 'mycollections', label: 'Collections' },
         { value: 'editprofile', label: 'Edit Profile' }
       ])
     } else {

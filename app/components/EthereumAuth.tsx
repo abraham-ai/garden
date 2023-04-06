@@ -106,9 +106,9 @@ const EthereumAuth = () => {
 
   // Fetch user when:
   useEffect(() => {
-    if (!isWalletConnected && isConnected) {
+    if (isWalletConnected === false && isConnected === true) {
       setIsWalletConnected(true)
-      setUserId(address ? `${address}` : '')
+      setUserId(typeof address === 'string' ? `${String(address)}` : '')
     }
 
     const handler = async () => {
@@ -145,7 +145,7 @@ const EthereumAuth = () => {
     <EthereumAccount 
       state={state}
       handleSiwe={handleSiwe}
-      />
+    />
   )
 }
 

@@ -17,6 +17,7 @@ interface PraiseButtonTypes {
 const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTypes) => {
   const context = useContext(AppContext)
   const isSignedIn = context?.isSignedIn || false
+  const isWalletConnected = context?.isWalletConnected || false
 
   const [praises, setPraises] = useState(praisesData)
   const [isPraised, setIsPraised] = useState(isPraisedData)
@@ -36,8 +37,8 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
     }
   }, [praisesData, isPraisedData])
 
-  const handlePraise = async () => {
-    if (isSignedIn === false) {
+  const handlePraise = async (): Promise<void> => {
+    if (isSignedIn === false && isWalletConnected === false) {
       return
     } else {
       // console.log('handle PRAISE 👏 !')
@@ -59,7 +60,7 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
         setIsPraised(true)
       }
       
-      setIsPraised(!isPraised)
+      setIsPraised(isPraised === true ? false : true)
     }
   }
 
