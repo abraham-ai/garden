@@ -43,7 +43,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
   const setCollections = useMemo(() => context?.setCollections || (() => []), [context])
   
   const collectionModalView = context?.collectionModalView
-  const setCollectionModalView = (value: number) => {
+  const setCollectionModalView = (value: number): void => {
     context?.setCollectionModalView(value)
   }
 

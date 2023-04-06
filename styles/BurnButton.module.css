@@ -1,0 +1,60 @@
+.socialButtonWrapper {
+	margin-right: 10px;
+}
+
+.crBurn {
+	color: #fff;
+	font-size: 1.8rem;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.crBurn.disabled {
+	opacity: 0.3;
+	pointer-events: none;
+}
+
+.crBurn.isActive {
+	color: #ff2d2d;
+	text-shadow: 0px 0px 10px #ff2d2d;
+	animation: shake 0.4s;
+	animation-iteration-count: infinite;
+}
+
+.burnIcon {
+	display: flex;
+	align-items: center;
+}
+
+.socialIcon {
+	display: flex;
+	align-items: center;
+}
+
+.socialIconCount {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-left: 0.3rem;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+@keyframes shake {
+	0% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-5px);
+	}
+	50% {
+		transform: translateX(0);
+	}
+	75% {
+		transform: translateX(5px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}

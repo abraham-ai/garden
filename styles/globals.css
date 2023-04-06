@@ -141,6 +141,7 @@ a {
 .ant-modal {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   transform-origin: unset;
   top: 0;
