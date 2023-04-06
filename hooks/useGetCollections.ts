@@ -4,13 +4,13 @@ import CollectionsResponse from '../interfaces/CollectionsResponse'
 const fetcher = async (url: string) => {
   const response = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' }
   })
   const data = await response.json()
   return data
 }
 
-export const useGetCollections = () => {
+export const useGetCollections = (): JSX.Element => {
   const { data, error, isLoading, mutate } = useSWR<CollectionsResponse>(
     `/api/collections/get`,
     (url: string) => fetcher(url)
@@ -24,9 +24,7 @@ export const useGetCollections = () => {
   // console.log('USE GET-COLLECTIONS')
   // console.log(data)
 
-  return {
-    collectionsData
-  }
+  return collectionsData
 }
 
 export default useGetCollections
