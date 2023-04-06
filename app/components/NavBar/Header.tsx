@@ -169,6 +169,7 @@ export default function Header() {
                 displayAddress={displayAddress}
                 isSignedIn={isSignedIn}
                 authToken={authToken}
+                displayAuthToken={displayAuthToken}
               />}
               trigger='click'
               placement='bottom'

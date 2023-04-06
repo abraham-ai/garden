@@ -29,6 +29,9 @@ const SaveButton = ({
 
   const [api, contextHolder] = notification.useNotification()
 
+  
+  console.log({ isSignedIn })
+
   const showSaveNotification = () => {
     api.info({
       message: isBookmarked
@@ -40,6 +43,7 @@ const SaveButton = ({
   }
 
   const handleSave = () => {
+    console.log({ isSignedIn })
     if (isSignedIn === false) {
       return
     }

@@ -11,8 +11,12 @@ const SettingsMenuPopOver = ({
 	userId,
 	displayAddress,
 	isSignedIn,
-	authToken
-}: { userId: string, displayAddress: string, isSignIn: boolean, authToken: string }): JSX.Element => {
+	authToken,
+	displayAuthToken
+}: { userId: string, displayAddress: string, isSignIn: boolean, authToken: string, displayAuthToken: string }): JSX.Element => {
+	
+	// console.log({ authToken })
+	
 	return (
 		<>
 			{isWalletConnected === true ? <EthereumAuth /> : null }
@@ -38,7 +42,7 @@ const SettingsMenuPopOver = ({
 					<strong>{'Signed-In as: '}</strong> {displayAddress}
 					</Text>
 					)
-				: ( 
+				: (
 					<Text>
 						<strong>{'Signed-In as: '}</strong>
 						{'Not Signed-In'}
@@ -48,7 +52,7 @@ const SettingsMenuPopOver = ({
 			</div>
 	
 			<div className={styles.authStyle}>
-			{ typeof authToken === 'undefined' && isSignedIn === true
+			{ typeof authToken !== 'undefined' && isSignedIn === true
 				? (
 				<span className={styles.tokenWrapperStyle}>
 					<strong>{'AuthToken: '}</strong>

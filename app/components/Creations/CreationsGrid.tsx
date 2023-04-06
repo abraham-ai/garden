@@ -12,12 +12,6 @@ import useSWRInfinite from 'swr/infinite'
 
 import AppContext from '../../../context/AppContext'
 
-import { createMachine, interpret, assign } from 'xstate'
-
-import deepEqual from '../../../util/deepEqual'
-import timeAgo from '../../../util/timeAgo'
-
-import type FilterType from '../../../interfaces/Filter'
 import type Creation from '../../../interfaces/Creation'
 
 import CreationsMasonry from './CreationsMasonry'
@@ -55,32 +49,32 @@ const CreationsGrid = (): JSX.Element => {
 		const fetcher = async (url: string) => {
 			const res = await fetch(url)
 			const data = await res.json()
-			console.log('Fetched data:', data)
+			// console.log('Fetched data:', data)
 			return data
 		}
 	
 		const getKey = (pageIndex, previousPageData) => {
 			if (pageIndex !== 0 && previousPageData === null) {
-				return null;
+				return null
 			}
 		
-			let adjustedLatestCreationTime = '';
+			let adjustedLatestCreationTime = ''
 		
 			if (pageIndex === 0) {
-				adjustedLatestCreationTime = '';
+				adjustedLatestCreationTime = ''
 			} else {
 				// Use the last creation's createdAt value from previousPageData if available
-				const lastCreationTime = previousPageData?.[previousPageData.length - 1]?.createdAt || latestCreationTime;
-				adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1);
+				const lastCreationTime = previousPageData?.[previousPageData.length - 1]?.createdAt || latestCreationTime
+				adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
 			}
 		
 			const url = `/api/creations?limit=${limit}&page=${
 				pageIndex + 1
-			}&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${adjustedLatestCreationTime}`;
+			}&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${adjustedLatestCreationTime}`
 		
-			console.log('getKey URL:', url);
-			return url;
-		};
+			// console.log('getKey URL:', url)
+			return url
+		}
 	
 		const {
 			data,
@@ -127,30 +121,30 @@ const CreationsGrid = (): JSX.Element => {
 			[isLoadingMore, isReachingEnd]
 		)
 
-		console.log({ allCreationsData })
-		console.log({ creationsData })
+		// console.log({ allCreationsData })
+		// console.log({ creationsData })
 	
 		// Update the useEffect hook to set the latest creation time
 useEffect(() => {
-	if (!data) return;
+	if (!data) return
 
-	console.log('Data changed:', data);
+	// console.log('Data changed:', data)
 
-	const newData = data.flat();
+	const newData = data.flat()
 	const uniqueCreations = newData.filter((newCreation: Creation) => {
-			return !creationsData.some((prevCreation) => prevCreation.id === newCreation.id);
-	});
+			return !creationsData.some((prevCreation) => prevCreation.id === newCreation.id)
+	})
 
 	if (uniqueCreations.length > 0) {
 			setCreationsData((prevCreations: Creation[]) => {
-					return [...prevCreations, ...uniqueCreations];
-			});
+					return [...prevCreations, ...uniqueCreations]
+			})
 
 			// Update the latest creation time state
-			const lastCreation = uniqueCreations[uniqueCreations.length - 1];
-			setLatestCreationTime(lastCreation.createdAt);
+			const lastCreation = uniqueCreations[uniqueCreations.length - 1]
+			setLatestCreationTime(lastCreation.createdAt)
 	}
-}, [data, creationsData, size]);
+}, [data, creationsData, size])
 			
 		// lastCreationEarliestTime !== '' 
 			return (

@@ -18,9 +18,9 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 	const { creatorId } = req.body
 	const { userId, token: authToken } = (req as any).session
 
-  console.log({ queryCreatorId })
-	console.log({ creatorId })
-	console.log({ authToken })
+  // console.log({ queryCreatorId })
+	// console.log({ creatorId })
+	// console.log({ authToken })
 
 
 	// if (typeof authTokenResult === 'undefined') {

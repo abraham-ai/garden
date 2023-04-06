@@ -1,51 +1,54 @@
-import { NextApiRequest, NextApiResponse } from 'next/types';
-import { withSessionRoute } from '../../../util/withSession';
+import { NextApiRequest, NextApiResponse } from 'next/types'
+import { withSessionRoute } from '../../../util/withSession'
 
-import { EdenClient } from 'eden-sdk';
-const eden = new EdenClient();
+import { EdenClient } from 'eden-sdk'
+const eden = new EdenClient()
 
 interface ApiRequest extends NextApiRequest {
   body: {
-    collectionName: string;
+    collectionName: string
     creationId: string
-  };
+  }
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  const { collectionName, creationId } = req.body;
+  const { collectionName, creationId } = req.body
   const { userId, token: authToken } = req.session
 
+  console.log('collectionName', collectionName)
+  console.log('creationId', creationId)
+
   try {
-    const authTokenResult = await eden.setAuthToken(authToken);
+    const authTokenResult = await eden.setAuthToken(authToken)
 
     // create collection
-    let createdCollection = await eden.createCollection(collectionName);
-    let collections = await eden.getCollections(userId);
-    console.log(createdCollection);
-    console.log(collections);
+    const createdCollection = await eden.createCollection(collectionName)
+    const collections = await eden.getCollections(userId)
+    console.log(createdCollection)
+    console.log(collections)
     
     // get creation
-    let creation = await eden.getCreation(creationId);
+    const creation = await eden.getCreation(creationId)
 
     // add creation to collection
-    let addedCreationResult = await createdCollection.addCreation(creation)
-    console.log(addedCreationResult);
+    const addedCreationResult = await createdCollection.addCreation(creation)
+    console.log(addedCreationResult)
     
-    // result = await collections.create(name);
-    // const collections = await creation.getCollections(filter);
+    // result = await collections.create(name)
+    // const collections = await creation.getCollections(filter)
 
-    // console.log(result);
-    // console.log(creations);
+    // console.log(result)
+    // console.log(creations)
 
-    return res.status(200).json({ collectionName: collectionName });
+    return res.status(200).json({ collectionName })
   } catch (error: any) {
-    console.log(error);
+    console.log(error)
     // if (error.response.data == 'jwt expired') {
-    //   return res.status(401).json({ error: 'Authentication expired' });
+    //   return res.status(401).json({ error: 'Authentication expired' })
     // }
-    return res.status(500).json({ error: error });
+    return res.status(500).json({ error })
     // error.response.data
   }
-};
+}
 
-export default withSessionRoute(handler);
+export default withSessionRoute(handler)

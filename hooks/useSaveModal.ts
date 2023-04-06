@@ -1,24 +1,26 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react'
+import axios from 'axios'
 
 export default function useModalLogic() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalView, setModalView] = useState(1);
-  const [collections, setCollections] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalView, setModalView] = useState(1)
+  const [collections, setCollections] = useState([])
 
   const handleModalCleanUp = () => {
-    setModalOpen(false);
-    setModalView(1);
-  };
+    setModalOpen(false)
+    setModalView(1)
+  }
 
   const handleCreateCollection = async (inputCollectionName) => {
     const { data } = await axios.post('/api/collection/save', {
-      name: inputCollectionName,
-    });
+      name: inputCollectionName
+    })
 
-    setCollections([...collections, data.result]);
-    handleModalCleanUp();
-  };
+    console.log({ data })
+
+    setCollections([...collections, data.result])
+    handleModalCleanUp()
+  }
 
   return {
     modalOpen,
@@ -26,6 +28,6 @@ export default function useModalLogic() {
     modalView,
     setModalView,
     collections,
-    handleCreateCollection,
-  };
+    handleCreateCollection
+  }
 }

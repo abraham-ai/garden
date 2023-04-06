@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const authTokenResult = await eden.setAuthToken(authToken)
-    let collections = await eden.getCollections(userId)
+    const collections = await eden.getCollections(userId)
     // console.log(collections)
 
     return res.status(200).json({ result: collections })
