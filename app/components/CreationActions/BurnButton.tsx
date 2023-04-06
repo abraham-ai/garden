@@ -45,7 +45,9 @@ const BurnButton: FC<BurnButtonTypes> = ({
   const handleBurn = async (): Promise<void> => {
     // console.log('handle BURN 🔥 !')
 
-    if (isSignedIn === false && isWalletConnected === false) {
+    if (isSignedIn === false) {
+      return
+    } else if (isSignedIn === true && isWalletConnected === false) {
       return
     } else {
       await axios.post('/api/react', {

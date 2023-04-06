@@ -23,7 +23,7 @@ const SaveButton = ({
 
   const isSignedIn = context?.isSignedIn || false
   const isWalletConnected = context?.isWalletConnected || false
-  
+
   const selectedCollection = context?.selectedCollection || 'Favorites'
   const setCollectionModalView = context?.setCollectionModalView || (() => 1)
   const collections = context?.collections || []
@@ -34,42 +34,36 @@ const SaveButton = ({
   
   console.log({ isSignedIn })
 
-  const showSaveNotification = () => {
+  const showSaveNotification = (): void => {
     api.info({
-      message: isBookmarked
-        ? `Removed from collection ${selectedCollection}`
-        : `Saved to your collection ${selectedCollection}`!,
+      message: isBookmarked === true
+        ? `Removed from collection ${String(selectedCollection)}`
+        : `Saved to your collection ${String(selectedCollection)}!`,
       description: <Button onClick={showModal}>{'Manage Collections'}</Button>,
       placement: 'bottom'
     })
   }
 
-  const handleSave = () => {
+  const handleSave = (): void => {
     console.log({ isSignedIn })
-    if (isSignedIn === false && isWalletConnected === false) {
+    if (isSignedIn === false) {
       return
-    }
-    // console.log('handle SAVE 🔖!')
-    setIsBookmarked(!isBookmarked)
-    // showSaveNotification()
-    setModalOpen(true)
-    setCollectionModalView(0)
-  }
-
-  const showModal = () => {
-    setModalOpen(true)
-  }
-
-  const handleCollectionSelect = (value: string) => {
-    // console.log(`selected ${value}`)
-    if (value === 'new') {
+    } else if (isSignedIn === true && isWalletConnected === false) {
+      return
+    } else {
+      // console.log('handle SAVE 🔖!')
+      setIsBookmarked(isBookmarked === true ? false : true)
+      // showSaveNotification()
       setModalOpen(true)
-      setCollectionModalView(1)
-      // setInputCollectionName('')
+      setCollectionModalView(0)
     }
   }
 
-  const handleCreateCollection = async (inputCollectionName) => {
+  const showModal = (): void => {
+    setModalOpen(true)
+  }
+
+  const handleCreateCollection = async (inputCollectionName): Promise<void> => {
     // console.log('handleCreateCollection')
     const { data } = await axios.post('/api/collection/create', {
       name: inputCollectionName,
@@ -81,26 +75,26 @@ const SaveButton = ({
     handleModalCleanUp()
   }
 
-  const handleModalCleanUp = () => {
+  const handleModalCleanUp = (): void => {
     setModalOpen(false)
     setCollectionModalView(0)
     // setInputCollectionName('')
     openNotification('bottom')
   }
 
-  const handleMouseOver = () => {
+  const handleMouseOver = (): void => {
     console.log('handleMouseOver')
     setIsSaveHovering(true)
   }
 
-  const handleMouseOut = () => {
+  const handleMouseOut = (): void => {
     console.log('handleMouseOut')
     setIsSaveHovering(false)
   }
 
   const openNotification = (placement: NotificationPlacement) => {
     api.info({
-      message: `Collection ${selectedCollection} created!`,
+      message: `Collection ${String(selectedCollection)} created!`,
       description:
         'View your collection in the Collections tab or on your profile page.',
       placement: 'bottom'
@@ -122,24 +116,6 @@ const SaveButton = ({
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
       >
-        {/* <Select
-          defaultValue={selectedCollection}
-          style={{ width: 120 }}
-          onChange={handleCollectionSelect}
-          value={selectedCollection}
-          options={[
-            {
-              label: 'Select Collection',
-              options: [
-                { label: selectedCollection, value: selectedCollection },
-              ],
-            },
-            {
-              label: 'Create',
-              options: [{ label: 'New', value: 'new' }],
-            },
-          ]}
-        /> */}
         <Button className='btn' shape={'circle'} type='link' onClick={() => { handleSave() }} style={{
           display: 'flex',
           alignItems: 'center',
@@ -150,13 +126,17 @@ const SaveButton = ({
           border: 'none',
           transition: '300ms'
         }}>
-          {isBookmarked === true || isSaveHovering === true ? (
-            <RiBookmarkFill className={styles.crSocialIcon} style={{ fontSize: '1rem', minWidth: 25, minHeight: 25, color: '#1a73e8' }} />
-          ) : (
-            <RiBookmarkLine className={styles.crSocialIcon} style={{ fontSize: '1rem', minWidth: 25, minHeight: 25 }} />
-            // <BsFillBookmarkFill className={styles.crSocialIcon} style={{ fontSize: '1rem' }} />
-          )}
-          {/* <span className='text'>{'Save'}</span> */}
+          {isBookmarked === true || isSaveHovering === true 
+            ? 
+              (
+                <RiBookmarkFill className={styles.crSocialIcon} style={{ fontSize: '1rem', minWidth: 25, minHeight: 25, color: '#1a73e8' }} />
+              )
+            : (
+                <RiBookmarkLine className={styles.crSocialIcon} style={{ fontSize: '1rem', minWidth: 25, minHeight: 25 }} />
+                // <BsFillBookmarkFill className={styles.crSocialIcon} style={{ fontSize: '1rem' }} />
+              )
+            }
+            {/* <span className='text'>{'Save'}</span> */}
         </Button>
       </span>
       {contextHolder}

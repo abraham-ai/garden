@@ -38,7 +38,9 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
   }, [praisesData, isPraisedData])
 
   const handlePraise = async (): Promise<void> => {
-    if (isSignedIn === false && isWalletConnected === false) {
+    if (isSignedIn === false) {
+      return
+    } else if (isSignedIn === true && isWalletConnected === false) {
       return
     } else {
       // console.log('handle PRAISE 👏 !')
