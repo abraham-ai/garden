@@ -93,25 +93,16 @@ const BurnButton: FC<BurnButtonTypes> = ({
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         >
-          {isBurned === true && isBurnHovering === true
-            ? 
-            (
-              <>
-                  {burnFilled}
-                  <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
-                    {burnCount}
-                  </Text>
-                </>
-              )
-              : (
-                <>
-                  {burnGray}
-                  <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
-                    {burnCount}
-                  </Text>
-                </>
-              )
-            }
+          <span
+          className='social-icon'
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
+          {isBurnedData === true || isBurnHovering === true ? burnFilled : burnGray}
+        </span>
+        <Text
+          style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
+          {burnsData}
+        </Text>
       </Button>
     </div>
   )

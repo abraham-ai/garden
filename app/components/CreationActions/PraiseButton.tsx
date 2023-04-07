@@ -18,7 +18,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
   praisesData,
   isPraisedData,
   setIsPraised
-}) => {
+}: PraiseButtonTypes) => {
   const context = useContext(AppContext)
   const isSignedIn = context?.isSignedIn || false
   const isWalletConnected = context?.isWalletConnected || false
@@ -93,7 +93,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
           {isPraisedData === true || isPraiseHovering === true ? praiseFilled : praiseGray}
         </span>
         <Text
-          style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
+          style={{ color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
           {praisesData}
         </Text>
       </Button>
