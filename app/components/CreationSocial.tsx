@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
-
-import AppContext from '../../context/AppContext'
+import React, { useState, useEffect } from 'react'
 
 import type CreationSocialType from '../../interfaces/CreationSocial'
-
-import CreationSaveModal from './CreationSaveModal'
 
 import SaveButton from './CreationActions/SaveButton'
 import BurnButton from './CreationActions/BurnButton'
@@ -27,13 +23,6 @@ const CreationSocial = ({
   const [isPraised, setIsPraised] = useState(praisedByMe)
 
   const [isBookmarked, setIsBookmarked] = useState(false)
-
-  const context = useContext(AppContext)
-  const isSignedIn = context?.isSignedIn || false
-  const currentCreationIndex = context?.currentCreationIndex || 0
-
-  const isSaveCreationModalOpen = context?.isSaveCreationModalOpen || false
-  const setIsSaveCreationModalOpen = context?.setIsSaveCreationModalOpen || (() => {})
 
   useEffect(() => {
     setIsPraised(praisedByMe)
