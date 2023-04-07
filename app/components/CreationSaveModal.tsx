@@ -34,6 +34,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
 
   const [isRenameCollection, setIsRenameCollection] = useState(false)
   const [currentRenameCollection, setCurrentRenameCollection] = useState('')
+	const [currentSavedCollection, setCurrentSavedCollection] = useState('')
 
   const [api, contextHolder] = notification.useNotification()
 
@@ -57,9 +58,18 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
   // console.log(collectionModalView)
 
 
-  const openNotification = (placement: NotificationPlacement): JSX.Element => {
+  const createNotification = (placement: NotificationPlacement): JSX.Element => {
     api.info({
       message: `Collection ${String(inputCollectionName)} created!`,
+      description:
+        'View your collection in the Collections tab or on your profile page.',
+      placement
+    })
+  }
+
+	const saveNotification = (placement: NotificationPlacement): JSX.Element => {
+    api.info({
+      message: `Creation saved to ${String(currentSavedCollection)} Collection!`,
       description:
         'View your collection in the Collections tab or on your profile page.',
       placement
@@ -80,11 +90,18 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
 		setCollectionModalView(1)
 	}
 
-	const handleModalCleanUp = (): void => {
+	const handleSaveModalCleanUp = (): void => {
     setModalOpen(false)
     setCollectionModalView(0)
     // setInputCollectionName('')
-    openNotification('bottom')
+    saveNotification('bottom')
+  }
+
+	const handleCreateModalCleanUp = (): void => {
+    setModalOpen(false)
+    setCollectionModalView(0)
+    // setInputCollectionName('')
+    createNotification('bottom')
   }
 
 	const handleCreateCollection = async (e, inputCollectionName: string, creationId: string): Promise<void> => {
@@ -95,7 +112,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
 
 		setCollections(prevCollections => [...prevCollections, data])
 		setSelectedCollection(data.name)
-		handleModalCleanUp()
+		handleCreateModalCleanUp()
 	}
 
 	const handleSaveToCollection = async (collectionId, creationId): Promise<void> => {
@@ -105,6 +122,11 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
 		})
 
 		console.log({ data })
+
+		if (data?.success === true) {
+			setCurrentSavedCollection(data.collectionName)
+			handleSaveModalCleanUp()
+		}
 	}
 
 	const handleRenameCollectionName = async (inputCollectionName: string, collectionId: string): Promise<void> => {
@@ -264,6 +286,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
             : null }
         </section>
       </div>
+			{contextHolder}
 	</Modal>
 	)
 }
