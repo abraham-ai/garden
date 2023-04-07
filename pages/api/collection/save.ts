@@ -45,7 +45,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
     // console.log(result)
     // console.log(creations)
-    return res.status(200).json(addedCreationResult)
+    return res.status(200).json({ addedCreationResult, collection, creation })
   } catch (error: any) {
     console.log(error)
     return res.status(500).json({ error })

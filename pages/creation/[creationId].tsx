@@ -13,6 +13,10 @@ import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
+import BurnButton from '../../app/components/CreationActions/BurnButton'
+import PraiseButton from '../../app/components/CreationActions/PraiseButton'
+import SaveButton from '../../app/components/CreationActions/SaveButton'
+import ShareButton from '../../app/components/CreationActions/ShareButton'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
@@ -30,7 +34,7 @@ import {
   Tag,
 } from 'antd'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 
 import { FiMoreHorizontal } from 'react-icons/fi'
 import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa'
@@ -139,39 +143,6 @@ const Creation: FC<CreationPageProps> = ({
             <Col className={styles.creation}>
               <Row className={styles.crPost}>
                 <article className={`${styles.crCard} ${size}`}>
-                  
-                  <div className={styles.crSocials}>
-                    <span className={(styles.crSocial)}>
-                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
-                        <span style={{ fontSize: '2rem' }}>🔥</span>
-                        <Text className={styles.crSocialText}>{0}</Text>
-                      </Button>
-                    </span>
-                    <span className={(styles.crSocial)}>
-                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
-                        <span style={{ fontSize: '2rem' }}>🙌 </span>
-                        <Text className={styles.crSocialText}>{0}</Text>
-                      </Button>
-                    </span>
-                    <span className={styles.crSocial}>
-                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
-                        <BsFillBookmarkFill className={styles.crSocialIcon} />
-                        <Text className={styles.crSocialText}>{'Save'}</Text>
-                      </Button>
-                    </span>
-                    <span className={styles.crSocial}>
-                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
-                        <IoIosShareAlt className={styles.crSocialIcon} />
-                        <Text className={styles.crSocialText}>{'Share'}</Text>
-                      </Button>
-                    </span>
-                    <span className={styles.crSocial}>
-                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
-                        <FiMoreHorizontal className={styles.crSocialIcon} />
-                      </Button>
-                    </span>
-                  </div>
-
                   <div
                     className={
                       isHovering
@@ -245,6 +216,27 @@ const Creation: FC<CreationPageProps> = ({
                       {'/dream'}
                     </Text>
                     <Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>{creationData.creation.task.config.text_input}</Text>
+                        
+                    <div className={styles.crSocials}>
+                    <span className={(styles.crSocial)}>
+                      <BurnButton />
+                    </span>
+                    <span className={(styles.crSocial)}>
+                      <PraiseButton />
+                    </span>
+                    <span className={styles.crSocial}>
+                      <SaveButton />
+                    </span>
+                    <span className={styles.crSocial}>
+                      <ShareButton />
+                    </span>
+                    {/* <span className={styles.crSocial}>
+                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
+                        <FiMoreHorizontal className={styles.crSocialIcon} />
+                      </Button>
+                    </span> */}
+                  </div>
+
                   
                     <ul className={styles.crPropertiesWrapper}>
                       <li className={styles.crProperty}>

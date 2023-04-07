@@ -70,6 +70,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const [creationsLoading, setCreationsLoading] = useState<boolean>(false)
   const [creationsMore, setCreationsMore] = useState<boolean>(true)
   const [creationsLoad, setCreationsLoad] = useState<boolean>(false)
+
+  const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)
+  const [currentCreationModalCreation, setCurrentCreationModalCreation] = useState<Creation>({})
   const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0)
 
   const [collections, setCollections] = useState<Collection[]>([])
@@ -101,6 +104,10 @@ export default function App({ Component, pageProps }: AppProps) {
     setSelectedCollection,
     collectionModalView,
     setCollectionModalView,
+    currentCreationModalCreation,
+    setCurrentCreationModalCreation,
+    isSaveCreationModalOpen,
+    setIsSaveCreationModalOpen
   }
 
   // routing progress bar
@@ -110,13 +117,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setIsWalletConnected(isConnected)
-    setUserId(address ? `${address}` : '')
+    setUserId(address !== 'undefined' ? `${String(address)}` : '')
   }, [isConnected, setIsWalletConnected, address, setUserId, userId])
 
   return (
     <>
-      <AppContext.Provider 
-        value={{...contextValues, 
+      <AppContext.Provider
+        value={{...contextValues,
           creations: [] as unknown as [],
           creationIndex: 0,
           creationsLoad: () => {},
@@ -126,6 +133,10 @@ export default function App({ Component, pageProps }: AppProps) {
           setSelectedCollection,
           collectionModalView,
           setCollectionModalView,
+          currentCreationModalCreation,
+          setCurrentCreationModalCreation,
+          isSaveCreationModalOpen,
+          setIsSaveCreationModalOpen
         }}
       >
         <WagmiConfig client={wagmiClient}>

@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useContext, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import type Collection from '../../../interfaces/Collection'
 import type { FC } from 'react'
+import type Creation from '../../../interfaces/Creation'
+
+import Link from 'next/link'
 
 import AppContext from '../../context/AppContext'
 
 import axios from 'axios'
 
 import useGetCollections from '../../hooks/useGetCollections'
-
-import type Collection from '../../interfaces/Collection'
 
 import { Modal, Button, Input, notification, Typography, Row, Col } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
@@ -20,21 +22,15 @@ import styles from '../../styles/CreationSaveModal.module.css'
 const { Text } = Typography
 
 interface CreationSaveModalTypes {
-  modalOpen: boolean
-  setModalOpen: (value: boolean) => void
-  creationId: string
+  creation: Creation
 }
 
-const CreationSaveModal: FC<CreationSaveModalTypes> = ({
-  modalOpen,
-  setModalOpen,
-  creationId
-}) => {
+const CreationSaveModal: FC<CreationSaveModalTypes> = ({ creation }) => {
 	const [inputCollectionName, setInputCollectionName] = useState('')
 
   const [isRenameCollection, setIsRenameCollection] = useState(false)
   const [currentRenameCollection, setCurrentRenameCollection] = useState('')
-	const [currentSavedCollection, setCurrentSavedCollection] = useState('')
+	const [currentSavedCollection, setCurrentSavedCollection] = useState<Collection>({})
 
   const [api, contextHolder] = notification.useNotification()
 
@@ -43,18 +39,21 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
   const selectedCollection = context?.selectedCollection || ''
   const setSelectedCollection = context?.setSelectedCollection || (() => {})
   const setCollections = useMemo(() => context?.setCollections || (() => []), [context])
-  
+
   const collectionModalView = context?.collectionModalView
   const setCollectionModalView = (value: number): void => {
     context?.setCollectionModalView(value)
   }
+
+	const isSaveCreationModalOpen = context?.isSaveCreationModalOpen || false
+	const setIsSaveCreationModalOpen = context?.setIsSaveCreationModalOpen || (() => {})
 
   // const inputCollectionRef = useRef<InputRef>(null)
 
   const collectionsData = useGetCollections()
 
   // console.log(collections)
-  console.log(collectionsData)
+  // console.log(collectionsData)
   // console.log(collectionModalView)
 
 
@@ -68,12 +67,30 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
   }
 
 	const saveNotification = (placement: NotificationPlacement): JSX.Element => {
-    api.info({
-      message: `Creation saved to ${String(currentSavedCollection)} Collection!`,
-      description:
-        'View your collection in the Collections tab or on your profile page.',
-      placement
-    })
+    console.log('save Notification')
+		console.log(currentSavedCollection)
+		const savedCollectionPropsArray = Object.keys(currentSavedCollection)
+		
+		if (typeof currentSavedCollection !== 'undefined' && savedCollectionPropsArray.length > 0) {
+			setIsSaveCreationModalOpen(false)
+			api.info({
+				message: <>
+					<Text>{`Creation saved to`}
+						<Link 
+							href={`/collection/${String(currentSavedCollection._id)}`}
+							style={{ margin: '0 5px' }}
+						>
+							{String(currentSavedCollection.name)}
+						</Link>
+					{`Collection!`}</Text>
+					</>,
+				description:
+					'View your collection in the Collections tab or on your profile page.',
+				placement,
+				duration: 3
+			})
+		}
+		
   }
 
   useEffect(() => {
@@ -85,20 +102,35 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
     }
   }, [collectionsData, setCollections])
 
+	useEffect(() => {
+		const savedCollectionPropsArray = Object.keys(currentSavedCollection)
+
+		if (typeof currentSavedCollection !== 'undefined' && savedCollectionPropsArray.length > 0) {
+			console.log(currentSavedCollection)
+			handleSaveModalCleanUp()
+		}
+	}, [currentSavedCollection])
+
 	const handleFirstModal = (): void => {
 		console.log('handleFirstModal')
 		setCollectionModalView(1)
 	}
 
 	const handleSaveModalCleanUp = (): void => {
-    setModalOpen(false)
+    // setModalOpen(false)
     setCollectionModalView(0)
+		// console.log({ currentSavedCollection })
     // setInputCollectionName('')
-    saveNotification('bottom')
+
+
+		if (typeof currentSavedCollection !== 'undefined') {
+			// console.log(currentSavedCollection)
+			saveNotification('bottom')
+		}
   }
 
 	const handleCreateModalCleanUp = (): void => {
-    setModalOpen(false)
+    setIsCreationModalOpen(false)
     setCollectionModalView(0)
     // setInputCollectionName('')
     createNotification('bottom')
@@ -121,10 +153,12 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
 			creationId
 		})
 
-		console.log({ data })
+		const { addedCreationResult, collection, creation } = data
 
-		if (data?.success === true) {
-			setCurrentSavedCollection(data.collectionName)
+		// console.log({ data })
+
+		if (addedCreationResult?.success === true) {
+			setCurrentSavedCollection(collection)
 			handleSaveModalCleanUp()
 		}
 	}
@@ -160,7 +194,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
   // console.log({ collectionsData })
 
   return (
-    <Modal open={modalOpen} footer={<></>} onCancel={() => setModalOpen(false)}>
+    <Modal open={isSaveCreationModalOpen} footer={<></>} onCancel={() => setIsSaveCreationModalOpen(false)}>
 
       <div style={{ padding: 20, borderRadius: 20 }}>
         <section className={styles.modalView1}>
@@ -180,7 +214,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
                         <Row key={i} className={styles.row}>
                           <Button
                             shape='round'
-														onClick={() => { handleSaveToCollection(collection._id, creationId) }}
+														onClick={() => { handleSaveToCollection(collection._id, creation._id) }}
                             className={styles.button}
                           >
                               {collection.name}
@@ -242,7 +276,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
                         shape='round'
                         className={styles.buttonPrimary}
                         disabled={inputCollectionName === '' ? true : false}
-                        onClick={() => { handleRenameCollectionName(currentRenameCollection, creationId) }}
+                        onClick={() => { handleRenameCollectionName(currentRenameCollection, creation._id) }}
                         >
                         {'Rename'}
                       </Button>
@@ -275,7 +309,7 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({
                           shape='round'
                           className={styles.buttonPrimary}
                           disabled={inputCollectionName === '' ? true : false}
-                          onClick={(e) => { handleCreateCollection(e, inputCollectionName, creationId) }}
+                          onClick={(e) => { handleCreateCollection(e, inputCollectionName, creation._id) }}
                           >
                           {'Create'}
                         </Button>

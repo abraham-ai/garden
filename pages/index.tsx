@@ -1,10 +1,12 @@
+import { useContext } from 'react'
+import AppContext from '../context/AppContext'
+
 import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
 import { Inter } from 'next/font/google'
 
 import Header from '../app/components/NavBar/Header'
 import CreationsGrid from '../app/components/Creations/CreationsGrid'
+import CreationSaveModal from '../app/components/CreationSaveModal'
 
 import stylesHeader from '../styles/Header.module.css'
 import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
@@ -12,6 +14,12 @@ import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Index (): JSX.Element {
+  const context = useContext(AppContext)
+
+  const currentCreationModalCreation = context?.currentCreationModalCreation
+  const isSaveCreationModalOpen = useContext(AppContext).isSaveCreationModalOpen
+  const setIsSaveCreationModalOpen = useContext(AppContext)
+
 	return (
     <>
       <Head>
@@ -25,6 +33,10 @@ export default function Index (): JSX.Element {
       <main className={stylesHeader.headerWrapper}>
         <Header />
       </main>
+
+      <CreationSaveModal
+        creation={currentCreationModalCreation}
+      />
 
       <section className={stylesCreationsGrid.creationsWrapper}>
         <CreationsGrid />

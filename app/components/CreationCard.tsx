@@ -197,6 +197,7 @@ export default function CreationCard({
                           layout={'expanded'}
                           creationBurns={burns}
                           creationPraises={praises}
+                          creation={creation}
                           creationId={creation._id}
                           praisedByMe={praised}
                           burnedByMe={burned}

@@ -15,12 +15,12 @@ const ShareButton = ({ creationId}: { creationId: string }) => {
   const [isShareHovering, setIsShareHovering] = useState(false)
 
   const handleMouseOver = () => {
-    console.log('handleMouseOver')
+    // console.log('handleMouseOver')
     setIsShareHovering(true)
   }
 
   const handleMouseOut = () => {
-    console.log('handleMouseOut')
+    // console.log('handleMouseOut')
     setIsShareHovering(false)
   }
 

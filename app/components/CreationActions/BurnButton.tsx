@@ -135,6 +135,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
         className={burnClasses}
         size='large'
         type='text'
+        shape='round'
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -154,13 +155,17 @@ const BurnButton: FC<BurnButtonTypes> = ({
             (
               <>
                   {burnFilled}
-                  {burnCount}
+                  <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
+                    {burnCount}
+                  </Text>
                 </>
               )
               : (
                 <>
                   {burnGray}
-                  {burnCount}
+                  <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
+                    {burnCount}
+                  </Text>
                 </>
               )
             }

@@ -11,11 +11,15 @@ import { RiBookmarkFill, RiBookmarkLine } from 'react-icons/ri'
 
 import styles from '../../../styles/CreationSocial.module.css'
 
-const SaveButton = ({
+interface SaveButtonTypes {
+  isBookmarked: boolean
+  setIsBookmarked: (value: boolean) => void
+}
+
+const SaveButton: FC<SaveButtonTypes> = ({
   isBookmarked,
   setIsBookmarked,
-  modalOpen,
-  setModalOpen
+  creation
 }) => {
   const [isSaveHovering, setIsSaveHovering] = useState(false)
 
@@ -29,6 +33,9 @@ const SaveButton = ({
   const collections = context?.collections || []
   const setCollections = context?.setCollections || (() => [])
   const setSelectedCollection = context?.setSelectedCollection || (() => {})
+
+  const setIsSaveCreationModalOpen = context?.setIsSaveCreationModalOpen || (() => {})
+  const setCurrentCreationModalCreation = context?.setCurrentCreationModalCreation || (() => {})
 
   const [api, contextHolder] = notification.useNotification()
   
@@ -54,32 +61,14 @@ const SaveButton = ({
       console.log('handle SAVE 🔖!')
       setIsBookmarked(isBookmarked === true ? false : true)
       // showSaveNotification()
-      setModalOpen(true)
+      setIsSaveCreationModalOpen(true)
+      setCurrentCreationModalCreation(creation)
       setCollectionModalView(0)
     }
   }
 
   const showModal = (): void => {
-    setModalOpen(true)
-  }
-
-  const handleCreateCollection = async (inputCollectionName): Promise<void> => {
-    // console.log('handleCreateCollection')
-    const { data } = await axios.post('/api/collection/create', {
-      collectionName: inputCollectionName
-    })
-
-    // console.log(`Created: ${data.result}`)
-    // setSelectedCollection(data.result)
-    setCollections(prevState => [...prevState, data.result])
-    handleModalCleanUp()
-  }
-
-  const handleModalCleanUp = (): void => {
-    setModalOpen(false)
-    setCollectionModalView(0)
-    // setInputCollectionName('')
-    openNotification('bottom')
+    setIsSaveCreationModalOpen(true)
   }
 
   const handleMouseOver = (): void => {
@@ -116,7 +105,8 @@ const SaveButton = ({
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
       >
-        <Button className='btn' shape={'circle'} type='link' onClick={() => { handleSave() }} style={{
+        <Button className='btn' shape={'circle'} type='link'
+          onClick={() => { handleSave() }} style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

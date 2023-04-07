@@ -8,7 +8,7 @@
 
 .creationWrapper {
   display: flex;
-  margin: 90px;
+  margin: 90px 50px;
   justify-content: center;
 }
 
@@ -27,11 +27,11 @@
 /*** CR-POST ***/
 .crPost {
   width: 100%;
-  flex-direction: column;
+  flex-direction: row;
 }
 /*** CR-POST-TEXT ***/
 .crPostText {
-  max-width: 350px;
+  max-width: 380px;
 }
 @media (max-width: 930px) {
   .crPost {
@@ -48,7 +48,8 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  margin: 20px;
+  /* margin: 20px; */
+  margin-right: 20px;
   /* max-height: 700px; */
   /* border: 1px solid #dbdbdb; */
 }
@@ -250,23 +251,24 @@
 }
 /*** CR-SOCIALS ***/
 .crSocials {
-  max-width: 40px;
-  min-width: 40px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
+  /* max-width: 40px;
+  min-width: 40px; */
+  /* position: absolute; */
+  /* right: 0;
+  bottom: 0; */
   display: flex;
-  flex: 0;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
   align-items: center;
-  justify-content: flex-end;
-  flex-direction: column;
-  margin: 0 20px;
+  /* flex-direction: column; */
+  /* margin: 0 20px; */
   z-index: 70;
 }
 .crSocials .crSocial {
   text-align: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 /*** CR-SOCIAL BUTTON **/
 .crSocialBtn {
