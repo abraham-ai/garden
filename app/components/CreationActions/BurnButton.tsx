@@ -27,89 +27,32 @@ const BurnButton: FC<BurnButtonTypes> = ({
   const isSignedIn = context?.isSignedIn || false
   const isWalletConnected = context?.isWalletConnected || false
 
-  const [burns, setBurns] = useState<number>(burnsData)
-  const [isBurned, setIsBurnedState] = useState<boolean>(isBurnedData)
   const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
 
-  // console.log({ burns, isBurned })
-  // console.log({ burnsData, isBurnedData })
-
-  useEffect(() => {
-    if (
-      typeof burnsData !== 'undefined' &&
-      typeof isBurnedData !== 'undefined'
-    ) {
-      setBurns(burnsData)
-      setIsBurned(isBurnedData)
-    }
-  }, [burnsData, isBurnedData])
-
   const handleBurn = async (): Promise<void> => {
-    // console.log('handle BURN 🔥 !')
-
     if (isSignedIn === false) {
-      return
+      return;
     } else if (isSignedIn === true && isWalletConnected === false) {
-      return
+      return;
     } else {
+      const newIsBurned = !isBurnedData;
+      const updatedBurns = newIsBurned
+        ? burnsData + 1
+        : burnsData - 1;
+  
+      setIsBurned(newIsBurned, updatedBurns);
+  
       try {
-        await axios.post('/api/react', {
+        await axios.post("/api/react", {
           creationId,
-          reaction: '🔥'
-        })
-        // console.log({ data })
-        
-        let burnOpperation = ''
-    
-        if (isBurned === true && burns > 0) {
-          setBurns(burns - 1)
-          burnOpperation = 'decrease'
-          setIsBurned(false)
-        } else if (isBurned === false) {
-          setBurns(Number(burns) + 1)
-          burnOpperation = 'increase'
-          setIsBurned(true)
-        }
-    
-        // const results = await axios.post(serverUrl + '/update_stats', {
-        //   creation: creationSha,
-        //   stat: 'burn',
-        //   opperation: burnOpperation,
-        //   address: address,
-        // })
-        // setBurns(results.data.burn)
-    
-        setIsBurned(!isBurned ? false : true as boolean)
-      } catch (error: any) {
-        console.log({ error })
+          reaction: "🔥",
+        });
+      } catch (error) {
+        setIsBurned(!newIsBurned, burnsData);
+        console.error("Error updating praise:", error);
       }
     }
-  }
-
-  let burnCount
-
-  if (isSignedIn === true && isBurned === true) {
-    burnCount = burns > 1
-      ?
-        (
-          <Text className={styles.socialIconCount}>{burns}</Text>
-        )
-      : null
-  } else {
-    burnCount = burns > 0
-      ? 
-        (
-          <Text className={styles.socialIconCount}>{burns}</Text>
-        )
-      : null
-  }
-
-  let burnClasses
-  if (isSignedIn === true && isWalletConnected === true) {
-    burnClasses = isBurned === true ? 'crBurn isActive' : 'crBurn'
-  } else {
-    burnClasses = 'crBurn disabled'
-  }
+  };
 
   const burnGray = (
     <span style={{ filter: 'grayscale(1)', fontSize: '1.8rem' }}>{'🔥'}</span>
@@ -132,7 +75,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
   return (
     <div className='socialButtonWrapper' style={{ display: 'flex', alignItems: 'center' }}>
       <Button
-        className={burnClasses}
+        className={isBurnedData === true ? 'crBurn isActive' : 'crBurn'}
         size='large'
         type='text'
         shape='round'
@@ -146,7 +89,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
           border: 'none',
           transition: '1s'
         }}
-        onClick={handleBurn}
+        onClick={async () => { await handleBurn() }}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         >
