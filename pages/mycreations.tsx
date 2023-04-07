@@ -30,33 +30,37 @@ import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function MyCreations() {
-
 	const context = useContext(AppContext)
 	const userId = context?.userId || ''
 
-  const myCreationsData = useGetMyCreations(userId)
+	const myCreationsData = useGetMyCreations(userId)
 	console.log(myCreationsData)
 
-  let displayAddress = ''
-  if (typeof userId === 'string') {
-    displayAddress = abbreviateAddress(userId)
-  }
+	let displayAddress = ''
+	if (typeof userId === 'string') {
+		displayAddress = abbreviateAddress(userId)
+	}
 
-  return (
-    <>
-      <main className={stylesHeader.headerWrapper}>
-        <Header />
-      </main>
+	return (
+		<>
+			<main className={stylesHeader.headerWrapper}>
+				<Header />
+			</main>
 
-      <CreatorHeader userId={userId} />
+			<CreatorHeader userId={userId} />
 
 			{typeof myCreationsData !== 'undefined' && myCreationsData !== null ? (
-				<section className={stylesCreationsGrid.creationsWrapper} style={{ marginTop: 50 }}>
+				<section
+					className={stylesCreationsGrid.creationsWrapper}
+					style={{ marginTop: 50 }}
+				>
 					<CreationsGridSimple creations={myCreationsData} />
 				</section>
-			): (<Row style={{ display: 'flex', justifyContent: 'center' }}>
-      <Spin indicator={antIcon} />
-    </Row>)}
-    </>
-  )
+			) : (
+				<Row style={{ display: 'flex', justifyContent: 'center' }}>
+					<Spin indicator={antIcon} />
+				</Row>
+			)}
+		</>
+	)
 }

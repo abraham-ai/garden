@@ -35,71 +35,74 @@ import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs'
 import { SlSizeFullscreen } from 'react-icons/sl'
 
 interface CollectionPageTypes {
-  params: { id: string }
-  creation: CreationResponse
-  size?: string
+	params: { id: string }
+	creation: CreationResponse
+	size?: string
 }
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const Collection: FC<CollectionPageTypes> = () => {
-  const router = useRouter()
-  const { collectionId } = router.query
-  // console.log(collectionId)
+	const router = useRouter()
+	const { collectionId } = router.query
+	// console.log(collectionId)
 
-  const collectionData = useGetCollection(collectionId)
+	const collectionData = useGetCollection(collectionId)
 	console.log('[collectionId] ROUTE')
-  console.log({ collectionData })
+	console.log({ collectionData })
 	console.log(collectionData)
 
-  if (typeof collectionData !== 'undefined' && collectionData !== null) {
-    console.log({ collectionData })
-    // console.log(collectionData.creation.task.config.text_input)
-    // timeAgoCreatedAt = timeAgo(parseInt(collectionData.creation.createdAt))
-    // console.log(timeAgoCreatedAt)
-  }
+	if (typeof collectionData !== 'undefined' && collectionData !== null) {
+		console.log({ collectionData })
+		// console.log(collectionData.creation.task.config.text_input)
+		// timeAgoCreatedAt = timeAgo(parseInt(collectionData.creation.createdAt))
+		// console.log(timeAgoCreatedAt)
+	}
 
-  return (
-    <>
-      <Header />
+	return (
+		<>
+			<Header />
 
-      <section className={styles.collectionWrapper}>
-        {typeof collectionData !== 'undefined' && typeof collectionData.data !== 'undefined'
-					?
-						(
+			<section className={styles.collectionWrapper}>
+				{typeof collectionData !== 'undefined' &&
+				typeof collectionData.data !== 'undefined' ? (
+					<>
+						{typeof collectionData.data?.collection.user !== 'undefined' ? (
 							<>
-								{ typeof collectionData.data?.collection.user !== 'undefined'
-									?
-										(
-											<>
-												<CreatorHeader userId={collectionData.data.profile.user.userId} />
-												<Col style={{ display: 'flex', justifyContent: 'center', background: 'white', fontWeight: 'bold' }}>
-													<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>{collectionData.data.collection.name}</Text>
-													{/* <pre>{JSON.stringify(collectionData, null, 2)}</pre> */}
-												</Col>
-											</>
-										)
-									: null
-								}
-									{ collectionData.data?.creations.length > 0
-										?
-											(
-												<CreationsGridSimple creations={collectionData.data?.creations} />
-											):
-											(
-												<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>{'Loading...'}</Text>
-											)
-									}
+								<CreatorHeader
+									userId={collectionData.data.profile.user.userId}
+								/>
+								<Col
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+										background: 'white',
+										fontWeight: 'bold',
+									}}
+								>
+									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
+										{collectionData.data.collection.name}
+									</Text>
+									{/* <pre>{JSON.stringify(collectionData, null, 2)}</pre> */}
+								</Col>
 							</>
-						) :
-						(
-							<Row style={{ background: 'white' }}>
-								<Text>{'Loading...'}</Text>
-							</Row>
+						) : null}
+						{collectionData.data?.creations.length > 0 ? (
+							<CreationsGridSimple creations={collectionData.data?.creations} />
+						) : (
+							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
+								{'Loading...'}
+							</Text>
 						)}
-      </section>
-    </>
-  )
+					</>
+				) : (
+					<Row style={{ background: 'white' }}>
+						<Text>{'Loading...'}</Text>
+					</Row>
+				)}
+			</section>
+		</>
+	)
 }
 
 export default Collection

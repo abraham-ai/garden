@@ -24,78 +24,93 @@ interface EthereumAccountTypes {
 }
 
 const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
-  const context = useContext(AppContext)
+	const context = useContext(AppContext)
 
-  const isWalletConnected = context?.isWalletConnected || false
+	const isWalletConnected = context?.isWalletConnected || false
 
-  const setIsWalletConnected = useMemo(() => {
-    return context?.setIsWalletConnected || (() => {})
-  }, [context?.setIsWalletConnected])
+	const setIsWalletConnected = useMemo(() => {
+		return context?.setIsWalletConnected || (() => {})
+	}, [context?.setIsWalletConnected])
 
-  const authToken = context?.authToken || ''
+	const authToken = context?.authToken || ''
 
-  const setAuthToken = useMemo(() => {
-    return context?.setAuthToken || (() => {})
-  }, [context?.setAuthToken])
+	const setAuthToken = useMemo(() => {
+		return context?.setAuthToken || (() => {})
+	}, [context?.setAuthToken])
 
-  const userId = context?.userId || ''
+	const userId = context?.userId || ''
 
-  const setUserId = useMemo(() => {
-    return context?.setUserId || (() => {})
-  }, [context?.setUserId])
+	const setUserId = useMemo(() => {
+		return context?.setUserId || (() => {})
+	}, [context?.setUserId])
 
-  const isSignedIn = context?.isSignedIn || false
+	const isSignedIn = context?.isSignedIn || false
 
-  const setIsSignedIn = useMemo(() => {
-    return context?.setIsSignedIn || (() => {})
-  }, [context?.setIsSignedIn])
+	const setIsSignedIn = useMemo(() => {
+		return context?.setIsSignedIn || (() => {})
+	}, [context?.setIsSignedIn])
 
-  const { disconnect } = useDisconnect()
+	const { disconnect } = useDisconnect()
 
-  if (isWalletConnected) {
-    return (
-      <>
-        <section className={styles.ethereumAuthWrapper}>
-          {/* Account content goes here */}
+	if (isWalletConnected) {
+		return (
+			<>
+				<section className={styles.ethereumAuthWrapper}>
+					{/* Account content goes here */}
 
-          <Text level={2} style={{ fontWeight: 'bold', fontSize: '1rem', marginBottom: 10, color: 'gray' }}>{'Settings'}</Text>
+					<Text
+						level={2}
+						style={{
+							fontWeight: 'bold',
+							fontSize: '1rem',
+							marginBottom: 10,
+							color: 'gray',
+						}}
+					>
+						{'Settings'}
+					</Text>
 
-          <Row style={{ display: 'flex', marginBottom: 20 }}>
-            {typeof userId === 'string' && isSignedIn ? (
-              <div>
-                <Button
-                  onClick={async () => {
-                    disconnect()
-                  }}
-                  >
-                  {'Disconnect Wallet'}
-                </Button>
-              </div>
-            ) : (
-              <Button type='primary' shape='round' disabled={state.loading} onClick={handleSiwe}>
-                {'Sign-In with Ethereum'}
-              </Button>
-            )}
+					<Row style={{ display: 'flex', marginBottom: 20 }}>
+						{typeof userId === 'string' && isSignedIn ? (
+							<div>
+								<Button
+									onClick={async () => {
+										disconnect()
+									}}
+								>
+									{'Disconnect Wallet'}
+								</Button>
+							</div>
+						) : (
+							<Button
+								type='primary'
+								shape='round'
+								disabled={state.loading}
+								onClick={handleSiwe}
+							>
+								{'Sign-In with Ethereum'}
+							</Button>
+						)}
 
-          {typeof userId === 'string' && isSignedIn ? (
-            <Button
-							onClick={async () => {
-								await fetch('/api/auth/logout')
-								setAuthToken('')
-								setIsSignedIn(false)
-							}}
-							style={{ marginLeft: 10 }}
-						>
-              {'Sign-out of Eden'}
-            </Button>
-          ) : null}
-          </Row>
-        </section>
-      </>
-    )
-  }
+						{typeof userId === 'string' && isSignedIn ? (
+							<Button
+								onClick={async () => {
+									await fetch('/api/auth/logout')
+									setAuthToken('')
+									setIsSignedIn(false)
+								}}
+								style={{ marginLeft: 10 }}
+							>
+								{'Sign-out of Eden'}
+							</Button>
+						) : null}
+					</Row>
+				</section>
+			</>
+		)
+	}
 
-  return <div>{/* Connect wallet content goes here */}</div>
+	return <div>{/* Connect wallet content goes here */}</div>
 }
 
 export default EthereumAccount

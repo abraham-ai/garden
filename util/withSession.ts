@@ -1,41 +1,51 @@
-import {
-  GetServerSidePropsContext,
-  GetServerSidePropsResult,
-  NextApiHandler,
-} from 'next/types';
+import type {
+	GetServerSidePropsContext,
+	GetServerSidePropsResult,
+	NextApiHandler,
+} from 'next/types'
 
-import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
+import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
+
+declare const process: {
+	env: {
+		NODE_ENV: string
+	}
+}
 
 declare module 'iron-session' {
-  interface IronSessionData {
-    token?: string;
-    address?: string;
-    userId?: string;
-    username?: string;
-    nonce?: string;
-  }
+	interface IronSessionData {
+		token?: string
+		address?: string
+		userId?: string
+		username?: string
+		nonce?: string
+	}
 }
 
 export const sessionOptions = {
-  password: (process.env.COOKIE_SECRET as string) || '',
-  cookieName: 'eden_art',
-  ttl: 15 * 24 * 3600,
-  cookieOptions: {
-    secure: process.env.NODE_ENV === 'production' ? true : false,
-  },
-};
+	password:
+		typeof process.env.COOKIE_SECRET === 'string' &&
+		process.env.COOKIE_SECRET !== ''
+			? (process.env.COOKIE_SECRET as string)
+			: '',
+	cookieName: 'eden_art',
+	ttl: 15 * 24 * 3600,
+	cookieOptions: {
+		secure: process.env.NODE_ENV === 'production' ? true : false,
+	},
+}
 
 export function withSessionRoute(handler: NextApiHandler) {
-  return withIronSessionApiRoute(handler, sessionOptions);
+	return withIronSessionApiRoute(handler, sessionOptions)
 }
 
 // Theses types are compatible with InferGetStaticPropsType https://nextjs.org/docs/basic-features/data-fetching#typescript-use-getstaticprops
 export function withSessionSsr<
-  P extends { [key: string]: unknown } = { [key: string]: unknown }
+	P extends { [key: string]: unknown } = { [key: string]: unknown }
 >(
-  handler: (
-    context: GetServerSidePropsContext
-  ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
+	handler: (
+		context: GetServerSidePropsContext
+	) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
 ) {
-  return withIronSessionSsr(handler, sessionOptions);
+	return withIronSessionSsr(handler, sessionOptions)
 }

@@ -1,35 +1,35 @@
-import { NextApiRequest, NextApiResponse } from 'next/types';
-import { withSessionRoute } from '../../../util/withSession';
+import { NextApiRequest, NextApiResponse } from 'next/types'
+import { withSessionRoute } from '../../../util/withSession'
 
-import { EdenClient } from 'eden-sdk';
-const eden = new EdenClient();
+import { EdenClient } from 'eden-sdk'
+const eden = new EdenClient()
 
 interface ApiRequest extends NextApiRequest {
-  body: {
-    collectionId: string;
-    newCollectionName: string;
-  };
+	body: {
+		collectionId: string
+		newCollectionName: string
+	}
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  const { collectionId, newCollectionName } = req.body;
-  const { userId, token: authToken } = req.session
+	const { collectionId, newCollectionName } = req.body
+	const { userId, token: authToken } = req.session
 
-  try {
-    const authTokenResult = await eden.setAuthToken(authToken);
+	try {
+		const authTokenResult = await eden.setAuthToken(authToken)
 
-    // get collection
-    let collection = await eden.getCollection(collectionId);
-    console.log(collection);
-    
-    // renamte collection
-    const renamedCollection = await collection.rename(newCollectionName);
+		// get collection
+		let collection = await eden.getCollection(collectionId)
+		console.log(collection)
 
-    return res.status(200).json(renamedCollection);
-  } catch (error: any) {
-    console.log(error);
-    return res.status(500).json({ error: error });
-  }
-};
+		// renamte collection
+		const renamedCollection = await collection.rename(newCollectionName)
 
-export default withSessionRoute(handler);
+		return res.status(200).json(renamedCollection)
+	} catch (error: any) {
+		console.log(error)
+		return res.status(500).json({ error: error })
+	}
+}
+
+export default withSessionRoute(handler)

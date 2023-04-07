@@ -26,24 +26,24 @@ import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs'
 import { SlSizeFullscreen } from 'react-icons/sl'
 
 interface pageProps {
-  params: { id: string }
-  creation: Creation
-  size?: string
+	params: { id: string }
+	creation: Creation
+	size?: string
 }
 const Creation: FC<pageProps> = ({ params, creation, size = 'regular' }) => {
-  // const { pathname, query, asPath } = router
+	// const { pathname, query, asPath } = router
 
-  // const { uri, createdAt, task, user, thumbnail, _id } = creation
-  // const { config, status, generator } = task
-  // const { generatorName } = generator
-  // const { width, height, text_input } = config
+	// const { uri, createdAt, task, user, thumbnail, _id } = creation
+	// const { config, status, generator } = task
+	// const { generatorName } = generator
+	// const { width, height, text_input } = config
 
-  // const { praises: praiseCount, burns: burnCount } = useReactions(_id)
+	// const { praises: praiseCount, burns: burnCount } = useReactions(_id)
 
-  // const isParent = true
+	// const isParent = true
 
-  // return <div className='creation'>{params.id}</div>
-  return <section>{'TEST CREATION'}</section>
+	// return <div className='creation'>{params.id}</div>
+	return <section>{'TEST CREATION'}</section>
 }
 
 // <section id='creation-wrapper'>

@@ -22,90 +22,105 @@ import styles from '../../styles/CreationSaveModal.module.css'
 const { Text } = Typography
 
 interface CreationSaveModalTypes {
-  creation: Creation
+	creation: Creation
 }
 
 const CreationSaveModal: FC<CreationSaveModalTypes> = ({ creation }) => {
 	const [inputCollectionName, setInputCollectionName] = useState('')
 
-  const [isRenameCollection, setIsRenameCollection] = useState(false)
-  const [currentRenameCollection, setCurrentRenameCollection] = useState('')
-	const [currentSavedCollection, setCurrentSavedCollection] = useState<Collection>({})
+	const [isRenameCollection, setIsRenameCollection] = useState(false)
+	const [currentRenameCollection, setCurrentRenameCollection] = useState('')
+	const [currentSavedCollection, setCurrentSavedCollection] =
+		useState<Collection>({})
 
-  const [api, contextHolder] = notification.useNotification()
+	const [api, contextHolder] = notification.useNotification()
 
-  const context = useContext(AppContext)
-  const collections = context?.collections || []
-  const selectedCollection = context?.selectedCollection || ''
-  const setSelectedCollection = context?.setSelectedCollection || (() => {})
-  const setCollections = useMemo(() => context?.setCollections || (() => []), [context])
+	const context = useContext(AppContext)
+	const collections = context?.collections || []
+	const selectedCollection = context?.selectedCollection || ''
+	const setSelectedCollection = context?.setSelectedCollection || (() => {})
+	const setCollections = useMemo(
+		() => context?.setCollections || (() => []),
+		[context]
+	)
 
-  const collectionModalView = context?.collectionModalView
-  const setCollectionModalView = (value: number): void => {
-    context?.setCollectionModalView(value)
-  }
+	const collectionModalView = context?.collectionModalView
+	const setCollectionModalView = (value: number): void => {
+		context?.setCollectionModalView(value)
+	}
 
 	const isSaveCreationModalOpen = context?.isSaveCreationModalOpen || false
-	const setIsSaveCreationModalOpen = context?.setIsSaveCreationModalOpen || (() => {})
+	const setIsSaveCreationModalOpen =
+		context?.setIsSaveCreationModalOpen || (() => {})
 
-  // const inputCollectionRef = useRef<InputRef>(null)
+	// const inputCollectionRef = useRef<InputRef>(null)
 
-  const collectionsData = useGetCollections()
+	const collectionsData = useGetCollections()
 
-  // console.log(collections)
-  // console.log(collectionsData)
-  // console.log(collectionModalView)
+	// console.log(collections)
+	// console.log(collectionsData)
+	// console.log(collectionModalView)
 
-
-  const createNotification = (placement: NotificationPlacement): JSX.Element => {
-    api.info({
-      message: `Collection ${String(inputCollectionName)} created!`,
-      description:
-        'View your collection in the Collections tab or on your profile page.',
-      placement
-    })
-  }
+	const createNotification = (
+		placement: NotificationPlacement
+	): JSX.Element => {
+		api.info({
+			message: `Collection ${String(inputCollectionName)} created!`,
+			description:
+				'View your collection in the Collections tab or on your profile page.',
+			placement,
+		})
+	}
 
 	const saveNotification = (placement: NotificationPlacement): JSX.Element => {
-    console.log('save Notification')
+		console.log('save Notification')
 		console.log(currentSavedCollection)
 		const savedCollectionPropsArray = Object.keys(currentSavedCollection)
-		
-		if (typeof currentSavedCollection !== 'undefined' && savedCollectionPropsArray.length > 0) {
+
+		if (
+			typeof currentSavedCollection !== 'undefined' &&
+			savedCollectionPropsArray.length > 0
+		) {
 			setIsSaveCreationModalOpen(false)
 			api.info({
-				message: <>
-					<Text>{`Creation saved to`}
-						<Link 
-							href={`/collection/${String(currentSavedCollection._id)}`}
-							style={{ margin: '0 5px' }}
-						>
-							{String(currentSavedCollection.name)}
-						</Link>
-					{`Collection!`}</Text>
-					</>,
+				message: (
+					<>
+						<Text>
+							{`Creation saved to`}
+							<Link
+								href={`/collection/${String(currentSavedCollection._id)}`}
+								style={{ margin: '0 5px' }}
+							>
+								{String(currentSavedCollection.name)}
+							</Link>
+							{`Collection!`}
+						</Text>
+					</>
+				),
 				description:
 					'View your collection in the Collections tab or on your profile page.',
 				placement,
-				duration: 3
+				duration: 3,
 			})
 		}
-		
-  }
+	}
 
-  useEffect(() => {
-    // console.log('USE-EFFECT')
-    // console.log({collectionsData})
-    if (typeof collectionsData !== 'undefined') {
-      // console.log('SET COLLECTIONS!')
-      setCollections(collectionsData)
-    }
-  }, [collectionsData, setCollections])
+	useEffect(() => {
+		// console.log('USE-EFFECT')
+		// console.log({collectionsData})
+		if (typeof collectionsData !== 'undefined') {
+			// console.log('SET COLLECTIONS!')
+			setCollections(collectionsData)
+		}
+	}, [collectionsData, setCollections])
 
 	useEffect(() => {
 		const savedCollectionPropsArray = Object.keys(currentSavedCollection)
 
-		if (typeof currentSavedCollection !== 'undefined' && savedCollectionPropsArray.length > 0) {
+		if (
+			typeof currentSavedCollection !== 'undefined' &&
+			savedCollectionPropsArray.length > 0
+		) {
 			console.log(currentSavedCollection)
 			handleSaveModalCleanUp()
 		}
@@ -117,40 +132,46 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({ creation }) => {
 	}
 
 	const handleSaveModalCleanUp = (): void => {
-    // setModalOpen(false)
-    setCollectionModalView(0)
+		// setModalOpen(false)
+		setCollectionModalView(0)
 		// console.log({ currentSavedCollection })
-    // setInputCollectionName('')
-
+		// setInputCollectionName('')
 
 		if (typeof currentSavedCollection !== 'undefined') {
 			// console.log(currentSavedCollection)
 			saveNotification('bottom')
 		}
-  }
+	}
 
 	const handleCreateModalCleanUp = (): void => {
-    setIsCreationModalOpen(false)
-    setCollectionModalView(0)
-    // setInputCollectionName('')
-    createNotification('bottom')
-  }
+		setIsCreationModalOpen(false)
+		setCollectionModalView(0)
+		// setInputCollectionName('')
+		createNotification('bottom')
+	}
 
-	const handleCreateCollection = async (e, inputCollectionName: string, creationId: string): Promise<void> => {
+	const handleCreateCollection = async (
+		e,
+		inputCollectionName: string,
+		creationId: string
+	): Promise<void> => {
 		const { data } = await axios.post('/api/collection/create', {
 			collectionName: inputCollectionName,
-			creationId
+			creationId,
 		})
 
-		setCollections(prevCollections => [...prevCollections, data])
+		setCollections((prevCollections) => [...prevCollections, data])
 		setSelectedCollection(data.name)
 		handleCreateModalCleanUp()
 	}
 
-	const handleSaveToCollection = async (collectionId, creationId): Promise<void> => {
+	const handleSaveToCollection = async (
+		collectionId,
+		creationId
+	): Promise<void> => {
 		const { data } = await axios.post('/api/collection/save', {
 			collectionId,
-			creationId
+			creationId,
 		})
 
 		const { addedCreationResult, collection, creation } = data
@@ -163,11 +184,14 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({ creation }) => {
 		}
 	}
 
-	const handleRenameCollectionName = async (inputCollectionName: string, collectionId: string): Promise<void> => {
+	const handleRenameCollectionName = async (
+		inputCollectionName: string,
+		collectionId: string
+	): Promise<void> => {
 		// const { data } =
 		await axios.post('/api/collection/rename', {
 			inputCollectionName,
-			collectionId
+			collectionId,
 		})
 	}
 
@@ -179,149 +203,183 @@ const CreationSaveModal: FC<CreationSaveModalTypes> = ({ creation }) => {
 	// }
 
 	// const openRenameCollectionView = (collectionName, collectionId): void => {
-  //   setCollectionModalView(1)
-  //   setIsRenameCollection(true)
-  //   setCurrentRenameCollection(collectionName)
+	//   setCollectionModalView(1)
+	//   setIsRenameCollection(true)
+	//   setCurrentRenameCollection(collectionName)
 
-  //   if (typeof inputCollectionRef.current !== 'undefined' && inputCollectionRef.current !== null) {
+	//   if (typeof inputCollectionRef.current !== 'undefined' && inputCollectionRef.current !== null) {
 	// 		inputCollectionRef.current!.focus({
 	// 				cursor: 'start'
 	// 		})
-  //   }
+	//   }
 	// }
 
-  // console.log({collections})
-  // console.log({ collectionsData })
+	// console.log({collections})
+	// console.log({ collectionsData })
 
-  return (
-    <Modal open={isSaveCreationModalOpen} footer={<></>} onCancel={() => setIsSaveCreationModalOpen(false)}>
+	return (
+		<Modal
+			open={isSaveCreationModalOpen}
+			footer={<></>}
+			onCancel={() => setIsSaveCreationModalOpen(false)}
+		>
+			<div style={{ padding: 20, borderRadius: 20 }}>
+				<section className={styles.modalView1}>
+					<Text className={styles.debugModalView}>
+						{`Modal View: ${String(collectionModalView)}`}
+					</Text>
 
-      <div style={{ padding: 20, borderRadius: 20 }}>
-        <section className={styles.modalView1}>
-
-          <Text className={styles.debugModalView}>
-            {`Modal View: ${String(collectionModalView)}`}
-          </Text>
-
-          { collectionModalView === 0 ?
-            <article className={styles.modalView1}>
-              { collections.length > 0 ?
-                <>
-                  <Text className={styles.saveModalCollectionTitle}>{'Your Collections.'}</Text>
-                  <Col>
-                    {collections.map((collection: Collection, i: number) => {
-                      return (
-                        <Row key={i} className={styles.row}>
-                          <Button
-                            shape='round'
-														onClick={() => { handleSaveToCollection(collection._id, creation._id) }}
-                            className={styles.button}
-                          >
-                              {collection.name}
-                          </Button>
-                        </Row>
-                      )
-                    })}
-                  </Col>
-                </>
-              :
-								<Text className={styles.textNotification}>{'You don’t have any collections yet.'}</Text>
-            }
-              <Button
+					{collectionModalView === 0 ? (
+						<article className={styles.modalView1}>
+							{collections.length > 0 ? (
+								<>
+									<Text className={styles.saveModalCollectionTitle}>
+										{'Your Collections.'}
+									</Text>
+									<Col>
+										{collections.map((collection: Collection, i: number) => {
+											return (
+												<Row key={i} className={styles.row}>
+													<Button
+														shape='round'
+														onClick={() => {
+															handleSaveToCollection(
+																collection._id,
+																creation._id
+															)
+														}}
+														className={styles.button}
+													>
+														{collection.name}
+													</Button>
+												</Row>
+											)
+										})}
+									</Col>
+								</>
+							) : (
+								<Text className={styles.textNotification}>
+									{'You don’t have any collections yet.'}
+								</Text>
+							)}
+							<Button
 								shape='round'
 								type='primary'
 								icon={
-									<span style={{
+									<span
+										style={{
 											display: 'flex',
 											alignItems: 'center',
 											justifyContent: 'center',
-											marginRight: 10
+											marginRight: 10,
 										}}
 									>
 										<MdOutlineAdd style={{ fontSize: '1.3rem' }} />
 									</span>
 								}
-								onClick={() => { handleFirstModal() }}
+								onClick={() => {
+									handleFirstModal()
+								}}
 								className={styles.buttonPrimary}
-								style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
 							>
-                {'Create a new collection'}
-              </Button>
-            </article>
-          :
-          null }
+								{'Create a new collection'}
+							</Button>
+						</article>
+					) : null}
 
-          { collectionModalView === 1
-            ?
-            <article className={styles.modalView2}>
-                {isRenameCollection === true
-                  ?
-                  <>
-                      <Row className={styles.row}>
-                        <Button type='link'
-                          className={styles.buttonLink} onClick={() => { setCollectionModalView(0) }}>
-                            <BiLeftArrowAlt size={'1.2rem'} />
-                        </Button>
-                        <Text className={styles.textBold}>{'Rename Collection:'}</Text>
-                      </Row>
+					{collectionModalView === 1 ? (
+						<article className={styles.modalView2}>
+							{isRenameCollection === true ? (
+								<>
+									<Row className={styles.row}>
+										<Button
+											type='link'
+											className={styles.buttonLink}
+											onClick={() => {
+												setCollectionModalView(0)
+											}}
+										>
+											<BiLeftArrowAlt size={'1.2rem'} />
+										</Button>
+										<Text className={styles.textBold}>
+											{'Rename Collection:'}
+										</Text>
+									</Row>
 
-                      <Input
-                        placeholder={currentRenameCollection}
-                        onChange={(e) => {
-                          setInputCollectionName(e.target.value)
-                        }}
-                        />
-                      <Button
-                        type={'primary'}
-                        shape='round'
-                        className={styles.buttonPrimary}
-                        disabled={inputCollectionName === '' ? true : false}
-                        onClick={() => { handleRenameCollectionName(currentRenameCollection, creation._id) }}
-                        >
-                        {'Rename'}
-                      </Button>
-                    </>
-                  :
-                  (
-                    <>
-                        <Row>
-                          <Button
-                            type='link'
-                            className={styles.buttonLink}
-                            onClick={() => { setCollectionModalView(0) }}
-                            >
-                            <BiLeftArrowAlt size={'1rem'} />
-                          </Button>
+									<Input
+										placeholder={currentRenameCollection}
+										onChange={(e) => {
+											setInputCollectionName(e.target.value)
+										}}
+									/>
+									<Button
+										type={'primary'}
+										shape='round'
+										className={styles.buttonPrimary}
+										disabled={inputCollectionName === '' ? true : false}
+										onClick={() => {
+											handleRenameCollectionName(
+												currentRenameCollection,
+												creation._id
+											)
+										}}
+									>
+										{'Rename'}
+									</Button>
+								</>
+							) : (
+								<>
+									<Row>
+										<Button
+											type='link'
+											className={styles.buttonLink}
+											onClick={() => {
+												setCollectionModalView(0)
+											}}
+										>
+											<BiLeftArrowAlt size={'1rem'} />
+										</Button>
 
+										<Text className={styles.textBold}>
+											{'Create Collection'}
+										</Text>
+									</Row>
 
-                          <Text className={styles.textBold}>{'Create Collection'}</Text>
-                        </Row>
+									<Input
+										placeholder=''
+										onChange={(e) => {
+											setInputCollectionName(e.target.value)
+										}}
+									/>
 
-                        <Input
-                          placeholder=''
-                          onChange={(e) => {
-                            setInputCollectionName(e.target.value)
-                          }}
-                          />
-
-                        <Button
-                          type={'primary'}
-                          shape='round'
-                          className={styles.buttonPrimary}
-                          disabled={inputCollectionName === '' ? true : false}
-                          onClick={(e) => { handleCreateCollection(e, inputCollectionName, creation._id) }}
-                          >
-                          {'Create'}
-                        </Button>
-                      </>
-                    )
-                  }
-              </article>
-            : null }
-        </section>
-      </div>
+									<Button
+										type={'primary'}
+										shape='round'
+										className={styles.buttonPrimary}
+										disabled={inputCollectionName === '' ? true : false}
+										onClick={(e) => {
+											handleCreateCollection(
+												e,
+												inputCollectionName,
+												creation._id
+											)
+										}}
+									>
+										{'Create'}
+									</Button>
+								</>
+							)}
+						</article>
+					) : null}
+				</section>
+			</div>
 			{contextHolder}
-	</Modal>
+		</Modal>
 	)
 }
 

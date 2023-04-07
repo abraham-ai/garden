@@ -1,3 +1,3 @@
 export default interface Collection {
-    name: string;
+	name: string
 }

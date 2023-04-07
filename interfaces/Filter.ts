@@ -1,6 +1,6 @@
 interface Filter {
-  latestTime: number;
-  limit: number;
+	latestTime: number
+	limit: number
 }
 
-export default Filter;
+export default Filter

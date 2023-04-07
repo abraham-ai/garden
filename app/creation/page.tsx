@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC } from 'react'
 
 interface pageProps {}
 
 const Creation: FC<pageProps> = () => {
-  return <section>{'Test Creation'}</section>;
-};
+	return <section>{'Test Creation'}</section>
+}
 
-export default Creation;
+export default Creation

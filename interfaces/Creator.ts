@@ -1,5 +1,5 @@
 interface Creator {
-  creatorId: string
+	creatorId: string
 }
 
-export default Creator;
+export default Creator

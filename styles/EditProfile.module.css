@@ -15,7 +15,7 @@
 }
 /*** EDIT PROFILE WRAPPER ***/
 .editProfileFormWrapper {
-	width: 90%;  
+	width: 90%;
 	margin-bottom: 100px;
 	max-width: 770px;
 }
@@ -31,184 +31,183 @@
 }
 /*** FORM COL ***/
 .formRow .formInfo.ant-col {
-		display: flex;
-		flex-direction: column;
-		
+	display: flex;
+	flex-direction: column;
 }
 /*** FORM HEADER ***/
 .formHeader {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
-		align-items: flex-start;
-		margin-right: 20px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	align-items: flex-start;
+	margin-right: 20px;
 }
 /** FORM TITLE */
 .formTitle {
-		display: flex;
-		flex: 0;
-		font-weight: bold;
-		font-size: 1.4rem;
+	display: flex;
+	flex: 0;
+	font-weight: bold;
+	font-size: 1.4rem;
 }
 .formItem > .ant-form-item-row {
-		flex-direction: column;
-		/*align-items: flex-end;*/
-		height: 90px;
+	flex-direction: column;
+	/*align-items: flex-end;*/
+	height: 90px;
 }
 /** FORM INFO **/
 .formInfo .ant-form-item-control {
-		min-width: 100%;
+	min-width: 100%;
 }
 /*** FORM-ITEM TEXT-AREA ***/
 .formItem.text-area > .ant-form-item-row {
-		height: 330px;
+	height: 330px;
 }
 .formItem.text-area .ant-form-item-label {
-		max-height: 30px;
+	max-height: 30px;
 }
 /*** FORM-ITEM UPLOAD ***/
 .formItem.upload {
-		flex-flow: column;
-		align-items: flex-start; 
-		margin: 0;     
+	flex-flow: column;
+	align-items: flex-start;
+	margin: 0;
 }
 .formItem.upload > .ant-form-item-row {
-		height: 140px;
-		align-items: flex-start;
+	height: 140px;
+	align-items: flex-start;
 }
 .formItem.upload .ant-form-item-control {
-		width: 100%;
-		max-width: unset;
-		min-height: 50px;
+	width: 100%;
+	max-width: unset;
+	min-height: 50px;
 }
 .formItem.upload .ant-form-item-row .ant-form-item-label {
-		min-height: 30px;
-		flex: 0;
+	min-height: 30px;
+	flex: 0;
 }
 .formItem .ant-form-item-control-input {
-		align-items: flex-start;
+	align-items: flex-start;
 }
 /*** UPLOAD SELECT ***/
 .antUpload.ant-upload-select {
-		width: 100%;
+	width: 100%;
 }
 .antUploadWrapper {
-		width: 100%;
+	width: 100%;
 }
 .antUpload {
-		min-width: 100%;    
+	min-width: 100%;
 }
 /** FORM LABEL **/
 .formItem .ant-form-item-row .ant-form-item-label {
-		display: flex;
-		flex: 1;
-		width: 100%;
-		justify-content: space-between;
-		padding: 0;
+	display: flex;
+	flex: 1;
+	width: 100%;
+	justify-content: space-between;
+	padding: 0;
 }
 .formItem .ant-form-item-row label {
-		display: flex;
-		flex: 1;
-		justify-content: space-between;
+	display: flex;
+	flex: 1;
+	justify-content: space-between;
 }
-.formItem .ant-form-item-row label .ant-space.form-label-wrapper  {
-		display: flex;  
-		flex: 1;
-		align-items: flex-start;
-		height: 30px;
-		justify-content: space-between;
-		width: 100%;
+.formItem .ant-form-item-row label .ant-space.form-label-wrapper {
+	display: flex;
+	flex: 1;
+	align-items: flex-start;
+	height: 30px;
+	justify-content: space-between;
+	width: 100%;
 }
 .formLabel {
-		font-size: 1rem; 
-		font-weight: bold; 
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 10px;
+	font-size: 1rem;
+	font-weight: bold;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
 }
 /** FORM LABEL OPTIONAL **/
 .formLabelOptional {
-		color: rgba(0, 0, 0, 0.7);
-		margin-bottom: 10px;
+	color: rgba(0, 0, 0, 0.7);
+	margin-bottom: 10px;
 }
 /** FORM INPUT **/
 .formInput {
-		margin-bottom: 15px;   
+	margin-bottom: 15px;
 }
 /*** FORM TAG ***/
 .formTag {
-		display: flex;
-		margin: 10px 0;
-		height: 30px;
-		border-radius: 20px;
-		align-items: center;
-		justify-content: space-between;
-		max-width: 230px;
+	display: flex;
+	margin: 10px 0;
+	height: 30px;
+	border-radius: 20px;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 230px;
 }
-@media(max-width: 40em) {
-		.formRow {
-				flex-direction: column;
-				flex-flow: column;
-		}
-		/*** FORM HEADER ***/
-		.formRow .form-header {
-				margin: 0;
-				flex: 0;    
-		}
-		/*** FORM COL ***/
-		.formRow .form-info.ant-col {
-				flex: 0;
-				height: auto;
-				min-height: unset;
-				max-width: 100%;
-				padding-bottom: 15px;
-		}
-		/*** FORM ROW ***/
-		.formItem > .ant-form-item-row {
-				flex-flow: column;
-				height: auto;
-		}
-		.formItem .ant-form-item-row .ant-form-item-label {
-				min-height: 30px;
-		}
-		/*** FORM HEADER ***/
-		.formRow .form-header {
-				gap: unset;    
-		}
-		/*** FORM DESCRIPTION ***/
-		.formHeader .formDescription {
-				margin: 0;
-				padding: 0;
-		}
-		/*** FORM-ITEM TEXT-AREA CONTROL ***/
-		.formItem.textArea .ant-form-item-control {
-				min-width: 100%;
-		}
-		/*** FORM-INPUT-WRAPPER UPLOAD ***/
-		.formRow .formInputWrapper.upload {
-				width: 100%;
-				max-width: unset;
-		}
-		/*** FORM-INPUT-WRAPPER UPLOAD LABEL ***/
-		.formItem.upload .ant-form-item-row .ant-form-item-label {
-				width: 100%;
-				max-width: unset;
-		}
-		/*** FORM SUBMIT ***/
-		.formSubmit {
-				width: 100%; 
-				max-width: unset; 
-		}
-		/** FORM SUBMIT CONTROL ***/
-		.formSubmit .ant-form-item-control {
-				max-width: unset;   
-		}
-@media(min-width: 40em) {
-} 
-@media(min-width: 50em) {
-} 
-@media(min-width: 60em) {
-} 
-@media(min-width: 80em) {
-} 
+@media (max-width: 40em) {
+	.formRow {
+		flex-direction: column;
+		flex-flow: column;
+	}
+	/*** FORM HEADER ***/
+	.formRow .form-header {
+		margin: 0;
+		flex: 0;
+	}
+	/*** FORM COL ***/
+	.formRow .form-info.ant-col {
+		flex: 0;
+		height: auto;
+		min-height: unset;
+		max-width: 100%;
+		padding-bottom: 15px;
+	}
+	/*** FORM ROW ***/
+	.formItem > .ant-form-item-row {
+		flex-flow: column;
+		height: auto;
+	}
+	.formItem .ant-form-item-row .ant-form-item-label {
+		min-height: 30px;
+	}
+	/*** FORM HEADER ***/
+	.formRow .form-header {
+		gap: unset;
+	}
+	/*** FORM DESCRIPTION ***/
+	.formHeader .formDescription {
+		margin: 0;
+		padding: 0;
+	}
+	/*** FORM-ITEM TEXT-AREA CONTROL ***/
+	.formItem.textArea .ant-form-item-control {
+		min-width: 100%;
+	}
+	/*** FORM-INPUT-WRAPPER UPLOAD ***/
+	.formRow .formInputWrapper.upload {
+		width: 100%;
+		max-width: unset;
+	}
+	/*** FORM-INPUT-WRAPPER UPLOAD LABEL ***/
+	.formItem.upload .ant-form-item-row .ant-form-item-label {
+		width: 100%;
+		max-width: unset;
+	}
+	/*** FORM SUBMIT ***/
+	.formSubmit {
+		width: 100%;
+		max-width: unset;
+	}
+	/** FORM SUBMIT CONTROL ***/
+	.formSubmit .ant-form-item-control {
+		max-width: unset;
+	}
+	@media (min-width: 40em) {
+	}
+	@media (min-width: 50em) {
+	}
+	@media (min-width: 60em) {
+	}
+	@media (min-width: 80em) {
+	}
 }

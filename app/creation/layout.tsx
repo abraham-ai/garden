@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react'
 
 interface LayoutProps {
-  children: ReactNode;
+	children: ReactNode
 }
 
 const CreationLayout: FC<LayoutProps> = ({ children }) => {
-  return <div className='creation-layout-wrapper'>{children}</div>;
-};
+	return <div className='creation-layout-wrapper'>{children}</div>
+}
 
-export default CreationLayout;
+export default CreationLayout

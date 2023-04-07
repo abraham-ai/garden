@@ -1,6 +1,6 @@
 interface Generator {
-  _id: string;
-  generatorName: string;
+	_id: string
+	generatorName: string
 }
 
-export default Generator;
+export default Generator
