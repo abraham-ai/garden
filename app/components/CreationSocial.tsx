@@ -2,34 +2,40 @@ import React, { useState, useEffect } from 'react'
 
 import type CreationSocialType from '../../interfaces/CreationSocial'
 
+import { useReaction } from '../../context/ReactionContext'
+
 import SaveButton from './CreationActions/SaveButton'
 import BurnButton from './CreationActions/BurnButton'
 import PraiseButton from './CreationActions/PraiseButton'
 import ShareButton from './CreationActions/ShareButton'
 
+import { Typography } from 'antd'
+const { Text } = Typography
+
 const CreationSocial = ({
   layout = 'minimal',
-  creationBurns,
-  creationPraises,
   creationId,
-  creation,
-  praisedByMe,
-  burnedByMe
+  creation
 }: CreationSocialType): JSX.Element => {
-  const [burns, setBurns] = useState(creationBurns)
-  const [isBurned, setIsBurned] = useState(burnedByMe)
-
-  const [praises, setPraises] = useState(creationPraises)
-  const [isPraised, setIsPraised] = useState(praisedByMe)
-
   const [isBookmarked, setIsBookmarked] = useState(false)
+  const { reactionState, updateReactionState } = useReaction()
 
-  useEffect(() => {
-    setIsPraised(praisedByMe)
-    setIsBurned(burnedByMe)
-    setBurns(creationBurns)
-    setPraises(creationPraises)
-  }, [praisedByMe, burnedByMe, creationBurns, creationPraises])
+  const {
+    praises,
+    praised: isPraised,
+    burns,
+    burned: isBurned
+  } = reactionState[creationId] || {}
+
+  const handlePraiseUpdate = (isPraised: boolean, updatedPraises: number) => {
+    updateReactionState(creationId, { praised: isPraised, praises: updatedPraises });
+  };
+
+  const handleBurnUpdate = (isBurned: boolean, updatedBurns: number) => {
+    updateReactionState(creationId, { burned: isBurned, burns: updatedBurns });
+  };
+
+  console.log({ creation })
 
   return (
     <>
@@ -38,14 +44,14 @@ const CreationSocial = ({
           creationId={creationId}
           burnsData={burns}
           isBurnedData={isBurned}
-          setIsBurned={setIsBurned}
+          setIsBurned={handleBurnUpdate}
           />
         <PraiseButton
           creationId={creationId}
           praisesData={praises}
           isPraisedData={isPraised}
-          setIsPraised={setIsPraised}
-          />
+          setIsPraised={handlePraiseUpdate}
+        />
       </article>
 
       <article style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', position: 'absolute', right: 20, top: 20, zIndex: 150 }}>

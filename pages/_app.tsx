@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import AppContext from '../context/AppContext'
 import AppContextType from '../interfaces/AppContext'
+import { ReactionProvider } from '../context/ReactionContext'
 
 import Router from 'next/router'
 import nProgress from 'nprogress'
@@ -141,7 +142,9 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider avatar={CustomAvatar} chains={chains}>
-            <Component {...pageProps} />
+            <ReactionProvider>
+              <Component {...pageProps} />
+            </ReactionProvider>
           </RainbowKitProvider>
         </WagmiConfig>
       </AppContext.Provider>

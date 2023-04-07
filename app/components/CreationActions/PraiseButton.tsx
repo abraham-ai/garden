@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 
 import AppContext from '../../../context/AppContext'
-
 import axios from 'axios'
 
 import { Button, Typography } from 'antd'
@@ -11,76 +10,46 @@ interface PraiseButtonTypes {
   creationId: string
   praisesData: number
   isPraisedData: boolean
-  setIsPraised: (value: boolean) => void
+  setIsPraised: (value: boolean, updatedPraises: number) => void
 }
 
-const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTypes) => {
+const PraiseButton: FC<PraiseButtonTypes> = ({ 
+  creationId,
+  praisesData,
+  isPraisedData,
+  setIsPraised
+}) => {
   const context = useContext(AppContext)
   const isSignedIn = context?.isSignedIn || false
   const isWalletConnected = context?.isWalletConnected || false
 
-  const [praises, setPraises] = useState(praisesData)
-  const [isPraised, setIsPraised] = useState(isPraisedData)
-
   const [isPraiseHovering, setIsPraiseHovering] = useState(false)
-
-  // console.log({ praises, isPraised })
-  // console.log({ praisesData, isPraisedData })
-
-  useEffect(() => {
-    if (
-      typeof praisesData !== 'undefined' &&
-      typeof isPraisedData !== 'undefined'
-    ) {
-      setPraises(praisesData)
-      setIsPraised(isPraisedData)
-    }
-  }, [praisesData, isPraisedData])
 
   const handlePraise = async (): Promise<void> => {
     if (isSignedIn === false) {
-      return
+      return;
     } else if (isSignedIn === true && isWalletConnected === false) {
-      return
+      return;
     } else {
-      // console.log('handle PRAISE 👏 !')
-      await axios.post('/api/react', {
-        creationId,
-        reaction: '🙌'
-      })
-      // console.log({ data })
-      
-      let praiseOpperation = ''
-      
-      if (isPraised === true && praises > 0) {
-        setPraises(praises - 1)
-        praiseOpperation = 'decrease'
-        setIsPraised(false)
-      } else if (isPraised === false) {
-        setPraises(praises + 1)
-        praiseOpperation = 'increase'
-        setIsPraised(true)
+      const newIsPraised = !isPraisedData;
+      const updatedPraises = newIsPraised
+        ? praisesData + 1
+        : praisesData - 1;
+  
+      setIsPraised(newIsPraised, updatedPraises);
+  
+      try {
+        await axios.post("/api/react", {
+          creationId,
+          reaction: "🙌",
+        });
+      } catch (error) {
+        setIsPraised(!newIsPraised, praisesData);
+        console.error("Error updating praise:", error);
       }
-      
-      setIsPraised(isPraised === true ? false : true)
     }
-  }
-
-  let praiseCount
-  if (isSignedIn && isPraised) {
-    praiseCount =
-      praises > 1 ? <span className='social-icon-count'>{praises}</span> : null
-  } else {
-    praiseCount =
-      praises > 0 ? <span className='social-icon-count'>{praises}</span> : null
-  }
-
-  let praiseClasses
-  if (isSignedIn) {
-    praiseClasses = isPraised ? 'cr-praise is-active' : 'cr-praise'
-  } else {
-    praiseClasses = 'cr-praise disabled'
-  }
+  };
+  
 
   const praiseGray = (
     <span style={{ filter: 'grayscale(1)', fontSize: '1.8rem', marginBottom: 6 }}>{'🙌'}</span>
@@ -90,20 +59,18 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
     <span style={{ fontSize: '1.8rem', marginBottom: 6 }}>{'🙌'}</span>
   )
 
-  const handleMouseOver = () => {
-    console.log('handleMouseOver')
+  const handleMouseOver = (): void => {
     setIsPraiseHovering(true)
   }
 
-  const handleMouseOut = () => {
-    console.log('handleMouseOut')
+  const handleMouseOut = (): void => {
     setIsPraiseHovering(false)
   }
 
   return (
     <div className='socialButtonWrapper' style={{ display: 'flex', alignItems: 'center' }}>
       <Button
-        className={praiseClasses}
+        className={isPraisedData === true ? 'crPraise isActive' : 'crPraise'}
         shape='round'
         style={{
           display: 'flex',
@@ -115,7 +82,7 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
           border: 'none',
           transition: '1s'
         }}
-        onClick={() => handlePraise()}
+        onClick={async () => { await handlePraise() }}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
       >
@@ -123,9 +90,12 @@ const PraiseButton = ({ creationId, praisesData, isPraisedData }: PraiseButtonTy
           className='social-icon'
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          {isPraised === true || isPraiseHovering === true ? praiseFilled : praiseGray}
+          {isPraisedData === true || isPraiseHovering === true ? praiseFilled : praiseGray}
         </span>
-        <Text style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>{praises}</Text>
+        <Text
+          style={{color: 'white', filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))', marginLeft: 10, fontWeight: 'bold' }}>
+          {praisesData}
+        </Text>
       </Button>
     </div>
   )

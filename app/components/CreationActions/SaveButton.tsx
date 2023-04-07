@@ -14,6 +14,7 @@ import styles from '../../../styles/CreationSocial.module.css'
 interface SaveButtonTypes {
   isBookmarked: boolean
   setIsBookmarked: (value: boolean) => void
+  creation: [Creation]
 }
 
 const SaveButton: FC<SaveButtonTypes> = ({
@@ -36,20 +37,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 
   const setIsSaveCreationModalOpen = context?.setIsSaveCreationModalOpen || (() => {})
   const setCurrentCreationModalCreation = context?.setCurrentCreationModalCreation || (() => {})
-
-  const [api, contextHolder] = notification.useNotification()
   
   // console.log({ isSignedIn })
-
-  const showSaveNotification = (): void => {
-    api.info({
-      message: isBookmarked === true
-        ? `Removed from collection ${String(selectedCollection)}`
-        : `Saved to your collection ${String(selectedCollection)}!`,
-      description: <Button onClick={showModal}>{'Manage Collections'}</Button>,
-      placement: 'bottom'
-    })
-  }
 
   const handleSave = (): void => {
     // console.log({ isSignedIn })
@@ -62,13 +51,9 @@ const SaveButton: FC<SaveButtonTypes> = ({
       setIsBookmarked(isBookmarked === true ? false : true)
       // showSaveNotification()
       setIsSaveCreationModalOpen(true)
-      setCurrentCreationModalCreation(creation)
+      setCurrentCreationModalCreation(creation[0])
       setCollectionModalView(0)
     }
-  }
-
-  const showModal = (): void => {
-    setIsSaveCreationModalOpen(true)
   }
 
   const handleMouseOver = (): void => {
@@ -79,15 +64,6 @@ const SaveButton: FC<SaveButtonTypes> = ({
   const handleMouseOut = (): void => {
     // console.log('handleMouseOut')
     setIsSaveHovering(false)
-  }
-
-  const openNotification = (placement: NotificationPlacement) => {
-    api.info({
-      message: `Collection ${String(selectedCollection)} created!`,
-      description:
-        'View your collection in the Collections tab or on your profile page.',
-      placement: 'bottom'
-    })
   }
 
   const bgHoverStyles = isSaveHovering === true ? 'rgb(26, 115, 232, 0.4)' : 'rgba(0, 0, 0, 0.5)'
@@ -116,20 +92,17 @@ const SaveButton: FC<SaveButtonTypes> = ({
           border: 'none',
           transition: '300ms'
         }}>
-          {isBookmarked === true || isSaveHovering === true 
+          {isBookmarked === true || isSaveHovering === true
             ? 
               (
                 <RiBookmarkFill className={styles.crSocialIcon} style={{ fontSize: '1rem', minWidth: 25, minHeight: 25, color: '#1a73e8' }} />
               )
             : (
                 <RiBookmarkLine className={styles.crSocialIcon} style={{ fontSize: '1rem', minWidth: 25, minHeight: 25 }} />
-                // <BsFillBookmarkFill className={styles.crSocialIcon} style={{ fontSize: '1rem' }} />
               )
             }
-            {/* <span className='text'>{'Save'}</span> */}
         </Button>
       </span>
-      {contextHolder}
     </>
   )
 }

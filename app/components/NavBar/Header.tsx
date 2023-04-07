@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import type { MouseEvent } from 'react'
 import AppContext from '../../../context/AppContext'
 
@@ -52,6 +52,8 @@ const ActiveLink = ({ children, href }: ActiveLinkProps): JSX.Element => {
 }
 
 const Header = (): JSX.Element => {
+  const [isMounted, setIsMounted] = useState(false)
+
   const router = useRouter()
 
   const context = useContext(AppContext)
@@ -61,6 +63,10 @@ const Header = (): JSX.Element => {
   const isSignedIn = context?.isSignedIn || false
   
   const { width } = useWindowDimensions()
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   let displayAddress = ''
   if (typeof userId === 'string') {
@@ -124,7 +130,7 @@ const Header = (): JSX.Element => {
       <ul className={styles.linksWrapper}>
         <EthereumVerify />
 
-        { width > 1280
+        { isMounted === true && width > 1280
           ? (
               <>
                 <ActiveLink href='/'>
@@ -145,7 +151,7 @@ const Header = (): JSX.Element => {
               </>
             )
           : (
-						isSignedIn === true
+						isMounted === true && isSignedIn === true
 							? 
                   (
                     <Space wrap>

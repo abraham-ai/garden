@@ -6,37 +6,39 @@ import React, {
   useMemo
 } from 'react'
 
+import type Creation from '../../interfaces/Creation'
+
 import AppContext from '../../context/AppContext'
 
 import Image from 'next/image'
 import Link from 'next/link'
 
-import axios from 'axios'
 import timeAgo from '../../util/timeAgo'
 import abbreviateText from '../../util/abbreviateText'
 import abbreviateAddress from '../../util/abbreviateAddress'
 
 import useGetReactionCount from '../../hooks/useGetReactionCount'
-
-import type Creation from '../../interfaces/Creation'
+import { useReaction } from '../../context/ReactionContext'
 
 import CreationModal from './CreationModal'
 import styles from '../../styles/CreationCard.module.css'
 import CreationSocial from './CreationSocial'
 
-import { Button, Skeleton, Typography } from 'antd'
-const { Text } = Typography
-
 import Blockies from 'react-blockies'
 
-export default function CreationCard({
-  creation,
-  index,
-}: {
-  creation: Creation
+import { Skeleton, Typography } from 'antd'
+const { Text } = Typography
+
+interface CreationCardTypes {
+  creation: [Creation]
   index: number
-}) {
-  // console.log(creation)
+}
+
+const CreationCard: FC<CreationCardTypes> = ({
+  creation,
+  index
+}) => {
+   // console.log(creation)
 
   const context = useContext(AppContext)
   const currentCreationIndex = context?.currentCreationIndex || 0
@@ -61,42 +63,42 @@ export default function CreationCard({
   const [height, setHeight] = useState<number>(0)
 
   const [isCreationHovering, setIsCreationHovering] = useState<boolean>(false)
-  const [isSaveModalActive, setIsSaveModalActive] = useState(false)
 
-  const [praises, setPraises] = useState<number>(0)
-  const [praised, setPraised] = useState<boolean>(false)
-  const [burns, setBurns] = useState<number>(0)
-  const [burned, setBurned] = useState<boolean>(false)
+  // const [praises, setPraises] = useState<number>(0)
+  // const [praised, setPraised] = useState<boolean>(false)
+  // const [burns, setBurns] = useState<number>(0)
+  // const [burned, setBurned] = useState<boolean>(false)
 
   const [status, setStatus] = useState<string>('')
 
   const reactionCountList = useGetReactionCount(creation._id)
+  const { reactionState, updateReactionState } = useReaction()
   // console.log(reactionCountList)
 
   const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt))
 
-  const showModal = () => {
+  const showModal = (): void => {
     setModalOpen(true)
   }
 
   useEffect(() => {
-    // console.log('USE-EFFECT REACTION COUNT LIST')
-    if (typeof reactionCountList !== 'undefined') {
+    if (reactionCountList && !reactionState[creation._id]) {
       const {
         praises: praisesData,
         praised: praisedData,
         burns: burnsData,
         burned: burnedData,
       } = reactionCountList
-
-      // console.log({ praisesData, praisedData, burnsData, burnedData })
-
-      setPraises(praisesData)
-      setPraised(praisedData)
-      setBurns(burnsData)
-      setBurned(burnedData)
+  
+      updateReactionState(creation._id, {
+        praises: praisesData,
+        praised: praisedData,
+        burns: burnsData,
+        burned: burnedData,
+      })
     }
-  }, [reactionCountList])
+  }, [reactionCountList, reactionState, updateReactionState, creation._id])
+  
 
   const handleCreationUpdate = useCallback(
     (currentCreation, currentCreationIndex) => {
@@ -131,16 +133,29 @@ export default function CreationCard({
     creationsData,
     handleCreationUpdate,
     currentCreation,
-    currentCreationIndex,
+    currentCreationIndex
   ])
 
-  const handleMouseOver = () => {
-    // console.log('handleMouseOver')
+  const handleMouseOver = (): void => {
     setIsCreationHovering(true)
+    if (reactionCountList && !reactionState[creation._id]) {
+      const {
+        praises: praisesData,
+        praised: praisedData,
+        burns: burnsData,
+        burned: burnedData,
+      } = reactionCountList
+  
+      updateReactionState(creation._id, {
+        praises: praisesData,
+        praised: praisedData,
+        burns: burnsData,
+        burned: burnedData,
+      })
+    }
   }
 
-  const handleMouseOut = () => {
-    // console.log('handleMouseOut')
+  const handleMouseOut = (): void => {
     setIsCreationHovering(false)
   }
 
@@ -191,55 +206,60 @@ export default function CreationCard({
                   (
                     <section>
 
-                      { isCreationHovering === true ? (
-                        <>
-                        <CreationSocial
-                          layout={'expanded'}
-                          creationBurns={burns}
-                          creationPraises={praises}
-                          creation={creation}
-                          creationId={creation._id}
-                          praisedByMe={praised}
-                          burnedByMe={burned}
-                          />
+                      { isCreationHovering === true
+                        ? 
+                          (
+                            <>
+                            <CreationSocial
+                              layout={'expanded'}
+                              creation={[creation]}
+                              creationId={creation._id}
+                              praisedByMe={reactionState[creation._id]?.praised || false}
+                              burnedByMe={reactionState[creation._id]?.burned || false}
+                              creationPraises={reactionState[creation._id]?.praises || 0}
+                              creationBurns={reactionState[creation._id]?.burns || 0}
+                            />
 
-                        <div className={styles.crContentMain}>
-                          <div className={styles.crPromptMainWrapper}>
-                            <article className={styles.promptWrapper}>
-                              <Text className={styles.crPromptCommand}>{`/${creation.task.generator.generatorName} `}</Text>
-                              <Text className={styles.crPrompt}>{prompt}</Text>
+                            <div className={styles.crContentMain}>
+                              <div className={styles.crPromptMainWrapper}>
+                                <article className={styles.promptWrapper}>
+                                  <Text className={styles.crPromptCommand}>{`/${String(creation.task.generator.generatorName)} `}</Text>
+                                  <Text className={styles.crPrompt}>{prompt}</Text>
 
-                            <div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
-                              <Link
-                                href={{
-                                  pathname: `/creator/${creation.user}`,
-                                  query: { user }
-                                }}
-                                style={{ display: 'flex', alignItems: 'center', marginRight: 10 }}>
-                                <span
-                                  style={{
-                                    borderRadius: '50%',
-                                    overflow: 'hidden',
-                                    width: '32px',
-                                    height: '32px',
-                                    marginRight: 10,
-                                    background: 'orange'
-                                  }}
-                                  >
-                                  <Blockies seed={creation.user} />
-                                </span>
-                                <Text className={styles.displayAddress}>{displayAddress}</Text>
-                              </Link>
-                              <Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
+                                  <div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
+                                    <Link
+                                      href={{
+                                        pathname: `/creator/${String(creation.user)}`,
+                                        query: { user }
+                                      }}
+                                      style={{ display: 'flex', alignItems: 'center', marginRight: 10 }}>
+                                      <span
+                                        style={{
+                                          borderRadius: '50%',
+                                          overflow: 'hidden',
+                                          width: '32px',
+                                          height: '32px',
+                                          marginRight: 10,
+                                          background: 'orange'
+                                        }}
+                                        >
+                                        <Blockies seed={creation.user} />
+                                      </span>
+                                      <Text className={styles.displayAddress}>{displayAddress}</Text>
+                                    </Link>
+                                    <Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
+                                  </div>
+                                </article>
+                              </div>
                             </div>
-                                    </article>
-                          </div>
-                        </div>
 
-                        <div className={styles.crContentHoverBgWrapper} />
-                        </>
+                            <div className={styles.crContentHoverBgWrapper} />
+                            </>
 
-                      ) : null }
+                          )
+                        :
+                          null
+                      }
 
                       <Link
                         className={styles.crLink}
@@ -292,47 +312,6 @@ export default function CreationCard({
             </div>
           </div>
         </article>
-        <Link
-          className={styles.crLink}
-          // href={{
-          //   pathname: `/creation/${creation._id}`,
-          //   query: {
-          //     uri: uri,
-          //     createdAt: createdAt,
-          //     generatorName: generatorName,
-          //     width: width,
-          //     height: height,
-          //     text_input: text_input,
-          //     user: user,
-          //     thumbnail: thumbnail,
-          //     _id: _id,
-          //     status: status,
-          //   },
-          // }}
-          href={`?creationId=${creation._id}`}
-          as={`/creation/${creation._id}`}
-          scroll={false}
-          style={{ display: 'flex', color: 'black', flexDirection: 'column' }}
-          onClick={() => showModal()}
-        >
-          {/* <div className={styles.creationContent}>
-            <div
-              className='crMetadata'
-              style={{
-                display: 'flex',
-                flex: 1,
-                justifyContent: 'flex-start',
-              }}
-            >
-              <span style={{ fontFamily: 'courier' }}>{creation._id}</span>
-              <span style={{ fontFamily: 'courier' }}>
-                {creation.task.status === 'completed'
-                  ? '✓'
-                  : creation.task.status}
-              </span>
-            </div>
-          </div> */}
-        </Link>
       </section>
       <CreationModal
         creation={
@@ -347,3 +326,5 @@ export default function CreationCard({
     </>
   )
 }
+
+export default CreationCard

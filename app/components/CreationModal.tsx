@@ -137,7 +137,7 @@ const CreationModal = ({
               </article>
 
               <article className={styles.promptWrapper}>
-                <Text className={styles.crPromptCommand}>{`/${creation.task.generator.generatorName} `}</Text>
+                <Text className={styles.crPromptCommand}>{`/${String(creation.task.generator.generatorName)} `}</Text>
                 <Text className={styles.crPrompt}>{prompt}</Text>
               </article>
 

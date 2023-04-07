@@ -1,10 +1,15 @@
-interface CreationSocial {
+import type Creation from './Creation'
+
+interface CreationSocialTypes {
   layout: string
-  creationBurns: number
-  creationPraises: number
+  reactionCountList: {
+    praises: number
+    praised: boolean
+    burns: number
+    burned: boolean
+  }
+  creation: [Creation]
   creationId: string
-  praisedByMe: boolean
-  burnedByMe: boolean
 }
 
-export default CreationSocial
+export default CreationSocialTypes
