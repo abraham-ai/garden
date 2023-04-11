@@ -227,7 +227,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 														<Text
 															className={styles.crPromptCommand}
 														>{`/${String(
-															creation.task.generator.generatorName
+															creation?.task?.generator?.generatorName
 														)} `}</Text>
 														<Text className={styles.crPrompt}>{prompt}</Text>
 

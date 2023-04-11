@@ -1,19 +1,22 @@
 import type { FC } from 'react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import type CreationResponse from '../../interfaces/CreationResponse'
+import type GetCreationTypes from '../../interfaces/GetCreationTypes'
 
 import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-import BurnButton from '../../app/components/CreationActions/BurnButton'
-import PraiseButton from '../../app/components/CreationActions/PraiseButton'
-import SaveButton from '../../app/components/CreationActions/SaveButton'
-import ShareButton from '../../app/components/CreationActions/ShareButton'
+// import BurnButton from '../../app/components/CreationActions/BurnButton'
+// import PraiseButton from '../../app/components/CreationActions/PraiseButton'
+// import SaveButton from '../../app/components/CreationActions/SaveButton'
+// import ShareButton from '../../app/components/CreationActions/ShareButton'
+
+import CreationSocial from '../../app/components/CreationSocial/CreationSocial'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
@@ -86,7 +89,29 @@ const Creation: FC<CreationPageProps> = ({
 	const [width, setWidth] = useState<number>(0)
 	const [height, setHeight] = useState<number>(0)
 
-	const creationData = useGetCreation(queryCreationId as GetCreationTypes)
+	const creationData = useGetCreation(queryCreationId)
+
+	const reactionCountList = useGetReactionCount(creation._id)
+	const { reactionState, updateReactionState } = useReaction()
+
+	useEffect(() => {
+		if (reactionCountList != null && !reactionState[creation._id]) {
+			const {
+				praises: praisesData,
+				praised: praisedData,
+				burns: burnsData,
+				burned: burnedData,
+			} = reactionCountList
+
+			updateReactionState(creation._id, {
+				praises: praisesData,
+				praised: praisedData,
+				burns: burnsData,
+				burned: burnedData,
+			})
+		}
+	}, [reactionCountList, reactionState, updateReactionState, creation._id])
+
 	// console.log(creationData)
 
 	// const isParent = true
@@ -151,7 +176,7 @@ const Creation: FC<CreationPageProps> = ({
 											<Image
 												className={styles.crImg}
 												style={{ width: '100%' }}
-												width={creationDat?.creation?.task?.config?.width}
+												width={creationData?.creation?.task?.config?.width}
 												height={creationData?.creation?.task?.config?.height}
 												alt={creationData?.creation?.task?.config?.text_input}
 												src={creationData?.creation?.thumbnail}
@@ -207,7 +232,21 @@ const Creation: FC<CreationPageProps> = ({
 											{creationData.creation.task.config.text_input}
 										</Text>
 
-										<div className={styles.crSocials}>
+										<CreationSocial
+											layout={'expanded'}
+											creation={[creation]}
+											creationId={creation._id}
+											praisedByMe={
+												reactionState[creation._id]?.praised || false
+											}
+											burnedByMe={reactionState[creation._id]?.burned || false}
+											creationPraises={
+												reactionState[creation._id]?.praises || 0
+											}
+											creationBurns={reactionState[creation._id]?.burns || 0}
+										/>
+
+										{/* <div className={styles.crSocials}>
 											<span className={styles.crSocial}>
 												<BurnButton
 													creationId={queryCreationId}
@@ -225,12 +264,16 @@ const Creation: FC<CreationPageProps> = ({
 											<span className={styles.crSocial}>
 												<ShareButton creationId={queryCreationId} />
 											</span>
-											{/* <span className={styles.crSocial}>
-                      <Button type='link' className={styles.crSocialBtn} shape='circle'>
-                        <FiMoreHorizontal className={styles.crSocialIcon} />
-                      </Button>
-                    </span> */}
-										</div>
+											<span className={styles.crSocial}>
+												<Button
+													type='link'
+													className={styles.crSocialBtn}
+													shape='circle'
+												>
+													<FiMoreHorizontal className={styles.crSocialIcon} />
+												</Button>
+											</span>
+										</div> */}
 
 										<ul className={styles.crPropertiesWrapper}>
 											<li className={styles.crProperty}>

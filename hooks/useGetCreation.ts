@@ -8,7 +8,7 @@ interface GetCreationTypes {
 	creationId: string
 }
 
-const useGetCreation: FC<GetCreationTypes> = (creationId) => {
+const useGetCreation = (creationId: string): Creation | null => {
 	const [creation, setCreation] = useState<Creation | null>(null)
 
 	const handleGetCreation = useCallback(async (creationId) => {
