@@ -40,7 +40,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex || 0
 	const creationsData = useMemo(
-		() => context?.creationsData || [],
+		() => context?.creationsData != null || [],
 		[context?.creationsData]
 	)
 
@@ -79,7 +79,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 	}
 
 	useEffect(() => {
-		if (reactionCountList && !reactionState[creation._id]) {
+		if (reactionCountList != null && !reactionState[creation._id]) {
 			const {
 				praises: praisesData,
 				praised: praisedData,
@@ -137,7 +137,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 
 	const handleMouseOver = (): void => {
 		setIsCreationHovering(true)
-		if (reactionCountList && !reactionState[creation._id]) {
+		if (reactionCountList != null && !reactionState[creation._id]) {
 			const {
 				praises: praisesData,
 				praised: praisedData,
@@ -185,10 +185,9 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 	// console.log({ praises, praised, burns, burned })
 	// console.log({ isCreationHovering })
 
-	const hoverStyles =
-		isCreationHovering === true
-			? styles.crCardHoverWrapper
-			: styles.crCardWrapper
+	const hoverStyles = isCreationHovering
+		? styles.crCardHoverWrapper
+		: styles.crCardWrapper
 
 	return (
 		<>
@@ -204,7 +203,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 								<Skeleton />
 							) : (
 								<section>
-									{isCreationHovering === true ? (
+									{isCreationHovering ? (
 										<>
 											<CreationSocial
 												layout={'expanded'}
@@ -304,12 +303,14 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 											background: 'black',
 											border: 20,
 										}}
-										onClick={() => showModal()}
+										onClick={() => {
+											showModal()
+										}}
 									>
 										<div
 											className={styles.crImageHoverMask}
 											style={{
-												display: isCreationHovering === true ? null : 'none',
+												display: isCreationHovering ? null : 'none',
 											}}
 										/>
 										<Image
@@ -319,8 +320,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 											width={creation.task.config.width}
 											alt={creation.task.config.text_input}
 											style={{
-												backdropFilter:
-													isCreationHovering === true ? null : 'unset',
+												backdropFilter: isCreationHovering ? null : 'unset',
 											}}
 										/>
 										<Image

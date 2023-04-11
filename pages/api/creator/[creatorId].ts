@@ -13,8 +13,11 @@ interface ApiRequest extends Omit<NextApiRequest, 'query'> {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
-	const { creatorId: queryCreatorId } = req.query
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
+	// const { creatorId: queryCreatorId } = req.query
 	const { creatorId } = req.body
 	const { userId, token: authToken } = (req as any).session
 
@@ -53,14 +56,15 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 		Object.assign(filter, { limit: 10 })
 		console.log({ filter })
 
-		const authTokenResult = await eden.setAuthToken(authToken)
+		await eden.setAuthToken(authToken)
 		console.log(authTokenResult)
 
 		// if (typeof authTokenResult !== 'undefined') {
 		const creations = await eden.getCreations(filter)
 		console.log(creations.length)
 		console.log(creations)
-		return res.status(200).json(creations)
+		res.status(200).json(creations)
+		return
 		// }
 		// return res.status(200).json(null)
 	} catch (error: any) {
@@ -68,7 +72,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 		// if (error.response.data == 'jwt expired') {
 		//   return res.status(401).json({ error: 'Authentication expired' });
 		// }
-		return res.status(500).json({ error })
+		res.status(500).json({ error })
 		// error.response.data
 	}
 }

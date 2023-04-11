@@ -1,41 +1,29 @@
-import useSWR from 'swr'
-import React, { useEffect, useState } from 'react'
-import type { FC, ReactElement } from 'react'
+import React, { useState } from 'react'
+import type { FC } from 'react'
 
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import styles from '../../styles/CreationId.module.css'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
-import timeAgo from '../../util/timeAgo'
 
 import useGetCreator from '../../hooks/useGetCreator'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-import CreationsGridSimple from '../../app/components/CreationsGridSimple'
+import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
 import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 
-import {
-	Button,
-	Col,
-	Row,
-	Divider,
-	Typography,
-	Avatar,
-	Popover,
-	Tag,
-	Spin,
-} from 'antd'
-const { Title, Text, Paragraph } = Typography
+import type CreationResponse from '../../interfaces/CreationResponse'
+
+import { Button, Row, Typography, Spin } from 'antd'
 
 import { LoadingOutlined } from '@ant-design/icons'
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const { Title, Text } = Typography
 
-import CreatorResponse from '../../interfaces/CreatorResponse'
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 interface CreatorPageProps {
 	params: { id: string }
@@ -53,10 +41,12 @@ const Creator: FC<CreatorPageProps> = () => {
 	// console.log(creatorId)
 	console.log(router.query)
 
-	const { creatorId: queryCreatorId = '' } = router.query
+	const queryCreatorId = Array.isArray(router.query.creatorId)
+		? router.query.creatorId[0]
+		: router.query.creatorId ?? ''
 
 	if (typeof queryCreatorId === 'undefined') {
-		return <div>Loading...</div>
+		return <Text>{'Loading...'}</Text>
 	}
 	const creatorData = useGetCreator(queryCreatorId)
 
@@ -65,7 +55,7 @@ const Creator: FC<CreatorPageProps> = () => {
 	// console.log(router.query.creatorId)j
 
 	let displayAddress = ''
-	if (typeof user === 'string') {
+	if (typeof queryCreatorId === 'string') {
 		displayAddress = abbreviateAddress(queryCreatorId)
 	}
 
@@ -73,9 +63,11 @@ const Creator: FC<CreatorPageProps> = () => {
 		console.log(creatorData)
 	}
 
-	const handleFollow = () => {
+	const handleFollow = (): void => {
 		setIsFollowing(!isFollowing)
 	}
+
+	const isCreatorData = creatorData !== null && creatorData.length > 0
 
 	return (
 		<>
@@ -137,11 +129,13 @@ const Creator: FC<CreatorPageProps> = () => {
 										{queryCreatorId === displayAddress ? null : (
 											<Button
 												className={
-													'followButton' + `${isFollowing}`
-														? `following`
-														: `notFollowing`
+													isFollowing
+														? `${styles.following}`
+														: `${styles.notFollowing}`
 												}
-												onClick={() => handleFollow()}
+												onClick={() => {
+													handleFollow()
+												}}
 											>
 												{isFollowing ? 'Following' : 'Follow'}
 											</Button>
@@ -150,7 +144,7 @@ const Creator: FC<CreatorPageProps> = () => {
 										{queryCreatorId === displayAddress ? (
 											<Link href='/profile'>
 												<Button shape='round' style={{ marginLeft: 20 }}>
-													{'Edit Profile'}
+													<Text>{'Edit Profile'}</Text>
 												</Button>
 											</Link>
 										) : null}
@@ -164,8 +158,7 @@ const Creator: FC<CreatorPageProps> = () => {
 								<div className='creatorDashboardWrapper'>
 									<CreatorDashboard profileAddress={displayAddress} />
 								</div>
-								{typeof creatorData !== 'undefined' &&
-								creatorData.length > 0 ? (
+								{isCreatorData ? (
 									<div className='creatorGrid'>
 										<CreationsGridSimple creations={creatorData} />
 									</div>

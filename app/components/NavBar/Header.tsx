@@ -104,7 +104,7 @@ const Header = (): JSX.Element => {
 			return 'mycreations'
 		} else if (asPath === '/mycollections') {
 			return 'mycollections'
-		} else if (asPath.includes('/collection') === true) {
+		} else if (asPath.includes('/collection')) {
 			return 'mycollections'
 		} else {
 			return 'garden'
@@ -112,7 +112,7 @@ const Header = (): JSX.Element => {
 	}
 
 	const handleSelectOptions = (): void => {
-		if (isSignedIn === true) {
+		if (isSignedIn) {
 			return [
 				{ value: 'garden', label: 'Garden' },
 				{ value: 'mycreations', label: 'My Creations' },
@@ -129,7 +129,7 @@ const Header = (): JSX.Element => {
 			<ul className={styles.linksWrapper}>
 				<EthereumVerify />
 
-				{isMounted === true && width > 1280 ? (
+				{isMounted && width > 1280 ? (
 					<>
 						<ActiveLink href='/'>
 							<Text>{'Garden'}</Text>
@@ -145,7 +145,7 @@ const Header = (): JSX.Element => {
 							</>
 						) : null}
 					</>
-				) : isMounted === true && isSignedIn === true ? (
+				) : isMounted && isSignedIn ? (
 					<Space wrap>
 						<Select
 							className='navbarSelect'

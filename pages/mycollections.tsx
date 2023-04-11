@@ -1,8 +1,8 @@
 import type { FC, MouseEvent } from 'react'
-import type { Collection } from '../interfaces/Collection'
+import type Collection from '../interfaces/Collection'
 
-import React, { useContext } from 'react'
-import { useRouter } from 'next/router'
+import React, { useContext, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import AppContext from '../context/AppContext'
 
@@ -10,8 +10,6 @@ import Header from '../app/components/NavBar/Header'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 
 import useGetCollections from '../hooks/useGetCollections'
-
-import abbreviateAddress from '../util/abbreviateAddress'
 
 import styles from '../styles/MyCollections.module.css'
 
@@ -21,25 +19,31 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const { Text } = Typography
 
 const MyCollections: FC = () => {
-	const context = useContext<AppContext | undefined>(AppContext)
-	const userId = context && 'userId' in context ? String(context.userId) : ''
+	const context = useContext(AppContext)
+
+	const userId =
+		typeof context !== 'undefined' && context !== null && 'userId' in context
+			? String(context.userId)
+			: ''
 
 	const router = useRouter()
 
-	let displayAddress = ''
-	if (typeof userId === 'string') {
-		displayAddress = abbreviateAddress(userId)
-	}
-
-	const myCollectionsData = useGetCollections()
+	const {
+		collectionsData: myCollectionsData,
+		isLoading,
+		error,
+	} = useGetCollections()
 
 	const handleClickCollection = (
 		e: MouseEvent<HTMLAnchorElement>,
 		collectionId: string
-	): JSX.Element => {
+	): void => {
 		e.preventDefault()
-		router.push(`/collection/${collectionId}`)
+		router.push(`/collection/${String(collectionId)}`)
 	}
+
+	const isMyCollections =
+		myCollectionsData !== null && isLoading === false && error === false
 
 	return (
 		<>
@@ -48,8 +52,7 @@ const MyCollections: FC = () => {
 			</main>
 
 			<CreatorHeader userId={userId} />
-			{typeof myCollectionsData !== 'undefined' &&
-			myCollectionsData !== null ? (
+			{isMyCollections ? (
 				<section className={styles.creationsWrapper}>
 					{myCollectionsData.map((collection: Collection) => {
 						return (
