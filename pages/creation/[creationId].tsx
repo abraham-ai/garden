@@ -1,11 +1,8 @@
 import type { FC } from 'react'
-
 import React, { useState } from 'react'
-import useSWR from 'swr'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import type CreationResponse from '../../interfaces/CreationResponse'
 
@@ -23,28 +20,13 @@ import timeAgo from '../../util/timeAgo'
 
 import useGetCreation from '../../hooks/useGetCreation'
 
-import {
-	Button,
-	Col,
-	Row,
-	Divider,
-	Typography,
-	Avatar,
-	Popover,
-	Tag,
-} from 'antd'
+import { Col, Row, Typography, Avatar } from 'antd'
+
+import { SlSizeFullscreen } from 'react-icons/sl'
+import { MdOutlineDateRange } from 'react-icons/md'
+import { BsAspectRatio } from 'react-icons/bs'
 
 const { Title, Text } = Typography
-
-import { FiMoreHorizontal } from 'react-icons/fi'
-import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa'
-import { IoIosShareAlt } from 'react-icons/io'
-import { AiFillEye, AiFillFire } from 'react-icons/ai'
-import { BiUserPlus } from 'react-icons/bi'
-import { HiOutlineArrowNarrowUp, HiOutlineFingerPrint } from 'react-icons/hi' // HiCommandLine
-import { MdOutlineDateRange } from 'react-icons/md'
-import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs'
-import { SlSizeFullscreen } from 'react-icons/sl'
 
 interface CreationPageProps {
 	params: { id: string }
@@ -52,7 +34,8 @@ interface CreationPageProps {
 	size?: string
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
+const fetcher = async (url: string) =>
+	await fetch(url).then(async (res) => await res.json())
 
 const Creation: FC<CreationPageProps> = ({
 	params,
@@ -63,15 +46,17 @@ const Creation: FC<CreationPageProps> = ({
 
 	const [isHovering, setIsHovering] = useState(true)
 
-	const handleMouseOver = () => {
+	const handleMouseOver = (): void => {
 		setIsHovering(true)
 	}
 
-	const handleMouseOut = () => {
+	const handleMouseOut = (): void => {
 		setIsHovering(false)
 	}
 
-	const creationId = router.query.creationId
+	const queryCreationId = Array.isArray(router.query.creationId)
+		? router.query.creationId[0]
+		: router.query.creationId ?? ''
 
 	// console.log(creationId)
 	// console.log(router.query)
@@ -89,7 +74,7 @@ const Creation: FC<CreationPageProps> = ({
 		_id: queryId = '',
 	} = router.query
 
-	const url = `/api/creation?${creationId}`
+	const url = `/api/creation?${String(queryCreationId)}`
 
 	const [_id, setId] = useState<string>('')
 	const [user, setUser] = useState<string>('')
@@ -101,10 +86,10 @@ const Creation: FC<CreationPageProps> = ({
 	const [width, setWidth] = useState<number>(0)
 	const [height, setHeight] = useState<number>(0)
 
-	const creationData = useGetCreation(creationId)
+	const creationData = useGetCreation(queryCreationId as GetCreationTypes)
 	// console.log(creationData)
 
-	const isParent = true
+	// const isParent = true
 
 	// console.log(router.query.creationId)
 
@@ -155,10 +140,10 @@ const Creation: FC<CreationPageProps> = ({
 											<Image
 												className={styles.crImg}
 												style={{ width: '100%' }}
-												width={creationData.creation.task.config.width}
-												height={creationData.creation.task.config.height}
-												alt={creationData.creation.task.config.text_input}
-												src={creationData.creation.thumbnail}
+												width={creationData?.creation?.task?.config?.width}
+												height={creationData?.creation?.task?.config?.height}
+												alt={creationData?.creation?.task?.config?.text_input}
+												src={creationData?.creation?.thumbnail}
 											/>
 										</div>
 
@@ -166,10 +151,10 @@ const Creation: FC<CreationPageProps> = ({
 											<Image
 												className={styles.crImg}
 												style={{ width: '100%' }}
-												width={creationData.creation.task.config.width}
-												height={creationData.creation.task.config.height}
-												alt={creationData.creation.task.config.text_input}
-												src={creationData.creation.thumbnail}
+												width={creationDat?.creation?.task?.config?.width}
+												height={creationData?.creation?.task?.config?.height}
+												alt={creationData?.creation?.task?.config?.text_input}
+												src={creationData?.creation?.thumbnail}
 											/>
 										</div>
 									</div>
@@ -224,7 +209,12 @@ const Creation: FC<CreationPageProps> = ({
 
 										<div className={styles.crSocials}>
 											<span className={styles.crSocial}>
-												<BurnButton />
+												<BurnButton
+													creationId={queryCreationId}
+													burnsData={burnsData}
+													isBurnedData={isBurnedData}
+													setIsBurned={setIsBurned}
+												/>
 											</span>
 											<span className={styles.crSocial}>
 												<PraiseButton />
@@ -233,7 +223,7 @@ const Creation: FC<CreationPageProps> = ({
 												<SaveButton />
 											</span>
 											<span className={styles.crSocial}>
-												<ShareButton />
+												<ShareButton creationId={queryCreationId} />
 											</span>
 											{/* <span className={styles.crSocial}>
                       <Button type='link' className={styles.crSocialBtn} shape='circle'>

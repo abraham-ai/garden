@@ -72,7 +72,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 	const { reactionState, updateReactionState } = useReaction()
 	// console.log(reactionCountList)
 
-	const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt))
+	const timeAgoCreatedAt = timeAgo(Date.parse(creation?.createdAt))
 
 	const showModal = (): void => {
 		setModalOpen(true)
