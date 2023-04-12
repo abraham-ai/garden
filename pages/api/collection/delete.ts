@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next/types'
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
@@ -12,23 +12,27 @@ interface ApiRequest extends NextApiRequest {
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
 	const { collectionId } = req.body
-	const { userId, token: authToken } = req.session
+
+	// Safely retrieve the session data
+	const userId = req.session?.userId ?? ''
+	const authToken = req.session?.token ?? ''
 
 	try {
-		const authTokenResult = await eden.setAuthToken(authToken)
+		await eden.setAuthToken(authToken)
 
 		// create collection
-		let collection = await eden.getCollection(collectionId)
+		const collection = await eden.getCollection(collectionId)
 		console.log(collection)
 
 		// delete collection
-		let deletedCollectionResult = await collection.delete()
+		const deletedCollectionResult = await collection.delete()
 		console.log(deletedCollectionResult)
 
-		return res.status(200).json(deletedCollectionResult)
+		res.status(200).json(deletedCollectionResult)
+		return
 	} catch (error: any) {
 		console.log(error)
-		return res.status(500).json({ error: error })
+		res.status(500).json({ error })
 	}
 }
 

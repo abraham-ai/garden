@@ -4,24 +4,21 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
-import type CreationResponse from '../../interfaces/CreationResponse'
-import type GetCreationTypes from '../../interfaces/GetCreationTypes'
+import type CreationTypes from '../../interfaces/Creation'
 
 import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-// import BurnButton from '../../app/components/CreationActions/BurnButton'
-// import PraiseButton from '../../app/components/CreationActions/PraiseButton'
-// import SaveButton from '../../app/components/CreationActions/SaveButton'
-// import ShareButton from '../../app/components/CreationActions/ShareButton'
 
-import CreationSocial from '../../app/components/CreationSocial/CreationSocial'
+import CreationSocial from '../../app/components/CreationSocial'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
 
 import useGetCreation from '../../hooks/useGetCreation'
+import { useReaction } from '../../context/ReactionContext'
+import useGetReactionCount from '../../hooks/useGetReactionCount'
 
 import { Col, Row, Typography, Avatar } from 'antd'
 
@@ -33,7 +30,7 @@ const { Title, Text } = Typography
 
 interface CreationPageProps {
 	params: { id: string }
-	creation: CreationResponse
+	creation: CreationTypes
 	size?: string
 }
 
@@ -44,18 +41,8 @@ const Creation: FC<CreationPageProps> = ({
 	params,
 	creation,
 	size = 'regular',
-}: CreationPageProps) => {
+}) => {
 	const router = useRouter()
-
-	const [isHovering, setIsHovering] = useState(true)
-
-	const handleMouseOver = (): void => {
-		setIsHovering(true)
-	}
-
-	const handleMouseOut = (): void => {
-		setIsHovering(false)
-	}
 
 	const queryCreationId = Array.isArray(router.query.creationId)
 		? router.query.creationId[0]
@@ -64,30 +51,7 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log(creationId)
 	// console.log(router.query)
 
-	const {
-		uri: queryUri = '',
-		createdAt: queryCreatedAt = '',
-		generatorName: queryGeneratorName = '',
-		height: queryHeight = 0,
-		status: queryStatus = 0,
-		text_input: queryTextInput = '',
-		thumbnail: queryThumbnail = '',
-		user: queryUser = '',
-		width: queryWidth = 0,
-		_id: queryId = '',
-	} = router.query
-
 	const url = `/api/creation?${String(queryCreationId)}`
-
-	const [_id, setId] = useState<string>('')
-	const [user, setUser] = useState<string>('')
-	const [textInput, setTextInput] = useState<string>('')
-	const [thumbnail, setThumbnail] = useState<string>('')
-	const [uri, setUri] = useState<string>('')
-	const [createdAt, setCreatedAt] = useState<string>('')
-	const [generatorName, setGeneratorName] = useState<string>('')
-	const [width, setWidth] = useState<number>(0)
-	const [height, setHeight] = useState<number>(0)
 
 	const creationData = useGetCreation(queryCreationId)
 
@@ -95,7 +59,12 @@ const Creation: FC<CreationPageProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 
 	useEffect(() => {
-		if (reactionCountList != null && !reactionState[creation._id]) {
+		if (
+			reactionCountList != null &&
+			creationData != null &&
+			creationData._id != null &&
+			!reactionState[creationData._id]
+		) {
 			const {
 				praises: praisesData,
 				praised: praisedData,
@@ -110,35 +79,13 @@ const Creation: FC<CreationPageProps> = ({
 				burned: burnedData,
 			})
 		}
-	}, [reactionCountList, reactionState, updateReactionState, creation._id])
-
-	// console.log(creationData)
-
-	// const isParent = true
-
-	// console.log(router.query.creationId)
-
-	// useEffect(() => {
-	//   if (typeof creationData !== 'undefined' && creationData !== null) {
-	// console.log(creationData)
-	// setUri(creationData.uri)
-	// setCreatedAt(creationData.creation.createdAt)
-	// setGeneratorName(creationData.task.generator.generatorName)
-	// setWidth(creationData.task.config.width)
-	// setHeight(creationData.task.config.height)
-	// setTextInput(creationData.task.config.text_input)
-	// setUser(creationData.user)
-	// setThumbnail(creationData.thumbnail)
-	// setId(creationData._id)
-	// setStatus(creationData.task.status)
-	//   }
-	// }, [creationData])
+	}, [reactionCountList, reactionState, updateReactionState, creationData])
 
 	let timeAgoCreatedAt = 0
 	if (typeof creationData !== 'undefined' && creationData !== null) {
 		console.log(creationData)
-		console.log(creationData.creation.task.config.text_input)
-		timeAgoCreatedAt = timeAgo(parseInt(creationData.creation.createdAt))
+		console.log(creationData.task.config.text_input)
+		timeAgoCreatedAt = timeAgo(parseInt(creationData.createdAt))
 		console.log(timeAgoCreatedAt)
 	}
 
@@ -152,23 +99,15 @@ const Creation: FC<CreationPageProps> = ({
 						<Col className={styles.creation}>
 							<Row className={styles.crPost}>
 								<article className={`${styles.crCard} ${size}`}>
-									<div
-										className={
-											isHovering
-												? `${styles.hover}, ${styles.crImgWrapper}`
-												: `${styles.crImgWrapper}`
-										}
-										onMouseOver={() => handleMouseOver}
-										onMouseOut={() => handleMouseOut}
-									>
+									<div className={styles.crImgWrapper}>
 										<div className={styles.crImgWrapperMain}>
 											<Image
 												className={styles.crImg}
 												style={{ width: '100%' }}
-												width={creationData?.creation?.task?.config?.width}
-												height={creationData?.creation?.task?.config?.height}
-												alt={creationData?.creation?.task?.config?.text_input}
-												src={creationData?.creation?.thumbnail}
+												width={creationData?.task?.config?.width}
+												height={creationData?.task?.config?.height}
+												alt={creationData?.task?.config?.text_input}
+												src={creationData?.thumbnail}
 											/>
 										</div>
 
@@ -176,10 +115,10 @@ const Creation: FC<CreationPageProps> = ({
 											<Image
 												className={styles.crImg}
 												style={{ width: '100%' }}
-												width={creationData?.creation?.task?.config?.width}
-												height={creationData?.creation?.task?.config?.height}
-												alt={creationData?.creation?.task?.config?.text_input}
-												src={creationData?.creation?.thumbnail}
+												width={creationData?.task?.config?.width}
+												height={creationData?.task?.config?.height}
+												alt={creationData?.task?.config?.text_input}
+												src={creationData?.thumbnail}
 											/>
 										</div>
 									</div>
@@ -201,23 +140,15 @@ const Creation: FC<CreationPageProps> = ({
 												className='profileAvatarWrapper'
 												style={{ display: 'flex', flex: 1 }}
 												size={50}
-												icon={
-													<Blockies
-														scale={6}
-														seed={creationData.creation.user}
-													/>
-												}
+												icon={<Blockies scale={6} seed={creationData.user} />}
 											/>
 											<div className={styles.crCreatorNameWrapper}>
-												{/* <Text className='crCreatorName'>
-                          {abbreviateAddress(creationData.creation.user)}
-                        </Text> */}
 												<Title
 													level={3}
 													className='profileName'
 													style={{ marginTop: 10 }}
 												>
-													{abbreviateAddress(creationData.creation.user)}
+													{abbreviateAddress(creationData.user)}
 												</Title>
 												<Text>{timeAgoCreatedAt}</Text>
 											</div>
@@ -229,51 +160,20 @@ const Creation: FC<CreationPageProps> = ({
 											{'/dream'}
 										</Text>
 										<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
-											{creationData.creation.task.config.text_input}
+											{creationData.task.config.text_input}
 										</Text>
 
 										<CreationSocial
 											layout={'expanded'}
-											creation={[creation]}
+											creation={creation}
 											creationId={creation._id}
-											praisedByMe={
-												reactionState[creation._id]?.praised || false
-											}
-											burnedByMe={reactionState[creation._id]?.burned || false}
-											creationPraises={
-												reactionState[creation._id]?.praises || 0
-											}
-											creationBurns={reactionState[creation._id]?.burns || 0}
+											reactionCountList={{
+												praises: reactionState[creation._id]?.praises || 0,
+												praised: reactionState[creation._id]?.praised || false,
+												burns: reactionState[creation._id]?.burns || 0,
+												burned: reactionState[creation._id]?.burned || false,
+											}}
 										/>
-
-										{/* <div className={styles.crSocials}>
-											<span className={styles.crSocial}>
-												<BurnButton
-													creationId={queryCreationId}
-													burnsData={burnsData}
-													isBurnedData={isBurnedData}
-													setIsBurned={setIsBurned}
-												/>
-											</span>
-											<span className={styles.crSocial}>
-												<PraiseButton />
-											</span>
-											<span className={styles.crSocial}>
-												<SaveButton />
-											</span>
-											<span className={styles.crSocial}>
-												<ShareButton creationId={queryCreationId} />
-											</span>
-											<span className={styles.crSocial}>
-												<Button
-													type='link'
-													className={styles.crSocialBtn}
-													shape='circle'
-												>
-													<FiMoreHorizontal className={styles.crSocialIcon} />
-												</Button>
-											</span>
-										</div> */}
 
 										<ul className={styles.crPropertiesWrapper}>
 											<li className={styles.crProperty}>
@@ -306,22 +206,12 @@ const Creation: FC<CreationPageProps> = ({
 											</li>
 										</ul>
 									</div>
-
-									{/* {isParent ? (
-                  <button className='cr-parent'>
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <HiOutlineFingerPrint className='icon' />
-                  <span className='text'>Parent</span>
-                  </span>
-                  <Image src={thumbnail} alt={text_input} />
-                  </button>
-                ) : null} */}
 								</section>
 							</div>
 						</article>
 					</>
 				) : (
-					'Loading...'
+					<Text>{'Loading...'}</Text>
 				)}
 			</section>
 		</>

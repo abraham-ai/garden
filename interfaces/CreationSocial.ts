@@ -8,7 +8,7 @@ interface CreationSocialTypes {
 		burns: number
 		burned: boolean
 	}
-	creation: [Creation]
+	creation: Creation
 	creationId: string
 }
 

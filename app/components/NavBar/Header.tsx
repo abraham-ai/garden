@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import type { MouseEvent } from 'react'
+import type { FC, MouseEvent } from 'react'
 import AppContext from '../../../context/AppContext'
 
 import Image from 'next/image'
@@ -20,7 +20,7 @@ import EthereumVerify from '../EthereumVerify'
 
 import { BsGear } from 'react-icons/bs'
 
-import { Typography, Tooltip, Popover, Button, Select, Space } from 'antd'
+import { Typography, Popover, Button, Select, Space } from 'antd'
 const { Text } = Typography
 
 interface ActiveLinkProps {
@@ -52,7 +52,7 @@ const ActiveLink = ({ children, href }: ActiveLinkProps): JSX.Element => {
 	)
 }
 
-const Header = (): JSX.Element => {
+const Header: FC = () => {
 	const [isMounted, setIsMounted] = useState(false)
 
 	const router = useRouter()
@@ -79,7 +79,10 @@ const Header = (): JSX.Element => {
 		displayAuthToken = abbreviateText(authToken, 80)
 	}
 
-	const handleChange = (value: string): void => {
+	const handleChange = (
+		value: string,
+		option: { value: string; label: string } | undefined
+	): void => {
 		console.log(`selected ${value}`)
 		if (value === 'garden') {
 			router.push('/')
@@ -88,7 +91,7 @@ const Header = (): JSX.Element => {
 		}
 	}
 
-	const handleDefaultSelectValue = (): void => {
+	const handleDefaultSelectValue = (): string => {
 		const { asPath } = router
 		// const { collection } = router.query
 
@@ -111,7 +114,7 @@ const Header = (): JSX.Element => {
 		}
 	}
 
-	const handleSelectOptions = (): void => {
+	const handleSelectOptions = (): Array<{ value: string; label: string }> => {
 		if (isSignedIn) {
 			return [
 				{ value: 'garden', label: 'Garden' },

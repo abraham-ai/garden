@@ -1,5 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
+import type CollectionResponse from '../../../interfaces/CollectionResponse'
 
 import { EdenClient } from 'eden-sdk'
 
@@ -14,14 +15,23 @@ const handler = async (
 	res: NextApiResponse
 ): Promise<CollectionResponse> => {
 	//   const { name } = req.query
-	const { name: userId, token: authToken } = req.session as CustomSession
+	// Safely retrieve the session data
+
+	const userId = req.session?.userId ?? ''
+	const authToken = req.session?.token ?? ''
 
 	// console.log({ req })
 	console.log(req.url)
 
-	if (typeof authToken === '' || typeof authToken === 'undefined') {
+	const emptyCollectionResponse = {
+		collection: {},
+		profile: { user: { userId: '' } },
+		creations: [],
+	}
+
+	if (authToken === '') {
 		res.status(401).json({ error: 'Authentication token is missing' })
-		return
+		return emptyCollectionResponse
 	}
 
 	try {
@@ -31,13 +41,14 @@ const handler = async (
 		// console.log(collections)
 
 		res.status(200).json({ result: collections })
-		return
+		return emptyCollectionResponse
 	} catch (error: any) {
 		console.log(error)
 		// if (error.response.data == 'jwt expired') {
 		//   return res.status(401).json({ error: 'Authentication expired' })
 		// }
 		res.status(500).json({ error })
+		return emptyCollectionResponse
 	}
 }
 

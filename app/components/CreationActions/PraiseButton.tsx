@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import type { FC } from 'react'
 
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
@@ -26,10 +27,10 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	const [isPraiseHovering, setIsPraiseHovering] = useState(false)
 
 	const handlePraise = async (): Promise<void> => {
-		if (isSignedIn === false) {
-			return
-		} else if (isSignedIn === true && isWalletConnected === false) {
-			return
+		if (!isSignedIn) {
+			return null
+		} else if (isSignedIn && !isWalletConnected) {
+			return null
 		} else {
 			const newIsPraised = !isPraisedData
 			const updatedPraises = newIsPraised ? praisesData + 1 : praisesData - 1
@@ -74,7 +75,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 			style={{ display: 'flex', alignItems: 'center' }}
 		>
 			<Button
-				className={isPraisedData === true ? 'crPraise isActive' : 'crPraise'}
+				className={isPraisedData ? 'crPraise isActive' : 'crPraise'}
 				shape='round'
 				style={{
 					display: 'flex',
@@ -96,9 +97,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 					className='social-icon'
 					style={{ display: 'flex', alignItems: 'center' }}
 				>
-					{isPraisedData === true || isPraiseHovering === true
-						? praiseFilled
-						: praiseGray}
+					{isPraisedData || isPraiseHovering ? praiseFilled : praiseGray}
 				</span>
 				<Text
 					style={{

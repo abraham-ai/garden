@@ -21,17 +21,15 @@ const handler = async (
 
 	console.log({ collectionId })
 
-	const { userId, token: authToken } = (req as any).session
-
-	// if (typeof authToken !== 'undefined' && authToken !== null && authToken !== '') {
-	//   return res.status(401).json({ error: 'Not authenticated' })
-	// }
+	// Safely retrieve the session data
+	const userId = req.session?.userId ?? ''
+	const authToken = req.session?.token ?? ''
 
 	try {
 		await eden.setAuthToken(authToken)
 
 		const collection = await eden.getCollection(collectionId)
-		const profile = await eden.getProfile(userId)
+		const profile = await eden.getProfile()
 		// console.log(collection)
 
 		const creations = await eden.getCreations({ collectionId, limit: 12 })

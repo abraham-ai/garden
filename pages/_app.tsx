@@ -22,6 +22,9 @@ import '@rainbow-me/rainbowkit/styles.css'
 
 import Blockies from 'react-blockies'
 
+import type Creation from '../interfaces/Creation'
+import type Collection from '../interfaces/Collection'
+
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
@@ -111,7 +114,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	useEffect(() => {
 		setIsWalletConnected(isConnected)
-		setUserId(address !== 'undefined' ? `${String(address)}` : '')
+		setUserId(address?.toString() ?? '')
 	}, [isConnected, setIsWalletConnected, address, setUserId, userId])
 
 	return (

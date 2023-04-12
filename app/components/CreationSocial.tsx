@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import type { FC } from 'react'
 
 import type CreationSocialType from '../../interfaces/CreationSocial'
 
@@ -9,14 +10,12 @@ import BurnButton from './CreationActions/BurnButton'
 import PraiseButton from './CreationActions/PraiseButton'
 import ShareButton from './CreationActions/ShareButton'
 
-import { Typography } from 'antd'
-const { Text } = Typography
-
-const CreationSocial = ({
+const CreationSocial: FC<CreationSocialType> = ({
 	layout = 'minimal',
 	creationId,
 	creation,
-}: CreationSocialType): JSX.Element => {
+	reactionCountList,
+}) => {
 	const [isBookmarked, setIsBookmarked] = useState(false)
 	const { reactionState, updateReactionState } = useReaction()
 
@@ -27,14 +26,17 @@ const CreationSocial = ({
 		burned: isBurned,
 	} = reactionState[creationId] || {}
 
-	const handlePraiseUpdate = (isPraised: boolean, updatedPraises: number) => {
+	const handlePraiseUpdate = (
+		isPraised: boolean,
+		updatedPraises: number
+	): void => {
 		updateReactionState(creationId, {
 			praised: isPraised,
 			praises: updatedPraises,
 		})
 	}
 
-	const handleBurnUpdate = (isBurned: boolean, updatedBurns: number) => {
+	const handleBurnUpdate = (isBurned: boolean, updatedBurns: number): void => {
 		updateReactionState(creationId, { burned: isBurned, burns: updatedBurns })
 	}
 

@@ -46,7 +46,7 @@ const CreationsGrid = (): JSX.Element => {
 
 	const context = useContext(AppContext)
 	const creationsData = useMemo(
-		() => context?.creationsData || [],
+		() => context?.creationsData != null || [],
 		[context?.creationsData]
 	)
 	const setCreationsData = useMemo(
@@ -90,27 +90,28 @@ const CreationsGrid = (): JSX.Element => {
 		useSWRInfinite(getKey, fetcher)
 
 	const isLoadingMore =
-		isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined')
+		isLoading ||
+		(size > 0 && data != null && typeof data[size - 1] === 'undefined')
 	const isEmpty = data?.[0]?.length === 0
 	const isReachingEnd =
-		isEmpty || (data && data[data.length - 1]?.length < limit)
-	const isRefreshing = isValidating && data && data.length === size
+		isEmpty || (data != null && data[data.length - 1]?.length < limit)
+	const isRefreshing = isValidating && data != null && data.length === size
 
 	const addSecondsToDate = (date, seconds) => {
-		let newDateTime = new Date(date).getTime() - seconds
-		let newDate = new Date(newDateTime).toISOString()
+		const newDateTime = new Date(date).getTime() - seconds
+		const newDate = new Date(newDateTime).toISOString()
 		return newDate
 	}
 
 	const allCreationsData = useMemo(() => {
-		if (!data) return []
+		if (data == null) return []
 		return data.flat()
 	}, [data])
 
 	const lastElementRef = useCallback(
 		(node) => {
 			if (isLoadingMore || isReachingEnd) return
-			if (observer.current) observer.current.disconnect()
+			if (observer.current != null) observer.current.disconnect()
 			observer.current = new IntersectionObserver((entries) => {
 				if (entries[0].isIntersecting && !isReachingEnd) {
 					setSize((prevSize) => {
@@ -131,14 +132,14 @@ const CreationsGrid = (): JSX.Element => {
 
 	// Update the useEffect hook to set the latest creation time
 	useEffect(() => {
-		if (!data) return
+		if (data == null) return
 
 		// console.log('Data changed:', data)
 
 		const newData = data.flat()
 		const uniqueCreations = newData.filter((newCreation: Creation) => {
 			return !creationsData.some(
-				(prevCreation) => prevCreation.id === newCreation.id
+				(prevCreation) => prevCreation._id === newCreation._id
 			)
 		})
 

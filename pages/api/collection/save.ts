@@ -1,7 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
 
-import Collection from '../../interfaces'
+import Collection from '../../../interfaces/Collection'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -19,7 +19,11 @@ const handler = async (
 ): Promise<void> => {
 	//   const { name } = req.query
 	const { collectionId, creationId } = req.body
-	const { userId, token: authToken } = req.session
+
+	// Safely retrieve the session data
+	const userId = req.session?.userId ?? ''
+	const authToken = req.session?.token ?? ''
+
 	// console.log({ name })
 	// console.log({ req })
 	// console.log(req.url)

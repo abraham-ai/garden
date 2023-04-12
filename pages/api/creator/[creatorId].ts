@@ -25,22 +25,9 @@ const handler = async (
 	// console.log({ creatorId })
 	// console.log({ authToken })
 
-	// if (typeof authTokenResult === 'undefined') {
-	//   return res.status(401).json({ error: 'Not authenticated' });
-	// }
-
-	// if (!authToken) {
-	//   return res.status(401).json({ error: 'Not authenticated' });
-	// }
-
 	try {
 		const filter = {}
-		Object.assign(
-			filter,
-			creatorId !== 'null'
-				? { username: '0x49fbd13846F2428c148A4c165a22b4fFA54263a4' }
-				: {}
-		)
+		Object.assign(filter, creatorId !== 'null' ? { username: userId } : {})
 		// Object.assign(
 		//   filter,
 		//   generators !== 'null' ? { generators: generators } : {}
@@ -57,7 +44,6 @@ const handler = async (
 		console.log({ filter })
 
 		await eden.setAuthToken(authToken)
-		console.log(authTokenResult)
 
 		// if (typeof authTokenResult !== 'undefined') {
 		const creations = await eden.getCreations(filter)

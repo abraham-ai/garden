@@ -13,9 +13,7 @@ interface CreationsMasonryTypes {
 	creations: Creation[]
 }
 
-export default function CreationsMasonry({
-	creations,
-}: CreationsMasonryTypes): JSX.Element {
+const CreationsMasonry: FC<CreationMasonryTypes> = ({ creations }) => {
 	return (
 		<Masonry
 			breakpointCols={breakpointColumnsObj}

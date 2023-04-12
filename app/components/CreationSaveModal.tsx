@@ -147,7 +147,7 @@ const CreationSaveModal: FC = () => {
 	}
 
 	const handleCreateModalCleanUp = (): void => {
-		setIsCreationModalOpen(false)
+		setIsSaveCreationModalOpen(false)
 		setCollectionModalView(0)
 		// setInputCollectionName('')
 		createNotification('bottom')

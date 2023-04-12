@@ -1,13 +1,19 @@
+import React from 'react'
+import type { FC } from 'react'
 import Link from 'next/link'
 
 import { Avatar, Typography, Button } from 'antd'
-const { Title, Text } = Typography
 
 import Blockies from 'react-blockies'
 
 import abbreviateAddress from '../../../util/abbreviateAddress'
+const { Title, Text } = Typography
 
-const CreatorHeader = ({ userId }: { userId: string }): JSX.Element => {
+interface CreatorHeaderTypes {
+	userId?: string
+}
+
+const CreatorHeader: FC<CreatorHeaderTypes> = ({ userId }) => {
 	let displayAddress = ''
 	if (typeof userId === 'string') {
 		displayAddress = abbreviateAddress(userId)

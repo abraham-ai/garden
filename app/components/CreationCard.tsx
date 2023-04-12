@@ -5,6 +5,7 @@ import React, {
 	useContext,
 	useMemo,
 } from 'react'
+import type { FC } from 'react'
 
 import type Creation from '../../interfaces/Creation'
 
@@ -207,7 +208,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 										<>
 											<CreationSocial
 												layout={'expanded'}
-												creation={[creation]}
+												creation={creation}
 												creationId={creation._id}
 												praisedByMe={
 													reactionState[creation._id]?.praised || false

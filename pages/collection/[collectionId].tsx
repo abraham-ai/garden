@@ -1,38 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import type { FC, ReactElement } from 'react'
+import React from 'react'
+import type { FC } from 'react'
 
 import { useRouter } from 'next/router'
-import Image from 'next/image'
-import Link from 'next/link'
-
-import useSWR from 'swr'
 
 import type CreationResponse from '../../interfaces/CreationResponse'
 
 import styles from '../../styles/Collection.module.css'
 
-import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 
-import abbreviateAddress from '../../util/abbreviateAddress'
-import timeAgo from '../../util/timeAgo'
-
 import useGetCollection from '../../hooks/useGetCollection'
 
-import { Typography, Row, Col, Button } from 'antd'
+import { Typography, Row, Col } from 'antd'
 const { Text } = Typography
 
-import { FiMoreHorizontal } from 'react-icons/fi'
-import { FaStar, FaRetweet, FaRegStar } from 'react-icons/fa'
-import { IoIosShareAlt } from 'react-icons/io'
-import { AiFillEye, AiFillFire } from 'react-icons/ai'
-import { BiUserPlus } from 'react-icons/bi'
-import { HiOutlineArrowNarrowUp, HiOutlineFingerPrint } from 'react-icons/hi' // HiCommandLine
-import { MdOutlineDateRange } from 'react-icons/md'
-import { BsFillBookmarkFill, BsAspectRatio } from 'react-icons/bs'
-import { SlSizeFullscreen } from 'react-icons/sl'
+const collectionStyles = {
+	col: {
+		display: 'flex',
+		justifyContent: 'center',
+		background: 'white',
+		fontWeight: 'bold',
+	},
+	text: {
+		fontSize: '1.4rem',
+		margin: '20px 0',
+	},
+}
 
 interface CollectionPageTypes {
 	params: { id: string }
@@ -40,14 +35,19 @@ interface CollectionPageTypes {
 	size?: string
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
+const fetcher = async (url: string) =>
+	await fetch(url).then(async (res) => await res.json())
 
 const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 	const { collectionId } = router.query
 	// console.log(collectionId)
 
-	const collectionData = useGetCollection(collectionId)
+	const collectionData =
+		typeof collectionId === 'string'
+			? useGetCollection(collectionId)
+			: undefined
+
 	console.log('[collectionId] ROUTE')
 	console.log({ collectionData })
 	console.log(collectionData)
@@ -59,36 +59,35 @@ const Collection: FC<CollectionPageTypes> = () => {
 		// console.log(timeAgoCreatedAt)
 	}
 
+	const isCollectionData =
+		typeof collectionData !== 'undefined' &&
+		typeof collectionData.data !== 'undefined'
+	const isUser = typeof collectionData?.data?.collection?.user !== 'undefined'
+
 	return (
 		<>
 			<Header />
 
 			<section className={styles.collectionWrapper}>
-				{typeof collectionData !== 'undefined' &&
-				typeof collectionData.data !== 'undefined' ? (
+				{isCollectionData ? (
 					<>
-						{typeof collectionData.data?.collection.user !== 'undefined' ? (
+						{isUser ? (
 							<>
 								<CreatorHeader
-									userId={collectionData.data.profile.user.userId}
+									userId={collectionData?.data?.profile?.user?.userId}
 								/>
-								<Col
-									style={{
-										display: 'flex',
-										justifyContent: 'center',
-										background: 'white',
-										fontWeight: 'bold',
-									}}
-								>
+								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
-										{collectionData.data.collection.name}
+										{collectionData?.data?.collection?.name}
 									</Text>
 									{/* <pre>{JSON.stringify(collectionData, null, 2)}</pre> */}
 								</Col>
 							</>
 						) : null}
-						{collectionData.data?.creations.length > 0 ? (
-							<CreationsGridSimple creations={collectionData.data?.creations} />
+						{collectionData?.data?.creations?.length ?? 0 > 0 ? (
+							<CreationsGridSimple
+								creations={collectionData?.data?.creations}
+							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
 								{'Loading...'}

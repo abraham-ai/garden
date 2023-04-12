@@ -1,8 +1,6 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
+import type { FC } from 'react'
 
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
 import { Inter } from 'next/font/google'
 
 import AppContext from '../context/AppContext'
@@ -11,35 +9,27 @@ import Header from '../app/components/NavBar/Header'
 import CreationsGridSimple from '../app/components/Creations/CreationsGridSimple'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 
-import Blockies from 'react-blockies'
-
 import useGetMyCreations from '../hooks/useGetMyCreations'
 
 import abbreviateAddress from '../util/abbreviateAddress'
 
-import { Typography, Button, Avatar, Row, Spin } from 'antd'
+import { Row, Spin } from 'antd'
 
 import { LoadingOutlined } from '@ant-design/icons'
 
 import stylesHeader from '../styles/Header.module.css'
 import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
-const { Title, Text } = Typography
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function MyCreations() {
+const MyCreations: FC = () => {
 	const context = useContext(AppContext)
 	const userId = context?.userId || ''
 
 	const myCreationsData = useGetMyCreations(userId)
 	console.log(myCreationsData)
-
-	let displayAddress = ''
-	if (typeof userId === 'string') {
-		displayAddress = abbreviateAddress(userId)
-	}
 
 	return (
 		<>
@@ -64,3 +54,5 @@ export default function MyCreations() {
 		</>
 	)
 }
+
+export default MyCreations

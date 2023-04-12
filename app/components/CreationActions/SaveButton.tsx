@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import type { FC } from 'react'
 
 import AppContext from '../../../context/AppContext'
 
@@ -14,7 +15,7 @@ import styles from '../../../styles/CreationSocial.module.css'
 interface SaveButtonTypes {
 	isBookmarked: boolean
 	setIsBookmarked: (value: boolean) => void
-	creation: [Creation]
+	creation: Creation
 }
 
 const SaveButton: FC<SaveButtonTypes> = ({
@@ -29,28 +30,25 @@ const SaveButton: FC<SaveButtonTypes> = ({
 	const isSignedIn = context?.isSignedIn || false
 	const isWalletConnected = context?.isWalletConnected || false
 
-	const selectedCollection = context?.selectedCollection || 'Favorites'
-	const setCollectionModalView = context?.setCollectionModalView || (() => 1)
-	const collections = context?.collections || []
-	const setCollections = context?.setCollections || (() => [])
-	const setSelectedCollection = context?.setSelectedCollection || (() => {})
+	const setCollectionModalView =
+		context?.setCollectionModalView != null || (() => 1)
+	const collections = context?.collections != null || []
+	const setCollections = context?.setCollections != null || (() => [])
 
 	const setIsSaveCreationModalOpen =
-		context?.setIsSaveCreationModalOpen || (() => {})
+		context?.setIsSaveCreationModalOpen != null || (() => {})
 	const setCurrentCreationModalCreation =
-		context?.setCurrentCreationModalCreation || (() => {})
+		context?.setCurrentCreationModalCreation != null || (() => {})
 
 	// console.log({ isSignedIn })
 
 	const handleSave = (): void => {
 		// console.log({ isSignedIn })
-		if (isSignedIn === false) {
-			return
-		} else if (isSignedIn === true && isWalletConnected === false) {
-			return
+		if (!isSignedIn) {
+		} else if (isSignedIn && !isWalletConnected) {
 		} else {
 			console.log('handle SAVE 🔖!')
-			setIsBookmarked(isBookmarked === true ? false : true)
+			setIsBookmarked(!isBookmarked)
 			// showSaveNotification()
 			setIsSaveCreationModalOpen(true)
 			setCurrentCreationModalCreation(creation[0])
@@ -68,8 +66,9 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		setIsSaveHovering(false)
 	}
 
-	const bgHoverStyles =
-		isSaveHovering === true ? 'rgb(26, 115, 232, 0.4)' : 'rgba(0, 0, 0, 0.5)'
+	const bgHoverStyles = isSaveHovering
+		? 'rgb(26, 115, 232, 0.4)'
+		: 'rgba(0, 0, 0, 0.5)'
 
 	return (
 		<>
@@ -102,7 +101,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 						transition: '300ms',
 					}}
 				>
-					{isBookmarked === true || isSaveHovering === true ? (
+					{isBookmarked || isSaveHovering ? (
 						<RiBookmarkFill
 							className={styles.crSocialIcon}
 							style={{
