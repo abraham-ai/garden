@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react'
-import type Collection from '../../../interfaces/Collection'
+import type Collection from '../../interfaces/Collection'
 import type { FC } from 'react'
-import type Creation from '../../../interfaces/Creation'
+import type Creation from '../../interfaces/Creation'
 
 import Link from 'next/link'
 
@@ -68,7 +68,18 @@ const CreationSaveModal: FC = () => {
 		placement: NotificationPlacement
 	): JSX.Element => {
 		api.info({
-			message: `Collection ${String(inputCollectionName)} created!`,
+			message: (
+        <Text>
+          {`Creation saved to new collection `}
+          <Link
+            href={`/collection/${String(currentSavedCollection._id)}`}
+            style={{ margin: '0 5px' }}
+          >
+            {String(currentSavedCollection.name)}
+          </Link>
+          {`Collection!`}
+        </Text>
+      ),
 			description:
 				'View your collection in the Collections tab or on your profile page.',
 			placement,
@@ -87,18 +98,16 @@ const CreationSaveModal: FC = () => {
 			setIsSaveCreationModalOpen(false)
 			api.info({
 				message: (
-					<>
-						<Text>
-							{`Creation saved to`}
-							<Link
-								href={`/collection/${String(currentSavedCollection._id)}`}
-								style={{ margin: '0 5px' }}
-							>
-								{String(currentSavedCollection.name)}
-							</Link>
-							{`Collection!`}
-						</Text>
-					</>
+          <Text>
+            {`Creation saved to`}
+            <Link
+              href={`/collection/${String(currentSavedCollection._id)}`}
+              style={{ margin: '0 5px' }}
+            >
+              {String(currentSavedCollection.name)}
+            </Link>
+            {`Collection!`}
+          </Text>
 				),
 				description:
 					'View your collection in the Collections tab or on your profile page.',
@@ -147,7 +156,7 @@ const CreationSaveModal: FC = () => {
 	}
 
 	const handleCreateModalCleanUp = (): void => {
-		setIsCreationModalOpen(false)
+		setIsSaveCreationModalOpen(false);
 		setCollectionModalView(0)
 		// setInputCollectionName('')
 		createNotification('bottom')
@@ -241,16 +250,16 @@ const CreationSaveModal: FC = () => {
 		>
 			<div style={{ padding: 20, borderRadius: 20 }}>
 				<section className={styles.modalView1}>
-					<Text className={styles.debugModalView}>
+					{/* <Text className={styles.debugModalView}>
 						{`Modal View: ${String(collectionModalView)}`}
-					</Text>
+					</Text> */}
 
 					{collectionModalView === 0 ? (
 						<article className={styles.modalView1}>
 							{collections.length > 0 ? (
 								<>
 									<Text className={styles.saveModalCollectionTitle}>
-										{'Your Collections.'}
+										{'Your Collections:'}
 									</Text>
 									<Col>
 										{collections.map((collection: Collection, i: number) => {
@@ -308,7 +317,7 @@ const CreationSaveModal: FC = () => {
 									justifyContent: 'center',
 								}}
 							>
-								{'Create a new collection'}
+								{'Add to a new collection'}
 							</Button>
 						</article>
 					) : null}
@@ -369,12 +378,12 @@ const CreationSaveModal: FC = () => {
 										</Button>
 
 										<Text className={styles.textBold}>
-											{'Create Collection'}
+											{'Create new collection'}
 										</Text>
 									</Row>
 
 									<Input
-										placeholder=''
+										placeholder='Name'
 										onChange={(e) => {
 											setInputCollectionName(e.target.value)
 										}}

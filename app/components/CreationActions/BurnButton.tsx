@@ -1,26 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react'
-import type { FC } from 'react'
-
+import React, { useState, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
-
 import axios from 'axios'
-
-import styles from '../../../styles/BurnButton.module.css'
 
 import { Button, Typography } from 'antd'
 const { Text } = Typography
 
 interface BurnButtonTypes {
 	creationId: string
-	burnsData: number
-	isBurnedData: boolean
-	setIsBurned: (value: boolean) => void
+	burns: number
+	isBurned: boolean
+  setIsBurned: (value: boolean, updatedPraises: number) => void
 }
 
 const BurnButton: FC<BurnButtonTypes> = ({
 	creationId,
-	burnsData,
-	isBurnedData,
+	burns,
+	isBurned,
 	setIsBurned,
 }: BurnButtonTypes) => {
 	const context = useContext(AppContext)
@@ -30,30 +25,31 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
 
 	const handleBurn = async (): Promise<void> => {
-		if (isSignedIn === false) {
-			return
-		} else if (isSignedIn === true && isWalletConnected === false) {
-			return
-		} else {
-			const newIsBurned = !isBurnedData
-			const updatedBurns = newIsBurned ? burnsData + 1 : burnsData - 1
+		if (!isSignedIn || !isWalletConnected) {
+			return;
+		} 
 
-			setIsBurned(newIsBurned, updatedBurns)
+    const newIsBurned = !isBurned;
+    const updatedBurns = newIsBurned ? burns + 1 : burns - 1;
+    setIsBurned(newIsBurned, updatedBurns);
 
-			try {
-				await axios.post('/api/react', {
-					creationId,
-					reaction: '🔥',
-				})
-			} catch (error) {
-				setIsBurned(!newIsBurned, burnsData)
-				console.error('Error updating praise:', error)
-			}
-		}
+    try {
+      await axios.post('/api/react', {
+        creationId,
+        reaction: '🔥',
+        unreact: isBurned
+      })
+    }
+    catch (error) {
+      setIsBurned(!newIsBurned, burns)
+      console.error('Error updating praise:', error)
+    }
 	}
 
 	const burnGray = (
-		<span style={{ filter: 'grayscale(1)', fontSize: '1.8rem' }}>{'🔥'}</span>
+		<span style={{ filter: 'grayscale(1)', fontSize: '1.8rem' }}>
+      {'🔥'}
+    </span>
 	)
 
 	const burnFilled = <span style={{ fontSize: '1.8rem' }}>{'🔥'}</span>
@@ -74,7 +70,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 			style={{ display: 'flex', alignItems: 'center' }}
 		>
 			<Button
-				className={isBurnedData === true ? 'crBurn isActive' : 'crBurn'}
+				className={isBurned ? 'crBurn isActive' : 'crBurn'}
 				size='large'
 				type='text'
 				shape='round'
@@ -98,7 +94,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 					className='social-icon'
 					style={{ display: 'flex', alignItems: 'center' }}
 				>
-					{isBurnedData === true || isBurnHovering === true
+					{isBurned || isBurnHovering
 						? burnFilled
 						: burnGray}
 				</span>
@@ -110,7 +106,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 						fontWeight: 'bold',
 					}}
 				>
-					{burnsData}
+					{burns}
 				</Text>
 			</Button>
 		</div>

@@ -11,12 +11,11 @@ const fetcher = async (url: string): Promise<void> => {
 	return data
 }
 
-export const useGetCollections = (): CollectionResponse => {
-	const { data, error } = useSWR<CollectionsResponse>(
-		`/api/collections/get`,
-		fetcher
+export const useGetCollections = (): JSX.Element => {
+	const { data, error, isLoading, mutate } = useSWR<CollectionsResponse>(
+		`/api/collections`,
+		(url: string) => fetcher(url)
 	)
-
 	const isLoading = data == null && error !== false
 	const collectionsData = (data?.result != null || null) as Collection[] | null
 

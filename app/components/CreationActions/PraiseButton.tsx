@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
 
@@ -8,15 +7,15 @@ const { Text } = Typography
 
 interface PraiseButtonTypes {
 	creationId: string
-	praisesData: number
-	isPraisedData: boolean
+	praises: number
+	isPraised: boolean
 	setIsPraised: (value: boolean, updatedPraises: number) => void
 }
 
 const PraiseButton: FC<PraiseButtonTypes> = ({
 	creationId,
-	praisesData,
-	isPraisedData,
+	praises,
+	isPraised,
 	setIsPraised,
 }: PraiseButtonTypes) => {
 	const context = useContext(AppContext)
@@ -26,32 +25,30 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	const [isPraiseHovering, setIsPraiseHovering] = useState(false)
 
 	const handlePraise = async (): Promise<void> => {
-		if (isSignedIn === false) {
-			return
-		} else if (isSignedIn === true && isWalletConnected === false) {
-			return
-		} else {
-			const newIsPraised = !isPraisedData
-			const updatedPraises = newIsPraised ? praisesData + 1 : praisesData - 1
+		if (!isSignedIn || !isWalletConnected) {
+			return;
+		} 
 
-			setIsPraised(newIsPraised, updatedPraises)
+    const newIsPraised = !isPraised;
+    const updatedPraises = newIsPraised ? praises + 1 : praises - 1;
+    setIsPraised(newIsPraised, updatedPraises);
 
-			try {
-				await axios.post('/api/react', {
-					creationId,
-					reaction: '🙌',
-				})
-			} catch (error) {
-				setIsPraised(!newIsPraised, praisesData)
-				console.error('Error updating praise:', error)
-			}
-		}
+    try {
+      console.log("going to unreact", isPraised)
+      await axios.post('/api/react', {
+        creationId,
+        reaction: '🙌',
+        unreact: isPraised
+      })
+    } 
+    catch (error) {
+      setIsPraised(!newIsPraised, praises)
+      console.error('Error updating praise:', error)
+    }
 	}
 
 	const praiseGray = (
-		<span
-			style={{ filter: 'grayscale(1)', fontSize: '1.8rem', marginBottom: 6 }}
-		>
+		<span style={{ filter: 'grayscale(1)', fontSize: '1.8rem', marginBottom: 6 }}>
 			{'🙌'}
 		</span>
 	)
@@ -74,7 +71,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 			style={{ display: 'flex', alignItems: 'center' }}
 		>
 			<Button
-				className={isPraisedData === true ? 'crPraise isActive' : 'crPraise'}
+				className={isPraised ? 'crPraise isActive' : 'crPraise'}
 				shape='round'
 				style={{
 					display: 'flex',
@@ -96,7 +93,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 					className='social-icon'
 					style={{ display: 'flex', alignItems: 'center' }}
 				>
-					{isPraisedData === true || isPraiseHovering === true
+					{isPraised || isPraiseHovering
 						? praiseFilled
 						: praiseGray}
 				</span>
@@ -108,7 +105,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 						fontWeight: 'bold',
 					}}
 				>
-					{praisesData}
+					{praises}
 				</Text>
 			</Button>
 		</div>
