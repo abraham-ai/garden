@@ -1,29 +1,30 @@
 'use client'
 
-import { useState, useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import AppContext from '../../context/AppContext'
-import { useAccount, useNetwork, useSignMessage } from 'wagmi'
-import axios from 'axios'
+import { useAccount } from 'wagmi'
 
-const EthereumVerify = () => {
+const EthereumVerify = (): JSX.Element | null => {
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected || false
 
 	const setIsWalletConnected = useMemo(() => {
-		return context?.setIsWalletConnected != null || (() => {})
+		return context?.setIsWalletConnected != null
+			? context.setIsWalletConnected
+			: () => {}
 	}, [context?.setIsWalletConnected])
 
 	const setAuthToken = useMemo(() => {
-		return context?.setAuthToken != null || (() => {})
+		return context?.setAuthToken != null ? context.setAuthToken : () => {}
 	}, [context?.setAuthToken])
 
 	const setUserId = useMemo(() => {
-		return context?.setUserId != null || (() => {})
+		return context?.setUserId != null ? context.setUserId : () => {}
 	}, [context?.setUserId])
 
 	const setIsSignedIn = useMemo(() => {
-		return context?.setIsSignedIn != null || (() => {})
+		return context?.setIsSignedIn != null ? context.setIsSignedIn : () => {}
 	}, [context?.setIsSignedIn])
 
 	const { address, isConnected } = useAccount()
@@ -66,6 +67,8 @@ const EthereumVerify = () => {
 		setUserId,
 		setIsSignedIn,
 	])
+
+	return null
 }
 
 export default EthereumVerify

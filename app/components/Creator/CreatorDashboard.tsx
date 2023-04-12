@@ -8,7 +8,7 @@ interface CreatorDashboardTypes {
 const CreatorDashboard: FC<CreatorDashboardTypes> = ({
 	profileAddress = 'test',
 }) => {
-	return <div>{creatorAddress}</div>
+	return <div>{profileAddress}</div>
 }
 
 export default CreatorDashboard

@@ -1,12 +1,9 @@
-import { useState, useCallback, useEffect, useContext, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
+import type { FC, MouseEvent } from 'react'
 
 import AppContext from '../../context/AppContext'
 
-import { useAccount, useDisconnect, useNetwork, useSignMessage } from 'wagmi'
-
-import { SiweMessage } from 'siwe'
-
-import axios from 'axios'
+import { useDisconnect } from 'wagmi'
 
 import styles from '../../styles/EthereumAuth.module.css'
 
@@ -14,7 +11,7 @@ import { Button, Typography, Row } from 'antd'
 const { Text } = Typography
 
 interface EthereumAccountTypes {
-	handleSiwe: (message: SiweMessage) => Promise<void>
+	handleSiwe: (event: MouseEvent) => Promise<void>
 	state: {
 		address?: string
 		error?: Error
@@ -28,26 +25,16 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 
 	const isWalletConnected = context?.isWalletConnected || false
 
-	const setIsWalletConnected = useMemo(() => {
-		return context?.setIsWalletConnected || (() => {})
-	}, [context?.setIsWalletConnected])
-
-	const authToken = context?.authToken || ''
-
 	const setAuthToken = useMemo(() => {
-		return context?.setAuthToken || (() => {})
+		return context?.setAuthToken != null ? context.setAuthToken : () => {}
 	}, [context?.setAuthToken])
 
 	const userId = context?.userId || ''
 
-	const setUserId = useMemo(() => {
-		return context?.setUserId || (() => {})
-	}, [context?.setUserId])
-
 	const isSignedIn = context?.isSignedIn || false
 
 	const setIsSignedIn = useMemo(() => {
-		return context?.setIsSignedIn || (() => {})
+		return context?.setIsSignedIn != null ? context.setIsSignedIn : () => {}
 	}, [context?.setIsSignedIn])
 
 	const { disconnect } = useDisconnect()
@@ -59,7 +46,6 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 					{/* Account content goes here */}
 
 					<Text
-						level={2}
 						style={{
 							fontWeight: 'bold',
 							fontSize: '1rem',
@@ -86,7 +72,9 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 								type='primary'
 								shape='round'
 								disabled={state.loading}
-								onClick={handleSiwe}
+								onClick={async (e) => {
+									await handleSiwe(e)
+								}}
 							>
 								{'Sign-In with Ethereum'}
 							</Button>
