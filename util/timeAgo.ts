@@ -16,7 +16,7 @@ export default function timeAgo(time: number) {
 			time = +new Date()
 	}
 
-	const time_formats = [
+	const timeFormats = [
 		[60, 's', 1], // 60 // seconds
 		[120, '1 minute ago', '1 minute from now'], // 60*2
 		[3600, 'm', 60], // 60*60, 60
@@ -34,23 +34,23 @@ export default function timeAgo(time: number) {
 		[5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
 		[58060800000, 'centuries', 2903040000], // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
 	]
-	let seconds = (+new Date() - time) / 1000,
-		token = '', // ago
-		list_choice = 1
+	let seconds = (+new Date() - time) / 1000
+	let token = '' // ago
+	let listChoice = 1
 
-	if (seconds == 0) {
+	if (seconds === 0) {
 		return 'Just now'
 	}
 	if (seconds < 0) {
 		seconds = Math.abs(seconds)
 		token = 'from now'
-		list_choice = 2
+		listChoice = 2
 	}
-	let i = 0,
-		format
-	while ((format = time_formats[i++]))
+	let i = 0
+	let format
+	while ((format = timeFormats[i++]))
 		if (seconds < format[0]) {
-			if (typeof format[2] == 'string') return format[list_choice]
+			if (typeof format[2] === 'string') return format[listChoice]
 			else return Math.floor(seconds / format[2]) + '' + format[1] + ' ' + token
 		}
 	return time

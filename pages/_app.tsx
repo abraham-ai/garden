@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import AppContext from '../context/AppContext'
-import AppContextType from '../interfaces/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
 
 import Router from 'next/router'
@@ -17,11 +16,8 @@ import {
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
-import {
-	RainbowKitProvider,
-	AvatarComponent,
-	getDefaultWallets,
-} from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
+import type { AvatarComponent } from '@rainbow-me/rainbowkit/types'
 import '@rainbow-me/rainbowkit/styles.css'
 
 import Blockies from 'react-blockies'
@@ -53,7 +49,7 @@ const CustomAvatar: AvatarComponent = ({ address }: { address: string }) => {
 	return <Blockies seed={address} />
 }
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	// wagmi wallet hooks
 	const { isConnected, address } = useAccount()
 
@@ -80,8 +76,6 @@ export default function App({ Component, pageProps }: AppProps) {
 	const [selectedCollection, setSelectedCollection] = useState<string>('')
 	const [collectionModalView, setCollectionModalView] = useState<number>(0)
 
-	// init context
-	const context = useContext(AppContext)
 	const contextValues = {
 		authToken,
 		setAuthToken,

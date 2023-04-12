@@ -1,15 +1,20 @@
 import { useState, useEffect, useCallback } from 'react'
-import Creation from '../interfaces/Creation'
+import type { FC } from 'react'
+import type Creation from '../interfaces/Creation'
 
 import axios from 'axios'
 
-const useGetCreation = (creationId) => {
+interface GetCreationTypes {
+	creationId: string
+}
+
+const useGetCreation = (creationId: string): Creation | null => {
 	const [creation, setCreation] = useState<Creation | null>(null)
 
 	const handleGetCreation = useCallback(async (creationId) => {
-		console.log(`useGetCreation: creationId: ${creationId}`)
+		console.log(`useGetCreation: creationId: ${String(creationId)}`)
 		const response = await axios.post('/api/creation', {
-			creationId: creationId,
+			creationId,
 		})
 
 		// console.log(response.data);

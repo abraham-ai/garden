@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next/types'
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
 
 import Collection from '../../interfaces'
@@ -13,7 +13,10 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	//   const { name } = req.query
 	const { collectionId, creationId } = req.body
 	const { userId, token: authToken } = req.session
@@ -26,7 +29,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 	console.log('creationId', creationId)
 
 	try {
-		const authTokenResult = await eden.setAuthToken(authToken)
+		await eden.setAuthToken(authToken)
 
 		// get collection
 		const collection = await eden.getCollection(collectionId)
@@ -45,10 +48,11 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
 		// console.log(result)
 		// console.log(creations)
-		return res.status(200).json({ addedCreationResult, collection, creation })
+		res.status(200).json({ addedCreationResult, collection, creation })
+		return
 	} catch (error: any) {
 		console.log(error)
-		return res.status(500).json({ error })
+		res.status(500).json({ error })
 	}
 }
 

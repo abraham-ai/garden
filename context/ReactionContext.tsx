@@ -13,7 +13,7 @@ export const useReaction = () => {
 export const ReactionProvider = ({ children }) => {
 	const [reactionState, setReactionState] = useState({})
 
-	const updateReactionState = (creationId, newReaction) => {
+	const updateReactionState = (creationId, newReaction): void => {
 		setReactionState((prevState) => ({
 			...prevState,
 			[creationId]: {

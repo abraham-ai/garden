@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next/types'
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
@@ -13,7 +13,10 @@ interface ApiRequest extends Omit<NextApiRequest, 'query'> {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse): JSX.Element => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { collectionId } = req.query
 
 	console.log({ collectionId })
@@ -25,7 +28,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse): JSX.Element => {
 	// }
 
 	try {
-		const authTokenResult = await eden.setAuthToken(authToken)
+		await eden.setAuthToken(authToken)
 
 		const collection = await eden.getCollection(collectionId)
 		const profile = await eden.getProfile(userId)
@@ -36,13 +39,14 @@ const handler = async (req: ApiRequest, res: NextApiResponse): JSX.Element => {
 		// const creations = await collection.getCreations()
 		// console.log(creations)
 
-		return res.status(200).json({ collection, creations, profile })
+		res.status(200).json({ collection, creations, profile })
+		return
 	} catch (error: any) {
 		console.log(error)
 		// if (error.response.data == 'jwt expired') {
 		//   return res.status(401).json({ error: 'Authentication expired' })
 		// }
-		return res.status(500).json({ error })
+		res.status(500).json({ error })
 		// error.response.data
 	}
 }

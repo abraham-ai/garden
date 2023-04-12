@@ -1,5 +1,5 @@
-import Task from '../interfaces/Task'
-import Config from '../interfaces/Config'
+import type Task from '../interfaces/Task'
+import type Config from '../interfaces/Config'
 
 interface Creation {
 	_id: string

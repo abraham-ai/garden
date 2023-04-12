@@ -45,7 +45,7 @@ const SettingsMenuPopOver = ({
 			)}
 
 			<div className={styles.signedInStyle}>
-				{isSignedIn === true && typeof userId !== 'undefined' ? (
+				{isSignedIn && typeof userId !== 'undefined' ? (
 					<Text>
 						<strong>{'Signed-In as: '}</strong> {userId}
 					</Text>
@@ -58,7 +58,7 @@ const SettingsMenuPopOver = ({
 			</div>
 
 			<div className={styles.authStyle}>
-				{typeof authToken !== 'undefined' && isSignedIn === true ? (
+				{typeof authToken !== 'undefined' && isSignedIn ? (
 					<span className={styles.tokenWrapperStyle}>
 						<strong>{'AuthToken: '}</strong>
 						<span className={styles.authToken}>{displayAuthToken}</span>

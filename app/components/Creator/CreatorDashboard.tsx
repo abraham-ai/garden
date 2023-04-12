@@ -1,11 +1,14 @@
 import React from 'react'
+import type { FC } from 'react'
 
-const styles = {
-	menuItem: {
-		fontSize: 20,
-	},
+interface CreatorDashboardTypes {
+	profileAddress: string
 }
 
-export default function CreatorDashboard({ creatorAddress = 'test' }) {
+const CreatorDashboard: FC<CreatorDashboardTypes> = ({
+	profileAddress = 'test',
+}) => {
 	return <div>{creatorAddress}</div>
 }
+
+export default CreatorDashboard

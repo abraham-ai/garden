@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import type { FC } from 'react'
 
 import Header from '../app/components/NavBar/Header'
 
@@ -24,17 +25,19 @@ const { TextArea } = Input
 const { Title, Text } = Typography
 const { Content } = Layout // Header
 
-const EditProfile = (): JSX.Element => {
+const EditProfile: FC = () => {
 	const [componentDisabled, setComponentDisabled] = useState<boolean>(false)
 	const [isUsernameAvailable] = useState<boolean>(false) // setIsUsernameAvailable
 
-	const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
+	const onFormLayoutChange = ({ disabled }: { disabled: boolean }): void => {
 		setComponentDisabled(disabled)
 	}
 
-	const log = (e: React.MouseEvent<HTMLElement>) => {
+	const log = (e: React.MouseEvent<HTMLElement>): void => {
 		// console.log(e);
-		return e ? e : null
+		if (typeof e !== 'undefined') {
+			// return e
+		}
 	}
 
 	return (

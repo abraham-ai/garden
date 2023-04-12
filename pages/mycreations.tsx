@@ -18,14 +18,14 @@ import useGetMyCreations from '../hooks/useGetMyCreations'
 import abbreviateAddress from '../util/abbreviateAddress'
 
 import { Typography, Button, Avatar, Row, Spin } from 'antd'
-const { Title, Text } = Typography
 
 import { LoadingOutlined } from '@ant-design/icons'
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-
 import stylesHeader from '../styles/Header.module.css'
 import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
+const { Title, Text } = Typography
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const inter = Inter({ subsets: ['latin'] })
 
