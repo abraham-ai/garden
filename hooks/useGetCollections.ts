@@ -16,7 +16,7 @@ export const useGetCollections = (): JSX.Element => {
 		`/api/collections`,
 		(url: string) => fetcher(url)
 	)
-	const isLoading = data == null && error !== false
+	// const isLoading = data == null && error !== false
 	const collectionsData = (data?.result != null || null) as Collection[] | null
 
 	// console.log('USE GET-COLLECTIONS')
