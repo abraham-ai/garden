@@ -67,7 +67,8 @@ const Creator: FC<CreatorPageProps> = () => {
 		setIsFollowing(!isFollowing)
 	}
 
-	const isCreatorData = creatorData !== null && creatorData.length > 0
+	const isCreatorData =
+		creatorData !== null && Object.keys(creatorData).length > 0
 
 	return (
 		<>

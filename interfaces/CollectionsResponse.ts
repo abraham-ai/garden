@@ -1,7 +1,8 @@
 import type Collection from './Collection'
 
 export default interface CollectionsResponse {
-	result: Collection[]
+	collections: Collection[]
 	isLoading: boolean
 	error: any
+	isValidating: boolean
 }

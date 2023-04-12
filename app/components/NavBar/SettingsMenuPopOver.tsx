@@ -1,4 +1,5 @@
 import React from 'react'
+import type { FC } from 'react'
 import EthereumAuth from '../EthereumAuth'
 
 import styles from '../../../styles/Header.module.css'
@@ -6,20 +7,23 @@ import styles from '../../../styles/Header.module.css'
 import { Typography } from 'antd'
 const { Text } = Typography
 
-const SettingsMenuPopOver = ({
+interface SettingsMenuPopOverTypes {
+	isWalletConnected: boolean
+	userId: string
+	displayAddress: string
+	isSignedIn: boolean
+	authToken: string
+	displayAuthToken: string
+}
+
+const SettingsMenuPopOver: FC<SettingsMenuPopOverTypes> = ({
 	isWalletConnected,
 	userId,
 	displayAddress,
 	isSignedIn,
 	authToken,
 	displayAuthToken,
-}: {
-	userId: string
-	displayAddress: string
-	isSignedIn: boolean
-	authToken: string
-	displayAuthToken: string
-}): JSX.Element => {
+}) => {
 	console.log({
 		userId,
 		displayAddress,
@@ -31,9 +35,9 @@ const SettingsMenuPopOver = ({
 
 	return (
 		<>
-			{isWalletConnected === true ? <EthereumAuth /> : null}
+			{isWalletConnected ? <EthereumAuth /> : null}
 
-			{isWalletConnected === true && typeof userId !== 'undefined' ? (
+			{isWalletConnected && typeof userId !== 'undefined' ? (
 				<Text>
 					<strong>{'Logged-In as: '}</strong> {displayAddress}
 				</Text>

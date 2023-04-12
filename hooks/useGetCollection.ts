@@ -1,7 +1,10 @@
-import useSWR, { SWRResponse, SWRConfiguration } from 'swr'
+import useSWR from 'swr'
+import type { SWRResponse, SWRConfiguration, KeyedMutator } from 'swr'
 import type CollectionResponse from '../interfaces/CollectionResponse'
 
-const fetcher = async (url: string): Promise<CollectionResponse> => {
+const fetcher = async (url: string): Promise<CollectionResponse | null> => {
+	if (!url) return null
+
 	const response = await fetch(url, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -14,37 +17,25 @@ const fetcher = async (url: string): Promise<CollectionResponse> => {
 
 const useGetCollection = (
 	collectionId: string
-): SWRResponse<CollectionResponse, any> & {
-	mutate: (
-		data?:
-			| CollectionResponse
-			| Promise<CollectionResponse>
-			| ((data: CollectionResponse) => CollectionResponse),
-		shouldRevalidate?: boolean
-	) => Promise<CollectionResponse | undefined>
+): SWRResponse<CollectionResponse | null, any> & {
+	mutate: KeyedMutator<CollectionResponse | null>
 } => {
 	console.log('USE-GET-COLLECTION')
 
-	const { data, error, mutate } = useSWR<CollectionResponse>(
+	const { data, error, mutate } = useSWR<CollectionResponse | null>(
 		`/api/collection/${collectionId}`,
-		(url: string) => {
-			if (typeof collectionId !== 'undefined' && collectionId !== null) {
-				return fetcher(url)
-			} else {
-				return null
-			}
-		},
+		fetcher,
 		{
 			revalidateOnFocus: false,
 			revalidateOnReconnect: false,
-		} as SWRConfiguration<CollectionResponse, any>
+		} as SWRConfiguration<CollectionResponse | null, any>
 	)
 
 	console.log({ data })
 
-	let isLoading = !data && !error
+	const isLoading = data == null && !error
 
-	return { data, error, isLoading, mutate }
+	return { data, error, isLoading, mutate, isValidating: !isLoading && !error }
 }
 
 export default useGetCollection

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react'
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 
 interface ReactionContextValue {
 	reactionState: Record<string, any> // Adjust the type as needed
@@ -18,7 +18,11 @@ export const useReaction = () => {
 	return context
 }
 
-export const ReactionProvider: FC<ReactionProviderProps> = ({ children }) => {
+interface ReactionProviderTypes {
+	children: ReactNode
+}
+
+export const ReactionProvider: FC<ReactionProviderTypes> = ({ children }) => {
 	const [reactionState, setReactionState] = useState({})
 
 	const updateReactionState = (creationId, newReaction): void => {

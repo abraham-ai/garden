@@ -1,7 +1,7 @@
 import type { FC, MouseEvent } from 'react'
 import type Collection from '../interfaces/Collection'
 
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useRouter } from 'next/navigation'
 
 import AppContext from '../context/AppContext'
@@ -29,7 +29,7 @@ const MyCollections: FC = () => {
 	const router = useRouter()
 
 	const {
-		collectionsData: myCollectionsData,
+		collections: myCollectionsData,
 		isLoading,
 		error,
 	} = useGetCollections()
@@ -43,7 +43,7 @@ const MyCollections: FC = () => {
 	}
 
 	const isMyCollections =
-		myCollectionsData !== null && isLoading === false && error === false
+		myCollectionsData !== null && !isLoading && error === false
 
 	return (
 		<>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import type { FC } from 'react'
 import AppContext from '../context/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
 
@@ -17,13 +18,14 @@ import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
-import type { AvatarComponent } from '@rainbow-me/rainbowkit/types'
 import '@rainbow-me/rainbowkit/styles.css'
 
 import Blockies from 'react-blockies'
 
 import type Creation from '../interfaces/Creation'
 import type Collection from '../interfaces/Collection'
+import type Task from '../interfaces/Task'
+import type Config from '../interfaces/Config'
 
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
@@ -48,7 +50,71 @@ const wagmiClient = createClient({
 	provider,
 })
 
-const CustomAvatar: AvatarComponent = ({ address }: { address: string }) => {
+const initialTask: Task = {
+	_id: '',
+	taskId: '',
+	config: {
+		height: 100,
+		width: 100,
+		guidance_scale: 1,
+		init_image_data: '',
+		init_image_strength: 1,
+		n_samples: 10,
+		sampler: '',
+		seed: 1,
+		steps: 10,
+		stream: true,
+		stream_every: 1,
+		text_input: '',
+		uc_text: true,
+		upscale_f: 1,
+	},
+	generator: {
+		_id: '',
+		generatorName: '',
+	},
+	status: '',
+	key: 0,
+	address: '',
+	uri: '',
+	timestamp: '',
+	prompt: '',
+	progress: 0,
+}
+
+const initialConfig: Config = {
+	height: 100,
+	width: 100,
+	guidance_scale: 1,
+	init_image_data: '',
+	init_image_strength: 1,
+	n_samples: 10,
+	sampler: '',
+	seed: 1,
+	steps: 10,
+	stream: true,
+	stream_every: 1,
+	text_input: '',
+	uc_text: true,
+	upscale_f: 1,
+}
+
+const emptyCreation = {
+	key: '',
+	_id: '',
+	task: initialTask,
+	config: initialConfig,
+	user: '',
+	createdAt: '',
+	address: '',
+	uri: '',
+	timestamp: '',
+	prompt: '',
+	status: '',
+	thumbnail: '',
+}
+
+const CustomAvatar: FC = ({ address }: { address: string }) => {
 	return <Blockies seed={address} />
 }
 
@@ -72,7 +138,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)
 	const [currentCreationModalCreation, setCurrentCreationModalCreation] =
-		useState<Creation>({})
+		useState<Creation>(emptyCreation)
+
 	const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0)
 
 	const [collections, setCollections] = useState<Collection[]>([])

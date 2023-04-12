@@ -2,31 +2,29 @@ import useSWR from 'swr'
 import type CollectionsResponse from '../interfaces/CollectionsResponse'
 import type Collection from '../interfaces/Collection'
 
-const fetcher = async (url: string): Promise<void> => {
+const fetcher = async (url: string): Promise<Collection[]> => {
 	const response = await fetch(url, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 	})
 	const data = await response.json()
-	return data
+	return data.result
 }
 
-export const useGetCollections = (): CollectionResponse => {
-	const { data, error } = useSWR<CollectionsResponse>(
-		`/api/collections/get`,
-		fetcher
-	)
+export const useGetCollections = (): CollectionsResponse => {
+	const { data, error } = useSWR<Collection[]>(`/api/collections/get`, fetcher)
 
 	const isLoading = data == null && error !== false
-	const collectionsData = (data?.result != null || null) as Collection[] | null
+	const collectionsData: Collection[] = data ?? []
 
 	// console.log('USE GET-COLLECTIONS')
 	// console.log(data)
 
 	return {
-		collectionsData,
+		collections: collectionsData,
 		error,
 		isLoading,
+		isValidating: !isLoading && !error,
 	}
 }
 

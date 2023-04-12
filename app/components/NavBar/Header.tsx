@@ -28,7 +28,7 @@ interface ActiveLinkProps {
 	href: string
 }
 
-const ActiveLink = ({ children, href }: ActiveLinkProps): JSX.Element => {
+const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 	const router = useRouter()
 	const { asPath } = router
 
@@ -38,9 +38,7 @@ const ActiveLink = ({ children, href }: ActiveLinkProps): JSX.Element => {
 		fontWeight: asPath === href ? 'bolder' : 'regular',
 	}
 
-	const handleClick = (
-		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-	): void => {
+	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
 		e.preventDefault()
 		router.push(href)
 	}
@@ -81,7 +79,7 @@ const Header: FC = () => {
 
 	const handleChange = (
 		value: string,
-		option: { value: string; label: string } | undefined
+		option: { value: string; label: string }
 	): void => {
 		console.log(`selected ${value}`)
 		if (value === 'garden') {

@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
-import type { FC } from 'react'
 import type Creator from '../interfaces/Creator'
 
 import axios from 'axios'
 
-const useGetCreator = (creatorId: string): Creator[] | null => {
+const useGetCreator = (creatorId: string): Creator | null => {
 	const [creator, setCreator] = useState<Creator | null>(null)
 
 	const handleGetCreator = useCallback(async (creatorId: string) => {
