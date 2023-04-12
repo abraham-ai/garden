@@ -54,14 +54,14 @@ const CreationSocial = ({
 			>
 				<BurnButton
 					creationId={creationId}
-					burnsData={burns}
-					isBurnedData={isBurned}
+					burns={burns}
+					isBurned={isBurned}
 					setIsBurned={handleBurnUpdate}
 				/>
 				<PraiseButton
 					creationId={creationId}
-					praisesData={praises}
-					isPraisedData={isPraised}
+					praises={praises}
+					isPraised={isPraised}
 					setIsPraised={handlePraiseUpdate}
 				/>
 			</article>

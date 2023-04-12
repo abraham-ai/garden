@@ -12,7 +12,7 @@ const fetcher = async (url: string) => {
 
 export const useGetCollections = (): JSX.Element => {
 	const { data, error, isLoading, mutate } = useSWR<CollectionsResponse>(
-		`/api/collections/get`,
+		`/api/collections`,
 		(url: string) => fetcher(url)
 	)
 

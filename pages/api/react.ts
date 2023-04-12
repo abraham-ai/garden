@@ -8,36 +8,30 @@ interface ApiRequest extends NextApiRequest {
 	body: {
 		creationId: string
 		reaction: string
-		token: string
-		userId: string
+    unreact: boolean
 	}
 }
 
 const handler = async (req: ApiRequest, res: NextApiResponse) => {
-	const { creationId, reaction } = req.body
-	const { userId } = req.session
-	const authToken = req.session.token
-
-	// console.log({ creationId, reaction, userId, authToken })
+	const { creationId, reaction, unreact } = req.body;
+	// const { userId } = req.session
+	const authToken = req.session.token;
 
 	if (!authToken) {
 		return res.status(401).json({ error: 'Not authenticated' })
 	}
 
 	try {
-		const authTokenResult = await eden.setAuthToken(authToken)
-		// console.log(authTokenResult)
-
-		let profile = await eden.getProfile()
-		// console.log(profile)
-
-		const creation = await eden.getCreation(creationId)
-		// console.log(creation)
-
-		const result = await creation.react(reaction)
-		// console.log(result)
-
-		return res.status(200).json({ result })
+		await eden.setAuthToken(authToken);
+		const creation = await eden.getCreation(creationId);
+    if (unreact) {
+      const result = await creation.unreact(reaction);
+      return res.status(200).json({ result });
+    } 
+    else {
+      const result = await creation.react(reaction);
+      return res.status(200).json({ result });
+    }
 	} catch (error: any) {
 		// console.log(error)
 		return res.status(500).json(error)
