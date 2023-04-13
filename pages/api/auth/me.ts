@@ -1,5 +1,5 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { type NextApiRequest, type NextApiResponse } from 'next'
 import { sessionOptions } from '../../../util/withSession'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (method) {
 		case 'GET':
-			res.send({ userId: userId, token: token })
+			res.send({ userId, token })
 			break
 		default:
 			res.setHeader('Allow', ['GET'])

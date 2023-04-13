@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next/types'
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
@@ -59,13 +59,14 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
 		// console.log(result)
 
-		return res.status(200).json(result)
+		res.status(200).json(result)
+		return
 	} catch (error: any) {
 		console.log(error)
 		// if (error.response.data == 'jwt expired') {
 		//   return res.status(401).json({ error: 'Authentication expired' })
 		// }
-		return res.status(500).json({ error })
+		res.status(500).json({ error })
 		// error.response.data
 	}
 }

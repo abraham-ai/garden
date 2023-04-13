@@ -20,7 +20,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const MyCreations: FC = () => {
 	const context = useContext(AppContext)
-	const userId = context?.userId || ''
+	const userId = context?.userId ?? ''
 
 	const myCreationsData = useGetMyCreations(userId)
 	console.log(myCreationsData)
@@ -30,10 +30,8 @@ const MyCreations: FC = () => {
 			<main className={stylesHeader.headerWrapper}>
 				<Header />
 			</main>
-
 			<CreatorHeader userId={userId} />
-
-			{typeof myCreationsData !== 'undefined' && myCreationsData !== null ? (
+			{myCreationsData !== null ? (
 				<section
 					className={stylesCreationsGrid.creationsWrapper}
 					style={{ marginTop: 50 }}

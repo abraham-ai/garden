@@ -38,7 +38,9 @@ const RemixButton = ({ creationId, isRemixed, remixes }: RemixButtonTypes) => {
 			<Button
 				shape='round'
 				className={remixClass}
-				onClick={() => remixHandler()}
+				onClick={() => {
+					remixHandler()
+				}}
 				style={{
 					display: 'flex',
 					alignItems: 'center',

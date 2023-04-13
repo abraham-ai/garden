@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { Skeleton, Typography } from 'antd'
-const { Text } = Typography
 
 // import styled from 'styled-components'
 import Blockies from 'react-blockies'
 
 import { useAccount } from 'wagmi'
+const { Text } = Typography
 
 export default function CreatorProfileAddress({ profileAddress }) {
 	const { address } = useAccount()

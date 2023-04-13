@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next/types'
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
@@ -32,21 +32,12 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 	// });
 
 	try {
-		const filter = { limit: limit }
-		Object.assign(filter, username !== 'null' ? { username: username } : {})
-		Object.assign(
-			filter,
-			generators !== 'null' ? { generators: generators } : {}
-		)
-		Object.assign(
-			filter,
-			earliestTime !== 'null' ? { earliestTime: earliestTime } : {}
-		)
-		Object.assign(
-			filter,
-			latestTime !== 'null' ? { latestTime: latestTime } : {}
-		)
-		Object.assign(filter, limit ? { limit: limit } : {})
+		const filter = { limit }
+		Object.assign(filter, username !== 'null' ? { username } : {})
+		Object.assign(filter, generators !== 'null' ? { generators } : {})
+		Object.assign(filter, earliestTime !== 'null' ? { earliestTime } : {})
+		Object.assign(filter, latestTime !== 'null' ? { latestTime } : {})
+		Object.assign(filter, limit ? { limit } : {})
 
 		// console.log({ filter });
 		const creations = await eden.getCreations(filter)
@@ -54,13 +45,14 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 		// console.log(creations.length);
 		// console.log(creations);
 
-		return res.status(200).json(creations)
+		res.status(200).json(creations)
+		return
 	} catch (error: any) {
 		console.log(error)
 		// if (error.response.data == 'jwt expired') {
 		//   return res.status(401).json({ error: 'Authentication expired' });
 		// }
-		return res.status(500).json({ error: error })
+		res.status(500).json({ error })
 		// error.response.data
 	}
 }

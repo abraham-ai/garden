@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import AppContextTypes from '../interfaces/AppContext'
+import type AppContextTypes from '../interfaces/AppContext'
 
 const AppContext = createContext<AppContextTypes | null>(null)
 

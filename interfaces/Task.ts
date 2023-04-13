@@ -1,5 +1,5 @@
-import Config from '../interfaces/Config'
-import Generator from '../interfaces/Generator'
+import type Config from '../interfaces/Config'
+import type Generator from '../interfaces/Generator'
 
 interface Task {
 	_id: string

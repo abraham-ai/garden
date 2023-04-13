@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next/types'
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { SiweMessage } from 'siwe'
 
 import { withIronSessionApiRoute } from 'iron-session/next'
@@ -27,31 +27,32 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 				const userAddress = req.body.userAddress
 
 				const resp = await eden.loginEth(message, signature, userAddress)
-        console.log("THE REPS!")
-				console.log(resp);
+				console.log('THE REPS!')
+				console.log(resp)
 
 				if (resp.error) {
 					console.info(resp.error)
-					return res.status(500).json({ error: resp.error })
+					res.status(500).json({ error: resp.error })
+					return
 				}
 
 				const siweMessage = new SiweMessage(message)
 				const fields = await siweMessage.validate(signature)
 
-				if (fields.nonce !== req.session.nonce)
-					return res.status(422).json({ message: 'Invalid nonce.' })
+				if (fields.nonce !== req.session.nonce) {
+			{ res.status(422).json({ message: 'Invalid nonce.' }); return; }
 
 				// req.session.siwe = fields;
 
-				req.session.token = resp.token;
-				req.session.userId = resp.userId;
-        req.session.address = userAddress;
+				req.session.token = resp.token
+				req.session.userId = resp.userId
+				req.session.address = userAddress
 
 				const token = resp.token
 
 				await req.session.save()
 
-				res.json({ ok: true, token: token })
+				res.json({ ok: true, token })
 			} catch (_error) {
 				res.json({ ok: false })
 			}

@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { Typography } from 'antd'
-const { Text } = Typography
 
 // import { FiMoreHorizontal } from 'react-icons/fi'
 import { FaStar, FaRetweet } from 'react-icons/fa'
 import { BsFillBookmarkFill } from 'react-icons/bs'
 import { IoIosShareAlt } from 'react-icons/io'
+const { Text } = Typography
 
 export default function ShareExtraButton() {
 	return (

@@ -1,7 +1,7 @@
 import { Button, Popover, Typography } from 'antd'
-const { Text } = Typography
 
 import CreatorProfileAddress from './Creator/CreatorProfileAddress'
+const { Text } = Typography
 
 const ProfilePopOver = ({ profileAddress }: { profileAddress: string }) => {
 	return (

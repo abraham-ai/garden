@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next/types'
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
 
 import { withSessionRoute } from '../../../util/withSession'
 
@@ -24,10 +24,10 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 		// console.log(resp)
 
 		req.session.token = resp.token
-		req.session.userId = resp.userId;
-        req.session.address = userAddress;
+		req.session.userId = resp.userId
+		req.session.address = userAddress
 
-		const token = resp.token;
+		const token = resp.token
 
 		// console.log({ token })
 

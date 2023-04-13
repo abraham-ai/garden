@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactElement, useState, FC } from 'react'
+import { ReactElement, useState, type FC } from 'react'
 
 import Image from 'next/image'
 import Link from 'next/link'

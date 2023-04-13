@@ -17,7 +17,8 @@ interface ReactionsResponse {
 //   return data;
 // };
 
-const fetcher = (url) => fetch(url).then((res) => res.json())
+const fetcher = async (url) =>
+	await fetch(url).then(async (res) => await res.json())
 
 const useGetReactionCount = (creationId: string) => {
 	// console.log(creationId);

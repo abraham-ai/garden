@@ -23,8 +23,9 @@ const ShareButton = ({ creationId }: { creationId: string }) => {
 		setIsShareHovering(false)
 	}
 
-	const bgHoverStyles =
-		isShareHovering === true ? 'rgb(0, 186, 124, 0.2)' : 'rgba(0, 0, 0, 0.5)'
+	const bgHoverStyles = isShareHovering
+		? 'rgb(0, 186, 124, 0.2)'
+		: 'rgba(0, 0, 0, 0.5)'
 
 	return (
 		<div
