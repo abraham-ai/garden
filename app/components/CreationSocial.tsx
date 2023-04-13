@@ -56,14 +56,14 @@ const CreationSocial: FC<CreationSocialType> = ({
 			>
 				<BurnButton
 					creationId={creationId}
-					burnsData={burns}
-					isBurnedData={isBurned}
+					burns={Number(burns)}
+					isBurned={isBurned}
 					setIsBurned={handleBurnUpdate}
 				/>
 				<PraiseButton
 					creationId={creationId}
-					praisesData={praises}
-					isPraisedData={isPraised}
+					praises={praises}
+					isPraised={isPraised}
 					setIsPraised={handlePraiseUpdate}
 				/>
 			</article>

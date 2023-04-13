@@ -71,7 +71,18 @@ const CreationSaveModal: FC = () => {
 
 	const createNotification = (placement: NotificationPlacement): void => {
 		api.info({
-			message: `Collection ${String(inputCollectionName)} created!`,
+			message: (
+				<Text>
+					{`Creation saved to new collection `}
+					<Link
+						href={`/collection/${String(currentSavedCollection?._id ?? '')}`}
+						style={{ margin: '0 5px' }}
+					>
+						{String(currentSavedCollection?.name ?? '')}
+					</Link>
+					{`Collection!`}
+				</Text>
+			),
 			description:
 				'View your collection in the Collections tab or on your profile page.',
 			placement,
@@ -293,22 +304,53 @@ const CreationSaveModal: FC = () => {
 		>
 			<div style={{ padding: 20, borderRadius: 20 }}>
 				<section className={styles.modalView1}>
-					<Text className={styles.debugModalView}>
+					{/* <Text className={styles.debugModalView}>
 						{`Modal View: ${String(collectionModalView)}`}
-					</Text>
+					</Text> */}
 
 					{collectionModalView === 0 ? (
 						<article className={styles.modalView1}>
 							{collections.length > 0 ? (
 								<>
 									<Text className={styles.saveModalCollectionTitle}>
-										{'Your Collections.'}
+										{'Your Collections:'}
 									</Text>
 
 									{SaveToCollectionList}
 									{CreateCollectionButton}
 								</>
-							) : null}
+							) : (
+								<Text className={styles.textNotification}>
+									{'You don’t have any collections yet.'}
+								</Text>
+							)}
+							<Button
+								shape='round'
+								type='primary'
+								icon={
+									<span
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											marginRight: 10,
+										}}
+									>
+										<MdOutlineAdd style={{ fontSize: '1.3rem' }} />
+									</span>
+								}
+								onClick={() => {
+									handleFirstModal()
+								}}
+								className={styles.buttonPrimary}
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								{'Add to a new collection'}
+							</Button>
 						</article>
 					) : null}
 
@@ -368,12 +410,12 @@ const CreationSaveModal: FC = () => {
 										</Button>
 
 										<Text className={styles.textBold}>
-											{'Create Collection'}
+											{'Create new collection'}
 										</Text>
 									</Row>
 
 									<Input
-										placeholder=''
+										placeholder='Name'
 										onChange={(e) => {
 											setInputCollectionName(e.target.value)
 										}}

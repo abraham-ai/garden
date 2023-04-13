@@ -1,28 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import type { FC } from 'react'
-
 import AppContext from '../../../context/AppContext'
-
 import axios from 'axios'
-
-import styles from '../../../styles/BurnButton.module.css'
 
 import { Button, Typography } from 'antd'
 const { Text } = Typography
 
 interface BurnButtonTypes {
 	creationId: string
-	burnsData: number
-	isBurnedData: boolean
+	burns: number
+	isBurned: boolean
 	setIsBurned: (isBurned: boolean, updatedBurns: number) => void
 }
 
 const BurnButton: FC<BurnButtonTypes> = ({
 	creationId,
-	burnsData,
-	isBurnedData,
+	burns,
+	isBurned,
 	setIsBurned,
-}: BurnButtonTypes) => {
+}) => {
 	const context = useContext(AppContext)
 	const isSignedIn = context?.isSignedIn || false
 	const isWalletConnected = context?.isWalletConnected || false
@@ -30,21 +26,20 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
 
 	const handleBurn = async (): Promise<void> => {
-		if (!isSignedIn) {
-		} else if (isSignedIn && !isWalletConnected) {
+		if (!isSignedIn || !isWalletConnected) {
 		} else {
-			const newIsBurned = !isBurnedData
-			const updatedBurns = newIsBurned ? burnsData + 1 : burnsData - 1
-
+			const newIsBurned = !isBurned
+			const updatedBurns = newIsBurned ? burns + 1 : burns - 1
 			setIsBurned(newIsBurned, updatedBurns)
 
 			try {
 				await axios.post('/api/react', {
 					creationId,
 					reaction: '🔥',
+					unreact: isBurned,
 				})
 			} catch (error) {
-				setIsBurned(!newIsBurned, burnsData)
+				setIsBurned(!newIsBurned, burns)
 				console.error('Error updating praise:', error)
 			}
 		}
@@ -72,7 +67,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 			style={{ display: 'flex', alignItems: 'center' }}
 		>
 			<Button
-				className={isBurnedData ? 'crBurn isActive' : 'crBurn'}
+				className={isBurned ? 'crBurn isActive' : 'crBurn'}
 				size='large'
 				type='text'
 				shape='round'
@@ -96,7 +91,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 					className='social-icon'
 					style={{ display: 'flex', alignItems: 'center' }}
 				>
-					{isBurnedData || isBurnHovering ? burnFilled : burnGray}
+					{isBurned || isBurnHovering ? burnFilled : burnGray}
 				</span>
 				<Text
 					style={{
@@ -106,7 +101,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 						fontWeight: 'bold',
 					}}
 				>
-					{burnsData}
+					{burns}
 				</Text>
 			</Button>
 		</div>

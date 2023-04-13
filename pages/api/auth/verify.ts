@@ -27,7 +27,8 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 				const userAddress = req.body.userAddress
 
 				const resp = await eden.loginEth(message, signature, userAddress)
-				// console.log(resp);
+        console.log("THE REPS!")
+				console.log(resp);
 
 				if (resp.error) {
 					console.info(resp.error)
@@ -42,8 +43,9 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
 				// req.session.siwe = fields;
 
-				req.session.token = resp.token
-				req.session.userId = userAddress
+				req.session.token = resp.token;
+				req.session.userId = resp.userId;
+        req.session.address = userAddress;
 
 				const token = resp.token
 
