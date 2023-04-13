@@ -4,6 +4,7 @@ import type { FC } from 'react'
 import { useRouter } from 'next/router'
 
 import type CreationResponse from '../../interfaces/CreationResponse'
+import type Creation from '../../interfaces/Creation'
 
 import styles from '../../styles/Collection.module.css'
 
@@ -61,8 +62,21 @@ const Collection: FC<CollectionPageTypes> = () => {
 
 	const isCollectionData =
 		typeof collectionData !== 'undefined' &&
-		typeof collectionData.data !== 'undefined'
+		typeof collectionData?.data !== 'undefined'
 	const isUser = typeof collectionData?.data?.collection?.user !== 'undefined'
+
+	const isCollectionArray = Array.isArray(collectionData?.data?.creations)
+	const isCollectionCreations =
+		!isCollectionArray ||
+		(collectionData?.data?.creations != null &&
+			collectionData.data.creations.every(
+				(creation): creation is Creation =>
+					typeof creation === 'object' && creation !== null
+			))
+	const collectionCreations =
+		isCollectionArray && isCollectionCreations
+			? collectionData?.data?.creations ?? []
+			: []
 
 	return (
 		<>
@@ -85,9 +99,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 							</>
 						) : null}
 						{collectionData?.data?.creations?.length ?? 0 > 0 ? (
-							<CreationsGridSimple
-								creations={collectionData?.data?.creations}
-							/>
+							<CreationsGridSimple creations={collectionCreations} />
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
 								{'Loading...'}

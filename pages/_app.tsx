@@ -131,7 +131,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [userId, setUserId] = useState<string | undefined>('')
 
 	// creation context
-	const [creationsData, setCreationsData] = useState<object[]>([])
+	const [creationsData, setCreationsData] = useState<Creation[]>([])
 	const [creationsLoading, setCreationsLoading] = useState<boolean>(false)
 	const [creationsMore, setCreationsMore] = useState<boolean>(true)
 	const [creationsLoad, setCreationsLoad] = useState<boolean>(false)

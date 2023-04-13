@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react'
-import type Collection from '../../../interfaces/Collection'
+import type Collection from '../../interfaces/Collection'
 import type { FC } from 'react'
-import type Creation from '../../../interfaces/Creation'
+import type Creation from '../../interfaces/Creation'
 
 import Link from 'next/link'
 
@@ -27,16 +27,19 @@ const CreationSaveModal: FC = () => {
 	const [isRenameCollection, setIsRenameCollection] = useState(false)
 	const [currentRenameCollection, setCurrentRenameCollection] = useState('')
 	const [currentSavedCollection, setCurrentSavedCollection] =
-		useState<Collection>({})
+		useState<Collection | null>(null)
 
 	const [api, contextHolder] = notification.useNotification()
 
 	const context = useContext(AppContext)
-	const collections = context?.collections != null || []
+	const collections =
+		context != null && context.collections != null ? context.collections : []
 
 	const setCollections = useMemo(
 		() =>
-			context?.setCollections !== null ? context?.setCollections : () => [],
+			context != null && context.setCollections
+				? context.setCollections
+				: () => {},
 		[context]
 	)
 
@@ -44,6 +47,8 @@ const CreationSaveModal: FC = () => {
 	const setCollectionModalView = (value: number): void => {
 		context?.setCollectionModalView(value)
 	}
+
+	const noop = () => {}
 
 	const currentCreationModalCreation = context?.currentCreationModalCreation
 
@@ -64,9 +69,7 @@ const CreationSaveModal: FC = () => {
 	console.log(collectionsData)
 	// console.log(collectionModalView)
 
-	const createNotification = (
-		placement: NotificationPlacement
-	): JSX.Element => {
+	const createNotification = (placement: NotificationPlacement): void => {
 		api.info({
 			message: `Collection ${String(inputCollectionName)} created!`,
 			description:
@@ -75,10 +78,13 @@ const CreationSaveModal: FC = () => {
 		})
 	}
 
-	const saveNotification = (placement: NotificationPlacement): JSX.Element => {
+	const saveNotification = (placement: NotificationPlacement): void => {
 		console.log('save Notification')
 		console.log(currentSavedCollection)
-		const savedCollectionPropsArray = Object.keys(currentSavedCollection)
+		const savedCollectionPropsArray =
+			currentSavedCollection != null
+				? Object.keys(currentSavedCollection as object)
+				: []
 
 		if (
 			typeof currentSavedCollection !== 'undefined' &&
@@ -91,10 +97,10 @@ const CreationSaveModal: FC = () => {
 						<Text>
 							{`Creation saved to`}
 							<Link
-								href={`/collection/${String(currentSavedCollection._id)}`}
+								href={`/collection/${String(currentSavedCollection?._id)}`}
 								style={{ margin: '0 5px' }}
 							>
-								{String(currentSavedCollection.name)}
+								{String(currentSavedCollection?.name)}
 							</Link>
 							{`Collection!`}
 						</Text>
@@ -111,14 +117,18 @@ const CreationSaveModal: FC = () => {
 	useEffect(() => {
 		// console.log('USE-EFFECT')
 		// console.log({collectionsData})
-		if (typeof collectionsData !== 'undefined' && collectionsData.length > 0) {
+		if (
+			Array.isArray(collectionsData.collections) &&
+			collectionsData.collections.length > 0
+		) {
 			console.log('SET COLLECTIONS!')
-			setCollections(collectionsData)
+			setCollections(collectionsData.collections)
 		}
 	}, [collectionsData, setCollections])
 
 	useEffect(() => {
-		const savedCollectionPropsArray = Object.keys(currentSavedCollection)
+		const savedCollectionPropsArray =
+			currentSavedCollection != null ? Object.keys(currentSavedCollection) : []
 
 		if (
 			typeof currentSavedCollection !== 'undefined' &&
@@ -132,6 +142,49 @@ const CreationSaveModal: FC = () => {
 	const handleFirstModal = (): void => {
 		console.log('handleFirstModal')
 		setCollectionModalView(1)
+	}
+
+	const handleCollectionAction = async (
+		actionType: 'create' | 'save',
+		collectionId: string | null,
+		creationId: string | null
+	): Promise<void> => {
+		try {
+			let endpoint = ''
+			let requestData = {}
+
+			if (actionType === 'create') {
+				endpoint = '/api/collection/create'
+				requestData = {
+					collectionName: inputCollectionName,
+					creationId,
+				}
+			} else if (actionType === 'save') {
+				endpoint = '/api/collection/save'
+				requestData = {
+					collectionId,
+					creationId,
+				}
+			} else {
+				throw new Error('Invalid action type')
+			}
+
+			const { data } = await axios.post(endpoint, requestData)
+
+			if (actionType === 'create') {
+				setCollections((prevCollections) => [...prevCollections, data])
+				handleCreateModalCleanUp()
+			} else if (actionType === 'save') {
+				const { addedCreationResult, collection } = data
+
+				if (addedCreationResult?.success === true) {
+					setCurrentSavedCollection(collection)
+					handleSaveModalCleanUp()
+				}
+			}
+		} catch (error) {
+			console.error(`Error in ${actionType} collection:`, error)
+		}
 	}
 
 	const handleSaveModalCleanUp = (): void => {
@@ -153,51 +206,9 @@ const CreationSaveModal: FC = () => {
 		createNotification('bottom')
 	}
 
-	const handleCreateCollection = async (
-		e,
-		inputCollectionName: string,
-		creationId: string
-	): Promise<void> => {
-		try {
-			const { data } = await axios.post('/api/collection/create', {
-				collectionName: inputCollectionName,
-				creationId,
-			})
-
-			setCollections((prevCollections) => [...prevCollections, data])
-			setSelectedCollection(data.name)
-			handleCreateModalCleanUp()
-		} catch (error) {
-			console.error('Error creating collection:', error)
-		}
-	}
-
-	const handleSaveToCollection = async (
-		collectionId,
-		creationId
-	): Promise<void> => {
-		try {
-			const { data } = await axios.post('/api/collection/save', {
-				collectionId,
-				creationId,
-			})
-
-			const { addedCreationResult, collection, creation } = data
-
-			// console.log({ data })
-
-			if (addedCreationResult?.success === true) {
-				setCurrentSavedCollection(collection)
-				handleSaveModalCleanUp(creation)
-			}
-		} catch (error) {
-			console.error('Error saving to collection:', error)
-		}
-	}
-
 	const handleRenameCollectionName = async (
 		inputCollectionName: string,
-		collectionId: string
+		collectionId: string | null
 	): Promise<void> => {
 		try {
 			await axios.post('/api/collection/rename', {
@@ -209,27 +220,68 @@ const CreationSaveModal: FC = () => {
 		}
 	}
 
-	// const handleDeleteCollectionName = async (inputCollectionName: string): Promise<void> => {
-	// 	// const { data } =
-	// 	await axios.post('/api/collection/delete', {
-	// 		collectionName: inputCollectionName
-	// 	})
-	// }
+	const SaveToCollectionList =
+		Array.isArray(collections) && collections.length > 0 ? (
+			collections.map((collection: Collection, i: number) => {
+				return (
+					<Col key={i}>
+						<Row className={styles.row}>
+							<Button
+								shape='round'
+								onClick={() => {
+									handleCollectionAction(
+										'save',
+										collection._id,
+										currentCreationModalCreation?._id ?? null
+									).catch((error) => {
+										console.error('Error saving to collection:', error)
+									})
+								}}
+								className={styles.button}
+							>
+								{collection.name}
+							</Button>
+						</Row>
+					</Col>
+				)
+			})
+		) : (
+			<Col>
+				<Text className={styles.textNotification}>
+					{'You don’t have any collections yet.'}
+				</Text>
+			</Col>
+		)
 
-	// const openRenameCollectionView = (collectionName, collectionId): void => {
-	//   setCollectionModalView(1)
-	//   setIsRenameCollection(true)
-	//   setCurrentRenameCollection(collectionName)
-
-	//   if (typeof inputCollectionRef.current !== 'undefined' && inputCollectionRef.current !== null) {
-	// 		inputCollectionRef.current!.focus({
-	// 				cursor: 'start'
-	// 		})
-	//   }
-	// }
-
-	// console.log({collections})
-	// console.log({ collectionsData })
+	const CreateCollectionButton = (
+		<Button
+			shape='round'
+			type='primary'
+			icon={
+				<span
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						marginRight: 10,
+					}}
+				>
+					<MdOutlineAdd style={{ fontSize: '1.3rem' }} />
+				</span>
+			}
+			onClick={() => {
+				handleFirstModal()
+			}}
+			className={styles.buttonPrimary}
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+			}}
+		>
+			{'Create a new collection'}
+		</Button>
+	)
 
 	return (
 		<Modal
@@ -252,64 +304,11 @@ const CreationSaveModal: FC = () => {
 									<Text className={styles.saveModalCollectionTitle}>
 										{'Your Collections.'}
 									</Text>
-									<Col>
-										{collections.map((collection: Collection, i: number) => {
-											return (
-												<Row key={i} className={styles.row}>
-													<Button
-														shape='round'
-														onClick={() => {
-															handleSaveToCollection(
-																collection._id,
-																currentCreationModalCreation._id
-															).catch((error) => {
-																console.error(
-																	'Error saving to collection:',
-																	error
-																)
-															})
-														}}
-														className={styles.button}
-													>
-														{collection.name}
-													</Button>
-												</Row>
-											)
-										})}
-									</Col>
+
+									{SaveToCollectionList}
+									{CreateCollectionButton}
 								</>
-							) : (
-								<Text className={styles.textNotification}>
-									{'You don’t have any collections yet.'}
-								</Text>
-							)}
-							<Button
-								shape='round'
-								type='primary'
-								icon={
-									<span
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
-											marginRight: 10,
-										}}
-									>
-										<MdOutlineAdd style={{ fontSize: '1.3rem' }} />
-									</span>
-								}
-								onClick={() => {
-									handleFirstModal()
-								}}
-								className={styles.buttonPrimary}
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}
-							>
-								{'Create a new collection'}
-							</Button>
+							) : null}
 						</article>
 					) : null}
 
@@ -346,7 +345,7 @@ const CreationSaveModal: FC = () => {
 										onClick={() => {
 											handleRenameCollectionName(
 												currentRenameCollection,
-												currentCreationModalCreation._id
+												currentCreationModalCreation?._id ?? null
 											).catch((error) => {
 												console.error('Error renaming collection:', error)
 											})
@@ -386,10 +385,10 @@ const CreationSaveModal: FC = () => {
 										className={styles.buttonPrimary}
 										disabled={inputCollectionName === ''}
 										onClick={() => {
-											handleCreateCollection(
-												e,
-												inputCollectionName,
-												currentCreationModalCreation._id
+											handleCollectionAction(
+												'create',
+												null,
+												currentCreationModalCreation?._id ?? null
 											).catch((error) => {
 												console.error('Error creating collection:', error)
 											})

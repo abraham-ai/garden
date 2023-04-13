@@ -14,7 +14,7 @@ interface BurnButtonTypes {
 	creationId: string
 	burnsData: number
 	isBurnedData: boolean
-	setIsBurned: (value: boolean) => void
+	setIsBurned: (isBurned: boolean, updatedBurns: number) => void
 }
 
 const BurnButton: FC<BurnButtonTypes> = ({
@@ -30,10 +30,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
 
 	const handleBurn = async (): Promise<void> => {
-		if (isSignedIn === false) {
-			return
-		} else if (isSignedIn === true && isWalletConnected === false) {
-			return
+		if (!isSignedIn) {
+		} else if (isSignedIn && !isWalletConnected) {
 		} else {
 			const newIsBurned = !isBurnedData
 			const updatedBurns = newIsBurned ? burnsData + 1 : burnsData - 1
@@ -74,7 +72,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 			style={{ display: 'flex', alignItems: 'center' }}
 		>
 			<Button
-				className={isBurnedData === true ? 'crBurn isActive' : 'crBurn'}
+				className={isBurnedData ? 'crBurn isActive' : 'crBurn'}
 				size='large'
 				type='text'
 				shape='round'
@@ -98,9 +96,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 					className='social-icon'
 					style={{ display: 'flex', alignItems: 'center' }}
 				>
-					{isBurnedData === true || isBurnHovering === true
-						? burnFilled
-						: burnGray}
+					{isBurnedData || isBurnHovering ? burnFilled : burnGray}
 				</span>
 				<Text
 					style={{

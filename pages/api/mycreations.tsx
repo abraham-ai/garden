@@ -22,7 +22,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 	const { userId, token: authToken } = (req as any).session
 
 	try {
-		const authTokenResult = await eden.setAuthToken(authToken)
+		await eden.setAuthToken(authToken)
 		// const creations = await eden.getProfile()
 
 		const creations = await eden.getCreations({ username: userId, limit: 10 })

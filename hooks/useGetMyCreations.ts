@@ -1,18 +1,23 @@
 import { useState, useEffect, useCallback } from 'react'
 import type Creator from '../interfaces/Creator'
+import type Creations from '../interfaces/Creations'
 
 import axios from 'axios'
 
-const useGetMyCreations = (userId: string) => {
-	const [myCreations, setMyCreations] = useState<Creator | null>(null)
+const useGetMyCreations = (userId: string): Creations | null => {
+	const [myCreations, setMyCreations] = useState<Creations | null>(null)
 
 	const handleGetMyCreations = useCallback(async (userId: string) => {
 		console.log(`useGetMyCreations: myCreations: ${userId}`)
-		const response = await axios.post('/api/mycreations')
-
-		console.log(response.data)
-
-		setMyCreations(response.data)
+		await axios
+			.post('/api/mycreations')
+			.then((response) => {
+				console.log(response.data)
+				setMyCreations({ creations: response.data })
+			})
+			.catch((error) => {
+				console.error('Error fetching my creations:', error)
+			})
 	}, [])
 
 	useEffect(() => {

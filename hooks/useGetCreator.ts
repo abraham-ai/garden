@@ -8,22 +8,34 @@ const useGetCreator = (creatorId: string): Creator | null => {
 
 	const handleGetCreator = useCallback(async (creatorId: string) => {
 		console.log(`useGetCreator: creatorId: ${creatorId}`)
-		const response = await axios.post(`/api/creator/${creatorId}`, {
-			creatorId,
-		})
+		try {
+			const response = await axios.post(`/api/creator/${creatorId}`, {
+				creatorId,
+			})
 
-		// console.log(response.data)
+			// console.log(response.data)
 
-		setCreator(response.data)
+			setCreator(response.data)
+		} catch (error) {
+			console.error('Error fetching creator:', error)
+		}
 	}, [])
 
 	useEffect(() => {
+		const fetchCreator = async (): Promise<void> => {
+			try {
+				await handleGetCreator(creatorId)
+			} catch (error) {
+				console.error('Error fetching creator:', error)
+			}
+		}
+
 		if (
 			typeof creatorId !== 'undefined' &&
 			creatorId !== null &&
 			creatorId !== ''
 		) {
-			handleGetCreator(creatorId)
+			void fetchCreator()
 		}
 	}, [creatorId, handleGetCreator])
 

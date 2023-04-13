@@ -1,9 +1,10 @@
 import React from 'react'
+import type { FC } from 'react'
 
 import Masonry from 'react-masonry-css'
 import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
-import type Creation from '../../interfaces/Creation'
+import type Creation from '../../../interfaces/Creation'
 
 import CreationCard from '../CreationCard'
 
@@ -13,7 +14,7 @@ interface CreationsMasonryTypes {
 	creations: Creation[]
 }
 
-const CreationsMasonry: FC<CreationMasonryTypes> = ({ creations }) => {
+const CreationsMasonry: FC<CreationsMasonryTypes> = ({ creations }) => {
 	return (
 		<Masonry
 			breakpointCols={breakpointColumnsObj}
@@ -42,3 +43,5 @@ const CreationsMasonry: FC<CreationMasonryTypes> = ({ creations }) => {
 		</Masonry>
 	)
 }
+
+export default CreationsMasonry

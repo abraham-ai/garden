@@ -1,8 +1,6 @@
 import React, { useContext } from 'react'
 import type { FC } from 'react'
 
-import { Inter } from 'next/font/google'
-
 import AppContext from '../context/AppContext'
 
 import Header from '../app/components/NavBar/Header'
@@ -10,8 +8,6 @@ import CreationsGridSimple from '../app/components/Creations/CreationsGridSimple
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 
 import useGetMyCreations from '../hooks/useGetMyCreations'
-
-import abbreviateAddress from '../util/abbreviateAddress'
 
 import { Row, Spin } from 'antd'
 
@@ -21,8 +17,6 @@ import stylesHeader from '../styles/Header.module.css'
 import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-
-const inter = Inter({ subsets: ['latin'] })
 
 const MyCreations: FC = () => {
 	const context = useContext(AppContext)
@@ -44,7 +38,7 @@ const MyCreations: FC = () => {
 					className={stylesCreationsGrid.creationsWrapper}
 					style={{ marginTop: 50 }}
 				>
-					<CreationsGridSimple creations={myCreationsData} />
+					<CreationsGridSimple creations={myCreationsData.creations} />
 				</section>
 			) : (
 				<Row style={{ display: 'flex', justifyContent: 'center' }}>

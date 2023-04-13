@@ -31,7 +31,7 @@ import { Skeleton, Typography } from 'antd'
 const { Text } = Typography
 
 interface CreationCardTypes {
-	creation: [Creation]
+	creation: Creation
 	index: number
 }
 
@@ -210,16 +210,13 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 												layout={'expanded'}
 												creation={creation}
 												creationId={creation._id}
-												praisedByMe={
-													reactionState[creation._id]?.praised || false
-												}
-												burnedByMe={
-													reactionState[creation._id]?.burned || false
-												}
-												creationPraises={
-													reactionState[creation._id]?.praises || 0
-												}
-												creationBurns={reactionState[creation._id]?.burns || 0}
+												reactionCountList={{
+													praises: reactionState[creation._id]?.praises || 0,
+													praised:
+														reactionState[creation._id]?.praised || false,
+													burns: reactionState[creation._id]?.burns || 0,
+													burned: reactionState[creation._id]?.burned || false,
+												}}
 											/>
 
 											<div className={styles.crContentMain}>
@@ -311,7 +308,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 										<div
 											className={styles.crImageHoverMask}
 											style={{
-												display: isCreationHovering ? null : 'none',
+												display: isCreationHovering ? undefined : 'none',
 											}}
 										/>
 										<Image
@@ -321,7 +318,9 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 											width={creation.task.config.width}
 											alt={creation.task.config.text_input}
 											style={{
-												backdropFilter: isCreationHovering ? null : 'unset',
+												backdropFilter: isCreationHovering
+													? undefined
+													: 'unset',
 											}}
 										/>
 										<Image

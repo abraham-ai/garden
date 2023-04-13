@@ -1,22 +1,20 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useMemo, useContext } from 'react'
-
-import AppContext from '../../../context/AppContext'
+import React from 'react'
+import type { FC } from 'react'
 
 import CreationCard from '../CreationCard'
-import type Creation from '../../interfaces/Creation'
-import type Creations from '../../interfaces/Creations'
+import type Creation from '../../../interfaces/Creation'
 
 import Masonry from 'react-masonry-css'
 import styles from '../../../styles/CreationsGrid.module.css'
 import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
-const CreationsGridSimple = ({
-	creations,
-}: {
-	creations: Creations
-}): JSX.Element => {
+interface CreationsGridTypes {
+	creations: Creation[]
+}
+
+const CreationsGridSimple: FC<CreationsGridTypes> = ({ creations }) => {
 	console.log('CREATIONS GRID SIMPLE')
 	console.log(creations)
 

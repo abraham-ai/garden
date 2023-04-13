@@ -28,9 +28,9 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 
 	const handlePraise = async (): Promise<void> => {
 		if (!isSignedIn) {
-			return null
+			await Promise.resolve()
 		} else if (isSignedIn && !isWalletConnected) {
-			return null
+			await Promise.resolve()
 		} else {
 			const newIsPraised = !isPraisedData
 			const updatedPraises = newIsPraised ? praisesData + 1 : praisesData - 1

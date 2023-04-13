@@ -50,7 +50,7 @@ const CreatorHeader: FC<CreatorHeaderTypes> = ({ userId }) => {
 						className='profileAvatarWrapper'
 						style={{ display: 'flex', flex: 1 }}
 						size={64}
-						icon={<Blockies scale={8} seed={userId} />}
+						icon={<Blockies scale={8} seed={String(userId)} />}
 					/>
 					<Title level={3} className='profileName' style={{ marginTop: 10 }}>
 						{displayAddress}

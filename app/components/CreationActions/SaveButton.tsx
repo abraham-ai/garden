@@ -3,6 +3,8 @@ import type { FC } from 'react'
 
 import AppContext from '../../../context/AppContext'
 
+import type Creation from '../../../interfaces/Creation'
+
 import { Button, notification } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 
@@ -30,15 +32,14 @@ const SaveButton: FC<SaveButtonTypes> = ({
 	const isSignedIn = context?.isSignedIn || false
 	const isWalletConnected = context?.isWalletConnected || false
 
-	const setCollectionModalView =
-		context?.setCollectionModalView != null || (() => 1)
-	const collections = context?.collections != null || []
-	const setCollections = context?.setCollections != null || (() => [])
+	const setCollectionModalView = context?.setCollectionModalView ?? (() => {})
+	const collections = context?.collections ?? []
+	const setCollections = context?.setCollections ?? (() => {})
 
 	const setIsSaveCreationModalOpen =
-		context?.setIsSaveCreationModalOpen != null || (() => {})
+		context?.setIsSaveCreationModalOpen ?? (() => {})
 	const setCurrentCreationModalCreation =
-		context?.setCurrentCreationModalCreation != null || (() => {})
+		context?.setCurrentCreationModalCreation ?? (() => {})
 
 	// console.log({ isSignedIn })
 

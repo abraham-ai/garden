@@ -1,6 +1,9 @@
 import styles from '../../styles/CreationModal.module.css'
 import React, { useContext } from 'react'
+import type { FC } from 'react'
 import Image from 'next/image'
+
+import type Creation from '../../interfaces/Creation'
 
 import AppContext from '../../context/AppContext'
 
@@ -13,21 +16,26 @@ import abbreviateAddress from '../../util/abbreviateAddress'
 import { Button, Modal, Typography } from 'antd'
 const { Text } = Typography
 
-const CreationModal = ({
+interface CreationModalTypes {
+	modalOpen: boolean
+	setModalOpen: (open: boolean) => void
+	creation: Creation
+	creationIndex: number
+}
+
+const CreationModal: FC<CreationModalTypes> = ({
 	modalOpen,
 	setModalOpen,
 	creation,
 	creationIndex,
-}: {
-	modalOpen: boolean
-	setModalOpen: () => void
-	creation: Creation
-	creationIdex: nummber
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex || 0
-	const setCurrentCreationIndex = context?.setCurrentCreationIndex || (() => {})
-	const creations = context?.creations || []
+	const setCurrentCreationIndex =
+		context?.setCurrentCreationIndex != null
+			? context.setCurrentCreationIndex
+			: (index: number) => {}
+	const creations = context?.creations != null || []
 
 	const handleModalTransition = (direction: string) => {
 		// console.log(`click ${direction}`)
@@ -187,7 +195,6 @@ const CreationModal = ({
 							<span
 								style={{
 									display: 'flex',
-									justifyContent: 'center',
 									flexDirection: 'column',
 									marginTop: 10,
 									flex: 0,
@@ -212,7 +219,9 @@ const CreationModal = ({
 					transform: 'translateX(45px)',
 					right: 0,
 				}}
-				onClick={() => handleModalTransition('next')}
+				onClick={() => {
+					handleModalTransition('next')
+				}}
 			>
 				{'>'}
 			</Button>

@@ -42,11 +42,11 @@ const CreationsGrid = (): JSX.Element => {
 		}
 	)
 
-	const observer = useRef<HTMLDivElement | null>(null)
+	const observer = useRef<IntersectionObserver | null>(null)
 
 	const context = useContext(AppContext)
-	const creationsData = useMemo(
-		() => context?.creationsData != null || [],
+	const creationsData = useMemo<Creation[]>(
+		() => context?.creationsData ?? [],
 		[context?.creationsData]
 	)
 	const setCreationsData = useMemo(
@@ -144,9 +144,11 @@ const CreationsGrid = (): JSX.Element => {
 		})
 
 		if (uniqueCreations.length > 0) {
-			setCreationsData((prevCreations: Creation[]) => {
-				return [...prevCreations, ...uniqueCreations]
-			})
+			if (setCreationsData != null) {
+				setCreationsData((prevCreations: Creation[]) => {
+					return [...prevCreations, ...uniqueCreations]
+				})
+			}
 
 			// Update the latest creation time state
 			const lastCreation = uniqueCreations[uniqueCreations.length - 1]
@@ -163,7 +165,7 @@ const CreationsGrid = (): JSX.Element => {
 					size={size}
 					creationsData={allCreationsData}
 					isLoadingMore={isLoadingMore}
-					isReadingEnd={isReachingEnd}
+					isReachingEnd={isReachingEnd}
 					isRefreshing={isRefreshing}
 					mutate={mutate}
 					setSize={setSize}

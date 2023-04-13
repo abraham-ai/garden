@@ -161,7 +161,7 @@ const Creator: FC<CreatorPageProps> = () => {
 								</div>
 								{isCreatorData ? (
 									<div className='creatorGrid'>
-										<CreationsGridSimple creations={creatorData} />
+										<CreationsGridSimple creations={creatorData.creations} />
 									</div>
 								) : (
 									<div className='noCreations'>

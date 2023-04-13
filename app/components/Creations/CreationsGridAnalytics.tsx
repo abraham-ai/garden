@@ -6,7 +6,6 @@ import styles from '../../../styles/CreationsGrid.module.css'
 import { Button } from 'antd'
 
 interface CreationsGridAnalyticsTypes {
-	lastCreationEarliestTime: number
 	size: number
 	setSize: (size: number) => void
 	mutate: () => void
@@ -19,7 +18,6 @@ interface CreationsGridAnalyticsTypes {
 }
 
 const CreationsGridAnalytics = ({
-	lastCreationEarliestTime,
 	size,
 	setSize,
 	mutate,
@@ -33,10 +31,10 @@ const CreationsGridAnalytics = ({
 	return (
 		<section className={styles.creationAnalytics} style={{ color: 'black' }}>
 			<span>{`Page ${size}`}</span>
-			<span style={{ display: 'flex', justifyContent: 'space-between' }}>
+			{/* <span style={{ display: 'flex', justifyContent: 'space-between' }}>
 				<b>{'Last Creation Earliest Time'}</b>
 				<p>{timeAgo(lastCreationEarliestTime)}</p>
-			</span>
+			</span> */}
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
 				<span className={styles.loadingState}>
 					{`showing ${size} page(s) of 
@@ -52,15 +50,25 @@ const CreationsGridAnalytics = ({
 						// }}
 					>
 						{isLoadingMore
-							? 'loading...'
+							? 'Loading...'
 							: isReachingEnd
 							? 'no more creations'
 							: 'load more'}
 					</Button>
-					<Button disabled={isRefreshing} onClick={() => mutate()}>
+					<Button
+						disabled={isRefreshing}
+						onClick={() => {
+							mutate()
+						}}
+					>
 						{isRefreshing ? 'refreshing...' : 'refresh'}
 					</Button>
-					<Button disabled={!size} onClick={() => setSize(0)}>
+					<Button
+						disabled={!size}
+						onClick={() => {
+							setSize(0)
+						}}
+					>
 						{'Clear'}
 					</Button>
 				</span>

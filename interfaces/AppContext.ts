@@ -14,8 +14,8 @@ interface AppContext {
 	isWalletConnected?: boolean
 	setIsWalletConnected: Dispatch<SetStateAction<boolean | undefined>>
 
-	creationsData: object[]
-	setCreationsData: Dispatch<SetStateAction<object[]>>
+	creationsData: Creation[]
+	setCreationsData: Dispatch<SetStateAction<Creation[]>>
 	creationsLoading: boolean
 	creationsMore: boolean
 	creationsLoad: () => void
