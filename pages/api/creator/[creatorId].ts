@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
+import type { IronSessionData } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -19,7 +20,7 @@ const handler = async (
 ): Promise<void> => {
 	// const { creatorId: queryCreatorId } = req.query
 	const { creatorId } = req.body
-	const { userId, token: authToken } = (req as any).session
+	const { userId, token: authToken } = (req as IronSessionData).session
 
 	// console.log({ queryCreatorId })
 	// console.log({ creatorId })
@@ -28,18 +29,6 @@ const handler = async (
 	try {
 		const filter = {}
 		Object.assign(filter, creatorId !== 'null' ? { username: userId } : {})
-		// Object.assign(
-		//   filter,
-		//   generators !== 'null' ? { generators: generators } : {}
-		// );
-		// Object.assign(
-		//   filter,
-		//   earliestTime !== 'null' ? { earliestTime: earliestTime } : {}
-		// );
-		// Object.assign(
-		//   filter,
-		//   latestTime !== 'null' ? { latestTime: latestTime } : {}
-		// );
 		Object.assign(filter, { limit: 10 })
 		console.log({ filter })
 

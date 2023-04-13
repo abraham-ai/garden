@@ -10,7 +10,10 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	// const { creationId: creationIdQuery } = req.query;
 
 	const { creationId: creationIdBody } = req.body

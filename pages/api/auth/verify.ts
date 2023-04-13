@@ -1,13 +1,23 @@
-import { type NextApiRequest, type NextApiResponse } from 'next/types'
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import { SiweMessage } from 'siwe'
-
-import { withIronSessionApiRoute } from 'iron-session/next'
-import { withSessionRoute, sessionOptions } from '../../../util/withSession'
+// import { withIronSessionApiRoute } from 'iron-session/next'
+import { withSessionRoute } from '../../../util/withSession' // sessionOptions
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 interface ApiRequest extends NextApiRequest {
+	session: {
+		get: (key: string) => any
+		set: (key: string, value: any) => void
+		unset: (key: string) => void
+		save: () => Promise<void>
+		destroy: () => Promise<void>
+		token?: string
+		userId?: string
+		address?: string
+		nonce?: string
+	}
 	body: {
 		message: string
 		signature: string
@@ -15,51 +25,63 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
-	const { method } = req
-	switch (method) {
-		case 'POST':
-			// console.log('POST!');
-			// console.log(req.body);
-			try {
-				const message = req.body.message
-				const signature = req.body.signature
-				const userAddress = req.body.userAddress
+interface ErrorResponse {
+	errorMessage: string
+}
 
-				const resp = await eden.loginEth(message, signature, userAddress)
-				console.log('THE REPS!')
-				console.log(resp)
+interface LoginResponse {
+	ok: boolean
+	token: string
+}
 
-				if (resp.error) {
-					console.info(resp.error)
-					res.status(500).json({ error: resp.error })
-					return
-				}
+const handler: NextApiHandler<ApiRequest> = async (req, res): Promise<void> => {
+	if (req.method !== 'POST') {
+		res.setHeader('Allow', ['POST'])
+		res.status(405).end(`Method ${String(req.method)} Not Allowed`)
+		return
+	}
 
-				const siweMessage = new SiweMessage(message)
-				const fields = await siweMessage.validate(signature)
+	const { message, signature, userAddress } = req.body
 
-				if (fields.nonce !== req.session.nonce) {
-			{ res.status(422).json({ message: 'Invalid nonce.' }); return; }
+	try {
+		// Verify the message signature using Siwe
+		const siweMessage = new SiweMessage(message)
+		const fields = await siweMessage.validate(signature)
 
-				// req.session.siwe = fields;
+		// Verify the nonce
+		if (fields.nonce !== req.session.get('nonce')) {
+			const errorResponse: ErrorResponse = { errorMessage: 'Invalid nonce.' }
+			res.status(422).json(errorResponse as unknown as ApiRequest)
+			return
+		}
 
-				req.session.token = resp.token
-				req.session.userId = resp.userId
-				req.session.address = userAddress
+		// Verify the Ethereum signature and login the user using Eden
+		const resp = await eden.loginEth(message, signature, userAddress)
 
-				const token = resp.token
+		if (resp.error) {
+			const errorResponse: ErrorResponse = { errorMessage: resp.error }
+			console.error(resp.error)
+			res.status(500).json(errorResponse as unknown as ApiRequest)
+			return
+		}
 
-				await req.session.save()
+		// Save the user data in the session
+		req.session.set('token', resp.token)
+		req.session.set('userId', resp.userId)
+		req.session.set('address', userAddress)
+		await req.session.save()
 
-				res.json({ ok: true, token })
-			} catch (_error) {
-				res.json({ ok: false })
-			}
-			break
-		default:
-			res.setHeader('Allow', ['POST'])
-			res.status(405).end(`Method ${method} Not Allowed`)
+		const loginResponse: LoginResponse = {
+			ok: true,
+			token: resp.token,
+		}
+		res.json(loginResponse as unknown as ApiRequest)
+	} catch (error) {
+		const errorResponse: ErrorResponse = {
+			errorMessage: 'Internal Server Error',
+		}
+		console.error(error)
+		res.status(500).json(errorResponse as unknown as ApiRequest)
 	}
 }
 

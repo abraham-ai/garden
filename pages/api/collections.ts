@@ -4,7 +4,10 @@ import { withSessionRoute } from '../../util/withSession'
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	// const { name } = req.query
 	const { userId, token } = req.session
 

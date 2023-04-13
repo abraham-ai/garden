@@ -1,11 +1,11 @@
-import { type NextApiRequest, type NextApiResponse } from 'next/types'
-
+import type { NextApiRequest, NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
+import type { IronSessionData } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-interface ApiRequest extends NextApiRequest {
+interface ApiRequest extends NextApiRequest, IronSessionData {
 	body: {
 		message: string
 		signature: string
@@ -13,7 +13,10 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { message, signature, userAddress } = req.body
 
 	// console.log({ message, signature, userAddress })
@@ -23,9 +26,9 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
 		// console.log(resp)
 
-		req.session.token = resp.token
-		req.session.userId = resp.userId
-		req.session.address = userAddress
+		req.session.set('token', resp.token)
+		req.session.set('userId', resp.userId)
+		req.session.set('address', userAddress)
 
 		const token = resp.token
 

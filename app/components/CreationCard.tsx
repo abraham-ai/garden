@@ -39,7 +39,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 	// console.log(creation)
 
 	const context = useContext(AppContext)
-	const currentCreationIndex = context?.currentCreationIndex || 0
+	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const creationsData = useMemo(
 		() => context?.creationsData != null || [],
 		[context?.creationsData]
@@ -190,6 +190,8 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 		? styles.crCardHoverWrapper
 		: styles.crCardWrapper
 
+	const GeneratorName = creation?.task?.generator?.generatorName
+
 	return (
 		<>
 			<section
@@ -211,11 +213,11 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 												creation={creation}
 												creationId={creation._id}
 												reactionCountList={{
-													praises: reactionState[creation._id]?.praises || 0,
+													praises: reactionState[creation._id]?.praises ?? 0,
 													praised:
-														reactionState[creation._id]?.praised || false,
-													burns: reactionState[creation._id]?.burns || 0,
-													burned: reactionState[creation._id]?.burned || false,
+														reactionState[creation._id]?.praised ?? false,
+													burns: reactionState[creation._id]?.burns ?? 0,
+													burned: reactionState[creation._id]?.burned ?? false,
 												}}
 											/>
 
@@ -224,9 +226,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 													<article className={styles.promptWrapper}>
 														<Text
 															className={styles.crPromptCommand}
-														>{`/${String(
-															creation?.task?.generator?.generatorName
-														)} `}</Text>
+														>{`/${String(GeneratorName)} `}</Text>
 														<Text className={styles.crPrompt}>{prompt}</Text>
 
 														<div

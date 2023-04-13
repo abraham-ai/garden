@@ -1,5 +1,9 @@
-import { type NextApiRequest, type NextApiResponse } from 'next/types'
+import type { NextApiRequest, NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
+import type { IronSessionData } from '../../../util/withSession'
+
+import type Reaction from '../../../interfaces/Reaction'
+import type CreationExtended from '../../../interfaces/CreationExtended'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -14,45 +18,52 @@ interface ApiRequest extends Omit<NextApiRequest, 'query'> {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { reactionId: creationId } = req.query
 
 	// console.log({ creationId })
 
-	const { userId, token: authToken } = (req as any).session
+	const { userId, token: authToken } = (req as IronSessionData).session
 
 	// if (!authToken) {
 	//   return res.status(401).json({ error: 'Not authenticated' })
 	// }
 
 	try {
-		const authTokenResult = await eden.setAuthToken(authToken)
+		if (typeof authToken === 'string') {
+			eden.setAuthToken(authToken)
+		}
 
-		const creation = await eden.getCreation(creationId)
+		const creation = (await eden.getCreation(
+			creationId
+		)) as unknown as CreationExtended
 
-		const reactions = await creation.getReactions(['🙌', '🔥'])
+		const reactions: Reaction[] = await creation.getReactions(['🙌', '🔥'])
 		// console.log({ reactions })
 
-		const praises = reactions?.filter(
-			(reaction: any) => reaction.reaction === '🙌'
+		const praises: Reaction[] = reactions?.filter(
+			(reaction: Reaction) => reaction.reaction === '🙌'
 		)
 		const burns = reactions?.filter(
-			(reaction: any) => reaction.reaction === '🔥'
+			(reaction: Reaction) => reaction.reaction === '🔥'
 		)
 
 		// console.log(reactions[0]?.user)
 		// console.log(reactions[1]?.user)
 
-		const praised =
-			userId &&
-			praises?.some((reaction: any) => reaction.user.username === userId)
-		const burned =
-			userId &&
-			burns?.some((reaction: any) => reaction.user.username === userId)
+		const praised: boolean =
+			userId !== undefined &&
+			praises.some((reaction: Reaction) => reaction.user.username === userId)
+		const burned: boolean =
+			userId !== undefined &&
+			burns.some((reaction: Reaction) => reaction.user.username === userId)
 
 		const result = {
-			praises: praises ? praises.length : 0,
-			burns: burns ? burns.length : 0,
+			praises: praises.length > 0 ? praises.length : 0,
+			burns: burns.length > 0 ? burns.length : 0,
 			praised,
 			burned,
 		}
@@ -61,13 +72,13 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
 		res.status(200).json(result)
 		return
-	} catch (error: any) {
-		console.log(error)
-		// if (error.response.data == 'jwt expired') {
-		//   return res.status(401).json({ error: 'Authentication expired' })
-		// }
-		res.status(500).json({ error })
-		// error.response.data
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

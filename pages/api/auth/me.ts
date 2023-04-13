@@ -1,8 +1,11 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { type NextApiRequest, type NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { sessionOptions } from '../../../util/withSession'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { method } = req
 	const { token, userId } = req.session
 
@@ -12,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			break
 		default:
 			res.setHeader('Allow', ['GET'])
-			res.status(405).end(`Method ${method} Not Allowed`)
+			res.status(405).end(`Method ${String(method)} Not Allowed`)
 	}
 }
 

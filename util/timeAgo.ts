@@ -9,9 +9,6 @@ export default function timeAgo(time: number) {
 		case 'string':
 			time = +new Date(time)
 			break
-		// case 'object':
-		//   if (time.constructor === Date) time = time.getTime();
-		//   break;
 		default:
 			time = +new Date()
 	}

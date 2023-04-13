@@ -2,13 +2,11 @@ import type {
 	GetServerSidePropsContext,
 	GetServerSidePropsResult,
 	NextApiHandler,
-	NextApiRequest,
-	NextApiResponse,
 } from 'next/types'
 
-import 'iron-session'
-
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
+import type { IronSession, Session } from 'iron-session'
+import 'iron-session'
 
 declare const process: {
 	env: {
@@ -17,18 +15,37 @@ declare const process: {
 	}
 }
 
+export interface ApiRequest extends NextApiRequest, IronSession {
+	session: Session & {
+		set: (key: string, value: any) => void
+	}
+	body: {
+		message: string
+		signature: string
+		userAddress: string
+	}
+}
+
+export interface IronSessionData {
+	token?: string
+	address?: string
+	userId?: string
+	username?: string
+	nonce?: string
+	get: (key: string) => any
+	set: (key: string, value: any) => void
+	unset: (key: string) => void
+	save: () => void
+}
+
 declare module 'iron-session' {
-	interface IronSessionData {
-		token?: string
-		address?: string
-		userId?: string
-		username?: string
-		nonce?: string
+	interface Session {
+		data: IronSessionData
 	}
 }
 
 export const sessionOptions = {
-	password: process.env.NEXT_PUBLIC_COOKIE_SECRET || '',
+	password: process.env.NEXT_PUBLIC_COOKIE_SECRET ?? '',
 	cookieName: 'eden_art',
 	ttl: 15 * 24 * 3600,
 	cookieOptions: {

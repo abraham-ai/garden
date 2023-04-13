@@ -14,7 +14,10 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	// const { username, generators, earliestTime, latestTime, limit } = req.body;
 	const { page, limit, username, generators, earliestTime, latestTime } =
 		req.query

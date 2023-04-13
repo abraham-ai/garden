@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -10,15 +10,14 @@ import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-
 import CreationSocial from '../../app/components/CreationSocial'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
 
 import useGetCreation from '../../hooks/useGetCreation'
-import { useReaction } from '../../context/ReactionContext'
 import useGetReactionCount from '../../hooks/useGetReactionCount'
+import { useReaction } from '../../context/ReactionContext'
 
 import { Col, Row, Typography, Avatar } from 'antd'
 
@@ -34,9 +33,6 @@ interface CreationPageProps {
 	size?: string
 }
 
-const fetcher = async (url: string) =>
-	await fetch(url).then(async (res) => await res.json())
-
 const Creation: FC<CreationPageProps> = ({
 	params,
 	creation,
@@ -51,8 +47,6 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log(creationId)
 	// console.log(router.query)
 
-	const url = `/api/creation?${String(queryCreationId)}`
-
 	const creationData = useGetCreation(queryCreationId)
 
 	const reactionCountList = useGetReactionCount(creation._id)
@@ -60,17 +54,15 @@ const Creation: FC<CreationPageProps> = ({
 
 	useEffect(() => {
 		if (
-			reactionCountList != null &&
-			creationData != null &&
-			creationData._id != null &&
-			!reactionState[creationData._id]
+			typeof creationData !== 'undefined' &&
+			creationData !== null &&
+			typeof creationData._id !== 'undefined' &&
+			!(creationData._id in reactionState)
 		) {
-			const {
-				praises: praisesData,
-				praised: praisedData,
-				burns: burnsData,
-				burned: burnedData,
-			} = reactionCountList
+			const praisesData = reactionCountList?.praises ?? 0
+			const praisedData = reactionCountList?.praised ?? false
+			const burnsData = reactionCountList?.burns ?? 0
+			const burnedData = reactionCountList?.burned ?? false
 
 			updateReactionState(creation._id, {
 				praises: praisesData,
@@ -168,10 +160,10 @@ const Creation: FC<CreationPageProps> = ({
 											creation={creation}
 											creationId={creation._id}
 											reactionCountList={{
-												praises: reactionState[creation._id]?.praises || 0,
-												praised: reactionState[creation._id]?.praised || false,
-												burns: reactionState[creation._id]?.burns || 0,
-												burned: reactionState[creation._id]?.burned || false,
+												praises: reactionState[creation._id]?.praises ?? 0,
+												praised: reactionState[creation._id]?.praised ?? false,
+												burns: reactionState[creation._id]?.burns ?? 0,
+												burned: reactionState[creation._id]?.burned ?? false,
 											}}
 										/>
 

@@ -14,7 +14,10 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	// console.log({ req })
 	// console.log(req.url)
 	// console.log(req.body)
@@ -22,7 +25,9 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 	const { userId, token: authToken } = (req as any).session
 
 	try {
-		await eden.setAuthToken(authToken)
+		if (typeof authToken === 'string') {
+			eden.setAuthToken(authToken)
+		}
 		// const creations = await eden.getProfile()
 
 		const creations = await eden.getCreations({ username: userId, limit: 10 })

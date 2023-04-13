@@ -1,10 +1,12 @@
-import { type NextApiRequest, type NextApiResponse } from 'next/types'
-import { withSessionRoute } from '../../util/withSession'
+import type { NextApiRequest, NextApiResponse } from 'next/types'
+import { withSessionRoute } from '../../../util/withSession'
+import type { IronSessionData } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 interface ApiRequest extends NextApiRequest {
+	session: IronSessionData
 	body: {
 		creationId: string
 		reaction: string
@@ -12,32 +14,36 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { creationId, reaction, unreact } = req.body
-	// const { userId } = req.session
 	const authToken = req.session.token
 
-	if (!authToken) {
+	if (!(authToken === '')) {
 		res.status(401).json({ error: 'Not authenticated' })
 		return
 	}
 
 	try {
-		await eden.setAuthToken(authToken)
-		const creation = await eden.getCreation(creationId)
-		if (unreact) {
-			const result = await creation.unreact(reaction)
-			res.status(200).json({ result })
-			return
-		} else {
-			const result = await creation.react(reaction)
-			res.status(200).json({ result })
-			return
+		if (typeof authToken === 'string') {
+			eden.setAuthToken(authToken)
 		}
-	} catch (error: any) {
-		// console.log(error)
-		res.status(500).json(error)
-		// { error: error.response.data }
+		const creation = await eden.getCreation(creationId)
+		let result
+		if (unreact) {
+			result = await creation.unreact(reaction)
+		} else {
+			result = await creation.react(reaction)
+		}
+		res.status(200).json({ result })
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			res.status(500).json({ error: error.message })
+		} else {
+			res.status(500).json({ error: 'An unknown error occurred' })
+		}
 	}
 }
 

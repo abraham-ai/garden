@@ -36,9 +36,6 @@ interface CollectionPageTypes {
 	size?: string
 }
 
-const fetcher = async (url: string) =>
-	await fetch(url).then(async (res) => await res.json())
-
 const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 	const { collectionId } = router.query
@@ -53,7 +50,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 	console.log({ collectionData })
 	console.log(collectionData)
 
-	if (typeof collectionData !== 'undefined' && collectionData !== null) {
+	if (collectionData != null) {
 		console.log({ collectionData })
 		// console.log(collectionData.creation.task.config.text_input)
 		// timeAgoCreatedAt = timeAgo(parseInt(collectionData.creation.createdAt))
@@ -98,7 +95,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 								</Col>
 							</>
 						) : null}
-						{collectionData?.data?.creations?.length ?? 0 > 0 ? (
+						{isCollectionCreations ? (
 							<CreationsGridSimple creations={collectionCreations} />
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
