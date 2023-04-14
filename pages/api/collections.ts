@@ -1,4 +1,5 @@
-import { type NextApiRequest, type NextApiResponse } from 'next/types'
+import type { NextApiRequest, NextApiResponse } from 'next/types'
+import type { IronSessionData } from '../../util/withSession'
 import { withSessionRoute } from '../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
@@ -8,7 +9,9 @@ const handler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	const { userId, token } = req.session
+	// Save the user data in the session
+	const session = req.session as unknown as IronSessionData
+	const { userId, token } = session
 
 	if (token == null) {
 		res.status(401).json({ error: 'Not authenticated' })

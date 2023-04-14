@@ -20,7 +20,11 @@ const handler = async (
 ): Promise<void> => {
 	// const { creatorId: queryCreatorId } = req.query
 	const { creatorId } = req.body
-	const { userId, token: authToken } = (req as IronSessionData).session
+
+	// Save the user data in the session
+	const session = req.session as unknown as IronSessionData
+
+	const { userId, token } = session
 
 	// console.log({ queryCreatorId })
 	// console.log({ creatorId })
@@ -32,7 +36,7 @@ const handler = async (
 		Object.assign(filter, { limit: 10 })
 		console.log({ filter })
 
-		eden.setAuthToken(authToken)
+		eden.setAuthToken(token)
 
 		// if (typeof authTokenResult !== 'undefined') {
 		const creations = await eden.getCreations(filter)
