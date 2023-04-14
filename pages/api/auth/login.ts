@@ -5,7 +5,7 @@ import type { IronSessionData } from '../../../util/withSession'
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-interface ApiRequest extends NextApiRequest, IronSessionData {
+interface ApiRequest extends NextApiRequest {
 	body: {
 		message: string
 		signature: string
@@ -14,17 +14,13 @@ interface ApiRequest extends NextApiRequest, IronSessionData {
 }
 
 const handler = async (
-	req: ApiRequest,
+	req: ApiRequest & { session: IronSessionData },
 	res: NextApiResponse
 ): Promise<void> => {
 	const { message, signature, userAddress } = req.body
 
-	// console.log({ message, signature, userAddress })
-
 	try {
 		const resp = await eden.loginEth(message, signature, userAddress)
-
-		// console.log(resp)
 
 		req.session.set('token', resp.token)
 		req.session.set('userId', resp.userId)
@@ -32,15 +28,13 @@ const handler = async (
 
 		const token = resp.token
 
-		// console.log({ token })
-
 		await req.session.save()
 
 		res.send({
 			message: 'Successfully authenticated key pair',
 			token,
 		})
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error(error)
 		res.status(500).json({ error: 'Error authenticating key pair' })
 	}

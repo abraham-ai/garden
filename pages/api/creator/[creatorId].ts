@@ -32,7 +32,7 @@ const handler = async (
 		Object.assign(filter, { limit: 10 })
 		console.log({ filter })
 
-		await eden.setAuthToken(authToken)
+		eden.setAuthToken(authToken)
 
 		// if (typeof authTokenResult !== 'undefined') {
 		const creations = await eden.getCreations(filter)
@@ -42,13 +42,13 @@ const handler = async (
 		return
 		// }
 		// return res.status(200).json(null)
-	} catch (error: any) {
-		console.log(error)
-		// if (error.response.data == 'jwt expired') {
-		//   return res.status(401).json({ error: 'Authentication expired' });
-		// }
-		res.status(500).json({ error })
-		// error.response.data
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

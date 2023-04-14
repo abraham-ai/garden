@@ -11,7 +11,10 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { collectionName, creationId } = req.body
 
 	// Safely retrieve the session data
@@ -22,7 +25,7 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 	console.log('creationId', creationId)
 
 	try {
-		await eden.setAuthToken(authToken)
+		eden.setAuthToken(authToken)
 
 		// create collection
 		const createdCollection = await eden.createCollection(collectionName)
@@ -45,13 +48,13 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
 		res.status(200).json({ collectionName })
 		return
-	} catch (error: any) {
-		console.log(error)
-		// if (error.response.data == 'jwt expired') {
-		//   return res.status(401).json({ error: 'Authentication expired' })
-		// }
-		res.status(500).json({ error })
-		// error.response.data
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

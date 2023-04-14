@@ -23,7 +23,6 @@ const MyCreations: FC = () => {
 	const userId = context?.userId ?? ''
 
 	const myCreationsData = useGetMyCreations(userId)
-	console.log(myCreationsData)
 
 	return (
 		<>

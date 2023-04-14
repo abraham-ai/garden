@@ -22,11 +22,11 @@ const handler = async (
 	console.log({ collectionId })
 
 	// Safely retrieve the session data
-	const userId = req.session?.userId ?? ''
+	// const userId = req.session?.userId ?? ''
 	const authToken = req.session?.token ?? ''
 
 	try {
-		await eden.setAuthToken(authToken)
+		eden.setAuthToken(authToken)
 
 		const collection = await eden.getCollection(collectionId)
 		const profile = await eden.getProfile()
@@ -39,13 +39,13 @@ const handler = async (
 
 		res.status(200).json({ collection, creations, profile })
 		return
-	} catch (error: any) {
-		console.log(error)
-		// if (error.response.data == 'jwt expired') {
-		//   return res.status(401).json({ error: 'Authentication expired' })
-		// }
-		res.status(500).json({ error })
-		// error.response.data
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

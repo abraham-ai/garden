@@ -24,13 +24,13 @@ const handler = async (
 
 		res.status(200).json({ creation })
 		return
-	} catch (error: any) {
-		console.log(error)
-		// if (error.response.data == 'jwt expired') {
-		//   return res.status(401).json({ error: 'Authentication expired' });
-		// }
-		res.status(500).json({ error })
-		// error.response.data
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

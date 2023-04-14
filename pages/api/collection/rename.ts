@@ -11,15 +11,18 @@ interface ApiRequest extends NextApiRequest {
 	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { collectionId, newCollectionName } = req.body
 
 	// Safely retrieve the session data
-	const userId = req.session?.userId ?? ''
+	// const userId = req.session?.userId ?? ''
 	const authToken = req.session?.token ?? ''
 
 	try {
-		const authTokenResult = await eden.setAuthToken(authToken)
+		eden.setAuthToken(authToken)
 
 		// get collection
 		const collection = await eden.getCollection(collectionId)
@@ -30,9 +33,13 @@ const handler = async (req: ApiRequest, res: NextApiResponse) => {
 
 		res.status(200).json(renamedCollection)
 		return
-	} catch (error: any) {
-		console.log(error)
-		res.status(500).json({ error })
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

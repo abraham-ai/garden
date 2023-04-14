@@ -1,4 +1,5 @@
 import type Creation from './Creation'
+import type Collection from './Collection'
 
 export type userIdType = `${string}` | string | undefined
 type SetStateAction<S> = S | ((prevState: S) => S)
@@ -18,7 +19,7 @@ interface AppContext {
 	setCreationsData: Dispatch<SetStateAction<Creation[]>>
 	creationsLoading: boolean
 	creationsMore: boolean
-	creationsLoad: () => void
+	// creationsLoad: () => void
 
 	creations: Creation[]
 	creationIndex: number
@@ -27,8 +28,8 @@ interface AppContext {
 	currentCreationModalCreation: Creation
 	setCurrentCreationModalCreation: Dispatch<SetStateAction<Creation>>
 
-	collections?: any[]
-	setCollections: Dispatch<SetStateAction<any[]>>
+	collections?: Collection[]
+	setCollections: Dispatch<SetStateAction<Collection[]>>
 	selectedCollection: string
 	setSelectedCollection: Dispatch<SetStateAction<string>>
 

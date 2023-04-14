@@ -1,5 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../util/withSession'
+import type { IronSessionData } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -22,7 +23,7 @@ const handler = async (
 	// console.log(req.url)
 	// console.log(req.body)
 
-	const { userId, token: authToken } = (req as any).session
+	const { userId, token: authToken } = (req as IronSessionData).session
 
 	try {
 		if (typeof authToken === 'string') {
@@ -37,13 +38,13 @@ const handler = async (
 
 		res.status(200).json(creations)
 		return
-	} catch (error: any) {
-		console.log(error)
-		// if (error.response.data == 'jwt expired') {
-		//   return res.status(401).json({ error: 'Authentication expired' })
-		// }
-		res.status(500).json({ error })
-		// error.response.data
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

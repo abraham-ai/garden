@@ -33,7 +33,7 @@ const handler = async (
 	console.log('creationId', creationId)
 
 	try {
-		await eden.setAuthToken(authToken)
+		eden.setAuthToken(authToken)
 
 		// get collection
 		const collection = await eden.getCollection(collectionId)
@@ -54,9 +54,13 @@ const handler = async (
 		// console.log(creations)
 		res.status(200).json({ addedCreationResult, collection, creation })
 		return
-	} catch (error: any) {
-		console.log(error)
-		res.status(500).json({ error })
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
 	}
 }
 

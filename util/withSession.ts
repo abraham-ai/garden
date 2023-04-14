@@ -2,10 +2,11 @@ import type {
 	GetServerSidePropsContext,
 	GetServerSidePropsResult,
 	NextApiHandler,
+	NextApiRequest,
 } from 'next/types'
 
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
-import type { IronSession, Session } from 'iron-session'
+import type { IronSession } from 'iron-session' // Session as IronSessionData
 import 'iron-session'
 
 declare const process: {
@@ -53,7 +54,13 @@ export const sessionOptions = {
 	},
 }
 
-export function withSessionRoute(handler: NextApiHandler): NextApiHandler {
+// export function withSessionRoute(handler: NextApiHandler): NextApiHandler {
+// 	return withIronSessionApiRoute(handler, sessionOptions)
+// }
+
+export function withSessionRoute(
+	handler: NextApiHandler<ApiRequest>
+): NextApiHandler<ApiRequest> {
 	return withIronSessionApiRoute(handler, sessionOptions)
 }
 

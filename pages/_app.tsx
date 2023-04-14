@@ -134,7 +134,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [creationsData, setCreationsData] = useState<Creation[]>([])
 	const [creationsLoading, setCreationsLoading] = useState<boolean>(false)
 	const [creationsMore, setCreationsMore] = useState<boolean>(true)
-	const [creationsLoad, setCreationsLoad] = useState<boolean>(false)
+	// const [creationsLoad, setCreationsLoad] = useState<boolean>(false)
 
 	const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)
 	const [currentCreationModalCreation, setCurrentCreationModalCreation] =
@@ -159,7 +159,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		creationsData,
 		setCreationsData,
 		creationsMore,
-		creationsLoad,
+		// creationsLoad,
 		currentCreationIndex,
 		setCurrentCreationIndex,
 		collections,
@@ -191,7 +191,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 					...contextValues,
 					creations: [] as unknown as [],
 					creationIndex: 0,
-					creationsLoad: () => {},
+					// creationsLoad: () => {},
 					collections,
 					setCollections,
 					selectedCollection,

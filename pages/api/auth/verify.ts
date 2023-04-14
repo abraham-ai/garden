@@ -1,23 +1,22 @@
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiHandler, NextApiRequest } from 'next'
 import { SiweMessage } from 'siwe'
-// import { withIronSessionApiRoute } from 'iron-session/next'
+import type { Session, IronSession } from 'iron-session'
 import { withSessionRoute } from '../../../util/withSession' // sessionOptions
+import type { IronSessionData } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
+export interface ExtendedSession extends Session, IronSessionData {
+	get: (key: string) => any
+	set: (key: string, value: any) => void
+	unset: (key: string) => void
+	save: () => Promise<void>
+	destroy: () => Promise<void>
+}
+
 interface ApiRequest extends NextApiRequest {
-	session: {
-		get: (key: string) => any
-		set: (key: string, value: any) => void
-		unset: (key: string) => void
-		save: () => Promise<void>
-		destroy: () => Promise<void>
-		token?: string
-		userId?: string
-		address?: string
-		nonce?: string
-	}
+	session: ExtendedSession
 	body: {
 		message: string
 		signature: string
@@ -49,7 +48,7 @@ const handler: NextApiHandler<ApiRequest> = async (req, res): Promise<void> => {
 		const fields = await siweMessage.validate(signature)
 
 		// Verify the nonce
-		if (fields.nonce !== req.session.get('nonce')) {
+		if (fields.nonce !== (req.session as ExtendedSession).get('nonce')) {
 			const errorResponse: ErrorResponse = { errorMessage: 'Invalid nonce.' }
 			res.status(422).json(errorResponse as unknown as ApiRequest)
 			return
@@ -58,7 +57,7 @@ const handler: NextApiHandler<ApiRequest> = async (req, res): Promise<void> => {
 		// Verify the Ethereum signature and login the user using Eden
 		const resp = await eden.loginEth(message, signature, userAddress)
 
-		if (resp.error) {
+		if (resp.error !== undefined) {
 			const errorResponse: ErrorResponse = { errorMessage: resp.error }
 			console.error(resp.error)
 			res.status(500).json(errorResponse as unknown as ApiRequest)
@@ -66,10 +65,11 @@ const handler: NextApiHandler<ApiRequest> = async (req, res): Promise<void> => {
 		}
 
 		// Save the user data in the session
-		req.session.set('token', resp.token)
-		req.session.set('userId', resp.userId)
-		req.session.set('address', userAddress)
-		await req.session.save()
+		const session = req.session as ExtendedSession
+		session.set('token', resp.token)
+		session.set('userId', resp.userId)
+		session.set('address', userAddress)
+		await session.save()
 
 		const loginResponse: LoginResponse = {
 			ok: true,
