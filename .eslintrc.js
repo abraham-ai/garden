@@ -8,6 +8,9 @@ module.exports = {
 		project: './tsconfig.json',
 		ecmaVersion: 'latest',
 		sourceType: 'module',
+		ecmaFeatures: {
+			jsx: true,
+		},
 	},
 	plugins: ['react', '@typescript-eslint'],
 	extends: [
@@ -20,7 +23,7 @@ module.exports = {
 	rules: {
 		'@typescript-eslint/dot-notation': 'error',
 		'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
-		indent: ['error', 'tab'],
+		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'@typescript-eslint/indent': 'off',
 		// "quotes": [2, "single", { "avoidEscape": true }],
 		// semi: ["error", "never"]
