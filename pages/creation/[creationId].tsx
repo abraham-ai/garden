@@ -6,6 +6,8 @@ import Image from 'next/image'
 
 import type CreationTypes from '../../interfaces/Creation'
 
+import emptyCreation from '../../constants/emptyCreation'
+
 import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
@@ -35,7 +37,7 @@ interface CreationPageProps {
 
 const Creation: FC<CreationPageProps> = ({
 	params,
-	creation,
+	creation = emptyCreation,
 	size = 'regular',
 }) => {
 	const router = useRouter()
@@ -49,7 +51,7 @@ const Creation: FC<CreationPageProps> = ({
 
 	const creationData = useGetCreation(queryCreationId)
 
-	const reactionCountList = useGetReactionCount(creation._id)
+	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
 
 	useEffect(() => {
@@ -74,7 +76,12 @@ const Creation: FC<CreationPageProps> = ({
 	}, [reactionCountList, reactionState, updateReactionState, creationData])
 
 	let timeAgoCreatedAt = 0
-	if (typeof creationData !== 'undefined' && creationData !== null) {
+	if (
+		typeof creationData !== 'undefined' &&
+		creationData !== null &&
+		creation?._id !== undefined &&
+		!(creationData._id in reactionState)
+	) {
 		console.log(creationData)
 		console.log(creationData.task.config.text_input)
 		timeAgoCreatedAt = timeAgo(parseInt(creationData.createdAt))

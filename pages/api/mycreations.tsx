@@ -1,6 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../util/withSession'
-import type { IronSessionData } from '../../../util/withSession'
+import type { IronSessionData } from '../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -23,7 +23,10 @@ const handler = async (
 	// console.log(req.url)
 	// console.log(req.body)
 
-	const { userId, token: authToken } = (req as IronSessionData).session
+	const session = req.session as unknown as IronSessionData
+
+	const userId = session?.userId ?? ''
+	const authToken = session?.token ?? ''
 
 	try {
 		if (typeof authToken === 'string') {

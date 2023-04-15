@@ -26,7 +26,10 @@ const handler = async (
 
 	// console.log({ creationId })
 
-	const { userId, token: authToken } = (req as IronSessionData).session
+	const session = req.session as unknown as IronSessionData
+
+	const userId = session?.userId ?? ''
+	const authToken = session?.token ?? ''
 
 	// if (!authToken) {
 	//   return res.status(401).json({ error: 'Not authenticated' })

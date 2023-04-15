@@ -4,7 +4,7 @@ import type {
 	NextApiHandler,
 	NextApiRequest,
 } from 'next/types'
-import type { IronSession } from 'next-iron-session'
+import type { Session } from 'next-iron-session'
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
 
 declare const process: {
@@ -14,20 +14,21 @@ declare const process: {
 	}
 }
 
-export interface IronSessionData extends IronSession {
+export type IronSessionData = Session & {
 	token?: string
 	address?: string
 	userId?: string
 	username?: string
 	nonce?: string
-	get: (key: string) => any
-	set: (key: string, value: any) => void
-	unset: (key: string) => void
-	save: () => void
+	save: () => Promise<void>
+	// get: (key: string) => any
+	// set: (key: string, value: any) => void
+	// unset: (key: string) => void
+	// save: () => void
 }
 
 export type ExtendedApiRequest = NextApiRequest & {
-	session: IronSession
+	session: IronSessionData
 }
 
 export interface ApiRequest extends NextApiRequest {
