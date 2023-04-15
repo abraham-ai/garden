@@ -1,17 +1,9 @@
-import type { NextApiHandler, NextApiResponse } from 'next/types'
+import type { NextApiHandler } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
 import type { IronSessionData, ApiRequest } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
-
-// interface ApiRequest extends NextApiRequest {
-// 	body: {
-// 		message: string
-// 		signature: string
-// 		userAddress: string
-// 	}
-// }
 
 interface SuccessResponse {
 	message: string

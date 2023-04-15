@@ -132,8 +132,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	// creation context
 	const [creationsData, setCreationsData] = useState<Creation[]>([])
-	const [creationsLoading, setCreationsLoading] = useState<boolean>(false)
-	const [creationsMore, setCreationsMore] = useState<boolean>(true)
+	const [creationsLoading] = useState<boolean>(false) // setCreationsLoading
+	const [creationsMore] = useState<boolean>(true) // setCreationsMore
 	// const [creationsLoad, setCreationsLoad] = useState<boolean>(false)
 
 	const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)

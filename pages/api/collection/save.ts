@@ -2,8 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next/types'
 import type { IronSessionData } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 
-import Collection from '../../../interfaces/Collection'
-
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 

@@ -5,10 +5,6 @@ import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 
-interface CustomSession {
-	name: string
-	token: string
-}
 const eden = new EdenClient()
 
 const handler = async (
