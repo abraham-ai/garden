@@ -1,41 +1,45 @@
-import { NextApiRequest, NextApiResponse } from 'next/types';
-import { withSessionRoute } from '../../util/withSession';
-import { eden } from '../../util/eden';
+import { type NextApiRequest, type NextApiResponse } from 'next/types'
+import { withSessionRoute } from '../../util/withSession'
+
+import { EdenClient } from 'eden-sdk'
+const eden = new EdenClient()
 
 interface ApiRequest extends NextApiRequest {
-  body: {
-    username: string;
-    generators: string[];
-    earliestTime: number;
-    latestTime: number;
-    limit: number;
-  };
+	body: {
+		username: string
+		generators: string[]
+		earliestTime: number
+		latestTime: number
+		limit: number
+	}
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  const { username, generators, earliestTime, latestTime, limit } = req.body;
+const handler = async (
+	req: ApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
+	const { limit, username, generators, earliestTime, latestTime } = req.query
 
-  console.log(req.body);
+	try {
+		const filter = { limit }
+		Object.assign(filter, username !== 'null' ? { username } : {})
+		Object.assign(filter, generators !== 'null' ? { generators } : {})
+		Object.assign(filter, earliestTime !== 'null' ? { earliestTime } : {})
+		Object.assign(filter, latestTime !== 'null' ? { latestTime } : {})
+		Object.assign(filter, limit != null ? { limit } : {})
 
-  try {
-    const filter = {};
-    Object.assign(filter, username ? { username: username } : {});
-    Object.assign(filter, generators ? { generators: generators } : {});
-    Object.assign(filter, earliestTime ? { earliestTime: earliestTime } : {});
-    Object.assign(filter, latestTime ? { latestTime: latestTime } : {});
-    Object.assign(filter, limit ? { limit: limit } : {});
-    const creations = await eden.getCreations(filter);
+		const creations = await eden.getCreations(filter)
 
-    console.log(creations.length);
-    console.log({ creations });
+		res.status(200).json(creations)
+		return
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.log(error)
+			res.status(500).json({ error })
+		} else {
+			res.status(500).json({ error: 'Unknown error' })
+		}
+	}
+}
 
-    return res.status(200).json({ creations: creations });
-  } catch (error: any) {
-    if (error.response.data == 'jwt expired') {
-      return res.status(401).json({ error: 'Authentication expired' });
-    }
-    return res.status(500).json({ error: error.response.data });
-  }
-};
-
-export default withSessionRoute(handler);
+export default withSessionRoute(handler)

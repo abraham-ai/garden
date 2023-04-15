@@ -1,5 +1,6 @@
 .ethereumAuthWrapper {
-  display: flex;
-  justify-content: space-between;
-  min-width: 220px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-width: 220px;
 }
