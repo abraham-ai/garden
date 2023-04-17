@@ -9,15 +9,20 @@ import Blockies from 'react-blockies'
 import abbreviateAddress from '../../../util/abbreviateAddress'
 const { Title, Text } = Typography
 
-interface CreatorHeaderTypes {
+interface CreatorHeaderProps {
+	collectionId?: string
 	userId?: string
 }
 
-const CreatorHeader: FC<CreatorHeaderTypes> = ({ userId }) => {
+const CreatorHeader: FC<CreatorHeaderProps> = ({ collectionId, userId }) => {
 	let displayAddress = ''
 	if (typeof userId === 'string') {
 		displayAddress = abbreviateAddress(userId)
 	}
+
+	const isCollectionRoute = typeof collectionId !== 'undefined'
+	console.log({ collectionId })
+	console.log({ isCollectionRoute })
 
 	return (
 		<article
@@ -83,8 +88,17 @@ const CreatorHeader: FC<CreatorHeaderTypes> = ({ userId }) => {
 						</Link>
 
 						<Link href='/mycollections'>
-							<Button shape='round' style={{ background: 'rgba(0,0,0,0.05)' }}>
-								<Text style={{ fontWeight: 'bold', color: 'gray' }}>
+							<Button
+								shape='round'
+								type={isCollectionRoute ? 'primary' : 'default'}
+								// style={{ background: 'rgba(0,0,0,0.05)' }}
+							>
+								<Text
+									style={{
+										fontWeight: 'bold',
+										color: isCollectionRoute ? 'white' : 'gray',
+									}}
+								>
 									{'Collections'}
 								</Text>
 							</Button>
