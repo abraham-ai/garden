@@ -26,8 +26,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
 
 	const handleBurn = async (): Promise<void> => {
-		if (!isSignedIn || !isWalletConnected) {
-		} else {
+		if (isSignedIn && isWalletConnected) {
 			const newIsBurned = !isBurned
 			const updatedBurns = newIsBurned ? burns + 1 : burns - 1
 			setIsBurned(newIsBurned, updatedBurns)
@@ -61,6 +60,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
 		setIsBurnHovering(false)
 	}
 
+	console.log(isBurned)
+
 	return (
 		<div
 			className='socialButtonWrapper'
@@ -81,7 +82,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 					border: 'none',
 					transition: '1s',
 				}}
-				onClick={async () => {
+				onClick={async (): Promise<void> => {
 					await handleBurn()
 				}}
 				onMouseOver={handleMouseOver}

@@ -37,14 +37,14 @@ const handler = async (
 
 		// get collection
 		const collection = await eden.getCollection(collectionId)
-		console.log(collection)
+		// console.log(collection)
 
 		// filter collections by collectionId
 		// const currentCollection = collections.filter((collection: Collection) => collection._id === collectionId)
 
 		// get creation
 		const creation = await eden.getCreation(creationId)
-		console.log(creation)
+		// console.log(creation)
 
 		// add creation to collection
 		const addedCreationResult = await collection.addCreation(creation)

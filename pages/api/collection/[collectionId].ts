@@ -19,7 +19,7 @@ const handler = async (
 ): Promise<void> => {
 	const { collectionId } = req.query
 
-	console.log({ collectionId })
+	// console.log({ collectionId })
 
 	// Safely retrieve the session data
 	// const userId = req.session?.userId ?? ''
