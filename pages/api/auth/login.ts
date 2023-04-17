@@ -1,47 +1,48 @@
-// TYPES
-import { NextApiRequest, NextApiResponse } from 'next/types';
+import type { NextApiHandler } from 'next/types'
+import { withSessionRoute } from '../../../util/withSession'
+import type { IronSessionData, ApiRequest } from '../../../util/withSession'
 
-// SESSION
-import { withSessionRoute } from '../../util/withSession';
+import { EdenClient } from 'eden-sdk'
+const eden = new EdenClient()
 
-// LIBS
-import { eden } from '../../util/eden';
-
-interface ApiRequest extends NextApiRequest {
-  body: {
-    message: string;
-    signature: string;
-    userAddress: string;
-  };
+interface SuccessResponse {
+	message: string
+	token: string
 }
 
-const handler = async (req: ApiRequest, res: NextApiResponse) => {
-  const { message, signature, userAddress } = req.body;
+interface ErrorResponse {
+	errorMessage: string
+}
 
-  console.log({ message, signature, userAddress });
+const handler: NextApiHandler<
+	ApiRequest & { session: IronSessionData }
+> = async (req, res): Promise<void> => {
+	const { message, signature, userAddress } = req.body
 
-  try {
-    const resp = await eden.loginEth(message, signature, userAddress);
+	try {
+		const resp = await eden.loginEth(message, signature, userAddress)
 
-    console.log(resp);
+		const session = req.session as unknown as IronSessionData
+		session.set('token', resp.token)
+		session.set('userId', resp.userId)
+		session.set('address', userAddress)
 
-    req.session.token = resp.token;
-    req.session.userId = userAddress;
+		const token = resp.token
 
-    const token = resp.token;
+		await req.session.save()
 
-    console.log({ token });
+		const loginResponse: SuccessResponse = {
+			message: 'Successfully authenticated key pair',
+			token,
+		}
+		res.send(loginResponse as unknown as ApiRequest)
+	} catch (error: unknown) {
+		const errorResponse: ErrorResponse = {
+			errorMessage: 'Error authenticating key pair',
+		}
+		console.error(error)
+		res.status(500).json(errorResponse as unknown as ApiRequest)
+	}
+}
 
-    await req.session.save();
-
-    res.send({
-      message: 'Successfully authenticated key pair',
-      token: token,
-    });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).json({ error: 'Error authenticating key pair' });
-  }
-};
-
-export default withSessionRoute(handler);
+export default withSessionRoute(handler)

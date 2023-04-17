@@ -1,0 +1,85 @@
+.creatorHeader {
+	display: flex;
+	flex: 1;
+	justify-content: space-between;
+}
+
+.creatorProfile {
+	width: 100%;
+	background: white;
+	display: flex;
+	flex: 2;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.avatarWrapper {
+	z-index: 150;
+	position: relative;
+	margin: 150px 0 20px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.profileAvatarWrapper {
+	display: flex;
+	flex: 1;
+}
+
+.profileName {
+	margin-top: 10px;
+}
+
+.creatorProfileInfo {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+}
+
+.profileActions {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.editProfileButton {
+	margin-right: 20px;
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.collectionsButton {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.boldGrayText {
+	font-weight: bold;
+	color: gray;
+}
+
+.collectionButton {
+	min-width: 200px;
+	min-height: 200px;
+	border-radius: 10px;
+	margin: 10px;
+}
+
+.collectionButtonText {
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.creationsWrapper {
+	margin-top: 50px;
+	display: flex;
+	justify-content: center;
+}
+
+.loading {
+	margin: 20px 0;
+	display: flex;
+	justify-content: center;
+}

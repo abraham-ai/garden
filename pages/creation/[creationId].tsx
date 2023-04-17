@@ -1,0 +1,220 @@
+import type { FC } from 'react'
+import React, { useEffect } from 'react'
+
+import { useRouter } from 'next/router'
+import Image from 'next/image'
+
+import type CreationTypes from '../../interfaces/Creation'
+
+import emptyCreation from '../../constants/emptyCreation'
+
+import styles from '../../styles/CreationId.module.css'
+
+import Blockies from 'react-blockies'
+import Header from '../../app/components/NavBar/Header'
+import CreationSocial from '../../app/components/CreationSocial'
+
+import abbreviateAddress from '../../util/abbreviateAddress'
+import timeAgo from '../../util/timeAgo'
+
+import useGetCreation from '../../hooks/useGetCreation'
+import useGetReactionCount from '../../hooks/useGetReactionCount'
+import { useReaction } from '../../context/ReactionContext'
+
+import { Col, Row, Typography, Avatar } from 'antd'
+
+import { SlSizeFullscreen } from 'react-icons/sl'
+import { MdOutlineDateRange } from 'react-icons/md'
+import { BsAspectRatio } from 'react-icons/bs'
+
+const { Title, Text } = Typography
+
+interface CreationPageProps {
+	params: { id: string }
+	creation: CreationTypes
+	size?: string
+}
+
+const Creation: FC<CreationPageProps> = ({
+	params,
+	creation = emptyCreation,
+	size = 'regular',
+}) => {
+	const router = useRouter()
+
+	const queryCreationId = Array.isArray(router.query.creationId)
+		? router.query.creationId[0]
+		: router.query.creationId ?? ''
+
+	// console.log(creationId)
+	// console.log(router.query)
+
+	const creationData = useGetCreation(queryCreationId)
+
+	const reactionCountList = useGetReactionCount(String(creation?._id))
+	const { reactionState, updateReactionState } = useReaction()
+
+	useEffect(() => {
+		if (
+			typeof creationData !== 'undefined' &&
+			creationData !== null &&
+			typeof creationData._id !== 'undefined' &&
+			!(creationData._id in reactionState)
+		) {
+			const praisesData = reactionCountList?.praises ?? 0
+			const praisedData = reactionCountList?.praised ?? false
+			const burnsData = reactionCountList?.burns ?? 0
+			const burnedData = reactionCountList?.burned ?? false
+
+			updateReactionState(creation._id, {
+				praises: praisesData,
+				praised: praisedData,
+				burns: burnsData,
+				burned: burnedData,
+			})
+		}
+	}, [reactionCountList, reactionState, updateReactionState, creationData])
+
+	let timeAgoCreatedAt = 0
+	if (
+		typeof creationData !== 'undefined' &&
+		creationData !== null &&
+		creation?._id !== undefined &&
+		!(creationData._id in reactionState)
+	) {
+		console.log(creationData)
+		console.log(creationData.task.config.text_input)
+		timeAgoCreatedAt = timeAgo(parseInt(creationData.createdAt))
+		console.log(timeAgoCreatedAt)
+	}
+
+	return (
+		<>
+			<Header />
+
+			<section className={styles.creationWrapper}>
+				{typeof creationData !== 'undefined' && creationData !== null ? (
+					<>
+						<Col className={styles.creation}>
+							<Row className={styles.crPost}>
+								<article className={`${styles.crCard} ${size}`}>
+									<div className={styles.crImgWrapper}>
+										<div className={styles.crImgWrapperMain}>
+											<Image
+												className={styles.crImg}
+												style={{ width: '100%' }}
+												width={creationData?.task?.config?.width}
+												height={creationData?.task?.config?.height}
+												alt={creationData?.task?.config?.text_input}
+												src={creationData?.thumbnail}
+											/>
+										</div>
+
+										<div className={styles.crImgWrapperBackground}>
+											<Image
+												className={styles.crImg}
+												style={{ width: '100%' }}
+												width={creationData?.task?.config?.width}
+												height={creationData?.task?.config?.height}
+												alt={creationData?.task?.config?.text_input}
+												src={creationData?.thumbnail}
+											/>
+										</div>
+									</div>
+								</article>
+							</Row>
+						</Col>
+
+						<article className={styles.creationText}>
+							<div className={styles.crPostText}>
+								{/* <Text>{creationId}</Text> */}
+								{/* <Text>{'Server:'} {creationData.creation._id}</Text> */}
+
+								{/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
+
+								<section className={styles.crMain}>
+									<article className={styles.crMainHeader}>
+										<div className={styles.crCreator}>
+											<Avatar
+												className='profileAvatarWrapper'
+												style={{ display: 'flex', flex: 1 }}
+												size={50}
+												icon={<Blockies scale={6} seed={creationData.user} />}
+											/>
+											<div className={styles.crCreatorNameWrapper}>
+												<Title
+													level={3}
+													className='profileName'
+													style={{ marginTop: 10 }}
+												>
+													{abbreviateAddress(creationData.user)}
+												</Title>
+												<Text>{timeAgoCreatedAt}</Text>
+											</div>
+										</div>
+									</article>
+
+									<div style={{ display: 'flex', flexDirection: 'column' }}>
+										<Text style={{ color: 'purple', fontWeight: 600 }}>
+											{'/dream'}
+										</Text>
+										<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
+											{creationData.task.config.text_input}
+										</Text>
+
+										<CreationSocial
+											layout={'expanded'}
+											creation={creation}
+											creationId={creation._id}
+											reactionCountList={{
+												praises: reactionState[creation._id]?.praises ?? 0,
+												praised: reactionState[creation._id]?.praised ?? false,
+												burns: reactionState[creation._id]?.burns ?? 0,
+												burned: reactionState[creation._id]?.burned ?? false,
+											}}
+										/>
+
+										<ul className={styles.crPropertiesWrapper}>
+											<li className={styles.crProperty}>
+												<span className={styles.crPropertyType}>
+													<MdOutlineDateRange className='icon' />
+													<Text>{'Date'}</Text>
+												</span>
+												<Text>{timeAgoCreatedAt}</Text>
+											</li>
+											<li className={styles.crProperty}>
+												<span className={styles.crPropertyType}>
+													<SlSizeFullscreen className='icon' />
+													<Text>{'Size'}</Text>
+												</span>
+												<Text>{'512 x 512'}</Text>
+											</li>
+											<li className={styles.crProperty}>
+												<span className={styles.crPropertyType}>
+													<BsAspectRatio className='icon' />
+													<Text>{'Command'}</Text>
+												</span>
+												<Text>{'/dream'}</Text>
+											</li>
+											<li className={styles.crProperty}>
+												<span className={styles.crPropertyType}>
+													<BsAspectRatio className={styles.icon} />
+													<Text>{'Shape'}</Text>
+												</span>
+												<Text>{'square'}</Text>
+											</li>
+										</ul>
+									</div>
+								</section>
+							</div>
+						</article>
+					</>
+				) : (
+					<Text>{'Loading...'}</Text>
+				)}
+			</section>
+		</>
+	)
+}
+
+export default Creation
