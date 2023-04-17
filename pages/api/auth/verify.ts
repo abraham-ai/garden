@@ -33,7 +33,7 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 		const fields = await siweMessage.validate(signature)
 
 		// Verify the nonce
-		if (fields.nonce !== req.session.get('nonce')) {
+		if (fields.nonce !== req.session.nonce) {
 			const errorResponse: ErrorResponse = { errorMessage: 'Invalid nonce.' }
 			res.status(422).json(errorResponse as unknown as ExtendedApiRequest)
 			return
@@ -51,9 +51,9 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 
 		// Save the user data in the session
 		const session = req.session
-		session.set('token', resp.token)
-		session.set('userId', resp.userId)
-		session.set('address', userAddress)
+		session.token = resp.token
+		session.userId = resp.userId
+		session.address = userAddress
 
 		await session.save()
 

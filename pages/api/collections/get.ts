@@ -1,4 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next/types'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedNextApiRequest } from '../../../interfaces/ExtendedNextApiRequest'
 import type CollectionResponse from '../../../interfaces/CollectionResponse'
 import { withSessionRoute } from '../../../util/withSession'
 
@@ -7,7 +8,7 @@ import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 const handler = async (
-	req: NextApiRequest,
+	req: ExtendedNextApiRequest,
 	res: NextApiResponse
 ): Promise<CollectionResponse> => {
 	//   const { name } = req.query
