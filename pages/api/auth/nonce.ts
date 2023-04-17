@@ -1,20 +1,20 @@
 import type { NextApiResponse } from 'next'
+import type { ExtendedNextApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 import { generateNonce } from 'siwe'
 
 const handler = async (
-	req: ExtendedNextApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { method } = req
-	const session = req.session
 
 	switch (method) {
 		case 'GET':
-			session.set('nonce', generateNonce())
-			await session.save()
+			req.session.set('nonce', generateNonce())
+			await req.session.save()
 			res.setHeader('Content-Type', 'text/plain')
-			res.send(session.get('nonce'))
+			res.send(req.session.get('nonce'))
 			break
 		default:
 			res.setHeader('Allow', ['GET'])
