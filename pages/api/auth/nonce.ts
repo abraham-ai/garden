@@ -1,18 +1,18 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import { withSessionRoute, sessionOptions } from '../../../util/withSession'
 import { generateNonce } from 'siwe'
 
 const handler = async (
-	req: NextApiRequest,
+	req: ExtendedNextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { method } = req
-	const session = req.session as unknown as IronSessionData
+	const session = req.session
 
 	switch (method) {
 		case 'GET':
 			session.set('nonce', generateNonce())
-			session.save()
+			await session.save()
 			res.setHeader('Content-Type', 'text/plain')
 			res.send(session.get('nonce'))
 			break
@@ -22,4 +22,4 @@ const handler = async (
 	}
 }
 
-export default withSessionRoute(handler, sessionOptions)
+export default withSessionRoute(handler)

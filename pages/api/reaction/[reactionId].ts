@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
-import type { IronSessionData } from '../../../util/withSession'
 
 import type Reaction from '../../../interfaces/Reaction'
 import type CreationExtended from '../../../interfaces/CreationExtended'
@@ -26,7 +25,7 @@ const handler = async (
 
 	// console.log({ creationId })
 
-	const session = req.session as unknown as IronSessionData
+	const session = req.session
 
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''

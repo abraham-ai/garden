@@ -22,7 +22,7 @@ const handler = async (
 	try {
 		const resp = await eden.loginEth(message, signature, userAddress)
 
-		const session = req.session as unknown as IronSessionData
+		const session = req.session
 		session.set('token', resp.token)
 		session.set('userId', resp.userId)
 		session.set('address', userAddress)

@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next/types'
-import type { IronSessionData } from '../../../util/withSession'
 import type CollectionResponse from '../../../interfaces/CollectionResponse'
 import { withSessionRoute } from '../../../util/withSession'
 
@@ -14,7 +13,7 @@ const handler = async (
 	//   const { name } = req.query
 
 	// Save the user data in the session
-	const session = req.session as unknown as IronSessionData
+	const session = req.session
 
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
