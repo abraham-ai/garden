@@ -1,4 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
+import type { ExtendedNextApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
@@ -14,7 +15,7 @@ interface ErrorResponse {
 }
 
 const handler = async (
-	req: NextApiRequest,
+	req: ExtendedNextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { message, signature, userAddress } = req.body
@@ -23,9 +24,9 @@ const handler = async (
 		const resp = await eden.loginEth(message, signature, userAddress)
 
 		const session = req.session
-		session.set('token', resp.token)
-		session.set('userId', resp.userId)
-		session.set('address', userAddress)
+		session.token = resp.token
+		session.userId = resp.userId
+		session.address = userAddress
 
 		const token = resp.token
 

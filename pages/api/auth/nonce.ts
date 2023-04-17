@@ -4,17 +4,19 @@ import { withSessionRoute } from '../../../util/withSession'
 import { generateNonce } from 'siwe'
 
 const handler = async (
-	req: ExtendedApiRequest,
+	req: ExtendedNextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { method } = req
 
 	switch (method) {
 		case 'GET':
-			req.session.set('nonce', generateNonce())
+			console.log('req.session:', req.session) // Add this line
+
+			req.session.nonce = generateNonce()
 			await req.session.save()
 			res.setHeader('Content-Type', 'text/plain')
-			res.send(req.session.get('nonce'))
+			res.send(req.session.nonce)
 			break
 		default:
 			res.setHeader('Allow', ['GET'])

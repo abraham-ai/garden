@@ -1,8 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import { withSessionRoute } from '../../../util/withSession'
+import type { ExtendedNextApiRequest } from '../../../util/withSession'
 
 const handler = async (
-	req: NextApiRequest,
+	req: ExtendedNextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	// Get the user from the session
