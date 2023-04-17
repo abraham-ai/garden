@@ -37,7 +37,7 @@ const handler = async (
 		eden.setAuthToken(authToken)
 
 		const collections = await eden.getCollections(userId)
-		// console.log(collections)
+		console.log(collections)
 
 		res.status(200).json({ result: collections })
 		return emptyCollectionResponse

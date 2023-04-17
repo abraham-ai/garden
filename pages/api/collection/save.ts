@@ -44,7 +44,7 @@ const handler = async (
 
 		// get creation
 		const creation = await eden.getCreation(creationId)
-		// console.log(creation)
+		console.log(creation)
 
 		// add creation to collection
 		const addedCreationResult = await collection.addCreation(creation)

@@ -45,14 +45,12 @@ const SaveButton: FC<SaveButtonTypes> = ({
 
 	const handleSave = (): void => {
 		// console.log({ isSignedIn })
-		if (!isSignedIn) {
-		} else if (isSignedIn && !isWalletConnected) {
-		} else {
+		if (isSignedIn && isWalletConnected) {
 			console.log('handle SAVE 🔖!')
 			setIsBookmarked(!isBookmarked)
 			// showSaveNotification()
 			setIsSaveCreationModalOpen(true)
-			setCurrentCreationModalCreation(creation[0])
+			setCurrentCreationModalCreation(creation)
 			setCollectionModalView(0)
 		}
 	}
