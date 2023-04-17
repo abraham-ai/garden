@@ -1,8 +1,6 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { withSessionRoute, sessionOptions } from '../../../util/withSession'
 import { generateNonce } from 'siwe'
-import { sessionOptions } from '../../../util/withSession'
-import type { IronSessionData } from '../../../util/withSession'
 
 const handler = async (
 	req: NextApiRequest,
@@ -24,4 +22,4 @@ const handler = async (
 	}
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionRoute(handler, sessionOptions)

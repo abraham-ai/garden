@@ -1,6 +1,5 @@
-import type { NextApiHandler } from 'next/types'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { withSessionRoute } from '../../../util/withSession'
-import type { IronSessionData, ApiRequest } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -14,9 +13,10 @@ interface ErrorResponse {
 	errorMessage: string
 }
 
-const handler: NextApiHandler<
-	ApiRequest & { session: IronSessionData }
-> = async (req, res): Promise<void> => {
+const handler = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { message, signature, userAddress } = req.body
 
 	try {
