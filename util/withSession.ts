@@ -44,8 +44,22 @@ export const sessionOptions = {
 	},
 }
 
-export function withSessionRoute(handler: NextApiHandler): NextApiHandler {
-	return withIronSessionApiRoute(handler, sessionOptions)
+export function withSessionRoute(
+	handler: (req: ExtendedApiRequest, res: NextApiResponse) => Promise<void>
+): NextApiHandler {
+	const wrappedHandler: NextApiHandler = async (req, res) => {
+		const session = await withIronSessionApiRoute(async (req, res) => {
+			return req.session
+		}, sessionOptions)(req, res)
+
+		if (session) {
+			;(req as ExtendedApiRequest).session = session
+			await handler(req as ExtendedApiRequest, res)
+		} else {
+			res.status(500).json({ error: 'Failed to initialize session' })
+		}
+	}
+	return wrappedHandler
 }
 
 // Theses types are compatible with InferGetStaticPropsType https://nextjs.org/docs/basic-features/data-fetching#typescript-use-getstaticprops

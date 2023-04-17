@@ -1,5 +1,5 @@
 import type { NextApiResponse } from 'next'
-import { withSessionRoute, sessionOptions } from '../../../util/withSession'
+import { withSessionRoute } from '../../../util/withSession'
 import { generateNonce } from 'siwe'
 
 const handler = async (
