@@ -9,6 +9,8 @@ const handler = async (
 	// Get the user from the session
 	const userId = req.session.userId
 
+	console.log({ userId })
+
 	if (!userId) {
 		res.status(401).json({ message: 'Not authenticated' })
 		return

@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useCallback, useEffect, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import type { FC, MouseEvent } from 'react'
 import AppContext from '../../context/AppContext'
 import { useAccount, useNetwork, useSignMessage } from 'wagmi'
 import { SiweMessage } from 'siwe'
@@ -8,10 +9,10 @@ import axios from 'axios'
 
 import EthereumAccount from './EthereumAccount'
 
-const EthereumAuth = () => {
+const EthereumAuth: FC = () => {
 	const context = useContext(AppContext)
 
-	const isWalletConnected = context?.isWalletConnected || false
+	const isWalletConnected = context?.isWalletConnected ?? false
 
 	const setIsWalletConnected = useMemo(() => {
 		return context?.setIsWalletConnected != null
@@ -64,7 +65,7 @@ const EthereumAuth = () => {
 					setAuthToken(token)
 					setIsSignedIn(true)
 				}
-			} catch (error: any) {
+			} catch (error: unknown) {
 				console.info('error!', error)
 				// setEthMessage('Error authenticating')
 			}
@@ -72,8 +73,12 @@ const EthereumAuth = () => {
 		},
 	})
 
-	const handleSiwe = async (event: React.MouseEvent): Promise<void> => {
-		if (!isConnected) return
+	const handleSiwe = async (event: MouseEvent): Promise<void> => {
+		if (!isConnected) {
+			await Promise.resolve()
+			return
+		}
+
 		// setEthAuthenticating(true)
 		try {
 			const nonceRes = await fetch('/api/auth/nonce')
@@ -89,14 +94,18 @@ const EthereumAuth = () => {
 			// console.log(message)
 			const preparedMessage = message.prepareMessage()
 			console.info('sign message 1')
-			await signMessage({
-				message: preparedMessage,
-			})
+			try {
+				await signMessage({
+					message: preparedMessage,
+				})
+			} catch (error) {
+				console.error('Error signing message:', error)
+			}
 			console.info('sign message 2')
-		} catch (error: any) {
-			// console.log(error)
-			// setEthMessage('Error authenticating')
-			// setEthAuthenticating(false)
+		} catch (error: unknown) {
+			console.log(error)
+			setEthMessage('Error authenticating')
+			setEthAuthenticating(false)
 		}
 	}
 
@@ -107,7 +116,7 @@ const EthereumAuth = () => {
 			setUserId(typeof address === 'string' ? `${String(address)}` : '')
 		}
 
-		const handler = async () => {
+		const handler = async (): Promise<void> => {
 			try {
 				const res = await fetch('/api/auth/me')
 				const json = await res.json()
@@ -117,17 +126,33 @@ const EthereumAuth = () => {
 				if (typeof token !== 'undefined' && typeof userId !== 'undefined') {
 					setIsSignedIn(true)
 					setAuthToken(token)
-					setUserId(`${userId}`)
+					setUserId(`${String(userId)}`)
 				}
 			} catch (_error) {}
 		}
 		// 1. page loads
 		handler()
+			.then(() => {
+				console.log('Handler function completed successfully')
+			})
+			.catch((error) => {
+				console.error('An error occurred in the handler function:', error)
+			})
 
 		// 2. window is focused (in case user logs out of another window)
-		window.addEventListener('focus', handler)
+		const handleFocus = (): void => {
+			handler()
+				.then(() => {
+					console.log('Handler function completed successfully')
+				})
+				.catch((error) => {
+					console.error('An error occurred in the handler function:', error)
+				})
+		}
+
+		window.addEventListener('focus', handleFocus)
 		return () => {
-			window.removeEventListener('focus', handler)
+			window.removeEventListener('focus', handleFocus)
 		}
 	}, [
 		isWalletConnected,

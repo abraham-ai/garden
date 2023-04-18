@@ -9,6 +9,8 @@ const handler = async (
 ): Promise<void> => {
 	const { method } = req
 
+	console.log(method)
+
 	switch (method) {
 		case 'GET':
 			console.log('req.session:', req.session) // Add this line

@@ -26,15 +26,6 @@ export type ExtendedApiRequest = NextApiRequest & {
 	session: IronSessionData
 }
 
-export interface ApiRequest extends NextApiRequest {
-	session: IronSessionData
-	// body: {
-	// 	message: string
-	// 	signature: string
-	// 	userAddress: string
-	// }
-}
-
 export const sessionOptions = {
 	password: process.env.NEXT_PUBLIC_COOKIE_SECRET ?? '',
 	cookieName: 'eden_art',

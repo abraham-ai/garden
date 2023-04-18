@@ -142,13 +142,13 @@ const Creator: FC<CreatorPageProps> = () => {
 											</Button>
 										)}
 
-										{queryCreatorId === displayAddress ? (
+										{/* {queryCreatorId === displayAddress ? (
 											<Link href='/profile'>
 												<Button shape='round' style={{ marginLeft: 20 }}>
 													<Text>{'Edit Profile'}</Text>
 												</Button>
 											</Link>
-										) : null}
+										) : null} */}
 									</div>
 								</div>
 							</span>

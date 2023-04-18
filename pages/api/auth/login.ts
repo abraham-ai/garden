@@ -20,6 +20,8 @@ const handler = async (
 ): Promise<void> => {
 	const { message, signature, userAddress } = req.body
 
+	console.log({ message, signature, userAddress })
+
 	try {
 		const resp = await eden.loginEth(message, signature, userAddress)
 

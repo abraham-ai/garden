@@ -25,6 +25,8 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 		return
 	}
 
+	console.log(req.method)
+
 	const { message, signature, userAddress } = req.body
 
 	try {

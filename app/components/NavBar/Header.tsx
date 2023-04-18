@@ -140,9 +140,9 @@ const Header: FC = () => {
 								<ActiveLink href='/mycreations'>
 									<Text>{'My Creations'}</Text>
 								</ActiveLink>
-								<ActiveLink href='/profile'>
+								{/* <ActiveLink href='/profile'>
 									<Text>{'Edit Profile'}</Text>
-								</ActiveLink>
+								</ActiveLink> */}
 							</>
 						) : null}
 					</>
