@@ -294,6 +294,8 @@ const CreationSaveModal: FC = () => {
 		</Button>
 	)
 
+	console.log({ currentCreationModalCreation })
+
 	return (
 		<Modal
 			open={isSaveCreationModalOpen}
@@ -320,11 +322,14 @@ const CreationSaveModal: FC = () => {
 									{CreateCollectionButton}
 								</>
 							) : (
-								<Text className={styles.textNotification}>
-									{'You don’t have any collections yet.'}
-								</Text>
+								<>
+									<Text className={styles.textNotification}>
+										{'You don’t have any collections yet.'}
+									</Text>
+									{CreateCollectionButton}
+								</>
 							)}
-							<Button
+							{/* <Button
 								shape='round'
 								type='primary'
 								icon={
@@ -350,7 +355,7 @@ const CreationSaveModal: FC = () => {
 								}}
 							>
 								{'Add to a new collection'}
-							</Button>
+							</Button> */}
 						</article>
 					) : null}
 

@@ -39,7 +39,7 @@ interface CollectionPageTypes {
 const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 	const { collectionId } = router.query
-	// console.log(collectionId)
+	console.log(collectionId)
 
 	const collectionData =
 		typeof collectionId === 'string'
@@ -86,6 +86,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 							<>
 								<CreatorHeader
 									userId={collectionData?.data?.profile?.user?.userId}
+									collectionId={collectionId}
 								/>
 								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

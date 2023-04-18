@@ -34,6 +34,8 @@ const MyCollections: FC = () => {
 		error,
 	} = useGetCollections()
 
+	console.log({ myCollectionsData })
+
 	const handleClickCollection = (
 		e: MouseEvent<HTMLAnchorElement>,
 		collectionId: string
@@ -43,7 +45,9 @@ const MyCollections: FC = () => {
 	}
 
 	const isMyCollections =
-		myCollectionsData !== null && !isLoading && error === false
+		myCollectionsData !== null && !isLoading && typeof error === 'undefined'
+
+	console.log({ myCollectionsData, isLoading, error })
 
 	return (
 		<>

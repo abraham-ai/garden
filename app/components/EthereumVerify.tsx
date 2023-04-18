@@ -7,7 +7,7 @@ import { useAccount } from 'wagmi'
 const EthereumVerify = (): JSX.Element | null => {
 	const context = useContext(AppContext)
 
-	const isWalletConnected = context?.isWalletConnected || false
+	const isWalletConnected = context?.isWalletConnected ?? false
 
 	const setIsWalletConnected = useMemo(() => {
 		return context?.setIsWalletConnected != null
@@ -36,7 +36,7 @@ const EthereumVerify = (): JSX.Element | null => {
 			setUserId(typeof address === 'string' ? `${String(address)}` : '')
 		}
 
-		const handler = async () => {
+		const handler = async (): Promise<void> => {
 			try {
 				const res = await fetch('/api/auth/me')
 				const json = await res.json()

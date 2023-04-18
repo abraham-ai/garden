@@ -24,7 +24,9 @@ const CreationSocial: FC<CreationSocialType> = ({
 		praised: isPraised,
 		burns,
 		burned: isBurned,
-	} = reactionState[creationId] || {}
+	} = reactionState[creationId] ?? {}
+
+	console.log({ reactionState })
 
 	const handlePraiseUpdate = (
 		isPraised: boolean,

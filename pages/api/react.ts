@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../util/withSession'
-import type { IronSessionData } from '../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -19,12 +18,15 @@ const handler = async (
 ): Promise<void> => {
 	const { creationId, reaction, unreact } = req.body
 
-	const session = req.session as unknown as IronSessionData
+	console.log(creationId, reaction, unreact)
+
+	const session = req.session
 
 	// const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
+	console.log(authToken)
 
-	if (!(authToken === '')) {
+	if (authToken === '') {
 		res.status(401).json({ error: 'Not authenticated' })
 		return
 	}
@@ -37,8 +39,12 @@ const handler = async (
 		let result
 		if (unreact) {
 			result = await creation.unreact(reaction)
+			console.log('unreacted')
+			console.log(result)
 		} else {
 			result = await creation.react(reaction)
+			console.log('reacted')
+			console.log(result)
 		}
 		res.status(200).json({ result })
 	} catch (error: unknown) {

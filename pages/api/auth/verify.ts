@@ -1,8 +1,5 @@
 import type { NextApiHandler, NextApiResponse } from 'next'
-import type {
-	ExtendedApiRequest,
-	IronSessionData,
-} from '../../../util/withSession'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 import { SiweMessage } from 'siwe'
 import { EdenClient } from 'eden-sdk'
@@ -36,9 +33,7 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 		const fields = await siweMessage.validate(signature)
 
 		// Verify the nonce
-		if (
-			fields.nonce !== (req.session as unknown as IronSessionData).get('nonce')
-		) {
+		if (fields.nonce !== req.session.nonce) {
 			const errorResponse: ErrorResponse = { errorMessage: 'Invalid nonce.' }
 			res.status(422).json(errorResponse as unknown as ExtendedApiRequest)
 			return
@@ -55,12 +50,12 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 		}
 
 		// Save the user data in the session
-		const session = req.session as unknown as IronSessionData
-		session.set('token', resp.token)
-		session.set('userId', resp.userId)
-		session.set('address', userAddress)
+		const session = req.session
+		session.token = resp.token
+		session.userId = resp.userId
+		session.address = userAddress
 
-		session.save()
+		await session.save()
 
 		const loginResponse: LoginResponse = {
 			ok: true,

@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next/types'
 import { withSessionRoute } from '../../../util/withSession'
-import type { IronSessionData } from '../../../util/withSession'
 
 import type Reaction from '../../../interfaces/Reaction'
 import type CreationExtended from '../../../interfaces/CreationExtended'
@@ -26,7 +25,7 @@ const handler = async (
 
 	// console.log({ creationId })
 
-	const session = req.session as unknown as IronSessionData
+	const session = req.session
 
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
@@ -57,12 +56,23 @@ const handler = async (
 		// console.log(reactions[0]?.user)
 		// console.log(reactions[1]?.user)
 
+		console.log(reactions)
+
+		console.log(
+			burns.some((reaction: Reaction) => {
+				console.log(reaction.user.username)
+
+				return reaction.user._id === userId
+			})
+		)
+		console.log(userId)
+
 		const praised: boolean =
 			userId !== undefined &&
-			praises.some((reaction: Reaction) => reaction.user.username === userId)
+			praises.some((reaction: Reaction) => reaction.user._id === userId)
 		const burned: boolean =
 			userId !== undefined &&
-			burns.some((reaction: Reaction) => reaction.user.username === userId)
+			burns.some((reaction: Reaction) => reaction.user._id === userId)
 
 		const result = {
 			praises: praises.length > 0 ? praises.length : 0,
@@ -71,7 +81,7 @@ const handler = async (
 			burned,
 		}
 
-		// console.log(result)
+		console.log(result)
 
 		res.status(200).json(result)
 		return

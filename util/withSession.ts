@@ -4,7 +4,7 @@ import type {
 	NextApiHandler,
 	NextApiRequest,
 } from 'next/types'
-import type { Session } from 'next-iron-session'
+import type { Session } from 'iron-session'
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
 
 declare const process: {
@@ -20,11 +20,6 @@ export type IronSessionData = Session & {
 	userId?: string
 	username?: string
 	nonce?: string
-	save: () => Promise<void>
-	// get: (key: string) => any
-	// set: (key: string, value: any) => void
-	// unset: (key: string) => void
-	// save: () => void
 }
 
 export type ExtendedApiRequest = NextApiRequest & {
@@ -50,22 +45,16 @@ export const sessionOptions = {
 }
 
 export function withSessionRoute(
-	handler: NextApiHandler<ExtendedApiRequest>
+	handler: (req: ExtendedApiRequest, res: NextApiResponse) => Promise<void>
 ): NextApiHandler {
-	return withIronSessionApiRoute(
-		handler as unknown as NextApiHandler<NextApiRequest>,
+	const wrappedHandler: NextApiHandler = withIronSessionApiRoute(
+		async (req, res) => {
+			await handler(req as ExtendedApiRequest, res)
+		},
 		sessionOptions
 	)
+	return wrappedHandler
 }
-
-// export function withSessionRoute(
-// 	handler: NextApiHandler<ApiRequest & { session: IronSessionData }>
-// ): NextApiHandler {
-// 	return withIronSessionApiRoute(
-// 		handler as unknown as NextApiHandler<NextApiRequest>,
-// 		sessionOptions
-// 	)
-// }
 
 // Theses types are compatible with InferGetStaticPropsType https://nextjs.org/docs/basic-features/data-fetching#typescript-use-getstaticprops
 export function withSessionSsr<

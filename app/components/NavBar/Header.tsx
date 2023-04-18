@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import type { FC, MouseEvent } from 'react'
+import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 
 import Image from 'next/image'

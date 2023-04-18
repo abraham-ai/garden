@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next/types'
-import type { IronSessionData } from '../../../util/withSession'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedNextApiRequest } from '../../../interfaces/ExtendedNextApiRequest'
 import type CollectionResponse from '../../../interfaces/CollectionResponse'
 import { withSessionRoute } from '../../../util/withSession'
 
@@ -8,19 +8,19 @@ import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 const handler = async (
-	req: NextApiRequest,
+	req: ExtendedNextApiRequest,
 	res: NextApiResponse
 ): Promise<CollectionResponse> => {
 	//   const { name } = req.query
 
 	// Save the user data in the session
-	const session = req.session as unknown as IronSessionData
+	const session = req.session
 
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
 	// console.log({ req })
-	console.log(req.url)
+	// console.log(req.url)
 
 	const emptyCollectionResponse = {
 		collection: {},

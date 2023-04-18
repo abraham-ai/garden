@@ -1,6 +1,6 @@
-import type { NextApiHandler } from 'next/types'
+import type { NextApiResponse } from 'next'
+import type { ExtendedNextApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
-import type { IronSessionData, ApiRequest } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
@@ -14,18 +14,19 @@ interface ErrorResponse {
 	errorMessage: string
 }
 
-const handler: NextApiHandler<
-	ApiRequest & { session: IronSessionData }
-> = async (req, res): Promise<void> => {
+const handler = async (
+	req: ExtendedNextApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { message, signature, userAddress } = req.body
 
 	try {
 		const resp = await eden.loginEth(message, signature, userAddress)
 
-		const session = req.session as unknown as IronSessionData
-		session.set('token', resp.token)
-		session.set('userId', resp.userId)
-		session.set('address', userAddress)
+		const session = req.session
+		session.token = resp.token
+		session.userId = resp.userId
+		session.address = userAddress
 
 		const token = resp.token
 
