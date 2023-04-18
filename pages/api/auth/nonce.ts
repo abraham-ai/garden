@@ -9,6 +9,7 @@ const handler = async (
 ): Promise<void> => {
 	const { method } = req
 
+	console.log('nonce.ts')
 	console.log(method)
 
 	switch (method) {

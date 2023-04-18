@@ -8,7 +8,10 @@ const handler = async (
 ): Promise<void> => {
 	// Get the user from the session
 	const userId = req.session.userId
+	const token = req.session.token
 
+	console.log('me.ts')
+	console.log(req.url)
 	console.log({ userId })
 
 	if (!userId) {
@@ -17,7 +20,7 @@ const handler = async (
 	}
 
 	// Return the user data
-	res.status(200).json({ userId })
+	res.status(200).json({ userId, token })
 }
 
 export default withSessionRoute(handler)

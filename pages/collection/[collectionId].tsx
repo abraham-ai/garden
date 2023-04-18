@@ -39,16 +39,15 @@ interface CollectionPageTypes {
 const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 	const { collectionId } = router.query
-	console.log(collectionId)
+	// console.log(collectionId)
 
 	const collectionData =
 		typeof collectionId === 'string'
 			? useGetCollection(collectionId)
 			: undefined
 
-	console.log('[collectionId] ROUTE')
-	console.log({ collectionData })
-	console.log(collectionData)
+	// console.log('[collectionId] ROUTE')
+	// console.log({ collectionData })
 
 	if (collectionData != null) {
 		console.log({ collectionData })

@@ -18,13 +18,13 @@ const handler = async (
 ): Promise<void> => {
 	const { creationId, reaction, unreact } = req.body
 
-	console.log(creationId, reaction, unreact)
+	// console.log(creationId, reaction, unreact)
 
 	const session = req.session
 
 	// const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
-	console.log(authToken)
+	// console.log(authToken)
 
 	if (authToken === '') {
 		res.status(401).json({ error: 'Not authenticated' })

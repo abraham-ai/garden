@@ -46,6 +46,7 @@ const EthereumAuth: FC = () => {
 		onSuccess: async (data, variables) => {
 			// console.log({ address })
 			try {
+				console.log('TEST TEST TEST')
 				console.info('/api/login !')
 				console.info({
 					message: variables.message,
@@ -122,6 +123,9 @@ const EthereumAuth: FC = () => {
 				const json = await res.json()
 
 				const { token, userId } = json
+
+				console.log('EthereumAuth.tsx')
+				console.log({ token, userId })
 
 				if (typeof token !== 'undefined' && typeof userId !== 'undefined') {
 					setIsSignedIn(true)

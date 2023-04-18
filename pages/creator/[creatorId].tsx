@@ -39,7 +39,7 @@ const Creator: FC<CreatorPageProps> = () => {
 	// const queryCreatorId = router.query.creatorId
 
 	// console.log(creatorId)
-	console.log(router.query)
+	// console.log(router.query)
 
 	const queryCreatorId = Array.isArray(router.query.creatorId)
 		? router.query.creatorId[0]
@@ -50,8 +50,8 @@ const Creator: FC<CreatorPageProps> = () => {
 	}
 	const creatorData = useGetCreator(queryCreatorId)
 
-	console.log(queryCreatorId)
-	console.log(creatorData)
+	// console.log(queryCreatorId)
+	// console.log(creatorData)
 	// console.log(router.query.creatorId)j
 
 	let displayAddress = ''

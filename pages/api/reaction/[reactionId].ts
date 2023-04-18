@@ -56,16 +56,16 @@ const handler = async (
 		// console.log(reactions[0]?.user)
 		// console.log(reactions[1]?.user)
 
-		console.log(reactions)
+		// console.log(reactions)
 
-		console.log(
-			burns.some((reaction: Reaction) => {
-				console.log(reaction.user.username)
+		// console.log(
+		// 	burns.some((reaction: Reaction) => {
+		// 		console.log(reaction.user.username)
 
-				return reaction.user._id === userId
-			})
-		)
-		console.log(userId)
+		// 		return reaction.user._id === userId
+		// 	})
+		// )
+		// console.log(userId)
 
 		const praised: boolean =
 			userId !== undefined &&
@@ -81,7 +81,7 @@ const handler = async (
 			burned,
 		}
 
-		console.log(result)
+		// console.log(result)
 
 		res.status(200).json(result)
 		return
