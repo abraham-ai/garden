@@ -23,15 +23,15 @@ interface EthereumAccountTypes {
 const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 	const context = useContext(AppContext)
 
-	const isWalletConnected = context?.isWalletConnected || false
+	const isWalletConnected = context?.isWalletConnected ?? false
 
 	const setAuthToken = useMemo(() => {
 		return context?.setAuthToken != null ? context.setAuthToken : () => {}
 	}, [context?.setAuthToken])
 
-	const userId = context?.userId || ''
+	const userId = context?.userId ?? ''
 
-	const isSignedIn = context?.isSignedIn || false
+	const isSignedIn = context?.isSignedIn ?? false
 
 	const setIsSignedIn = useMemo(() => {
 		return context?.setIsSignedIn != null ? context.setIsSignedIn : () => {}
@@ -60,8 +60,16 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 						{typeof userId === 'string' && isSignedIn ? (
 							<div>
 								<Button
-									onClick={async () => {
-										disconnect()
+									onClick={(e) => {
+										disconnect
+											.then((disconnectResult) => {
+												if (typeof disconnectResult !== 'undefined') {
+													console.log('disconnectResult', disconnectResult)
+												}
+											})
+											.catch((error) => {
+												console.error(error)
+											})
 									}}
 								>
 									{'Disconnect Wallet'}
@@ -72,8 +80,16 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 								type='primary'
 								shape='round'
 								disabled={state.loading}
-								onClick={async (e) => {
-									await handleSiwe(e)
+								onClick={(e) => {
+									handleSiwe(e)
+										.then((handleSiweResult) => {
+											if (typeof handleSiweResult !== 'undefined') {
+												console.log('handleSiweResult', handleSiweResult)
+											}
+										})
+										.catch((error) => {
+											console.error(error)
+										})
 								}}
 							>
 								{'Sign-In with Ethereum'}
@@ -82,10 +98,17 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 
 						{typeof userId === 'string' && isSignedIn ? (
 							<Button
-								onClick={async () => {
-									await fetch('/api/auth/logout')
-									setAuthToken('')
-									setIsSignedIn(false)
+								onClick={() => {
+									try {
+										const logoutResult = fetch('/api/auth/logout')
+										if (typeof logoutResult.ok !== 'undefined') {
+											throw new Error('Logout failed')
+										}
+										setAuthToken('')
+										setIsSignedIn(false)
+									} catch (error) {
+										console.error(error)
+									}
 								}}
 								style={{ marginLeft: 10 }}
 							>
