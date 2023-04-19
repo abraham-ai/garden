@@ -3,14 +3,25 @@ import type {
 	GetServerSidePropsResult,
 	NextApiHandler,
 	NextApiRequest,
+	NextApiResponse,
 } from 'next/types'
 import type { Session } from 'iron-session'
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
+import * as IronSession from 'iron-session'
 
 declare const process: {
 	env: {
 		NODE_ENV: string
 		NEXT_PUBLIC_COOKIE_SECRET: string
+	}
+}
+
+declare module 'iron-session' {
+	interface IronSessionData {
+		user?: {
+			id: number
+			admin?: boolean
+		}
 	}
 }
 
