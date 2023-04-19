@@ -1,4 +1,4 @@
-import type { NextApiHandler, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import type { ExtendedApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 import { SiweMessage } from 'siwe'

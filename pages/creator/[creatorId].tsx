@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import type { FC } from 'react'
 
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 import styles from '../../styles/CreationId.module.css'
 
