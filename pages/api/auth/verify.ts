@@ -15,10 +15,10 @@ interface LoginResponse {
 	token: string
 }
 
-const handler: NextApiHandler<ExtendedApiRequest> = async (
-	req,
+const handler: (
+	req: ExtendedApiRequest,
 	res: NextApiResponse
-): Promise<void> => {
+) => Promise<void> = async (req, res: NextApiResponse): Promise<void> => {
 	if (req.method !== 'POST') {
 		res.setHeader('Allow', ['POST'])
 		res.status(405).end(`Method ${String(req.method)} Not Allowed`)
@@ -37,7 +37,7 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 		// Verify the nonce
 		if (fields.nonce !== req.session.nonce) {
 			const errorResponse: ErrorResponse = { errorMessage: 'Invalid nonce.' }
-			res.status(422).json(errorResponse as unknown as ExtendedApiRequest)
+			res.status(422).json(errorResponse)
 			return
 		}
 
@@ -47,7 +47,7 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 		if (resp.error !== undefined) {
 			const errorResponse: ErrorResponse = { errorMessage: resp.error }
 			console.error(resp.error)
-			res.status(500).json(errorResponse as unknown as ExtendedApiRequest)
+			res.status(500).json(errorResponse)
 			return
 		}
 
@@ -63,13 +63,13 @@ const handler: NextApiHandler<ExtendedApiRequest> = async (
 			ok: true,
 			token: resp.token,
 		}
-		res.json(loginResponse as unknown as ExtendedApiRequest)
+		res.json(loginResponse)
 	} catch (error) {
 		const errorResponse: ErrorResponse = {
 			errorMessage: 'Internal Server Error',
 		}
 		console.error(error)
-		res.status(500).json(errorResponse as unknown as ExtendedApiRequest)
+		res.status(500).json(errorResponse)
 	}
 }
 

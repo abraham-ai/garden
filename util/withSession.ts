@@ -5,9 +5,8 @@ import type {
 	NextApiRequest,
 	NextApiResponse,
 } from 'next/types'
-import type { Session } from 'iron-session'
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
-import * as IronSession from 'iron-session'
+import type * as IronSession from 'iron-session'
 
 declare const process: {
 	env: {
@@ -25,7 +24,7 @@ declare module 'iron-session' {
 	}
 }
 
-export type IronSessionData = Session & {
+export type IronSessionData = IronSession.IronSessionData & {
 	token?: string
 	address?: string
 	userId?: string

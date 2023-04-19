@@ -1,11 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from 'next/types'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedApiRequest } from '../../util/withSession'
 import { withSessionRoute } from '../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 const handler = async (
-	req: NextApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	// Save the user data in the session

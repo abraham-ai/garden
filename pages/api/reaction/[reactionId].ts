@@ -1,4 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next/types'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 
 import type Reaction from '../../../interfaces/Reaction'
@@ -7,23 +8,11 @@ import type CreationExtended from '../../../interfaces/CreationExtended'
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-interface ApiRequest extends Omit<NextApiRequest, 'query'> {
-	body: {
-		creationId: string
-		reaction: string
-	}
-	query: {
-		reactionId: string
-	}
-}
-
 const handler = async (
-	req: ApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { reactionId: creationId } = req.query
-
-	// console.log({ creationId })
 
 	const session = req.session
 
@@ -39,12 +28,16 @@ const handler = async (
 			eden.setAuthToken(authToken)
 		}
 
+		if (typeof creationId !== 'string') {
+			res.status(400).json({ error: 'Invalid creationId' })
+			return
+		}
+
 		const creation = (await eden.getCreation(
 			creationId
 		)) as unknown as CreationExtended
 
 		const reactions: Reaction[] = await creation.getReactions(['🙌', '🔥'])
-		// console.log({ reactions })
 
 		const praises: Reaction[] = reactions?.filter(
 			(reaction: Reaction) => reaction.reaction === '🙌'
@@ -53,26 +46,17 @@ const handler = async (
 			(reaction: Reaction) => reaction.reaction === '🔥'
 		)
 
-		// console.log(reactions[0]?.user)
-		// console.log(reactions[1]?.user)
+		let praised = false
+		let burned = false
 
-		// console.log(reactions)
-
-		// console.log(
-		// 	burns.some((reaction: Reaction) => {
-		// 		console.log(reaction.user.username)
-
-		// 		return reaction.user._id === userId
-		// 	})
-		// )
-		// console.log(userId)
-
-		const praised: boolean =
-			userId !== undefined &&
-			praises.some((reaction: Reaction) => reaction.user._id === userId)
-		const burned: boolean =
-			userId !== undefined &&
-			burns.some((reaction: Reaction) => reaction.user._id === userId)
+		if (Array.isArray(reactions) && reactions.length > 0) {
+			praised =
+				userId !== undefined &&
+				praises.some((reaction: Reaction) => reaction?.user?._id === userId)
+			burned =
+				userId !== undefined &&
+				burns.some((reaction: Reaction) => reaction?.user?._id === userId)
+		}
 
 		const result = {
 			praises: praises.length > 0 ? praises.length : 0,
@@ -80,8 +64,6 @@ const handler = async (
 			praised,
 			burned,
 		}
-
-		// console.log(result)
 
 		res.status(200).json(result)
 		return

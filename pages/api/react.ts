@@ -1,19 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from 'next/types'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedApiRequest } from '../../util/withSession'
 import { withSessionRoute } from '../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-interface ApiRequest extends NextApiRequest {
-	body: {
-		creationId: string
-		reaction: string
-		unreact: boolean
-	}
-}
-
 const handler = async (
-	req: ApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { creationId, reaction, unreact } = req.body
@@ -37,7 +30,7 @@ const handler = async (
 		}
 		const creation = await eden.getCreation(creationId)
 		let result
-		if (unreact) {
+		if (typeof unreact !== 'undefined' && unreact !== null) {
 			result = await creation.unreact(reaction)
 			console.log('unreacted')
 			console.log(result)

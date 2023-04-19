@@ -1,9 +1,9 @@
 import type { NextApiResponse } from 'next'
 import { withSessionRoute } from '../../../util/withSession'
-import type { ExtendedNextApiRequest } from '../../../util/withSession'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 
 const handler = async (
-	req: ExtendedNextApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	// Get the user from the session
@@ -14,7 +14,7 @@ const handler = async (
 	console.log(req.url)
 	console.log({ userId })
 
-	if (!userId) {
+	if (typeof userId !== 'undefined' && userId !== null) {
 		res.status(401).json({ message: 'Not authenticated' })
 		return
 	}

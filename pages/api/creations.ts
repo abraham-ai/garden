@@ -1,21 +1,12 @@
-import { type NextApiRequest, type NextApiResponse } from 'next/types'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedApiRequest } from '../../util/withSession'
 import { withSessionRoute } from '../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-interface ApiRequest extends NextApiRequest {
-	body: {
-		username: string
-		generators: string[]
-		earliestTime: number
-		latestTime: number
-		limit: number
-	}
-}
-
 const handler = async (
-	req: ApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { limit, username, generators, earliestTime, latestTime } = req.query

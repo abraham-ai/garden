@@ -118,7 +118,7 @@ const Header: FC = () => {
 				{ value: 'garden', label: 'Garden' },
 				{ value: 'mycreations', label: 'My Creations' },
 				{ value: 'mycollections', label: 'Collections' },
-				{ value: 'editprofile', label: 'Edit Profile' },
+				// { value: 'editprofile', label: 'Edit Profile' },
 			]
 		} else {
 			return [{ value: 'garden', label: 'Garden' }]

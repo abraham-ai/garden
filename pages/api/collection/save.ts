@@ -1,21 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next/types'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-interface ApiRequest extends NextApiRequest {
-	body: {
-		creationId: string
-		collectionId: string
-	}
-}
-
 const handler = async (
-	req: ApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	//   const { name } = req.query
 	const { collectionId, creationId } = req.body
 
 	// Save the user data in the session
@@ -23,11 +16,6 @@ const handler = async (
 
 	// const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
-
-	// console.log({ name })
-	// console.log({ req })
-	// console.log(req.url)
-	//   console.log(req.body)
 
 	console.log('collectionId', collectionId)
 	console.log('creationId', creationId)
@@ -44,14 +32,11 @@ const handler = async (
 
 		// get creation
 		const creation = await eden.getCreation(creationId)
-		// console.log(creation)
 
 		// add creation to collection
 		const addedCreationResult = await collection.addCreation(creation)
 		console.log(addedCreationResult)
 
-		// console.log(result)
-		// console.log(creations)
 		res.status(200).json({ addedCreationResult, collection, creation })
 		return
 	} catch (error: unknown) {

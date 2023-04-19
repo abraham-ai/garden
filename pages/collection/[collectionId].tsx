@@ -74,6 +74,9 @@ const Collection: FC<CollectionPageTypes> = () => {
 			? collectionData?.data?.creations ?? []
 			: []
 
+	const isCollectionId =
+		typeof collectionId === 'string' ? collectionId : undefined
+
 	return (
 		<>
 			<Header />
@@ -85,7 +88,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 							<>
 								<CreatorHeader
 									userId={collectionData?.data?.profile?.user?.userId}
-									collectionId={collectionId}
+									collectionId={isCollectionId}
 								/>
 								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

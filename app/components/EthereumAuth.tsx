@@ -70,7 +70,6 @@ const EthereumAuth: FC = () => {
 				console.info('error!', error)
 				// setEthMessage('Error authenticating')
 			}
-			// setEthAuthenticating(false)
 		},
 	})
 
@@ -80,7 +79,6 @@ const EthereumAuth: FC = () => {
 			return
 		}
 
-		// setEthAuthenticating(true)
 		try {
 			const nonceRes = await fetch('/api/auth/nonce')
 			const message = new SiweMessage({
@@ -105,8 +103,7 @@ const EthereumAuth: FC = () => {
 			console.info('sign message 2')
 		} catch (error: unknown) {
 			console.log(error)
-			setEthMessage('Error authenticating')
-			setEthAuthenticating(false)
+			// setEthMessage('Error authenticating')
 		}
 	}
 
