@@ -1,10 +1,10 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
-import type { ExtendedNextApiRequest } from '../../../util/withSession'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 import { sessionOptions } from '../../../util/withSession'
 import type { NextApiResponse } from 'next/types'
 
 export default withIronSessionApiRoute(
-	async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
+	async (req: ExtendedApiRequest, res: NextApiResponse) => {
 		req.session.destroy()
 
 		res.setHeader(

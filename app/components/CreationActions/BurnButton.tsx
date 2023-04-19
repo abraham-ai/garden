@@ -60,7 +60,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 		setIsBurnHovering(false)
 	}
 
-	console.log(isBurned)
+	// console.log(isBurned)
 
 	return (
 		<div

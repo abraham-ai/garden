@@ -1,6 +1,5 @@
 import type { NextApiResponse } from 'next/types'
-import type { ExtendedNextApiRequest } from '../../../interfaces/ExtendedNextApiRequest'
-import type CollectionResponse from '../../../interfaces/CollectionResponse'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
@@ -8,29 +7,18 @@ import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 const handler = async (
-	req: ExtendedNextApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
-): Promise<CollectionResponse> => {
-	//   const { name } = req.query
-
+): Promise<void> => {
 	// Save the user data in the session
 	const session = req.session
 
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
-	// console.log({ req })
-	// console.log(req.url)
-
-	const emptyCollectionResponse = {
-		collection: {},
-		profile: { user: { userId: '' } },
-		creations: [],
-	}
-
 	if (authToken === '') {
 		res.status(401).json({ error: 'Authentication token is missing' })
-		return emptyCollectionResponse
+		return
 	}
 
 	try {
@@ -40,7 +28,7 @@ const handler = async (
 		// console.log(collections)
 
 		res.status(200).json({ result: collections })
-		return emptyCollectionResponse
+		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.log(error)
@@ -48,7 +36,6 @@ const handler = async (
 		} else {
 			res.status(500).json({ error: 'Unknown error' })
 		}
-		return emptyCollectionResponse
 	}
 }
 

@@ -43,6 +43,11 @@ const EthereumVerify = (): JSX.Element | null => {
 
 				const { token, userId } = json
 
+				console.log('EthereumVerify.tsx')
+				console.log(json)
+				console.log(res)
+				console.log({ token, userId })
+
 				if (typeof token !== 'undefined' && typeof userId !== 'undefined') {
 					setIsSignedIn(true)
 					setAuthToken(token)

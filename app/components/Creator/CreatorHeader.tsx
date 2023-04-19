@@ -76,7 +76,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({ collectionId, userId }) => {
 						className='profile-actions'
 						style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
 					>
-						<Link href='/editprofile'>
+						{/* <Link href='/editprofile'>
 							<Button
 								shape='round'
 								style={{ marginRight: 20, background: 'rgba(0,0,0,0.05)' }}
@@ -85,7 +85,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({ collectionId, userId }) => {
 									{'Edit Profile'}
 								</Text>
 							</Button>
-						</Link>
+						</Link> */}
 
 						<Link href='/mycollections'>
 							<Button

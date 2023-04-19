@@ -39,16 +39,15 @@ interface CollectionPageTypes {
 const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 	const { collectionId } = router.query
-	console.log(collectionId)
+	// console.log(collectionId)
 
 	const collectionData =
 		typeof collectionId === 'string'
 			? useGetCollection(collectionId)
 			: undefined
 
-	console.log('[collectionId] ROUTE')
-	console.log({ collectionData })
-	console.log(collectionData)
+	// console.log('[collectionId] ROUTE')
+	// console.log({ collectionData })
 
 	if (collectionData != null) {
 		console.log({ collectionData })
@@ -75,6 +74,9 @@ const Collection: FC<CollectionPageTypes> = () => {
 			? collectionData?.data?.creations ?? []
 			: []
 
+	const isCollectionId =
+		typeof collectionId === 'string' ? collectionId : undefined
+
 	return (
 		<>
 			<Header />
@@ -86,7 +88,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 							<>
 								<CreatorHeader
 									userId={collectionData?.data?.profile?.user?.userId}
-									collectionId={collectionId}
+									collectionId={isCollectionId}
 								/>
 								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

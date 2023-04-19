@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import type { FC } from 'react'
 
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 import styles from '../../styles/CreationId.module.css'
 
@@ -39,7 +38,7 @@ const Creator: FC<CreatorPageProps> = () => {
 	// const queryCreatorId = router.query.creatorId
 
 	// console.log(creatorId)
-	console.log(router.query)
+	// console.log(router.query)
 
 	const queryCreatorId = Array.isArray(router.query.creatorId)
 		? router.query.creatorId[0]
@@ -50,8 +49,8 @@ const Creator: FC<CreatorPageProps> = () => {
 	}
 	const creatorData = useGetCreator(queryCreatorId)
 
-	console.log(queryCreatorId)
-	console.log(creatorData)
+	// console.log(queryCreatorId)
+	// console.log(creatorData)
 	// console.log(router.query.creatorId)j
 
 	let displayAddress = ''
@@ -142,13 +141,13 @@ const Creator: FC<CreatorPageProps> = () => {
 											</Button>
 										)}
 
-										{queryCreatorId === displayAddress ? (
+										{/* {queryCreatorId === displayAddress ? (
 											<Link href='/profile'>
 												<Button shape='round' style={{ marginLeft: 20 }}>
 													<Text>{'Edit Profile'}</Text>
 												</Button>
 											</Link>
-										) : null}
+										) : null} */}
 									</div>
 								</div>
 							</span>

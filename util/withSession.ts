@@ -3,9 +3,10 @@ import type {
 	GetServerSidePropsResult,
 	NextApiHandler,
 	NextApiRequest,
+	NextApiResponse,
 } from 'next/types'
-import type { Session } from 'iron-session'
 import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
+import type * as IronSession from 'iron-session'
 
 declare const process: {
 	env: {
@@ -14,7 +15,16 @@ declare const process: {
 	}
 }
 
-export type IronSessionData = Session & {
+declare module 'iron-session' {
+	interface IronSessionData {
+		user?: {
+			id: number
+			admin?: boolean
+		}
+	}
+}
+
+export type IronSessionData = IronSession.IronSessionData & {
 	token?: string
 	address?: string
 	userId?: string
@@ -24,15 +34,6 @@ export type IronSessionData = Session & {
 
 export type ExtendedApiRequest = NextApiRequest & {
 	session: IronSessionData
-}
-
-export interface ApiRequest extends NextApiRequest {
-	session: IronSessionData
-	// body: {
-	// 	message: string
-	// 	signature: string
-	// 	userAddress: string
-	// }
 }
 
 export const sessionOptions = {

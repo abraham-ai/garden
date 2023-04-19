@@ -1,13 +1,16 @@
 import type { NextApiResponse } from 'next'
-import type { ExtendedNextApiRequest } from '../../../util/withSession'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 import { generateNonce } from 'siwe'
 
 const handler = async (
-	req: ExtendedNextApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { method } = req
+
+	console.log('nonce.ts')
+	console.log(method)
 
 	switch (method) {
 		case 'GET':

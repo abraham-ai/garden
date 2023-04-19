@@ -1,28 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from 'next/types'
+import type { NextApiResponse } from 'next/types'
+import type { ExtendedApiRequest } from '../../../util/withSession'
 import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
-interface ApiRequest extends Omit<NextApiRequest, 'query'> {
-	body: {
-		collectionId: string
-	}
-	query: {
-		collectionId: string
-	}
-}
-
 const handler = async (
-	req: ApiRequest,
+	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
 	const { collectionId } = req.query
 
-	// console.log({ collectionId })
-
 	// Safely retrieve the session data
-	// const userId = req.session?.userId ?? ''
 	const authToken = req.session.token ?? ''
 
 	try {
@@ -30,12 +19,8 @@ const handler = async (
 
 		const collection = await eden.getCollection(collectionId)
 		const profile = await eden.getProfile()
-		// console.log(collection)
 
 		const creations = await eden.getCreations({ collectionId, limit: 12 })
-		// console.log(creations)
-		// const creations = await collection.getCreations()
-		// console.log(creations)
 
 		res.status(200).json({ collection, creations, profile })
 		return
