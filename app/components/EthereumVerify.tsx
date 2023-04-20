@@ -9,23 +9,25 @@ const EthereumVerify = (): JSX.Element | null => {
 
 	const isWalletConnected = context?.isWalletConnected ?? false
 
-	const setIsWalletConnected = useMemo(() => {
-		return context?.setIsWalletConnected != null
-			? context.setIsWalletConnected
-			: () => {}
-	}, [context?.setIsWalletConnected])
+	const setIsWalletConnected = useMemo(
+		() => context?.setIsWalletConnected ?? (() => {}),
+		[context?.setIsWalletConnected]
+	)
 
-	const setAuthToken = useMemo(() => {
-		return context?.setAuthToken != null ? context.setAuthToken : () => {}
-	}, [context?.setAuthToken])
+	const setAuthToken = useMemo(
+		() => context?.setAuthToken ?? (() => {}),
+		[context?.setAuthToken]
+	)
 
-	const setUserId = useMemo(() => {
-		return context?.setUserId != null ? context.setUserId : () => {}
-	}, [context?.setUserId])
+	const setUserId = useMemo(
+		() => context?.setUserId ?? (() => {}),
+		[context?.setUserId]
+	)
 
-	const setIsSignedIn = useMemo(() => {
-		return context?.setIsSignedIn != null ? context.setIsSignedIn : () => {}
-	}, [context?.setIsSignedIn])
+	const setIsSignedIn = useMemo(
+		() => context?.setIsSignedIn ?? (() => {}),
+		[context?.setIsSignedIn]
+	)
 
 	const { address, isConnected } = useAccount()
 
@@ -55,13 +57,20 @@ const EthereumVerify = (): JSX.Element | null => {
 				}
 			} catch (_error) {}
 		}
-		// 1. page loads
-		handler()
 
 		// 2. window is focused (in case user logs out of another window)
-		window.addEventListener('focus', handler)
+		const handleFocus = (): void => {
+			handler().catch((error) => {
+				console.error('Error in handleFocus:', error)
+			})
+		}
+
+		// 1. page loads
+		handleFocus()
+
+		window.addEventListener('focus', handleFocus)
 		return () => {
-			window.removeEventListener('focus', handler)
+			window.removeEventListener('focus', handleFocus)
 		}
 	}, [
 		isWalletConnected,

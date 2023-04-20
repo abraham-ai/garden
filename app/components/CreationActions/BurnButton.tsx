@@ -45,7 +45,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 				console.error('Error updating praise:', error)
 			}
 		} else {
-			openConnectModal()
+			openConnectModal?.() ?? (() => null)()
 		}
 	}
 

@@ -32,7 +32,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 		if (!isSignedIn && isWalletConnected) {
 			await Promise.resolve()
 		} else if (!isSignedIn && !isWalletConnected) {
-			openConnectModal()
+			openConnectModal?.() ?? (() => null)()
 			await Promise.resolve()
 		} else if (isSignedIn && !isWalletConnected) {
 			await Promise.resolve()

@@ -126,10 +126,10 @@ const CreationSaveModal: FC = () => {
 					duration: 3,
 				})
 				setTimeout(() => {
-					resolve()
+					resolve(undefined)
 				}, 1000) // 3000 ms = 3 seconds, same as the duration of the notification
 			} else {
-				resolve()
+				resolve(undefined)
 			}
 		})
 	}
@@ -155,7 +155,10 @@ const CreationSaveModal: FC = () => {
 			savedCollectionPropsArray.length > 0
 		) {
 			console.log(currentSavedCollection)
-			handleSaveModalCleanUp()
+			handleSaveModalCleanUp().catch((error) => {
+				console.error(error)
+				console.error('Error handling saveModalCleanUp')
+			})
 		}
 	}, [currentSavedCollection])
 
@@ -199,7 +202,10 @@ const CreationSaveModal: FC = () => {
 
 				if (addedCreationResult?.success === true) {
 					setCurrentSavedCollection(collection)
-					handleSaveModalCleanUp()
+					handleSaveModalCleanUp().catch((error) => {
+						console.error(error)
+						console.error('Error handling saveModalCleanUp')
+					})
 				}
 			}
 		} catch (error) {
@@ -213,7 +219,10 @@ const CreationSaveModal: FC = () => {
 		// console.log({ currentSavedCollection })
 		// setInputCollectionName('')
 
-		if (typeof currentSavedCollection !== 'undefined') {
+		if (
+			typeof currentSavedCollection !== 'undefined' &&
+			currentSavedCollection != null
+		) {
 			// console.log(currentSavedCollection)
 			try {
 				await saveNotification('bottom')
@@ -221,7 +230,7 @@ const CreationSaveModal: FC = () => {
 				console.error('Error handling saveNotification:', error)
 			}
 
-			setCurrentSavedCollection(undefined)
+			setCurrentSavedCollection(null)
 		}
 	}
 

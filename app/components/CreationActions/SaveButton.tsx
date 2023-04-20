@@ -50,7 +50,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 	const handleSave = (): void => {
 		// console.log({ isSignedIn })
 		if (!isSignedIn && !isWalletConnected) {
-			openConnectModal()
+			openConnectModal?.() ?? (() => null)()
 		} else if (isSignedIn && isWalletConnected) {
 			console.log('handle SAVE 🔖!')
 			setIsBookmarked(!isBookmarked)
