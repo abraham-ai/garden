@@ -12,15 +12,24 @@ const { Title, Text } = Typography
 interface CreatorHeaderProps {
 	collectionId?: string
 	userId?: string
+	isMyCreationsRoute?: boolean
+	isMyCollectionsRoute?: boolean
 }
 
-const CreatorHeader: FC<CreatorHeaderProps> = ({ collectionId, userId }) => {
+const CreatorHeader: FC<CreatorHeaderProps> = ({
+	collectionId,
+	userId,
+	isMyCreationsRoute = false,
+	isMyCollectionsRoute = false,
+}) => {
 	let displayAddress = ''
 	if (typeof userId === 'string') {
 		displayAddress = abbreviateAddress(userId)
 	}
 
 	const isCollectionRoute = typeof collectionId !== 'undefined'
+	const isCreationRoute = typeof creatorId !== 'undefined'
+
 	console.log({ collectionId })
 	console.log({ isCollectionRoute })
 
@@ -87,16 +96,33 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({ collectionId, userId }) => {
 							</Button>
 						</Link> */}
 
+						<Link href='/mycreations'>
+							<Button
+								shape='round'
+								type={isMyCreationsRoute ? 'primary' : 'default'}
+								style={{ marginRight: 10 }}
+							>
+								<Text
+									style={{
+										fontWeight: 'bold',
+										color: isMyCreationsRoute ? 'white' : 'gray',
+									}}
+								>
+									{'Creations'}
+								</Text>
+							</Button>
+						</Link>
+
 						<Link href='/mycollections'>
 							<Button
 								shape='round'
-								type={isCollectionRoute ? 'primary' : 'default'}
+								type={isMyCollectionsRoute ? 'primary' : 'default'}
 								// style={{ background: 'rgba(0,0,0,0.05)' }}
 							>
 								<Text
 									style={{
 										fontWeight: 'bold',
-										color: isCollectionRoute ? 'white' : 'gray',
+										color: isMyCollectionsRoute ? 'white' : 'gray',
 									}}
 								>
 									{'Collections'}

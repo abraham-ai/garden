@@ -89,6 +89,8 @@ const Collection: FC<CollectionPageTypes> = () => {
 								<CreatorHeader
 									userId={collectionData?.data?.profile?.user?.userId}
 									collectionId={isCollectionId}
+									isMyCollectionsRoute={false}
+									isMyCreationsRoute={false}
 								/>
 								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

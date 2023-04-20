@@ -29,7 +29,7 @@ const MyCreations: FC = () => {
 			<main className={stylesHeader.headerWrapper}>
 				<Header />
 			</main>
-			<CreatorHeader userId={userId} />
+			<CreatorHeader userId={userId} isMyCreationsRoute={true} />
 			{myCreationsData !== null ? (
 				<section
 					className={stylesCreationsGrid.creationsWrapper}

@@ -55,7 +55,7 @@ const MyCollections: FC = () => {
 				<Header />
 			</main>
 
-			<CreatorHeader userId={userId} />
+			<CreatorHeader userId={userId} isMyCollectionsRoute={true} />
 			{isMyCollections ? (
 				<section className={styles.creationsWrapper}>
 					{myCollectionsData.map((collection: Collection) => {

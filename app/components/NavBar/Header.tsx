@@ -206,13 +206,13 @@ const Header: FC = () => {
 						trigger='click'
 						placement='bottom'
 					>
-						<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
-							<Button type='link' shape='circle' style={{ marginRight: 10 }}>
-								<Badge count={handleBadgeCount()}>
-									<BsGear style={{ fontSize: '1.5rem' }} />
-								</Badge>
-							</Button>
-						</Tooltip>
+						{/* <Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}> */}
+						<Button type='link' shape='circle' style={{ marginRight: 10 }}>
+							<Badge count={handleBadgeCount()}>
+								<BsGear style={{ fontSize: '1.5rem' }} />
+							</Badge>
+						</Button>
+						{/* </Tooltip> */}
 					</Popover>
 					{/* <ConnectButton /> */}
 					<ConnectButtonCustom />
