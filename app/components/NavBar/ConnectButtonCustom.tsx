@@ -132,7 +132,11 @@ export const ProfileButton = () => {
 						{(() => {
 							if (!connected) {
 								return (
-									<Button type='primary' onClick={openConnectModal}>
+									<Button
+										type='primary'
+										onClick={openConnectModal}
+										shape='round'
+									>
 										<Text style={{ color: 'white' }}>{'Connect Wallet'}</Text>
 									</Button>
 								)
