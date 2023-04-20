@@ -11,6 +11,7 @@ import abbreviateAddress from '../../../util/abbreviateAddress'
 import abbreviateText from '../../../util/abbreviateText'
 
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import ConnectButtonCustom from './ConnectButtonCustom'
 
 import styles from '../../../styles/Header.module.css'
 
@@ -18,9 +19,17 @@ import SettingsMenuPopOver from './SettingsMenuPopOver'
 import EthereumVerify from '../EthereumVerify'
 // import EthereumAuth from '../EthereumAuth'
 
+import {
+	Tooltip,
+	Typography,
+	Popover,
+	Button,
+	Select,
+	Space,
+	Badge,
+} from 'antd'
 import { BsGear } from 'react-icons/bs'
 
-import { Typography, Popover, Button, Select, Space } from 'antd'
 const { Text } = Typography
 
 interface ActiveLinkProps {
@@ -125,6 +134,16 @@ const Header: FC = () => {
 		}
 	}
 
+	const handleBadgeCount = (): number => {
+		if (isWalletConnected && !isSignedIn) {
+			return 1
+		} else if (isWalletConnected && isSignedIn) {
+			return 0
+		} else {
+			return 0
+		}
+	}
+
 	return (
 		<header className={styles.headerWrapper}>
 			<ul className={styles.linksWrapper}>
@@ -187,13 +206,16 @@ const Header: FC = () => {
 						trigger='click'
 						placement='bottom'
 					>
-						{/* <Tooltip placement="bottom" title={<span>Settings</span>}> */}
-						<Button type='link' shape='circle' style={{ marginRight: 10 }}>
-							<BsGear style={{ fontSize: '1.5rem' }} />
-						</Button>
-						{/* </Tooltip> */}
+						<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
+							<Button type='link' shape='circle' style={{ marginRight: 10 }}>
+								<Badge count={handleBadgeCount()}>
+									<BsGear style={{ fontSize: '1.5rem' }} />
+								</Badge>
+							</Button>
+						</Tooltip>
 					</Popover>
-					<ConnectButton />
+					{/* <ConnectButton /> */}
+					<ConnectButtonCustom />
 				</div>
 			</section>
 		</header>

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 import { Button, Typography } from 'antd'
 const { Text } = Typography
@@ -25,8 +26,13 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 
 	const [isPraiseHovering, setIsPraiseHovering] = useState(false)
 
+	const { openConnectModal } = useConnectModal()
+
 	const handlePraise = async (): Promise<void> => {
-		if (!isSignedIn || !isWalletConnected) {
+		if (!isSignedIn && isWalletConnected) {
+			await Promise.resolve()
+		} else if (!isSignedIn && !isWalletConnected) {
+			openConnectModal?.() ?? (() => null)()
 			await Promise.resolve()
 		} else if (isSignedIn && !isWalletConnected) {
 			await Promise.resolve()
