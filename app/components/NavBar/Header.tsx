@@ -11,6 +11,7 @@ import abbreviateAddress from '../../../util/abbreviateAddress'
 import abbreviateText from '../../../util/abbreviateText'
 
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import ConnectButtonCustom from './ConnectButtonCustom'
 
 import styles from '../../../styles/Header.module.css'
 
@@ -213,7 +214,8 @@ const Header: FC = () => {
 							</Button>
 						</Tooltip>
 					</Popover>
-					<ConnectButton />
+					{/* <ConnectButton /> */}
+					<ConnectButtonCustom />
 				</div>
 			</section>
 		</header>

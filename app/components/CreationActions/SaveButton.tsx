@@ -5,6 +5,8 @@ import AppContext from '../../../context/AppContext'
 
 import type Creation from '../../../interfaces/Creation'
 
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+
 import { Button, notification } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 
@@ -29,6 +31,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 
 	const context = useContext(AppContext)
 
+	const { openConnectModal } = useConnectModal()
+
 	const isSignedIn = context?.isSignedIn || false
 	const isWalletConnected = context?.isWalletConnected || false
 
@@ -45,7 +49,9 @@ const SaveButton: FC<SaveButtonTypes> = ({
 
 	const handleSave = (): void => {
 		// console.log({ isSignedIn })
-		if (isSignedIn && isWalletConnected) {
+		if (!isSignedIn && !isWalletConnected) {
+			openConnectModal()
+		} else if (isSignedIn && isWalletConnected) {
 			console.log('handle SAVE 🔖!')
 			setIsBookmarked(!isBookmarked)
 			// showSaveNotification()

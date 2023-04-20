@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 import { Button, Typography } from 'antd'
 const { Text } = Typography
@@ -23,6 +24,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	const isSignedIn = context?.isSignedIn || false
 	const isWalletConnected = context?.isWalletConnected || false
 
+	const { openConnectModal } = useConnectModal()
+
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
 
 	const handleBurn = async (): Promise<void> => {
@@ -41,6 +44,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
 				setIsBurned(!newIsBurned, burns)
 				console.error('Error updating praise:', error)
 			}
+		} else {
+			openConnectModal()
 		}
 	}
 
