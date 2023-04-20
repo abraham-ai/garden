@@ -21,11 +21,14 @@ import useGetCreation from '../../hooks/useGetCreation'
 import useGetReactionCount from '../../hooks/useGetReactionCount'
 import { useReaction } from '../../context/ReactionContext'
 
-import { Col, Row, Typography, Avatar } from 'antd'
+import { Col, Row, Typography, Avatar, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 
 import { SlSizeFullscreen } from 'react-icons/sl'
 import { MdOutlineDateRange } from 'react-icons/md'
 import { BsAspectRatio } from 'react-icons/bs'
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const { Title, Text } = Typography
 
@@ -212,7 +215,9 @@ const Creation: FC<CreationPageProps> = ({
 						</article>
 					</>
 				) : (
-					<Text>{'Loading...'}</Text>
+					<Row style={{ display: 'flex', justifyContent: 'center' }}>
+						<Spin indicator={antIcon} />
+					</Row>
 				)}
 			</section>
 		</>
