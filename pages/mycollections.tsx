@@ -13,8 +13,8 @@ import useGetCollections from '../hooks/useGetCollections'
 
 import styles from '../styles/MyCollections.module.css'
 
-import { LoadingOutlined } from '@ant-design/icons'
-import { Typography, Button, Row, Spin } from 'antd'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { Typography, Button, Row, Spin, Col } from 'antd'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const { Text } = Typography
 
@@ -44,6 +44,10 @@ const MyCollections: FC = () => {
 		router.push(`/collection/${String(collectionId)}`)
 	}
 
+	const handleCreateCollection = (): void => {
+		console.log('Create Collection Modal')
+	}
+
 	const isMyCollections =
 		myCollectionsData !== null && !isLoading && typeof error === 'undefined'
 
@@ -55,25 +59,49 @@ const MyCollections: FC = () => {
 				<Header />
 			</main>
 
-			<CreatorHeader userId={userId} />
+			<CreatorHeader userId={userId} isMyCollectionsRoute={true} />
 			{isMyCollections ? (
-				<section className={styles.creationsWrapper}>
-					{myCollectionsData.map((collection: Collection) => {
-						return (
+				<Col className={styles.collectionsWrapper}>
+					<Row
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+						}}
+					>
+						<Row className={styles.createCollectionButtonWrapper}>
 							<Button
-								className={styles.collectionButton}
-								key={collection._id}
+								className={styles.createCollectionButton}
+								type='default'
+								shape='round'
+								icon={<PlusOutlined />}
 								onClick={(e) => {
-									handleClickCollection(e, collection._id)
+									handleCreateCollection()
 								}}
 							>
-								<Text className={styles.collectionButtonText}>
-									{collection.name}
+								<Text className={styles.createCollectionButtonText}>
+									{'Create Collection'}
 								</Text>
 							</Button>
-						)
-					})}
-				</section>
+						</Row>
+						<Row>
+							{myCollectionsData.map((collection: Collection) => {
+								return (
+									<Button
+										className={styles.collectionButton}
+										key={collection._id}
+										onClick={(e) => {
+											handleClickCollection(e, collection._id)
+										}}
+									>
+										<Text className={styles.collectionButtonText}>
+											{collection.name}
+										</Text>
+									</Button>
+								)
+							})}
+						</Row>
+					</Row>
+				</Col>
 			) : (
 				<Row className={styles.loading}>
 					<Spin indicator={antIcon} />

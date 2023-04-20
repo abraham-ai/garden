@@ -15,7 +15,7 @@ const handler = async (
 
 	try {
 		const creation = await eden.getCreation(creationIdBody)
-		// console.log(creation);
+		console.log(creation)
 
 		res.status(200).json({ creation })
 		return

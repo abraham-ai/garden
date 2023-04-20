@@ -188,18 +188,22 @@ export const ProfileButton = () => {
 											</>
 										}
 									> */}
-									<Button onClick={openAccountModal} type='primary'>
+									<Button
+										onClick={openAccountModal}
+										type='default'
+										shape='round'
+									>
 										{width > 768 && displayAddress !== null ? (
-											<>
+											<Text style={{ marginRight: 10 }}>
 												{account.displayName}
 												{typeof account.displayBalance !== 'undefined'
 													? ` (${account.displayBalance})`
 													: ''}
-											</>
+											</Text>
 										) : null}
 										<Avatar
-											size={34}
-											src={<Blockies seed={String(address)} scale={4} />}
+											size={22}
+											src={<Blockies seed={String(address)} scale={2.5} />}
 										/>
 									</Button>
 									{/* </Popover> */}

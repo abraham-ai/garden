@@ -24,7 +24,7 @@ export const useGetCollections = (): CollectionsResponse => {
 		collections: collectionsData,
 		error,
 		isLoading,
-		isValidating: !isLoading && !error,
+		isValidating: !isLoading && error !== false,
 	}
 }
 

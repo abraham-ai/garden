@@ -72,14 +72,34 @@
 	font-size: 1.2rem;
 }
 
-.creationsWrapper {
+.collectionsWrapper {
 	margin-top: 50px;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 }
 
 .loading {
 	margin: 20px 0;
 	display: flex;
 	justify-content: center;
+}
+
+.createCollectionButtonWrapper {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0 10px 15px 10px;
+}
+
+.createCollectionButton {
+	max-width: 200px;
+	background: rgba(0, 0, 0, 0.05);
+	border: none;
+}
+
+.createCollectionButtonText {
+	font-weight: bold;
+	font-size: 14px;
+	/* color: white; */
 }
