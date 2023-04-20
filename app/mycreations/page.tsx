@@ -1,13 +1,10 @@
+import React from 'react'
+import type { FC } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
 import Header from '../components/NavBar/Header'
-import { Inter } from 'next/font/google'
 import styles from '../styles/Home.module.css'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Profile() {
+const Profile: FC = () => {
 	return (
 		<>
 			<Head>
@@ -22,3 +19,5 @@ export default function Profile() {
 		</>
 	)
 }
+
+export default Profile

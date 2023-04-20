@@ -126,7 +126,7 @@ const Header: FC = () => {
 			return [
 				{ value: 'garden', label: 'Garden' },
 				{ value: 'mycreations', label: 'My Creations' },
-				{ value: 'mycollections', label: 'Collections' },
+				{ value: 'mycollections', label: 'My Collections' },
 				// { value: 'editprofile', label: 'Edit Profile' },
 			]
 		} else {

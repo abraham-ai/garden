@@ -3,7 +3,7 @@ import type { SWRResponse, SWRConfiguration, KeyedMutator } from 'swr'
 import type CollectionResponse from '../interfaces/CollectionResponse'
 
 const fetcher = async (url: string): Promise<CollectionResponse | null> => {
-	if (!url) return null
+	if (typeof url === 'undefined' || url === '') return null
 
 	const response = await fetch(url, {
 		method: 'POST',
@@ -28,14 +28,20 @@ const useGetCollection = (
 		{
 			revalidateOnFocus: false,
 			revalidateOnReconnect: false,
-		} as SWRConfiguration<CollectionResponse | null, any>
+		} as const
 	)
 
 	console.log({ data })
 
-	const isLoading = data == null && !error
+	const isLoading = data == null && error === false
 
-	return { data, error, isLoading, mutate, isValidating: !isLoading && !error }
+	return {
+		data,
+		error,
+		isLoading,
+		mutate,
+		isValidating: !isLoading && error === false,
+	}
 }
 
 export default useGetCollection

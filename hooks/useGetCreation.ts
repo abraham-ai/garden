@@ -13,7 +13,8 @@ const useGetCreation = (creationId: string): Creation | null => {
 		})
 
 		// console.log(response.data);
-
+		console.log('useGetCreation: response.data:')
+		console.log(response)
 		setCreation(response.data)
 	}, [])
 
