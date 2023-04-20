@@ -3,7 +3,7 @@ const breakpointColumnsObj = {
 	3000: 5,
 	2000: 4,
 	1500: 3,
-	700: 2,
+	1150: 2,
 	580: 1,
 }
 
