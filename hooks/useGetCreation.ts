@@ -1,12 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import type { FC } from 'react'
 import type Creation from '../interfaces/Creation'
 
 import axios from 'axios'
-
-interface GetCreationTypes {
-	creationId: string
-}
 
 const useGetCreation = (creationId: string): Creation | null => {
 	const [creation, setCreation] = useState<Creation | null>(null)
@@ -24,7 +19,9 @@ const useGetCreation = (creationId: string): Creation | null => {
 
 	useEffect(() => {
 		if (typeof creationId !== 'undefined' && creationId !== null) {
-			handleGetCreation(creationId)
+			handleGetCreation(creationId).catch((error) => {
+				console.error('Error fetching creation:', error)
+			})
 		}
 	}, [creationId, handleGetCreation])
 

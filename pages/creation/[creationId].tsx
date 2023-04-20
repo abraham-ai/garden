@@ -75,14 +75,15 @@ const Creation: FC<CreationPageProps> = ({
 		}
 	}, [reactionCountList, reactionState, updateReactionState, creationData])
 
-	let timeAgoCreatedAt = 0
-	if (
+	const isCreationData =
 		typeof creationData !== 'undefined' &&
 		creationData !== null &&
 		creation?._id !== undefined &&
 		!(creationData._id in reactionState) &&
 		typeof creationData?.task?.config?.text_input !== 'undefined'
-	) {
+
+	let timeAgoCreatedAt = 0
+	if (isCreationData) {
 		console.log(creationData)
 		console.log(creationData.task.config.text_input)
 		timeAgoCreatedAt = timeAgo(parseInt(creationData.createdAt))
@@ -94,7 +95,7 @@ const Creation: FC<CreationPageProps> = ({
 			<Header />
 
 			<section className={styles.creationWrapper}>
-				{typeof creationData !== 'undefined' && creationData !== null ? (
+				{isCreationData ? (
 					<>
 						<Col className={styles.creation}>
 							<Row className={styles.crPost}>
@@ -104,10 +105,10 @@ const Creation: FC<CreationPageProps> = ({
 											<Image
 												className={styles.crImg}
 												style={{ width: '100%' }}
-												width={creationData?.task?.config?.width}
-												height={creationData?.task?.config?.height}
-												alt={creationData?.task?.config?.text_input}
-												src={creationData?.thumbnail}
+												width={creationData?.task?.config?.width ?? 0}
+												height={creationData?.task?.config?.height ?? 0}
+												alt={creationData?.task?.config?.text_input ?? ''}
+												src={creationData?.thumbnail ?? ''}
 											/>
 										</div>
 
@@ -115,10 +116,10 @@ const Creation: FC<CreationPageProps> = ({
 											<Image
 												className={styles.crImg}
 												style={{ width: '100%' }}
-												width={creationData?.task?.config?.width}
-												height={creationData?.task?.config?.height}
-												alt={creationData?.task?.config?.text_input}
-												src={creationData?.thumbnail}
+												width={creationData?.task?.config?.width ?? 0}
+												height={creationData?.task?.config?.height ?? 0}
+												alt={creationData?.task?.config?.text_input ?? ''}
+												src={creationData?.thumbnail ?? ''}
 											/>
 										</div>
 									</div>
@@ -148,7 +149,7 @@ const Creation: FC<CreationPageProps> = ({
 													className='profileName'
 													style={{ marginTop: 10 }}
 												>
-													{abbreviateAddress(creationData?.user)}
+													{abbreviateAddress(creationData?.user ?? '')}
 												</Title>
 												<Text>{timeAgoCreatedAt}</Text>
 											</div>
