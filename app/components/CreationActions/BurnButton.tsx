@@ -64,7 +64,11 @@ const BurnButton: FC<BurnButtonTypes> = ({
 		</span>
 	)
 
-	const burnFilled = <span style={{ fontSize: '1.8rem' }}>{'🔥'}</span>
+	const burnFilled = (
+		<span style={{ fontSize: isLayoutMinimal ? '1rem' : '1.8rem' }}>
+			{'🔥'}
+		</span>
+	)
 
 	const handleMouseOver = (): void => {
 		console.log('handleMouseOver')

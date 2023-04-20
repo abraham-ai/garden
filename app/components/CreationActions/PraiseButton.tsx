@@ -23,8 +23,8 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	layout,
 }) => {
 	const context = useContext(AppContext)
-	const isSignedIn = context?.isSignedIn || false
-	const isWalletConnected = context?.isWalletConnected || false
+	const isSignedIn = context?.isSignedIn ?? false
+	const isWalletConnected = context?.isWalletConnected ?? false
 
 	const [isPraiseHovering, setIsPraiseHovering] = useState(false)
 
