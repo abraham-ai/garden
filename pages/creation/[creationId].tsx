@@ -53,19 +53,25 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log(router.query)
 
 	const creationData = useGetCreation(queryCreationId)
-
 	console.log({ creationData })
 
 	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
 
+	const isCreationData =
+		typeof creationData !== 'undefined' &&
+		creationData !== null &&
+		typeof creationData._id !== 'undefined'
+
+	const isReactionStateNotInitialized =
+		creationData != null &&
+		(reactionState[creationData._id]?.praises === undefined ||
+			reactionState[creationData._id]?.praised === undefined ||
+			reactionState[creationData._id]?.burns === undefined ||
+			reactionState[creationData._id]?.burned === undefined)
+
 	useEffect(() => {
-		if (
-			typeof creationData !== 'undefined' &&
-			creationData !== null &&
-			typeof creationData._id !== 'undefined' &&
-			!(creationData._id in reactionState)
-		) {
+		if (isCreationData && isReactionStateNotInitialized) {
 			const praisesData = reactionCountList?.praises ?? 0
 			const praisedData = reactionCountList?.praised ?? false
 			const burnsData = reactionCountList?.burns ?? 0
@@ -78,20 +84,29 @@ const Creation: FC<CreationPageProps> = ({
 				burned: burnedData,
 			})
 		}
-	}, [reactionCountList, reactionState, updateReactionState, creationData])
+	}, [
+		reactionCountList,
+		updateReactionState,
+		creationData,
+		isReactionStateNotInitialized,
+	])
 
-	const isCreationData =
+	const isCreationDataTaskConfig =
 		typeof creationData !== 'undefined' &&
 		creationData !== null &&
 		creation?._id !== undefined &&
 		!(creationData._id in reactionState) &&
 		typeof creationData?.task?.config?.text_input !== 'undefined'
 
-	let timeAgoCreatedAt = 0
-	if (isCreationData) {
+	console.log({ isCreationDataTaskConfig })
+
+	let timeAgoCreatedAt = '0'
+	if (isCreationDataTaskConfig) {
 		console.log(creationData)
 		console.log(creationData.task.config.text_input)
-		timeAgoCreatedAt = timeAgo(parseInt(creationData.createdAt))
+		console.log(creationData.createdAt)
+		timeAgoCreatedAt = timeAgo(creationData.createdAt)
+
 		console.log(timeAgoCreatedAt)
 	}
 
@@ -99,7 +114,7 @@ const Creation: FC<CreationPageProps> = ({
 		<>
 			<Header />
 
-			<section className={styles.creationWrapper}>
+			<Col className={styles.creationIdWrapper}>
 				{isCreationData ? (
 					<>
 						<Col className={styles.creation}>
@@ -136,7 +151,6 @@ const Creation: FC<CreationPageProps> = ({
 							<div className={styles.crPostText}>
 								{/* <Text>{creationId}</Text> */}
 								{/* <Text>{'Server:'} {creationData.creation._id}</Text> */}
-
 								{/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
 								<section className={styles.crMain}>
@@ -156,7 +170,9 @@ const Creation: FC<CreationPageProps> = ({
 												>
 													{abbreviateAddress(creationData?.user ?? '')}
 												</Title>
-												<Text>{timeAgoCreatedAt}</Text>
+												{/* <Text style={{ marginLeft: 10 }}>
+													{timeAgoCreatedAt}
+												</Text> */}
 											</div>
 										</div>
 									</article>
@@ -169,17 +185,28 @@ const Creation: FC<CreationPageProps> = ({
 											{creationData?.task?.config?.text_input ?? 'No text'}
 										</Text>
 
-										<CreationSocial
-											layout={'expanded'}
-											creation={creation}
-											creationId={creation._id}
-											reactionCountList={{
-												praises: reactionState[creation._id]?.praises ?? 0,
-												praised: reactionState[creation._id]?.praised ?? false,
-												burns: reactionState[creation._id]?.burns ?? 0,
-												burned: reactionState[creation._id]?.burned ?? false,
+										<Row
+											style={{
+												position: 'relative',
+												display: 'block',
+												height: 'auto',
+												padding: 0,
+												margin: '10px 0 0 0',
 											}}
-										/>
+										>
+											<CreationSocial
+												layout={'minimal'}
+												creation={creation}
+												creationId={creation._id}
+												reactionCountList={{
+													praises: reactionState[creation._id]?.praises ?? 0,
+													praised:
+														reactionState[creation._id]?.praised ?? false,
+													burns: reactionState[creation._id]?.burns ?? 0,
+													burned: reactionState[creation._id]?.burned ?? false,
+												}}
+											/>
+										</Row>
 
 										<ul className={styles.crPropertiesWrapper}>
 											<li className={styles.crProperty}>
@@ -221,7 +248,7 @@ const Creation: FC<CreationPageProps> = ({
 						<Spin indicator={antIcon} />
 					</Row>
 				)}
-			</section>
+			</Col>
 		</>
 	)
 }

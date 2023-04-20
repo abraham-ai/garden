@@ -12,6 +12,7 @@ interface PraiseButtonTypes {
 	praises: number
 	isPraised: boolean
 	setIsPraised: (value: boolean, updatedPraises: number) => void
+	layout: string
 }
 
 const PraiseButton: FC<PraiseButtonTypes> = ({
@@ -19,14 +20,17 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	praises,
 	isPraised,
 	setIsPraised,
+	layout,
 }) => {
 	const context = useContext(AppContext)
-	const isSignedIn = context?.isSignedIn || false
-	const isWalletConnected = context?.isWalletConnected || false
+	const isSignedIn = context?.isSignedIn ?? false
+	const isWalletConnected = context?.isWalletConnected ?? false
 
 	const [isPraiseHovering, setIsPraiseHovering] = useState(false)
 
 	const { openConnectModal } = useConnectModal()
+
+	const isLayoutMinimal = layout === 'minimal'
 
 	const handlePraise = async (): Promise<void> => {
 		if (!isSignedIn && isWalletConnected) {
@@ -57,14 +61,22 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 
 	const praiseGray = (
 		<span
-			style={{ filter: 'grayscale(1)', fontSize: '1.8rem', marginBottom: 6 }}
+			style={{
+				filter: 'grayscale(1)',
+				fontSize: isLayoutMinimal ? '1rem' : '1.8rem',
+				marginBottom: 6,
+			}}
 		>
 			{'🙌'}
 		</span>
 	)
 
 	const praiseFilled = (
-		<span style={{ fontSize: '1.8rem', marginBottom: 6 }}>{'🙌'}</span>
+		<span
+			style={{ fontSize: isLayoutMinimal ? '1rem' : '1.8rem', marginBottom: 6 }}
+		>
+			{'🙌'}
+		</span>
 	)
 
 	const handleMouseOver = (): void => {
@@ -78,7 +90,12 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	return (
 		<div
 			className='socialButtonWrapper'
-			style={{ display: 'flex', alignItems: 'center' }}
+			style={{
+				position: isLayoutMinimal ? 'relative' : 'absolute',
+				margin: isLayoutMinimal ? 'unset' : '20px 0',
+				alignItems: isLayoutMinimal ? 'center' : 'center',
+				display: 'flex',
+			}}
 		>
 			<Button
 				className={isPraised ? 'crPraise isActive' : 'crPraise'}
@@ -88,14 +105,12 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 					alignItems: 'center',
 					justifyContent: 'center',
 					background: 'rgba(0, 0, 0, 0.5)',
-					width: 100,
-					height: 50,
+					width: isLayoutMinimal ? 60 : 100,
+					height: isLayoutMinimal ? 30 : 50,
 					border: 'none',
 					transition: '1s',
 				}}
-				onClick={async () => {
-					await handlePraise()
-				}}
+				onClick={() => handlePraise}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>

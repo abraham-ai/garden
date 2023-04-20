@@ -6,9 +6,9 @@
   display: flex;
   flex-direction: column; */
 
-.creationWrapper {
+.creationIdWrapper {
 	display: flex;
-	margin: 90px 50px;
+	margin: 150px 50px 0 50px;
 	justify-content: center;
 }
 
@@ -16,6 +16,7 @@
 .creation {
 	display: flex;
 	flex: 1 1 600px;
+	max-width: 1200px;
 }
 @media (max-width: 1400px) {
 	.creation {

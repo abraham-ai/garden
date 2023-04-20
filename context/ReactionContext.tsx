@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext } from 'react'
-import type { FC, ReactNode } from 'react'
+import React, { createContext, useState, useContext, useCallback } from 'react'
+import type { ReactNode } from 'react'
 
 interface ReactionContextValue {
 	reactionState: Record<string, any> // Adjust the type as needed
@@ -10,7 +10,7 @@ const ReactionContext = createContext<ReactionContextValue | undefined>(
 	undefined
 )
 
-export const useReaction = () => {
+export const useReaction = (): ReactionContextType => {
 	const context = useContext(ReactionContext)
 	if (context == null) {
 		throw new Error('useReaction must be used within a ReactionProvider')
@@ -18,22 +18,27 @@ export const useReaction = () => {
 	return context
 }
 
-interface ReactionProviderTypes {
+interface ReactionProviderProps {
 	children: ReactNode
 }
 
-export const ReactionProvider: FC<ReactionProviderTypes> = ({ children }) => {
-	const [reactionState, setReactionState] = useState({})
+export const ReactionProvider: React.FC<ReactionProviderProps> = ({
+	children,
+}) => {
+	const [reactionState, setReactionState] = useState<ReactionState>({})
 
-	const updateReactionState = (creationId, newReaction): void => {
-		setReactionState((prevState) => ({
-			...prevState,
-			[creationId]: {
-				...prevState[creationId],
-				...newReaction,
-			},
-		}))
-	}
+	const updateReactionState = useCallback(
+		(creationId: string, newValues: Reaction) => {
+			setReactionState((prevState) => ({
+				...prevState,
+				[creationId]: {
+					...prevState[creationId],
+					...newValues,
+				},
+			}))
+		},
+		[]
+	)
 
 	return (
 		<ReactionContext.Provider value={{ reactionState, updateReactionState }}>

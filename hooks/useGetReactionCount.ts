@@ -7,45 +7,22 @@ interface ReactionsResponse {
 	burned: boolean
 }
 
-// const fetcher = async (url: string, postData: any) => {
-//   const response = await fetch(url, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(postData),
-//   });
-//   const data = await response.json();
-//   return data;
-// };
-
-const fetcher = async (url) =>
+const fetcher = async (url: string): Promise<ReactionsResponse> =>
 	await fetch(url).then(async (res) => await res.json())
 
-const useGetReactionCount = (creationId: string) => {
-	// console.log(creationId);
-	//   const { data, error, isLoading, mutate } = useSWR<ReactionsResponse>(
-	//     `/api/reactions/${creationId}`,
-	//     (url: string, creationId: string) =>
-	//       fetcher(url, {
-	//         creationId: creationId,
-	//       })
-	//   );
+const useGetReactionCount = (
+	creationId: string
+): ReactionsResponse | undefined => {
+	const isCreationId = creationId !== ''
 
-	const { data, error, isLoading, mutate } = useSWR<ReactionsResponse>(
-		`/api/reaction/${creationId}`,
-		fetcher
+	console.log({ isCreationId })
+	console.log({ creationId })
+
+	const { data } = useSWR<ReactionsResponse>(
+		isCreationId ? `/api/reaction/${creationId}` : null,
+		fetcher,
+		{ revalidateOnFocus: false, revalidateOnReconnect: false }
 	)
-
-	// console.log(data);
-
-	//   return {
-	//     praises: data?.praises || 0,
-	//     burns: data?.burns || 0,
-	//     praised: data?.praised || false,
-	//     burned: data?.burned || false,
-	//     isLoading,
-	//     error,
-	//     mutate,
-	//   };
 
 	return data
 }

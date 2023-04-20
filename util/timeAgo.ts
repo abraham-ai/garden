@@ -1,37 +1,37 @@
-// date_str,
-export default function timeAgo(time: number) {
-	const date = new Date(time)
-	date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+type TimeFormat = [number, string, number | string]
+
+export default function timeAgo(time: number | string): string {
+	let date: number
 
 	switch (typeof time) {
 		case 'number':
+			date = time
 			break
 		case 'string':
-			time = +new Date(time)
+			date = new Date(time).valueOf()
 			break
 		default:
-			time = +new Date()
+			date = new Date().valueOf()
 	}
 
-	const timeFormats = [
-		[60, 's', 1], // 60 // seconds
-		[120, '1 minute ago', '1 minute from now'], // 60*2
-		[3600, 'm', 60], // 60*60, 60
-		[7200, '1 hour ago', '1 hour from now'], // 60*60*2
-		[172800, 'h', 3600], // 60*60*24, 60*60
-		// [86400, 'h', 3600], // 60*60*24, 60*60
-		// [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
-		[604800, 'd', 86400], // 60*60*24*7, 60*60*24
-		[1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
-		[2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
-		[4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
-		[29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
-		[58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
-		[2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
-		[5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
-		[58060800000, 'centuries', 2903040000], // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
+	const timeFormats: TimeFormat[] = [
+		[60, 's', 1],
+		[120, '1 minute ago', '1 minute from now'],
+		[3600, 'm', 60],
+		[7200, '1 hour ago', '1 hour from now'],
+		[172800, 'h', 3600],
+		[604800, 'd', 86400],
+		[1209600, 'Last week', 'Next week'],
+		[2419200, 'weeks', 604800],
+		[4838400, 'Last month', 'Next month'],
+		[29030400, 'months', 2419200],
+		[58060800, 'Last year', 'Next year'],
+		[2903040000, 'years', 29030400],
+		[5806080000, 'Last century', 'Next century'],
+		[58060800000, 'centuries', 2903040000],
 	]
-	let seconds = (+new Date() - time) / 1000
+
+	let seconds = (new Date().valueOf() - date) / 1000
 	let token = '' // ago
 	let listChoice = 1
 
@@ -43,14 +43,16 @@ export default function timeAgo(time: number) {
 		token = 'from now'
 		listChoice = 2
 	}
-	let i = 0
-	let format
-	while ((format = timeFormats[i++]))
-		if (seconds < format[0]) {
-			if (typeof format[2] === 'string') return format[listChoice]
-			else return Math.floor(seconds / format[2]) + '' + format[1] + ' ' + token
-		}
-	return time
 
-	// return time_ago_date
+	for (const format of timeFormats) {
+		if (seconds < format[0]) {
+			if (typeof format[2] === 'string') {
+				return format[listChoice] as string
+			} else {
+				return String(Math.floor(seconds / format[2])) + format[1] + ' ' + token
+			}
+		}
+	}
+
+	return new Date(date).toString()
 }
