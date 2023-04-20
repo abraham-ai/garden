@@ -108,7 +108,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 										color: isMyCreationsRoute ? 'white' : 'gray',
 									}}
 								>
-									{'Creations'}
+									{'My Creations'}
 								</Text>
 							</Button>
 						</Link>
@@ -125,7 +125,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 										color: isMyCollectionsRoute ? 'white' : 'gray',
 									}}
 								>
-									{'Collections'}
+									{'My Collections'}
 								</Text>
 							</Button>
 						</Link>

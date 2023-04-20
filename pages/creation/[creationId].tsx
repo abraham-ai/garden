@@ -80,7 +80,8 @@ const Creation: FC<CreationPageProps> = ({
 		typeof creationData !== 'undefined' &&
 		creationData !== null &&
 		creation?._id !== undefined &&
-		!(creationData._id in reactionState)
+		!(creationData._id in reactionState) &&
+		typeof creationData?.task?.config?.text_input !== 'undefined'
 	) {
 		console.log(creationData)
 		console.log(creationData.task.config.text_input)
@@ -139,7 +140,7 @@ const Creation: FC<CreationPageProps> = ({
 												className='profileAvatarWrapper'
 												style={{ display: 'flex', flex: 1 }}
 												size={50}
-												icon={<Blockies scale={6} seed={creationData.user} />}
+												icon={<Blockies scale={6} seed={creationData?.user} />}
 											/>
 											<div className={styles.crCreatorNameWrapper}>
 												<Title
@@ -147,7 +148,7 @@ const Creation: FC<CreationPageProps> = ({
 													className='profileName'
 													style={{ marginTop: 10 }}
 												>
-													{abbreviateAddress(creationData.user)}
+													{abbreviateAddress(creationData?.user)}
 												</Title>
 												<Text>{timeAgoCreatedAt}</Text>
 											</div>
@@ -159,7 +160,7 @@ const Creation: FC<CreationPageProps> = ({
 											{'/dream'}
 										</Text>
 										<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
-											{creationData.task.config.text_input}
+											{creationData?.task?.config?.text_input ?? 'No text'}
 										</Text>
 
 										<CreationSocial
