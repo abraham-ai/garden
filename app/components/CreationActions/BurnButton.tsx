@@ -12,6 +12,7 @@ interface BurnButtonTypes {
 	burns: number
 	isBurned: boolean
 	setIsBurned: (isBurned: boolean, updatedBurns: number) => void
+	layout?: string
 }
 
 const BurnButton: FC<BurnButtonTypes> = ({
@@ -19,14 +20,17 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	burns,
 	isBurned,
 	setIsBurned,
+	layout = 'default',
 }) => {
 	const context = useContext(AppContext)
-	const isSignedIn = context?.isSignedIn || false
-	const isWalletConnected = context?.isWalletConnected || false
+	const isSignedIn = context?.isSignedIn ?? false
+	const isWalletConnected = context?.isWalletConnected ?? false
 
 	const { openConnectModal } = useConnectModal()
 
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
+
+	const isLayoutMinimal = layout === 'minimal'
 
 	const handleBurn = async (): Promise<void> => {
 		if (isSignedIn && isWalletConnected) {
@@ -50,7 +54,14 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	}
 
 	const burnGray = (
-		<span style={{ filter: 'grayscale(1)', fontSize: '1.8rem' }}>{'🔥'}</span>
+		<span
+			style={{
+				filter: 'grayscale(1)',
+				fontSize: isLayoutMinimal ? '1rem' : '1.8rem',
+			}}
+		>
+			{'🔥'}
+		</span>
 	)
 
 	const burnFilled = <span style={{ fontSize: '1.8rem' }}>{'🔥'}</span>
@@ -70,7 +81,11 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	return (
 		<div
 			className='socialButtonWrapper'
-			style={{ display: 'flex', alignItems: 'center' }}
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				paddingRight: isLayoutMinimal ? 10 : 'unset',
+			}}
 		>
 			<Button
 				className={isBurned ? 'crBurn isActive' : 'crBurn'}
@@ -82,14 +97,12 @@ const BurnButton: FC<BurnButtonTypes> = ({
 					alignItems: 'center',
 					justifyContent: 'center',
 					background: 'rgba(0, 0, 0, 0.5)',
-					width: 100,
-					height: 50,
+					width: isLayoutMinimal ? 60 : 100,
+					height: isLayoutMinimal ? 30 : 50,
 					border: 'none',
 					transition: '1s',
 				}}
-				onClick={async (): Promise<void> => {
-					await handleBurn()
-				}}
+				onClick={() => handleBurn}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>

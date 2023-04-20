@@ -10,11 +10,13 @@ import BurnButton from './CreationActions/BurnButton'
 import PraiseButton from './CreationActions/PraiseButton'
 import ShareButton from './CreationActions/ShareButton'
 
+import { Row } from 'antd'
+
 const CreationSocial: FC<CreationSocialType> = ({
-	layout = 'minimal',
 	creationId,
 	creation,
 	reactionCountList,
+	layout = 'minimal',
 }) => {
 	const [isBookmarked, setIsBookmarked] = useState(false)
 	const { reactionState, updateReactionState } = useReaction()
@@ -25,6 +27,8 @@ const CreationSocial: FC<CreationSocialType> = ({
 		burns,
 		burned: isBurned,
 	} = reactionState[creationId] ?? {}
+
+	const isLayoutMinimal = layout === 'minimal'
 
 	// console.log({ reactionState })
 
@@ -45,15 +49,16 @@ const CreationSocial: FC<CreationSocialType> = ({
 	// console.log({ creation })
 
 	return (
-		<>
+		<Row style={{ display: 'flex' }}>
 			<article
 				style={{
 					display: 'flex',
 					alignItems: 'flex-start',
-					position: 'absolute',
-					top: 20,
-					left: 20,
+					position: isLayoutMinimal ? 'relative' : 'absolute',
+					top: isLayoutMinimal ? 0 : 20,
+					left: isLayoutMinimal ? 0 : 20,
 					zIndex: 150,
+					paddingRight: 10,
 				}}
 			>
 				<BurnButton
@@ -61,12 +66,14 @@ const CreationSocial: FC<CreationSocialType> = ({
 					burns={Number(burns)}
 					isBurned={isBurned}
 					setIsBurned={handleBurnUpdate}
+					layout={layout}
 				/>
 				<PraiseButton
 					creationId={creationId}
 					praises={praises}
 					isPraised={isPraised}
 					setIsPraised={handlePraiseUpdate}
+					layout={layout}
 				/>
 			</article>
 
@@ -75,9 +82,10 @@ const CreationSocial: FC<CreationSocialType> = ({
 					display: 'flex',
 					flexDirection: 'row',
 					alignItems: 'flex-start',
-					position: 'absolute',
-					right: 20,
-					top: 20,
+					justifyContent: 'flex-start',
+					position: isLayoutMinimal ? 'relative' : 'absolute',
+					right: isLayoutMinimal ? 0 : 20,
+					top: isLayoutMinimal ? 0 : 20,
 					zIndex: 150,
 				}}
 			>
@@ -85,10 +93,11 @@ const CreationSocial: FC<CreationSocialType> = ({
 					isBookmarked={isBookmarked}
 					setIsBookmarked={setIsBookmarked}
 					creation={creation}
+					layout={layout}
 				/>
-				<ShareButton creationId={creationId} />
+				<ShareButton creationId={creationId} layout={layout} />
 			</article>
-		</>
+		</Row>
 	)
 }
 

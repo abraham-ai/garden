@@ -1,7 +1,6 @@
 import type Creation from './Creation'
 
 interface CreationSocialTypes {
-	layout: string
 	reactionCountList?: {
 		praises?: number
 		praised?: boolean
@@ -10,6 +9,7 @@ interface CreationSocialTypes {
 	}
 	creation: Creation
 	creationId: string
+	layout?: string
 }
 
 export default CreationSocialTypes

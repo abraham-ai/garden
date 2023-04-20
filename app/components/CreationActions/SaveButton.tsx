@@ -20,12 +20,14 @@ interface SaveButtonTypes {
 	isBookmarked: boolean
 	setIsBookmarked: (value: boolean) => void
 	creation: Creation
+	layout?: string
 }
 
 const SaveButton: FC<SaveButtonTypes> = ({
 	isBookmarked,
 	setIsBookmarked,
 	creation,
+	layout,
 }) => {
 	const [isSaveHovering, setIsSaveHovering] = useState(false)
 
@@ -33,19 +35,21 @@ const SaveButton: FC<SaveButtonTypes> = ({
 
 	const { openConnectModal } = useConnectModal()
 
-	const isSignedIn = context?.isSignedIn || false
-	const isWalletConnected = context?.isWalletConnected || false
+	const isSignedIn = context?.isSignedIn ?? false
+	const isWalletConnected = context?.isWalletConnected ?? false
 
-	const setCollectionModalView = context?.setCollectionModalView ?? (() => {})
+	const setCollectionModalView = context?.setCollectionModalView ?? (() => null)
 	const collections = context?.collections ?? []
-	const setCollections = context?.setCollections ?? (() => {})
+	const setCollections = context?.setCollections ?? (() => null)
 
 	const setIsSaveCreationModalOpen =
-		context?.setIsSaveCreationModalOpen ?? (() => {})
+		context?.setIsSaveCreationModalOpen ?? (() => null)
 	const setCurrentCreationModalCreation =
-		context?.setCurrentCreationModalCreation ?? (() => {})
+		context?.setCurrentCreationModalCreation ?? (() => null)
 
 	// console.log({ isSignedIn })
+
+	const isLayoutMinimal = layout === 'minimal'
 
 	const handleSave = (): void => {
 		// console.log({ isSignedIn })
@@ -100,8 +104,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 						alignItems: 'center',
 						justifyContent: 'center',
 						background: bgHoverStyles,
-						width: 50,
-						height: 50,
+						width: isLayoutMinimal ? 30 : 50,
+						height: isLayoutMinimal ? 30 : 50,
 						border: 'none',
 						transition: '300ms',
 					}}
@@ -111,15 +115,19 @@ const SaveButton: FC<SaveButtonTypes> = ({
 							className={styles.crSocialIcon}
 							style={{
 								fontSize: '1rem',
-								minWidth: 25,
-								minHeight: 25,
+								minWidth: isLayoutMinimal ? 15 : 25,
+								minHeight: isLayoutMinimal ? 15 : 25,
 								color: '#1a73e8',
 							}}
 						/>
 					) : (
 						<RiBookmarkLine
 							className={styles.crSocialIcon}
-							style={{ fontSize: '1rem', minWidth: 25, minHeight: 25 }}
+							style={{
+								fontSize: '1rem',
+								minWidth: isLayoutMinimal ? 15 : 25,
+								minHeight: isLayoutMinimal ? 15 : 25,
+							}}
 						/>
 					)}
 				</Button>
