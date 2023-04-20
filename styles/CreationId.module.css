@@ -16,6 +16,7 @@
 .creation {
 	display: flex;
 	flex: 1 1 600px;
+	max-width: 1200px;
 }
 @media (max-width: 1400px) {
 	.creation {

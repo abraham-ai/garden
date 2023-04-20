@@ -21,7 +21,7 @@ import useGetCreation from '../../hooks/useGetCreation'
 import useGetReactionCount from '../../hooks/useGetReactionCount'
 import { useReaction } from '../../context/ReactionContext'
 
-import { Col, Row, Typography, Avatar, Spin, Space } from 'antd'
+import { Col, Row, Typography, Avatar, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
 import { SlSizeFullscreen } from 'react-icons/sl'
@@ -61,11 +61,17 @@ const Creation: FC<CreationPageProps> = ({
 	const isCreationData =
 		typeof creationData !== 'undefined' &&
 		creationData !== null &&
-		typeof creationData._id !== 'undefined' &&
-		!(creationData._id in reactionState)
+		typeof creationData._id !== 'undefined'
+
+	const isReactionStateNotInitialized =
+		creationData != null &&
+		(reactionState[creationData._id]?.praises === undefined ||
+			reactionState[creationData._id]?.praised === undefined ||
+			reactionState[creationData._id]?.burns === undefined ||
+			reactionState[creationData._id]?.burned === undefined)
 
 	useEffect(() => {
-		if (isCreationData) {
+		if (isCreationData && isReactionStateNotInitialized) {
 			const praisesData = reactionCountList?.praises ?? 0
 			const praisedData = reactionCountList?.praised ?? false
 			const burnsData = reactionCountList?.burns ?? 0
@@ -78,7 +84,12 @@ const Creation: FC<CreationPageProps> = ({
 				burned: burnedData,
 			})
 		}
-	}, [reactionCountList, reactionState, updateReactionState, creationData])
+	}, [
+		reactionCountList,
+		updateReactionState,
+		creationData,
+		isReactionStateNotInitialized,
+	])
 
 	const isCreationDataTaskConfig =
 		typeof creationData !== 'undefined' &&
@@ -87,11 +98,15 @@ const Creation: FC<CreationPageProps> = ({
 		!(creationData._id in reactionState) &&
 		typeof creationData?.task?.config?.text_input !== 'undefined'
 
-	let timeAgoCreatedAt = 0
+	console.log({ isCreationDataTaskConfig })
+
+	let timeAgoCreatedAt = '0'
 	if (isCreationDataTaskConfig) {
 		console.log(creationData)
 		console.log(creationData.task.config.text_input)
-		timeAgoCreatedAt = timeAgo(parseInt(creationData.createdAt))
+		console.log(creationData.createdAt)
+		timeAgoCreatedAt = timeAgo(creationData.createdAt)
+
 		console.log(timeAgoCreatedAt)
 	}
 
@@ -155,7 +170,9 @@ const Creation: FC<CreationPageProps> = ({
 												>
 													{abbreviateAddress(creationData?.user ?? '')}
 												</Title>
-												<Text>{timeAgoCreatedAt}</Text>
+												{/* <Text style={{ marginLeft: 10 }}>
+													{timeAgoCreatedAt}
+												</Text> */}
 											</div>
 										</div>
 									</article>

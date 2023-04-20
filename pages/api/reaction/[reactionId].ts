@@ -19,9 +19,10 @@ const handler = async (
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
-	// if (!authToken) {
-	//   return res.status(401).json({ error: 'Not authenticated' })
-	// }
+	if (typeof authToken === 'undefined' || authToken === '') {
+		res.status(401).json({ error: 'Not authenticated' })
+		return
+	}
 
 	try {
 		if (typeof authToken === 'string') {

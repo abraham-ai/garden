@@ -10,13 +10,12 @@ import { IoIosShareAlt } from 'react-icons/io'
 
 import styles from '../../../styles/CreationSocial.module.css'
 
-const ShareButton: FC = ({
-	creationId,
-	layout,
-}: {
+interface ShareButtonProps {
 	creationId: string
 	layout: string
-}) => {
+}
+
+const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 	const [isShareHovering, setIsShareHovering] = useState(false)
 
 	const handleMouseOver = (): void => {

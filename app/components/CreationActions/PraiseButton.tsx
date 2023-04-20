@@ -95,7 +95,6 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 				margin: isLayoutMinimal ? 'unset' : '20px 0',
 				alignItems: isLayoutMinimal ? 'center' : 'center',
 				display: 'flex',
-				alignItems: 'center',
 			}}
 		>
 			<Button
