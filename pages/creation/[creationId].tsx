@@ -54,6 +54,8 @@ const Creation: FC<CreationPageProps> = ({
 
 	const creationData = useGetCreation(queryCreationId)
 
+	console.log({ creationData })
+
 	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
 

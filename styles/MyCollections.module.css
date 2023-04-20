@@ -94,10 +94,12 @@
 
 .createCollectionButton {
 	max-width: 200px;
+	background: rgba(0, 0, 0, 0.05);
+	border: none;
 }
 
 .createCollectionButtonText {
-	/* font-weight: bold; */
+	font-weight: bold;
 	font-size: 14px;
 	/* color: white; */
 }
