@@ -28,7 +28,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	}
 
 	const isCollectionRoute = typeof collectionId !== 'undefined'
-	const isCreationRoute = typeof creatorId !== 'undefined'
+	// const isCreationRoute = typeof creatorId !== 'undefined'
 
 	console.log({ collectionId })
 	console.log({ isCollectionRoute })
