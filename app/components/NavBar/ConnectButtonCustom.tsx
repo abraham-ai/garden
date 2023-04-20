@@ -210,9 +210,9 @@ export const ProfileButton = () => {
 									<Modal open={isOpen} footer={<></>}>
 										<div className='modal-wrapper'>
 											<Button onClick={openAccountModal} type='button'>
-												{account.displayName}
-												{account.displayBalance
-													? ` (${account.displayBalance})`
+												<Text>{account.displayName}</Text>
+												<Text>{account.displayBalance}</Text>
+													? <Text>{` (${account.displayBalance})`}</Text>
 													: ''}
 											</Button>
 										</div>

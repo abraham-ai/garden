@@ -89,40 +89,49 @@ const CreationSaveModal: FC = () => {
 		})
 	}
 
-	const saveNotification = (placement: NotificationPlacement): void => {
-		console.log('save Notification')
-		console.log(currentSavedCollection)
-		const savedCollectionPropsArray =
-			currentSavedCollection != null
-				? Object.keys(currentSavedCollection as object)
-				: []
+	const saveNotification = async (
+		placement: NotificationPlacement
+	): Promise<void> => {
+		await new Promise((resolve) => {
+			console.log('save Notification')
+			console.log(currentSavedCollection)
+			const savedCollectionPropsArray =
+				currentSavedCollection != null
+					? Object.keys(currentSavedCollection as object)
+					: []
 
-		if (
-			typeof currentSavedCollection !== 'undefined' &&
-			savedCollectionPropsArray.length > 0
-		) {
-			setIsSaveCreationModalOpen(false)
-			api.info({
-				message: (
-					<>
-						<Text>
-							{`Creation saved to`}
-							<Link
-								href={`/collection/${String(currentSavedCollection?._id)}`}
-								style={{ margin: '0 5px' }}
-							>
-								{String(currentSavedCollection?.name)}
-							</Link>
-							{`Collection!`}
-						</Text>
-					</>
-				),
-				description:
-					'View your collection in the Collections tab or on your profile page.',
-				placement,
-				duration: 3,
-			})
-		}
+			if (
+				typeof currentSavedCollection !== 'undefined' &&
+				savedCollectionPropsArray.length > 0
+			) {
+				setIsSaveCreationModalOpen(false)
+				api.info({
+					message: (
+						<>
+							<Text>
+								{`Creation saved to`}
+								<Link
+									href={`/collection/${String(currentSavedCollection?._id)}`}
+									style={{ margin: '0 5px' }}
+								>
+									{String(currentSavedCollection?.name)}
+								</Link>
+								{`Collection!`}
+							</Text>
+						</>
+					),
+					description:
+						'View your collection in the Collections tab or on your profile page.',
+					placement,
+					duration: 3,
+				})
+				setTimeout(() => {
+					resolve()
+				}, 1000) // 3000 ms = 3 seconds, same as the duration of the notification
+			} else {
+				resolve()
+			}
+		})
 	}
 
 	useEffect(() => {
@@ -198,7 +207,7 @@ const CreationSaveModal: FC = () => {
 		}
 	}
 
-	const handleSaveModalCleanUp = (): void => {
+	const handleSaveModalCleanUp = async (): Promise<void> => {
 		// setModalOpen(false)
 		setCollectionModalView(0)
 		// console.log({ currentSavedCollection })
@@ -206,7 +215,13 @@ const CreationSaveModal: FC = () => {
 
 		if (typeof currentSavedCollection !== 'undefined') {
 			// console.log(currentSavedCollection)
-			saveNotification('bottom')
+			try {
+				await saveNotification('bottom')
+			} catch (error) {
+				console.error('Error handling saveNotification:', error)
+			}
+
+			setCurrentSavedCollection(undefined)
 		}
 	}
 
@@ -306,10 +321,6 @@ const CreationSaveModal: FC = () => {
 		>
 			<div style={{ padding: 20, borderRadius: 20 }}>
 				<section className={styles.modalView1}>
-					{/* <Text className={styles.debugModalView}>
-						{`Modal View: ${String(collectionModalView)}`}
-					</Text> */}
-
 					{collectionModalView === 0 ? (
 						<article className={styles.modalView1}>
 							{collections.length > 0 ? (
