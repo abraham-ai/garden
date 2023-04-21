@@ -190,7 +190,7 @@ const Creation: FC<CreationPageProps> = ({
 											{creationData?.task?.config?.text_input ?? 'No text'}
 										</Text>
 
-										<Row
+										{/* <Row
 											style={{
 												position: 'relative',
 												display: 'block',
@@ -212,7 +212,7 @@ const Creation: FC<CreationPageProps> = ({
 														reactionState[queryCreationId]?.burned ?? false,
 												}}
 											/>
-										</Row>
+										</Row> */}
 
 										<ul className={styles.crPropertiesWrapper}>
 											<li className={styles.crProperty}>
