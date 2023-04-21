@@ -11,7 +11,7 @@ const handler = async (
 ): Promise<void> => {
 	const { creationId, reaction, unreact } = req.body
 
-	// console.log(creationId, reaction, unreact)
+	console.log(creationId, reaction, unreact)
 
 	const session = req.session
 
@@ -19,8 +19,8 @@ const handler = async (
 	const authToken = session?.token ?? ''
 	// console.log(authToken)
 
-	if (authToken === '') {
-		res.status(401).json({ error: 'Not authenticated' })
+	if (authToken === '' || creationId === '' || reaction === '') {
+		res.status(401).json({ error: 'Not authenticated, empty values' })
 		return
 	}
 
@@ -30,7 +30,7 @@ const handler = async (
 		}
 		const creation = await eden.getCreation(creationId)
 		let result
-		if (typeof unreact !== 'undefined' && unreact !== null) {
+		if (unreact === true) {
 			result = await creation.unreact(reaction)
 			console.log('unreacted')
 			console.log(result)

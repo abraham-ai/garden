@@ -32,6 +32,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
 
 	const isLayoutMinimal = layout === 'minimal'
 
+	console.log('Burn Button: CreationId: ' + creationId)
+
 	const handleBurn = async (): Promise<void> => {
 		console.log({ isSignedIn, isWalletConnected })
 
