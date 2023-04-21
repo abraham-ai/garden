@@ -22,18 +22,18 @@ const collectionStyles = {
 		display: 'flex',
 		justifyContent: 'center',
 		background: 'white',
-		fontWeight: 'bold',
+		fontWeight: 'bold'
 	},
 	text: {
 		fontSize: '1.4rem',
-		margin: '20px 0',
-	},
+		margin: '20px 0'
+	}
 }
 
 interface CollectionPageTypes {
-	params: { id: string }
-	creation: CreationResponse
-	size?: string
+  params: { id: string }
+  creation: CreationResponse
+  size?: string
 }
 
 const Collection: FC<CollectionPageTypes> = () => {
@@ -42,9 +42,9 @@ const Collection: FC<CollectionPageTypes> = () => {
 	// console.log(collectionId)
 
 	const collectionData =
-		typeof collectionId === 'string'
-			? useGetCollection(collectionId)
-			: undefined
+    typeof collectionId === 'string'
+    	? useGetCollection(collectionId)
+    	: undefined
 
 	// console.log('[collectionId] ROUTE')
 	// console.log({ collectionData })
@@ -57,25 +57,25 @@ const Collection: FC<CollectionPageTypes> = () => {
 	}
 
 	const isCollectionData =
-		typeof collectionData !== 'undefined' &&
-		typeof collectionData?.data !== 'undefined'
+    typeof collectionData !== 'undefined' &&
+    typeof collectionData?.data !== 'undefined'
 	const isUser = typeof collectionData?.data?.collection?.user !== 'undefined'
 
 	const isCollectionArray = Array.isArray(collectionData?.data?.creations)
 	const isCollectionCreations =
-		!isCollectionArray ||
-		(collectionData?.data?.creations != null &&
-			collectionData.data.creations.every(
-				(creation): creation is Creation =>
-					typeof creation === 'object' && creation !== null
-			))
+    !isCollectionArray ||
+    (collectionData?.data?.creations != null &&
+      collectionData.data.creations.every(
+      	(creation): creation is Creation =>
+      		typeof creation === 'object' && creation !== null
+      ))
 	const collectionCreations =
-		isCollectionArray && isCollectionCreations
-			? collectionData?.data?.creations ?? []
-			: []
+    isCollectionArray && isCollectionCreations
+    	? collectionData?.data?.creations ?? []
+    	: []
 
 	const isCollectionId =
-		typeof collectionId === 'string' ? collectionId : undefined
+    typeof collectionId === 'string' ? collectionId : undefined
 
 	return (
 		<>

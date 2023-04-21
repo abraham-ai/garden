@@ -34,15 +34,15 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const { Title, Text } = Typography
 
 interface CreationPageProps {
-	params: { id: string }
-	creation: CreationTypes
-	size?: string
+  params: { id: string }
+  creation: CreationTypes
+  size?: string
 }
 
 const Creation: FC<CreationPageProps> = ({
 	params,
 	creation = emptyCreation,
-	size = 'regular',
+	size = 'regular'
 }) => {
 	const router = useRouter()
 
@@ -60,16 +60,16 @@ const Creation: FC<CreationPageProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 
 	const isCreationData =
-		typeof creationData !== 'undefined' &&
-		creationData !== null &&
-		typeof creationData._id !== 'undefined'
+    typeof creationData !== 'undefined' &&
+    creationData !== null &&
+    typeof creationData._id !== 'undefined'
 
 	const isReactionStateNotInitialized =
-		creationData != null &&
-		(reactionState[creationData._id]?.praises === undefined ||
-			reactionState[creationData._id]?.praised === undefined ||
-			reactionState[creationData._id]?.burns === undefined ||
-			reactionState[creationData._id]?.burned === undefined)
+    creationData != null &&
+    (reactionState[creationData._id]?.praises === undefined ||
+      reactionState[creationData._id]?.praised === undefined ||
+      reactionState[creationData._id]?.burns === undefined ||
+      reactionState[creationData._id]?.burned === undefined)
 
 	useEffect(() => {
 		if (isCreationData && isReactionStateNotInitialized) {
@@ -82,22 +82,22 @@ const Creation: FC<CreationPageProps> = ({
 				praises: praisesData,
 				praised: praisedData,
 				burns: burnsData,
-				burned: burnedData,
+				burned: burnedData
 			})
 		}
 	}, [
 		reactionCountList,
 		updateReactionState,
 		creationData,
-		isReactionStateNotInitialized,
+		isReactionStateNotInitialized
 	])
 
 	const isCreationDataTaskConfig =
-		typeof creationData !== 'undefined' &&
-		creationData !== null &&
-		creation?._id !== undefined &&
-		!(creationData._id in reactionState) &&
-		typeof creationData?.task?.config?.text_input !== 'undefined'
+    typeof creationData !== 'undefined' &&
+    creationData !== null &&
+    creation?._id !== undefined &&
+    !(creationData._id in reactionState) &&
+    typeof creationData?.task?.config?.text_input !== 'undefined'
 
 	console.log({ isCreationDataTaskConfig })
 
@@ -162,7 +162,7 @@ const Creation: FC<CreationPageProps> = ({
 									<article className={styles.crMainHeader}>
 										<div className={styles.crCreator}>
 											<Avatar
-												className='profileAvatarWrapper'
+												className="profileAvatarWrapper"
 												style={{ display: 'flex', flex: 1 }}
 												size={50}
 												icon={<Blockies scale={6} seed={creationData?.user} />}
@@ -170,7 +170,7 @@ const Creation: FC<CreationPageProps> = ({
 											<div className={styles.crCreatorNameWrapper}>
 												<Title
 													level={3}
-													className='profileName'
+													className="profileName"
 													style={{ marginTop: 10 }}
 												>
 													{abbreviateAddress(creationData?.user ?? '')}
@@ -217,21 +217,21 @@ const Creation: FC<CreationPageProps> = ({
 										<ul className={styles.crPropertiesWrapper}>
 											<li className={styles.crProperty}>
 												<span className={styles.crPropertyType}>
-													<MdOutlineDateRange className='icon' />
+													<MdOutlineDateRange className="icon" />
 													<Text>{'Date'}</Text>
 												</span>
 												<Text>{timeAgoCreatedAt}</Text>
 											</li>
 											<li className={styles.crProperty}>
 												<span className={styles.crPropertyType}>
-													<SlSizeFullscreen className='icon' />
+													<SlSizeFullscreen className="icon" />
 													<Text>{'Size'}</Text>
 												</span>
 												<Text>{'512 x 512'}</Text>
 											</li>
 											<li className={styles.crProperty}>
 												<span className={styles.crPropertyType}>
-													<BsAspectRatio className='icon' />
+													<BsAspectRatio className="icon" />
 													<Text>{'Command'}</Text>
 												</span>
 												<Text>{'/dream'}</Text>

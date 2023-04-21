@@ -29,9 +29,9 @@ const { Title, Text } = Typography
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 interface CreatorPageProps {
-	params: { id: string }
-	creation: CreationResponse
-	size?: string
+  params: { id: string }
+  creation: CreationResponse
+  size?: string
 }
 
 const Creator: FC<CreatorPageProps> = () => {
@@ -73,8 +73,8 @@ const Creator: FC<CreatorPageProps> = () => {
 	const creatorCreationsData = useGetMyCreations(queryCreatorId)
 
 	const isCreatorCreationsData =
-		creatorCreationsData !== null &&
-		Object.keys(creatorCreationsData).length > 0
+    creatorCreationsData !== null &&
+    Object.keys(creatorCreationsData).length > 0
 
 	return (
 		<>

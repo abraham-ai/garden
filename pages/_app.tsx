@@ -12,7 +12,7 @@ import {
 	createClient,
 	configureChains,
 	mainnet,
-	useAccount,
+	useAccount
 } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
@@ -34,20 +34,20 @@ const { chains, provider } = configureChains(
 	[mainnet],
 	[
 		alchemyProvider({
-			apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string,
+			apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string
 		}),
-		publicProvider(),
+		publicProvider()
 	]
 )
 const { connectors } = getDefaultWallets({
 	appName: 'Eden Art AI',
-	chains,
+	chains
 })
 
 const wagmiClient = createClient({
 	autoConnect: true,
 	connectors,
-	provider,
+	provider
 })
 
 const initialTask: Task = {
@@ -67,11 +67,11 @@ const initialTask: Task = {
 		stream_every: 1,
 		text_input: '',
 		uc_text: true,
-		upscale_f: 1,
+		upscale_f: 1
 	},
 	generator: {
 		_id: '',
-		generatorName: '',
+		generatorName: ''
 	},
 	status: '',
 	key: 0,
@@ -79,7 +79,7 @@ const initialTask: Task = {
 	uri: '',
 	timestamp: '',
 	prompt: '',
-	progress: 0,
+	progress: 0
 }
 
 const initialConfig: Config = {
@@ -96,7 +96,7 @@ const initialConfig: Config = {
 	stream_every: 1,
 	text_input: '',
 	uc_text: true,
-	upscale_f: 1,
+	upscale_f: 1
 }
 
 const emptyCreation = {
@@ -111,7 +111,7 @@ const emptyCreation = {
 	timestamp: '',
 	prompt: '',
 	status: '',
-	thumbnail: '',
+	thumbnail: ''
 }
 
 const CustomAvatar: FC = ({ address }: { address: string }) => {
@@ -124,8 +124,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	// auth context
 	const [isWalletConnected, setIsWalletConnected] = useState<
-		boolean | undefined
-	>(undefined)
+    boolean | undefined
+  >(undefined)
 	const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false)
 	const [authToken, setAuthToken] = useState<string | undefined>('')
 	const [userId, setUserId] = useState<string | undefined>('')
@@ -137,7 +137,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)
 	const [currentCreationModalCreation, setCurrentCreationModalCreation] =
-		useState<Creation>(emptyCreation)
+    useState<Creation>(emptyCreation)
 
 	const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0)
 
@@ -169,7 +169,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		currentCreationModalCreation,
 		setCurrentCreationModalCreation,
 		isSaveCreationModalOpen,
-		setIsSaveCreationModalOpen,
+		setIsSaveCreationModalOpen
 	}
 
 	// routing progress bar
@@ -198,7 +198,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 					currentCreationModalCreation,
 					setCurrentCreationModalCreation,
 					isSaveCreationModalOpen,
-					setIsSaveCreationModalOpen,
+					setIsSaveCreationModalOpen
 				}}
 			>
 				<WagmiConfig client={wagmiClient}>

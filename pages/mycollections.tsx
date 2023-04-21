@@ -22,16 +22,16 @@ const MyCollections: FC = () => {
 	const context = useContext(AppContext)
 
 	const userId =
-		typeof context !== 'undefined' && context !== null && 'userId' in context
-			? String(context.userId)
-			: ''
+    typeof context !== 'undefined' && context !== null && 'userId' in context
+    	? String(context.userId)
+    	: ''
 
 	const router = useRouter()
 
 	const {
 		collections: myCollectionsData,
 		isLoading,
-		error,
+		error
 	} = useGetCollections()
 
 	console.log({ myCollectionsData })
@@ -49,7 +49,7 @@ const MyCollections: FC = () => {
 	}
 
 	const isMyCollections =
-		myCollectionsData !== null && !isLoading && typeof error === 'undefined'
+    myCollectionsData !== null && !isLoading && typeof error === 'undefined'
 
 	console.log({ myCollectionsData, isLoading, error })
 
@@ -65,7 +65,7 @@ const MyCollections: FC = () => {
 					<Row
 						style={{
 							display: 'flex',
-							flexDirection: 'column',
+							flexDirection: 'column'
 						}}
 					>
 						{/* <Row className={styles.createCollectionButtonWrapper}>
@@ -89,7 +89,7 @@ const MyCollections: FC = () => {
 									<Button
 										className={styles.collectionButton}
 										key={collection._id}
-										onClick={(e) => {
+										onClick={e => {
 											handleClickCollection(e, collection._id)
 										}}
 									>

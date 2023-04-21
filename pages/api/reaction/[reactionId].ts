@@ -52,18 +52,18 @@ const handler = async (
 
 		if (Array.isArray(reactions) && reactions.length > 0) {
 			praised =
-				userId !== undefined &&
-				praises.some((reaction: Reaction) => reaction?.user?._id === userId)
+        userId !== undefined &&
+        praises.some((reaction: Reaction) => reaction?.user?._id === userId)
 			burned =
-				userId !== undefined &&
-				burns.some((reaction: Reaction) => reaction?.user?._id === userId)
+        userId !== undefined &&
+        burns.some((reaction: Reaction) => reaction?.user?._id === userId)
 		}
 
 		const result = {
 			praises: praises.length > 0 ? praises.length : 0,
 			burns: burns.length > 0 ? burns.length : 0,
 			praised,
-			burned,
+			burned
 		}
 
 		res.status(200).json(result)
