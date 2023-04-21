@@ -68,7 +68,7 @@ const MyCollections: FC = () => {
 							flexDirection: 'column',
 						}}
 					>
-						<Row className={styles.createCollectionButtonWrapper}>
+						{/* <Row className={styles.createCollectionButtonWrapper}>
 							<Button
 								className={styles.createCollectionButton}
 								type='default'
@@ -82,7 +82,7 @@ const MyCollections: FC = () => {
 									{'Create Collection'}
 								</Text>
 							</Button>
-						</Row>
+						</Row> */}
 						<Row>
 							{myCollectionsData.map((collection: Collection) => {
 								return (
