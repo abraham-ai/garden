@@ -18,6 +18,7 @@
 		"ethers": "<6",
 		"form-data": "^4.0.0",
 		"iron-session": "latest",
+		"jest-worker": "^29.5.0",
 		"lit-html": "^2.6.1",
 		"next": "latest",
 		"nprogress": "^0.2.0",
