@@ -13,6 +13,7 @@ const nextConfig = {
 		'@web3modal/core',
 	],
 	images: {
+		domains: ['minio.aws.abraham.fun'],
 		remotePatterns: [
 			{
 				protocol: 'https',
