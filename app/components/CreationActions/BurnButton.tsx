@@ -88,7 +88,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 			style={{
 				display: 'flex',
 				alignItems: 'center',
-				paddingRight: isLayoutMinimal ? 10 : 'unset',
+				paddingRight: isLayoutMinimal ? 10 : 10,
 			}}
 		>
 			<Button

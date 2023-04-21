@@ -91,8 +91,8 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 		<div
 			className='socialButtonWrapper'
 			style={{
-				position: isLayoutMinimal ? 'relative' : 'absolute',
-				margin: isLayoutMinimal ? 'unset' : '20px 0',
+				position: isLayoutMinimal ? 'relative' : 'relative',
+				margin: isLayoutMinimal ? 'unset' : 'unset',
 				alignItems: isLayoutMinimal ? 'center' : 'center',
 				display: 'flex',
 			}}
