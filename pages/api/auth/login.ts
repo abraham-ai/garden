@@ -6,12 +6,12 @@ import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 interface SuccessResponse {
-  message: string
-  token: string
+	message: string
+	token: string
 }
 
 interface ErrorResponse {
-  errorMessage: string
+	errorMessage: string
 }
 
 const handler = async (

@@ -34,6 +34,7 @@ module.exports = {
 			  trailingComma: 'none',
 			  bracketSpacing: true,
 			  arrowParens: 'avoid',
+			  useTabs: true
 			},
 		],
 		// "quotes": [2, "single", { "avoidEscape": true }],

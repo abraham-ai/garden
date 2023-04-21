@@ -7,17 +7,17 @@ import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
 interface ErrorResponse {
-  errorMessage: string
+	errorMessage: string
 }
 
 interface LoginResponse {
-  ok: boolean
-  token: string
+	ok: boolean
+	token: string
 }
 
 const handler: (
-  req: ExtendedApiRequest,
-  res: NextApiResponse
+	req: ExtendedApiRequest,
+	res: NextApiResponse
 ) => Promise<void> = async (req, res: NextApiResponse): Promise<void> => {
 	if (req.method !== 'POST') {
 		res.setHeader('Allow', ['POST'])

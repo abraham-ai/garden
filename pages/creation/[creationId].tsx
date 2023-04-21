@@ -34,9 +34,9 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const { Title, Text } = Typography
 
 interface CreationPageProps {
-  params: { id: string }
-  creation: CreationTypes
-  size?: string
+	params: { id: string }
+	creation: CreationTypes
+	size?: string
 }
 
 const Creation: FC<CreationPageProps> = ({
@@ -60,16 +60,16 @@ const Creation: FC<CreationPageProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 
 	const isCreationData =
-    typeof creationData !== 'undefined' &&
-    creationData !== null &&
-    typeof creationData._id !== 'undefined'
+		typeof creationData !== 'undefined' &&
+		creationData !== null &&
+		typeof creationData._id !== 'undefined'
 
 	const isReactionStateNotInitialized =
-    creationData != null &&
-    (reactionState[creationData._id]?.praises === undefined ||
-      reactionState[creationData._id]?.praised === undefined ||
-      reactionState[creationData._id]?.burns === undefined ||
-      reactionState[creationData._id]?.burned === undefined)
+		creationData != null &&
+		(reactionState[creationData._id]?.praises === undefined ||
+			reactionState[creationData._id]?.praised === undefined ||
+			reactionState[creationData._id]?.burns === undefined ||
+			reactionState[creationData._id]?.burned === undefined)
 
 	useEffect(() => {
 		if (isCreationData && isReactionStateNotInitialized) {
@@ -93,11 +93,11 @@ const Creation: FC<CreationPageProps> = ({
 	])
 
 	const isCreationDataTaskConfig =
-    typeof creationData !== 'undefined' &&
-    creationData !== null &&
-    creation?._id !== undefined &&
-    !(creationData._id in reactionState) &&
-    typeof creationData?.task?.config?.text_input !== 'undefined'
+		typeof creationData !== 'undefined' &&
+		creationData !== null &&
+		creation?._id !== undefined &&
+		!(creationData._id in reactionState) &&
+		typeof creationData?.task?.config?.text_input !== 'undefined'
 
 	console.log({ isCreationDataTaskConfig })
 

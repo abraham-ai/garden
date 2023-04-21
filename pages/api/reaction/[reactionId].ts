@@ -52,11 +52,11 @@ const handler = async (
 
 		if (Array.isArray(reactions) && reactions.length > 0) {
 			praised =
-        userId !== undefined &&
-        praises.some((reaction: Reaction) => reaction?.user?._id === userId)
+				userId !== undefined &&
+				praises.some((reaction: Reaction) => reaction?.user?._id === userId)
 			burned =
-        userId !== undefined &&
-        burns.some((reaction: Reaction) => reaction?.user?._id === userId)
+				userId !== undefined &&
+				burns.some((reaction: Reaction) => reaction?.user?._id === userId)
 		}
 
 		const result = {

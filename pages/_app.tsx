@@ -124,8 +124,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	// auth context
 	const [isWalletConnected, setIsWalletConnected] = useState<
-    boolean | undefined
-  >(undefined)
+		boolean | undefined
+	>(undefined)
 	const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false)
 	const [authToken, setAuthToken] = useState<string | undefined>('')
 	const [userId, setUserId] = useState<string | undefined>('')
@@ -137,7 +137,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)
 	const [currentCreationModalCreation, setCurrentCreationModalCreation] =
-    useState<Creation>(emptyCreation)
+		useState<Creation>(emptyCreation)
 
 	const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0)
 

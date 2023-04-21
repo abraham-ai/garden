@@ -22,9 +22,9 @@ const MyCollections: FC = () => {
 	const context = useContext(AppContext)
 
 	const userId =
-    typeof context !== 'undefined' && context !== null && 'userId' in context
-    	? String(context.userId)
-    	: ''
+		typeof context !== 'undefined' && context !== null && 'userId' in context
+			? String(context.userId)
+			: ''
 
 	const router = useRouter()
 
@@ -49,7 +49,7 @@ const MyCollections: FC = () => {
 	}
 
 	const isMyCollections =
-    myCollectionsData !== null && !isLoading && typeof error === 'undefined'
+		myCollectionsData !== null && !isLoading && typeof error === 'undefined'
 
 	console.log({ myCollectionsData, isLoading, error })
 
