@@ -48,7 +48,7 @@ const CreationSaveModal: FC = () => {
 		context?.setCollectionModalView(value)
 	}
 
-	const noop = (): void => null
+	const noop = (): void => {}
 
 	const currentCreationModalCreation = context?.currentCreationModalCreation
 

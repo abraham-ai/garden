@@ -136,6 +136,7 @@ export const ProfileButton = () => {
 										type='primary'
 										onClick={openConnectModal}
 										shape='round'
+										size='large'
 									>
 										<Text style={{ color: 'white' }}>{'Connect Wallet'}</Text>
 									</Button>
@@ -196,6 +197,7 @@ export const ProfileButton = () => {
 										onClick={openAccountModal}
 										type='default'
 										shape='round'
+										size='large'
 									>
 										{width > 768 && displayAddress !== null ? (
 											<Text style={{ marginRight: 10 }}>
@@ -206,8 +208,8 @@ export const ProfileButton = () => {
 											</Text>
 										) : null}
 										<Avatar
-											size={22}
-											src={<Blockies seed={String(address)} scale={2.5} />}
+											size={26}
+											src={<Blockies seed={String(address)} scale={3} />}
 										/>
 									</Button>
 									{/* </Popover> */}

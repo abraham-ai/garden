@@ -53,9 +53,16 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 	}
 
 	return (
-		<a href={href} onClick={handleClick} style={linkStyle}>
+		<Button
+			type='text'
+			size='large'
+			shape='round'
+			href={href}
+			onClick={() => handleClick}
+			style={linkStyle}
+		>
 			{children}
-		</a>
+		</Button>
 	)
 }
 
@@ -65,10 +72,10 @@ const Header: FC = () => {
 	const router = useRouter()
 
 	const context = useContext(AppContext)
-	const isWalletConnected = context?.isWalletConnected || false
-	const authToken = context?.authToken || ''
-	const userId = context?.userId || ''
-	const isSignedIn = context?.isSignedIn || false
+	const isWalletConnected = context?.isWalletConnected ?? false
+	const authToken = context?.authToken ?? ''
+	const userId = context?.userId ?? ''
+	const isSignedIn = context?.isSignedIn ?? false
 
 	const { width } = useWindowDimensions()
 
@@ -151,13 +158,16 @@ const Header: FC = () => {
 
 				{isMounted && width > 1280 ? (
 					<>
-						<ActiveLink href='/'>
+						{/* <ActiveLink href='/'>
 							<Text>{'Garden'}</Text>
-						</ActiveLink>
+						</ActiveLink> */}
 						{userId !== 'undefined' ? (
 							<>
 								<ActiveLink href='/mycreations'>
 									<Text>{'My Creations'}</Text>
+								</ActiveLink>
+								<ActiveLink href='/mycollections'>
+									<Text>{'My Collections'}</Text>
 								</ActiveLink>
 								{/* <ActiveLink href='/profile'>
 									<Text>{'Edit Profile'}</Text>
