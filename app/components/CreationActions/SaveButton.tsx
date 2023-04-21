@@ -40,12 +40,12 @@ const SaveButton: FC<SaveButtonTypes> = ({
 
 	const setCollectionModalView = context?.setCollectionModalView ?? (() => null)
 	const collections = context?.collections ?? []
-	const setCollections = context?.setCollections ?? (() => null)
+	const setCollections = context?.setCollections ?? (() => {})
 
 	const setIsSaveCreationModalOpen =
-		context?.setIsSaveCreationModalOpen ?? (() => null)
+		context?.setIsSaveCreationModalOpen ?? (() => {})
 	const setCurrentCreationModalCreation =
-		context?.setCurrentCreationModalCreation ?? (() => null)
+		context?.setCurrentCreationModalCreation ?? (() => {})
 
 	// console.log({ isSignedIn })
 

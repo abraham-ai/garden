@@ -91,8 +91,8 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 		<div
 			className='socialButtonWrapper'
 			style={{
-				position: isLayoutMinimal ? 'relative' : 'absolute',
-				margin: isLayoutMinimal ? 'unset' : '20px 0',
+				position: isLayoutMinimal ? 'relative' : 'relative',
+				margin: isLayoutMinimal ? 'unset' : 'unset',
 				alignItems: isLayoutMinimal ? 'center' : 'center',
 				display: 'flex',
 			}}
@@ -110,7 +110,9 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 					border: 'none',
 					transition: '1s',
 				}}
-				onClick={() => handlePraise}
+				onClick={async () => {
+					await handlePraise()
+				}}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>

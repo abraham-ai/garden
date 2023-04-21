@@ -32,8 +32,13 @@ const BurnButton: FC<BurnButtonTypes> = ({
 
 	const isLayoutMinimal = layout === 'minimal'
 
+	console.log('Burn Button: CreationId: ' + creationId)
+
 	const handleBurn = async (): Promise<void> => {
+		console.log({ isSignedIn, isWalletConnected })
+
 		if (isSignedIn && isWalletConnected) {
+			console.log({ isSignedIn, isWalletConnected })
 			const newIsBurned = !isBurned
 			const updatedBurns = newIsBurned ? burns + 1 : burns - 1
 			setIsBurned(newIsBurned, updatedBurns)
@@ -88,7 +93,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 			style={{
 				display: 'flex',
 				alignItems: 'center',
-				paddingRight: isLayoutMinimal ? 10 : 'unset',
+				paddingRight: isLayoutMinimal ? 10 : 10,
 			}}
 		>
 			<Button
@@ -106,7 +111,9 @@ const BurnButton: FC<BurnButtonTypes> = ({
 					border: 'none',
 					transition: '1s',
 				}}
-				onClick={() => handleBurn}
+				onClick={async () => {
+					await handleBurn()
+				}}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>

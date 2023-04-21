@@ -2,7 +2,7 @@ import React from 'react'
 import type { FC } from 'react'
 import Link from 'next/link'
 
-import { Avatar, Typography, Button } from 'antd'
+import { Avatar, Typography, Col, Row, Button } from 'antd'
 
 import Blockies from 'react-blockies'
 
@@ -14,6 +14,7 @@ interface CreatorHeaderProps {
 	userId?: string
 	isMyCreationsRoute?: boolean
 	isMyCollectionsRoute?: boolean
+	queryCreatorId?: string
 }
 
 const CreatorHeader: FC<CreatorHeaderProps> = ({
@@ -21,6 +22,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	userId,
 	isMyCreationsRoute = false,
 	isMyCollectionsRoute = false,
+	queryCreatorId = '',
 }) => {
 	let displayAddress = ''
 	if (typeof userId === 'string') {
@@ -33,6 +35,9 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	console.log({ collectionId })
 	console.log({ isCollectionRoute })
 
+	const isQueryCreatorId =
+		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
+
 	return (
 		<article
 			className='creatorHeader'
@@ -42,14 +47,14 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 				className='creatorProfile'
 				style={{
 					width: '100%',
-					background: 'white',
+					// background: 'white',
 					display: 'flex',
 					flex: 2,
 					flexDirection: 'column',
 					alignItems: 'flex-start',
 				}}
 			>
-				<span
+				<Col
 					style={{
 						zIndex: 150,
 						position: 'relative',
@@ -69,68 +74,74 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 					<Title level={3} className='profileName' style={{ marginTop: 10 }}>
 						{displayAddress}
 					</Title>
-				</span>
+				</Col>
 
-				<div
-					className='creator-profile-info'
-					style={{
-						display: 'flex',
-						flex: 1,
-						flexDirection: 'column',
-						alignItems: 'flex-start',
-						width: '100%',
-					}}
-				>
-					<div
-						className='profile-actions'
-						style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
+				{isQueryCreatorId ? (
+					<Row
+						className='creator-profile-info'
+						style={{
+							display: 'flex',
+							flex: 1,
+							flexDirection: 'column',
+							alignItems: 'flex-start',
+							width: '100%',
+						}}
 					>
-						{/* <Link href='/editprofile'>
-							<Button
-								shape='round'
-								style={{ marginRight: 20, background: 'rgba(0,0,0,0.05)' }}
-							>
-								<Text style={{ fontWeight: 'bold', color: 'gray' }}>
-									{'Edit Profile'}
-								</Text>
-							</Button>
-						</Link> */}
-
-						<Link href='/mycreations'>
-							<Button
-								shape='round'
-								type={isMyCreationsRoute ? 'primary' : 'default'}
-								style={{ marginRight: 10 }}
-							>
-								<Text
-									style={{
-										fontWeight: 'bold',
-										color: isMyCreationsRoute ? 'white' : 'gray',
-									}}
+						<div
+							className='profile-actions'
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								width: '100%',
+							}}
+						>
+							{/* <Link href='/editprofile'>
+								<Button
+									shape='round'
+									style={{ marginRight: 20, background: 'rgba(0,0,0,0.05)' }}
 								>
-									{'My Creations'}
-								</Text>
-							</Button>
-						</Link>
+									<Text style={{ fontWeight: 'bold', color: 'gray' }}>
+										{'Edit Profile'}
+									</Text>
+								</Button>
+							</Link> */}
 
-						<Link href='/mycollections'>
-							<Button
-								shape='round'
-								type={isMyCollectionsRoute ? 'primary' : 'default'}
-								// style={{ background: 'rgba(0,0,0,0.05)' }}
-							>
-								<Text
-									style={{
-										fontWeight: 'bold',
-										color: isMyCollectionsRoute ? 'white' : 'gray',
-									}}
+							{/* <Link href='/mycreations'>
+								<Button
+									shape='round'
+									type={isMyCreationsRoute ? 'primary' : 'default'}
+									style={{ marginRight: 10 }}
 								>
-									{'My Collections'}
-								</Text>
-							</Button>
-						</Link>
-					</div>
-				</div>
+									<Text
+										style={{
+											fontWeight: 'bold',
+											color: isMyCreationsRoute ? 'white' : 'gray',
+										}}
+									>
+										{'Creations'}
+									</Text>
+								</Button>
+							</Link>
+
+							<Link href='/mycollections'>
+								<Button
+									shape='round'
+									type={isMyCollectionsRoute ? 'primary' : 'default'}
+									// style={{ background: 'rgba(0,0,0,0.05)' }}
+								>
+									<Text
+										style={{
+											fontWeight: 'bold',
+											color: isMyCollectionsRoute ? 'white' : 'gray',
+										}}
+									>
+										{'Collections'}
+									</Text>
+								</Button>
+							</Link> */}
+						</div>
+					</Row>
+				) : null}
 			</span>
 		</article>
 	)

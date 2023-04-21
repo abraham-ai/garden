@@ -13,6 +13,7 @@ import styles from '../../styles/CreationId.module.css'
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationSocial from '../../app/components/CreationSocial'
+import CreationSaveModal from '../../app/components/CreationSaveModal'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
@@ -110,9 +111,13 @@ const Creation: FC<CreationPageProps> = ({
 		console.log(timeAgoCreatedAt)
 	}
 
+	console.log('[creationId]: CreationId: ' + queryCreationId)
+
 	return (
 		<>
 			<Header />
+
+			<CreationSaveModal />
 
 			<Col className={styles.creationIdWrapper}>
 				{isCreationData ? (
@@ -196,14 +201,15 @@ const Creation: FC<CreationPageProps> = ({
 										>
 											<CreationSocial
 												layout={'minimal'}
-												creation={creation}
-												creationId={creation._id}
+												creation={creationData}
+												creationId={queryCreationId}
 												reactionCountList={{
-													praises: reactionState[creation._id]?.praises ?? 0,
+													praises: reactionState[queryCreationId]?.praises ?? 0,
 													praised:
-														reactionState[creation._id]?.praised ?? false,
-													burns: reactionState[creation._id]?.burns ?? 0,
-													burned: reactionState[creation._id]?.burned ?? false,
+														reactionState[queryCreationId]?.praised ?? false,
+													burns: reactionState[queryCreationId]?.burns ?? 0,
+													burned:
+														reactionState[queryCreationId]?.burned ?? false,
 												}}
 											/>
 										</Row>

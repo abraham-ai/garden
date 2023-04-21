@@ -1,9 +1,8 @@
-import styles from '../../styles/CreationModal.module.css'
 import React, { useContext } from 'react'
 import type { FC } from 'react'
-import Image from 'next/image'
-
 import type Creation from '../../interfaces/Creation'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import AppContext from '../../context/AppContext'
 
@@ -12,8 +11,10 @@ import Blockies from 'react-blockies'
 import timeAgo from '../../util/timeAgo'
 import abbreviateText from '../../util/abbreviateText'
 import abbreviateAddress from '../../util/abbreviateAddress'
+import { Modal, Typography } from 'antd'
 
-import { Button, Modal, Typography } from 'antd'
+import styles from '../../styles/CreationModal.module.css'
+
 const { Text } = Typography
 
 interface CreationModalTypes {
@@ -36,6 +37,8 @@ const CreationModal: FC<CreationModalTypes> = ({
 			? context.setCurrentCreationIndex
 			: (index: number) => {}
 	const creations = context?.creations != null || []
+
+	const router = useRouter()
 
 	const handleModalTransition = (direction: string) => {
 		// console.log(`click ${direction}`)
@@ -75,6 +78,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 			footer={<></>}
 			onCancel={() => {
 				setModalOpen(false)
+				router.push('/')
 			}}
 			style={{
 				display: 'flex',
@@ -82,7 +86,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 				justifyContent: 'center',
 			}}
 		>
-			<Button
+			{/* <Button
 				shape='circle'
 				style={{ position: 'absolute', transform: 'translateX(-45px)' }}
 				onClick={() => {
@@ -90,7 +94,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 				}}
 			>
 				{'<'}
-			</Button>
+			</Button> */}
 			<div
 				style={{
 					display: 'flex',
@@ -192,7 +196,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 								<Text className={styles.crPrompt}>{prompt}</Text>
 							</article>
 
-							<span
+							{/* <span
 								style={{
 									display: 'flex',
 									flexDirection: 'column',
@@ -207,12 +211,12 @@ const CreationModal: FC<CreationModalTypes> = ({
 										? creationIndex
 										: currentCreationIndex}
 								</Text>
-							</span>
+							</span> */}
 						</div>
 					</div>
 				</div>
 			</div>
-			<Button
+			{/* <Button
 				shape='circle'
 				style={{
 					position: 'absolute',
@@ -224,7 +228,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 				}}
 			>
 				{'>'}
-			</Button>
+			</Button> */}
 		</Modal>
 	)
 }

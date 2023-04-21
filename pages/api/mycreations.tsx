@@ -18,16 +18,24 @@ const handler = async (
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
+	console.log('REQ userId: ', userId)
+
 	try {
 		if (typeof authToken === 'string') {
 			eden.setAuthToken(authToken)
 		}
-		// const creations = await eden.getProfile()
+
+		const profileResult = await eden.getProfile()
+
+		const { userId } = profileResult.user
 
 		const creations = await eden.getCreations({ username: userId, limit: 10 })
 
-		// console.log(creations.length)
-		console.log(creations)
+		console.log('My Creations')
+		// console.log(creations)
+		console.log(creations.length)
+		console.log(profileResult)
+		console.log('userId: ', userId)
 
 		res.status(200).json(creations)
 		return

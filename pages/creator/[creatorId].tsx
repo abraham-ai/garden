@@ -4,6 +4,8 @@ import type { FC } from 'react'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/CreationId.module.css'
+import stylesHeader from '../../styles/Header.module.css'
+import stylesCreationsGrid from '../../styles/CreationsGrid.module.css'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 
@@ -13,6 +15,8 @@ import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
 import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
+import CreatorHeader from '../../app/components/Creator/CreatorHeader'
+import useGetMyCreations from '../../hooks/useGetMyCreations'
 
 import type CreationResponse from '../../interfaces/CreationResponse'
 
@@ -66,8 +70,11 @@ const Creator: FC<CreatorPageProps> = () => {
 		setIsFollowing(!isFollowing)
 	}
 
-	const isCreatorData =
-		creatorData !== null && Object.keys(creatorData).length > 0
+	const creatorCreationsData = useGetMyCreations(queryCreatorId)
+
+	const isCreatorCreationsData =
+		creatorCreationsData !== null &&
+		Object.keys(creatorCreationsData).length > 0
 
 	return (
 		<>
@@ -76,7 +83,30 @@ const Creator: FC<CreatorPageProps> = () => {
 			<section className={styles.creationWrapper} style={{ marginTop: 90 }}>
 				{typeof creatorData !== 'undefined' && creatorData !== null ? (
 					<>
-						<article
+						<main className={stylesHeader.headerWrapper}>
+							<Header />
+						</main>
+						<CreatorHeader
+							userId={queryCreatorId}
+							isMyCreationsRoute={true}
+							queryCreatorId={queryCreatorId}
+						/>
+						{creatorCreationsData !== null ? (
+							<section
+								className={stylesCreationsGrid.creationsWrapper}
+								style={{ marginTop: 50 }}
+							>
+								<CreationsGridSimple
+									creations={creatorCreationsData.creations}
+								/>
+							</section>
+						) : (
+							<Row style={{ display: 'flex', justifyContent: 'center' }}>
+								<Spin indicator={antIcon} />
+							</Row>
+						)}
+
+						{/* <article
 							style={{
 								marginTop: '-90px',
 								zIndex: 150,
@@ -128,6 +158,8 @@ const Creator: FC<CreatorPageProps> = () => {
 									<div className='profile-actions'>
 										{queryCreatorId === displayAddress ? null : (
 											<Button
+												size='large'
+												shape='round'
 												className={
 													isFollowing
 														? `${styles.following}`
@@ -141,13 +173,13 @@ const Creator: FC<CreatorPageProps> = () => {
 											</Button>
 										)}
 
-										{/* {queryCreatorId === displayAddress ? (
+										{queryCreatorId === displayAddress ? (
 											<Link href='/profile'>
 												<Button shape='round' style={{ marginLeft: 20 }}>
 													<Text>{'Edit Profile'}</Text>
 												</Button>
 											</Link>
-										) : null} */}
+										) : null}
 									</div>
 								</div>
 							</span>
@@ -173,7 +205,7 @@ const Creator: FC<CreatorPageProps> = () => {
 									</div>
 								)}
 							</article>
-						</article>
+						</article> */}
 					</>
 				) : (
 					<Row style={{ display: 'flex', justifyContent: 'center' }}>

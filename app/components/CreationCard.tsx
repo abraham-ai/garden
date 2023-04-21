@@ -45,7 +45,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 		[context?.creationsData]
 	)
 
-	const [modalOpen, setModalOpen] = useState(false)
+	const [modalOpen, setModalOpen] = useState<boolean>(false)
 	const [currentCreation, setCurrentCreation] = useState<Creation>(
 		creationsData[currentCreationIndex] as Creation
 	)
@@ -62,10 +62,10 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 
 	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(false)
 
-	// const [praises, setPraises] = useState<number>(0)
-	// const [praised, setPraised] = useState<boolean>(false)
-	// const [burns, setBurns] = useState<number>(0)
-	// const [burned, setBurned] = useState<boolean>(false)
+	const [praises, setPraises] = useState<number>(0)
+	const [praised, setPraised] = useState<boolean>(false)
+	const [burns, setBurns] = useState<number>(0)
+	const [burned, setBurned] = useState<boolean>(false)
 
 	const [status, setStatus] = useState<string>('')
 
@@ -75,12 +75,16 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 
 	const timeAgoCreatedAt = timeAgo(Date.parse(creation?.createdAt))
 
+	const isReactionCountListState =
+		reactionCountList != null &&
+		typeof reactionState[creation._id] === 'undefined'
+
 	const showModal = (): void => {
 		setModalOpen(true)
 	}
 
 	useEffect(() => {
-		if (reactionCountList != null && !reactionState[creation._id]) {
+		if (isReactionCountListState) {
 			const {
 				praises: praisesData,
 				praised: praisedData,
@@ -103,10 +107,6 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 				typeof currentCreation !== 'undefined' &&
 				currentCreationIndex !== 0
 			) {
-				// console.log(
-				//   currentCreationIndex,
-				//   currentCreation.task.config.text_input
-				// )
 				setUri(currentCreation.uri)
 				setCreatedAt(currentCreation.createdAt)
 				setGeneratorName(currentCreation.task.generator.generatorName)
@@ -138,7 +138,10 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 
 	const handleMouseOver = (): void => {
 		setIsCreationHovering(true)
-		if (reactionCountList != null && !reactionState[creation._id]) {
+		if (
+			reactionCountList != null &&
+			typeof reactionState[creation._id] === 'undefined'
+		) {
 			const {
 				praises: praisesData,
 				praised: praisedData,
@@ -277,21 +280,6 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 
 									<Link
 										className={styles.crLink}
-										// href={{
-										//   pathname: `/creation/${creation._id}`,
-										//   query: {
-										//     uri: uri,
-										//     createdAt: createdAt,
-										//     generatorName: generatorName,
-										//     width: width,
-										//     height: height,
-										//     text_input: text_input,
-										//     user: user,
-										//     thumbnail: thumbnail,
-										//     _id: _id,
-										//     status: status,
-										//   },
-										// }}
 										href={`/?creationId=${creation._id}`}
 										as={`/creation/${creation._id}`}
 										scroll={false}

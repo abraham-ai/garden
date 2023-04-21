@@ -24,6 +24,8 @@ const useGetReactionCount = (
 		{ revalidateOnFocus: false, revalidateOnReconnect: false }
 	)
 
+	console.log(data)
+
 	return data
 }
 

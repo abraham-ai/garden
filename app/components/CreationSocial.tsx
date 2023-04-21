@@ -48,6 +48,8 @@ const CreationSocial: FC<CreationSocialType> = ({
 
 	// console.log({ creation })
 
+	console.log('CreationSocial: CreationId: ' + creationId)
+
 	return (
 		<Row style={{ display: 'flex' }}>
 			<article

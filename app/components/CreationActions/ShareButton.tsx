@@ -17,6 +17,7 @@ interface ShareButtonProps {
 
 const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 	const [isShareHovering, setIsShareHovering] = useState(false)
+	const [copySuccess, setCopySuccess] = useState('')
 
 	const handleMouseOver = (): void => {
 		// console.log('handleMouseOver')
@@ -28,11 +29,23 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 		setIsShareHovering(false)
 	}
 
+	const copyToClipBoard = async (copyMe) => {
+		console.log('copy to clipboard')
+		try {
+			await navigator.clipboard.writeText(copyMe)
+			setCopySuccess('Copied!')
+		} catch (err) {
+			setCopySuccess('Failed to copy!')
+		}
+	}
+
 	const bgHoverStyles = isShareHovering
 		? 'rgb(0, 186, 124, 0.2)'
 		: 'rgba(0, 0, 0, 0.5)'
 
 	const isLayoutMinimal = layout === 'minimal'
+
+	console.log({ creationId })
 
 	return (
 		<div
@@ -55,6 +68,11 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 						height: isLayoutMinimal ? 30 : 50,
 						border: 'none',
 						transition: '300ms',
+					}}
+					onClick={async () => {
+						await copyToClipBoard(
+							`garden.eden.art/creation/${String(creationId)}`
+						)
 					}}
 				>
 					{isShareHovering ? (
