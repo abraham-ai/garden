@@ -10,7 +10,7 @@ const ReactionContext = createContext<ReactionContextValue | undefined>(
 	undefined
 )
 
-export const useReaction = (): ReactionContextType => {
+export const useReaction = (): ReactionContextValue => {
 	const context = useContext(ReactionContext)
 	if (context == null) {
 		throw new Error('useReaction must be used within a ReactionProvider')
@@ -25,10 +25,13 @@ interface ReactionProviderProps {
 export const ReactionProvider: React.FC<ReactionProviderProps> = ({
 	children,
 }) => {
-	const [reactionState, setReactionState] = useState<ReactionState>({})
+	const [reactionState, setReactionState] = useState<
+		ReactionContextValue['reactionState']
+	>({})
 
 	const updateReactionState = useCallback(
-		(creationId: string, newValues: Reaction) => {
+		(creationId: string, newValues: any) => {
+			// Adjust the 'newValues' type as needed
 			setReactionState((prevState) => ({
 				...prevState,
 				[creationId]: {

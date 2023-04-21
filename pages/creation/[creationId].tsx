@@ -13,6 +13,7 @@ import styles from '../../styles/CreationId.module.css'
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationSocial from '../../app/components/CreationSocial'
+import CreationSaveModal from '../../app/components/CreationSaveModal'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
@@ -113,6 +114,8 @@ const Creation: FC<CreationPageProps> = ({
 	return (
 		<>
 			<Header />
+
+			<CreationSaveModal />
 
 			<Col className={styles.creationIdWrapper}>
 				{isCreationData ? (
