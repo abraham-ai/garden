@@ -110,7 +110,9 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 					border: 'none',
 					transition: '1s',
 				}}
-				onClick={() => handlePraise}
+				onClick={async () => {
+					await handlePraise()
+				}}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>
