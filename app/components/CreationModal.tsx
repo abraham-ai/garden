@@ -82,7 +82,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 				justifyContent: 'center',
 			}}
 		>
-			<Button
+			{/* <Button
 				shape='circle'
 				style={{ position: 'absolute', transform: 'translateX(-45px)' }}
 				onClick={() => {
@@ -90,7 +90,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 				}}
 			>
 				{'<'}
-			</Button>
+			</Button> */}
 			<div
 				style={{
 					display: 'flex',
@@ -212,7 +212,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 					</div>
 				</div>
 			</div>
-			<Button
+			{/* <Button
 				shape='circle'
 				style={{
 					position: 'absolute',
@@ -224,7 +224,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 				}}
 			>
 				{'>'}
-			</Button>
+			</Button> */}
 		</Modal>
 	)
 }
