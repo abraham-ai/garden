@@ -6,7 +6,7 @@ import AppContext from '../context/AppContext'
 import Header from '../app/components/NavBar/Header'
 import CreationsGridSimple from '../app/components/Creations/CreationsGridSimple'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
-import EditCollectionModal from '../app/components/Collection/EditCollectionModal'
+// import EditCollectionModal from '../app/components/Collection/EditCollectionModal'
 
 import useGetMyCreations from '../hooks/useGetMyCreations'
 
@@ -31,7 +31,7 @@ const MyCreations: FC = () => {
 				<Header />
 			</main>
 
-			<EditCollectionModal />
+			{/* <EditCollectionModal /> */}
 
 			<CreatorHeader userId={userId} isMyCreationsRoute={true} />
 			{myCreationsData !== null ? (
