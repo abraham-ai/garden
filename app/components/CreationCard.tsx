@@ -211,7 +211,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 				onMouseOut={handleMouseOut}
 			>
 				<article
-					id={`creationCard ${isMobile ? 'isMobile' : ''}`}
+					id={`creationCard${isMobile ? ' isMobile' : ''}`}
 					className={styles.crCard}
 				>
 					<div className={styles.crTopWrapper}>
@@ -249,7 +249,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 																	width: isMobile ? '48px' : '32px',
 																	height: isMobile ? '48px' : '32px',
 																	marginRight: isMobile ? 0 : 10,
-																	background: 'orange',
+																	background: 'white',
 																}}
 															>
 																<Blockies seed={creation.user} size={12} />
@@ -381,7 +381,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 											background: 'black',
 											border: 20,
 											marginLeft: isMobile ? 60 : 0,
-											position: isMobile ? 'relative' : 'absolute',
+											position: isMobile ? 'relative' : 'relative',
 										}}
 										onClick={() => {
 											showModal()
