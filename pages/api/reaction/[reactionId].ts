@@ -63,7 +63,7 @@ const handler = async (
 			praises: praises.length > 0 ? praises.length : 0,
 			burns: burns.length > 0 ? burns.length : 0,
 			praised,
-			burned,
+			burned
 		}
 
 		res.status(200).json(result)

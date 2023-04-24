@@ -61,12 +61,12 @@ const handler: (
 
 		const loginResponse: LoginResponse = {
 			ok: true,
-			token: resp.token,
+			token: resp.token
 		}
 		res.json(loginResponse)
 	} catch (error) {
 		const errorResponse: ErrorResponse = {
-			errorMessage: 'Internal Server Error',
+			errorMessage: 'Internal Server Error'
 		}
 		console.error(error)
 		res.status(500).json(errorResponse)
