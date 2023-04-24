@@ -193,9 +193,11 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		const now = new Date()
 		const hours = now.getHours()
 
-		if (hours < 12) {
+		console.log(hours)
+
+		if (hours < 20) {
 			return 'light'
-		} else if (hours >= 8 && hours <= 24) {
+		} else if (hours >= 20 && hours <= 8) {
 			return 'dark'
 		} else {
 			return 'light'
@@ -236,7 +238,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 							<ConfigProvider
 								theme={{
 									algorithm:
-										currentTheme === 'light' ? darkAlgorithm : defaultAlgorithm,
+										currentTheme === 'light' ? defaultAlgorithm : darkAlgorithm,
 								}}
 							>
 								<Component {...pageProps} />

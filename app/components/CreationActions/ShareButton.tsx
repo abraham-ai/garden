@@ -48,7 +48,7 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, isMobile }) => {
 		? 'rgb(0, 186, 124, 0.2)'
 		: 'rgba(0, 0, 0, 0.5)'
 
-	console.log({ creationId })
+	// console.log({ creationId })
 
 	const isMobileThemeLight = isMobile && currentTheme === 'light'
 

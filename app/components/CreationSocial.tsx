@@ -45,8 +45,7 @@ const CreationSocial: FC<CreationSocialType> = ({
 	}
 
 	// console.log({ creation })
-
-	console.log('CreationSocial: CreationId: ' + creationId)
+	// console.log('CreationSocial: CreationId: ' + creationId)
 
 	return (
 		<Row

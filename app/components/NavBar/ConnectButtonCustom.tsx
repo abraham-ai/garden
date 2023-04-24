@@ -34,7 +34,7 @@ export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 		: walletAddress
 
 	displayAddress = isWalletAddress
-		? (String(displayAddress) += '...' + String(walletAddress.slice(-4)))
+		? `${String(displayAddress)}...${String(walletAddress.slice(-4))}`
 		: walletAddress
 
 	const isMobileMounted = isMobile && isMounted
@@ -59,6 +59,8 @@ export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 					chain != null &&
 					(authenticationStatus === false ||
 						authenticationStatus === 'authenticated')
+
+				console.log({ connected })
 
 				return (
 					<div
@@ -87,56 +89,8 @@ export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 								)
 							}
 
-							// if (chain.unsupported) {
-							// 	return (
-							// 		<Button onClick={openChainModal} type='button'>
-							// 			{'Wrong network'}
-							// 		</Button>
-							// 	)
-							// }
-
 							return (
 								<div style={{ display: 'flex', gap: 12 }}>
-									{/* <Popover
-										content={
-											<>
-												<Button
-													onClick={openChainModal}
-													style={{ display: 'flex', alignItems: 'center' }}
-													type='button'
-												>
-													{chain.hasIcon && (
-														<div
-															style={{
-																background: chain.iconBackground,
-																width: 12,
-																height: 12,
-																borderRadius: 999,
-																overflow: 'hidden',
-																marginRight: 4,
-															}}
-														>
-															{chain.iconUrl && (
-																<img
-																	alt={chain.name ?? 'Chain icon'}
-																	src={chain.iconUrl}
-																	style={{ width: 12, height: 12 }}
-																/>
-															)}
-														</div>
-													)}
-													{chain.name}
-												</Button>
-
-												<Button onClick={openAccountModal} type='button'>
-													{account.displayName}
-													{account.displayBalance
-														? ` (${account.displayBalance})`
-														: ''}
-												</Button>
-											</>
-										}
-									> */}
 									<Button
 										onClick={openAccountModal}
 										type='default'
@@ -146,7 +100,7 @@ export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 											padding: isMobileMounted ? 0 : '6px 10px 10px 10px',
 										}}
 									>
-										{!isMobile && displayAddress !== null ? (
+										{!isMobileMounted && displayAddress !== null ? (
 											<Text style={{ marginRight: 10 }}>
 												{account.displayName}
 												{typeof account.displayBalance !== 'undefined'
