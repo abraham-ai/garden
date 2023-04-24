@@ -193,8 +193,6 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		const now = new Date()
 		const hours = now.getHours()
 
-		console.log(hours)
-
 		if (hours < 20) {
 			return 'light'
 		} else if (hours >= 20 && hours <= 8) {
