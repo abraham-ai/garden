@@ -12,12 +12,12 @@ import { Typography, Button, Avatar, Modal } from 'antd'
 
 const { Text } = Typography
 
-interface ProfileButtonProps {
+interface ConnectButtonCustomProps {
 	isMounted: boolean
 	isMobile: boolean
 }
 
-export const ProfileButton: FC<ProfileButtonProps> = ({
+export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 	isMobile,
 	isMounted,
 }) => {
@@ -26,12 +26,15 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
 	const { address } = useAccount()
 	const walletAddress = address
 
-	let displayAddress = walletAddress
+	const isWalletAddress =
+		typeof walletAddress !== 'undefined' && walletAddress.length > 0
+
+	let displayAddress = isWalletAddress
 		? walletAddress?.slice(0, 6)
 		: walletAddress
 
-	displayAddress = walletAddress
-		? (displayAddress += '...' + walletAddress.slice(-4))
+	displayAddress = isWalletAddress
+		? (String(displayAddress) += '...' + String(walletAddress.slice(-4)))
 		: walletAddress
 
 	const isMobileMounted = isMobile && isMounted
@@ -54,7 +57,8 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
 					ready &&
 					account != null &&
 					chain != null &&
-					(!authenticationStatus || authenticationStatus === 'authenticated')
+					(authenticationStatus === false ||
+						authenticationStatus === 'authenticated')
 
 				return (
 					<div
@@ -186,4 +190,4 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
 	)
 }
 
-export default ProfileButton
+export default ConnectButtonCustom
