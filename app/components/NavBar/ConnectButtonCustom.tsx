@@ -5,22 +5,24 @@ import type { FC } from 'react'
 
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import useWindowDimensions from '../../../hooks/useWindowDimensions'
 
 import Blockies from 'react-blockies'
 
-import { Typography, Button, Avatar, Popover, Modal } from 'antd'
+import { Typography, Button, Avatar, Modal } from 'antd'
 
 const { Text } = Typography
 
 interface ProfileButtonProps {
+	isMounted: boolean
 	isMobile: boolean
 }
 
-export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
+export const ProfileButton: FC<ProfileButtonProps> = ({
+	isMobile,
+	isMounted,
+}) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
-	const { width } = useWindowDimensions()
-	// HOOKS
+
 	const { address } = useAccount()
 	const walletAddress = address
 
@@ -73,7 +75,7 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
 										size='large'
 									>
 										<Text style={{ color: 'white' }}>
-											{isMobile ? 'Connect' : 'Connect Wallet'}
+											{isMobile && isMounted ? 'Connect' : 'Connect Wallet'}
 										</Text>
 									</Button>
 								)

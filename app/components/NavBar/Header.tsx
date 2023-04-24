@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useContext, useState, useEffect } from 'react'
 import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
@@ -210,7 +212,7 @@ const Header: FC = () => {
 				<Row className={styles.popoverConnectWrapper}>
 					<span
 						style={{
-							display: `${isMobile ? 'none' : 'flex'}`,
+							display: `${isMobile && isMounted ? 'none' : 'flex'}`,
 						}}
 					>
 						<Popover
@@ -238,7 +240,7 @@ const Header: FC = () => {
 					</span>
 
 					{/* <ConnectButton /> */}
-					<ConnectButtonCustom isMobile={isMobile} />
+					<ConnectButtonCustom isMobile={isMobile} isMounted={isMounted} />
 				</Row>
 			</section>
 		</header>
