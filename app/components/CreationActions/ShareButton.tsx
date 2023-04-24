@@ -14,7 +14,6 @@ import styles from '../../../styles/CreationSocial.module.css'
 
 interface ShareButtonProps {
 	creationId: string
-	layout: string
 	isMobile: boolean
 }
 
@@ -23,7 +22,7 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, isMobile }) => {
 	const [copySuccess, setCopySuccess] = useState('')
 
 	const context = useContext(AppContext)
-	const currentTheme = context.currentTheme ?? 'light'
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const handleMouseOver = (): void => {
 		// console.log('handleMouseOver')

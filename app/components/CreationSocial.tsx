@@ -73,7 +73,6 @@ const CreationSocial: FC<CreationSocialType> = ({
 					burns={Number(burns)}
 					isBurned={isBurned}
 					setIsBurned={handleBurnUpdate}
-					layout={''}
 					isMobile={isMobile}
 				/>
 				<PraiseButton
@@ -81,7 +80,6 @@ const CreationSocial: FC<CreationSocialType> = ({
 					praises={praises}
 					isPraised={isPraised}
 					setIsPraised={handlePraiseUpdate}
-					layout={''}
 					isMobile={isMobile}
 				/>
 			</article>
@@ -103,10 +101,9 @@ const CreationSocial: FC<CreationSocialType> = ({
 					isBookmarked={isBookmarked}
 					setIsBookmarked={setIsBookmarked}
 					creation={creation}
-					layout={''}
 					isMobile={isMobile}
 				/>
-				<ShareButton creationId={creationId} layout={''} isMobile={isMobile} />
+				<ShareButton creationId={creationId} isMobile={isMobile} />
 			</article>
 		</Row>
 	)

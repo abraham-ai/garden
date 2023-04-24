@@ -21,7 +21,7 @@ interface SaveButtonTypes {
 	setIsBookmarked: (value: boolean) => void
 	creation: Creation
 	layout?: string
-	isMobile: string
+	isMobile: boolean
 }
 
 const SaveButton: FC<SaveButtonTypes> = ({
@@ -79,7 +79,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		? 'rgb(26, 115, 232, 0.4)'
 		: 'rgba(0, 0, 0, 0.5)'
 
-	const isMobileThemeLight = isMobile === true && currentTheme === 'light'
+	const isMobileThemeLight = isMobile && currentTheme === 'light'
 
 	return (
 		<>

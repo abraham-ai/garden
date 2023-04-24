@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import type { FC } from 'react'
 
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
@@ -68,11 +69,11 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
 									<Button
 										type='primary'
 										onClick={openConnectModal}
-										shape={isMobile === true ? 'round' : 'round'}
+										shape={isMobile ? 'round' : 'round'}
 										size='large'
 									>
 										<Text style={{ color: 'white' }}>
-											{isMobile === true ? 'Connect' : 'Connect Wallet'}
+											{isMobile ? 'Connect' : 'Connect Wallet'}
 										</Text>
 									</Button>
 								)
@@ -131,11 +132,11 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
 									<Button
 										onClick={openAccountModal}
 										type='default'
-										shape={isMobile === true ? 'circle' : 'round'}
+										shape={isMobile ? 'circle' : 'round'}
 										size='large'
-										style={{ padding: isMobile === true ? 0 : 10 }}
+										style={{ padding: isMobile ? 0 : 10 }}
 									>
-										{isMobile === false && displayAddress !== null ? (
+										{!isMobile && displayAddress !== null ? (
 											<Text style={{ marginRight: 10 }}>
 												{account.displayName}
 												{typeof account.displayBalance !== 'undefined'

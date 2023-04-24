@@ -176,7 +176,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 	const creationTextInput = creation.task.config.text_input
 	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
 		if (isMobile) {
-			prompt = abbreviateText(creationTextInput)
+			prompt = abbreviateText(creationTextInput, 100)
 		} else if (creation.task.config.height > 550) {
 			prompt = abbreviateText(creationTextInput, 80) // 100
 		} else if (creation.task.config.height > 500) {

@@ -10,7 +10,7 @@ interface CreationSocialTypes {
 	creation: Creation
 	creationId: string
 	layout?: string
-	isMobile?: boolean
+	isMobile: boolean
 }
 
 export default CreationSocialTypes

@@ -13,6 +13,7 @@ import CreationsGridSimple from '../../app/components/Creations/CreationsGridSim
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 
 import useGetCollection from '../../hooks/useGetCollection'
+import useWindowDimensions from '../../hooks/useWindowDimensions'
 
 import { Typography, Row, Col } from 'antd'
 const { Text } = Typography
@@ -40,6 +41,8 @@ const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 	const { collectionId } = router.query
 	// console.log(collectionId)
+
+	const { width } = useWindowDimensions()
 
 	const collectionData =
 		typeof collectionId === 'string'
@@ -77,6 +80,8 @@ const Collection: FC<CollectionPageTypes> = () => {
 	const isCollectionId =
 		typeof collectionId === 'string' ? collectionId : undefined
 
+	const isMobile = width < 768
+
 	return (
 		<>
 			<Header />
@@ -101,7 +106,10 @@ const Collection: FC<CollectionPageTypes> = () => {
 							</>
 						) : null}
 						{isCollectionCreations ? (
-							<CreationsGridSimple creations={collectionCreations} />
+							<CreationsGridSimple
+								creations={collectionCreations}
+								isMobile={isMobile}
+							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
 								{'Loading...'}
