@@ -5,32 +5,39 @@ import type { FC } from 'react'
 
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import useWindowDimensions from '../../../hooks/useWindowDimensions'
 
 import Blockies from 'react-blockies'
 
-import { Typography, Button, Avatar, Popover, Modal } from 'antd'
+import { Typography, Button, Avatar, Modal } from 'antd'
 
 const { Text } = Typography
 
-interface ProfileButtonProps {
+interface ConnectButtonCustomProps {
+	isMounted: boolean
 	isMobile: boolean
 }
 
-export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
+export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
+	isMobile,
+	isMounted,
+}) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
-	const { width } = useWindowDimensions()
-	// HOOKS
+
 	const { address } = useAccount()
 	const walletAddress = address
 
-	let displayAddress = walletAddress
+	const isWalletAddress =
+		typeof walletAddress !== 'undefined' && walletAddress.length > 0
+
+	let displayAddress = isWalletAddress
 		? walletAddress?.slice(0, 6)
 		: walletAddress
 
-	displayAddress = walletAddress
-		? (displayAddress += '...' + walletAddress.slice(-4))
+	displayAddress = isWalletAddress
+		? `${String(displayAddress)}...${String(walletAddress.slice(-4))}`
 		: walletAddress
+
+	const isMobileMounted = isMobile && isMounted
 
 	return (
 		<ConnectButton.Custom>
@@ -52,6 +59,8 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
 					chain != null &&
 					(!authenticationStatus || authenticationStatus === 'authenticated')
 
+				// console.log({ connected })
+
 				return (
 					<div
 						{...(!ready && {
@@ -69,74 +78,28 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
 									<Button
 										type='primary'
 										onClick={openConnectModal}
-										shape={isMobile ? 'round' : 'round'}
+										shape={'round'}
 										size='large'
 									>
 										<Text style={{ color: 'white' }}>
-											{isMobile ? 'Connect' : 'Connect Wallet'}
+											{isMobileMounted ? 'Connect' : 'Connect Wallet'}
 										</Text>
 									</Button>
 								)
 							}
 
-							// if (chain.unsupported) {
-							// 	return (
-							// 		<Button onClick={openChainModal} type='button'>
-							// 			{'Wrong network'}
-							// 		</Button>
-							// 	)
-							// }
-
 							return (
 								<div style={{ display: 'flex', gap: 12 }}>
-									{/* <Popover
-										content={
-											<>
-												<Button
-													onClick={openChainModal}
-													style={{ display: 'flex', alignItems: 'center' }}
-													type='button'
-												>
-													{chain.hasIcon && (
-														<div
-															style={{
-																background: chain.iconBackground,
-																width: 12,
-																height: 12,
-																borderRadius: 999,
-																overflow: 'hidden',
-																marginRight: 4,
-															}}
-														>
-															{chain.iconUrl && (
-																<img
-																	alt={chain.name ?? 'Chain icon'}
-																	src={chain.iconUrl}
-																	style={{ width: 12, height: 12 }}
-																/>
-															)}
-														</div>
-													)}
-													{chain.name}
-												</Button>
-
-												<Button onClick={openAccountModal} type='button'>
-													{account.displayName}
-													{account.displayBalance
-														? ` (${account.displayBalance})`
-														: ''}
-												</Button>
-											</>
-										}
-									> */}
 									<Button
 										onClick={openAccountModal}
 										type='default'
-										shape={isMobile ? 'circle' : 'round'}
+										shape={isMobileMounted ? 'circle' : 'round'}
 										size='large'
-										style={{ padding: isMobile ? 0 : 10 }}
+										style={{
+											padding: isMobileMounted ? 0 : '6px 10px 10px 10px',
+										}}
 									>
-										{!isMobile && displayAddress !== null ? (
+										{!isMobileMounted && displayAddress !== null ? (
 											<Text style={{ marginRight: 10 }}>
 												{account.displayName}
 												{typeof account.displayBalance !== 'undefined'
@@ -144,9 +107,15 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
 													: ''}
 											</Text>
 										) : null}
+
 										<Avatar
-											size={34}
-											src={<Blockies seed={String(address)} scale={4} />}
+											size={isMobileMounted ? 34 : 22}
+											src={
+												<Blockies
+													seed={String(address)}
+													scale={isMobileMounted ? 4 : 2.5}
+												/>
+											}
 										/>
 									</Button>
 									{/* </Popover> */}
@@ -174,4 +143,4 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ isMobile }) => {
 	)
 }
 
-export default ProfileButton
+export default ConnectButtonCustom

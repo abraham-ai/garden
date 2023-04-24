@@ -59,7 +59,7 @@
 }
 .crGridMasonry {
 	display: flex;
-	gap: 10px;
+	gap: 20px;
 	/* margin-left: -30px; */
 	width: 100%;
 	padding: 10px;
@@ -71,5 +71,5 @@
 .cr-grid-masonry_column > .creationCard {
 	/* change div to reference your elements you put in <Masonry> */
 	background: grey;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
