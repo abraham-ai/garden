@@ -447,6 +447,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 				setModalOpen={setModalOpen}
 				modalOpen={modalOpen}
 				creationIndex={index}
+				isMobile={isMobile}
 			/>
 		</>
 	)

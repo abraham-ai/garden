@@ -20,6 +20,7 @@ import timeAgo from '../../util/timeAgo'
 
 import useGetCreation from '../../hooks/useGetCreation'
 import useGetReactionCount from '../../hooks/useGetReactionCount'
+import useWindowDimensions from '../../hooks/useWindowDimensions'
 import { useReaction } from '../../context/ReactionContext'
 
 import { Col, Row, Typography, Avatar, Spin } from 'antd'
@@ -55,6 +56,8 @@ const Creation: FC<CreationPageProps> = ({
 
 	const creationData = useGetCreation(queryCreationId)
 	// console.log({ creationData })
+
+	const { width } = useWindowDimensions()
 
 	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
@@ -113,13 +116,21 @@ const Creation: FC<CreationPageProps> = ({
 
 	// console.log('[creationId]: CreationId: ' + queryCreationId)
 
+	const isMobile = width < 768
+
 	return (
 		<>
 			<Header />
 
 			<CreationSaveModal />
 
-			<Col className={styles.creationIdWrapper}>
+			<Col
+				className={styles.creationIdWrapper}
+				style={{
+					flexDirection: isMobile ? 'column' : 'row',
+					margin: isMobile ? '80px 10px' : '150px 50px 0 50px;',
+				}}
+			>
 				{isCreationData ? (
 					<>
 						<Col className={styles.creation}>
