@@ -59,7 +59,7 @@ export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 					chain != null &&
 					(!authenticationStatus || authenticationStatus === 'authenticated')
 
-				console.log({ connected })
+				// console.log({ connected })
 
 				return (
 					<div
