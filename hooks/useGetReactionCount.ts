@@ -15,8 +15,8 @@ const useGetReactionCount = (
 ): ReactionsResponse | undefined => {
 	const isCreationId = creationId !== ''
 
-	console.log({ isCreationId })
-	console.log({ creationId })
+	// console.log({ isCreationId })
+	// console.log({ creationId })
 
 	const { data } = useSWR<ReactionsResponse>(
 		isCreationId ? `/api/reaction/${creationId}` : null,
@@ -24,7 +24,7 @@ const useGetReactionCount = (
 		{ revalidateOnFocus: false, revalidateOnReconnect: false }
 	)
 
-	console.log(data)
+	// console.log(data)
 
 	return data
 }

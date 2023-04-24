@@ -9,6 +9,7 @@ import CreatorHeader from '../app/components/Creator/CreatorHeader'
 // import EditCollectionModal from '../app/components/Collection/EditCollectionModal'
 
 import useGetMyCreations from '../hooks/useGetMyCreations'
+import useWindowDimensions from '../hooks/useWindowDimensions'
 
 import { Row, Spin } from 'antd'
 
@@ -25,6 +26,10 @@ const MyCreations: FC = () => {
 
 	const myCreationsData = useGetMyCreations(userId)
 
+	const { width } = useWindowDimensions()
+
+	const isMobile = width < 768
+
 	return (
 		<>
 			<main className={stylesHeader.headerWrapper}>
@@ -39,7 +44,10 @@ const MyCreations: FC = () => {
 					className={stylesCreationsGrid.creationsWrapper}
 					style={{ marginTop: 50 }}
 				>
-					<CreationsGridSimple creations={myCreationsData.creations} />
+					<CreationsGridSimple
+						creations={myCreationsData.creations}
+						isMobile={isMobile}
+					/>
 				</section>
 			) : (
 				<Row style={{ display: 'flex', justifyContent: 'center' }}>

@@ -10,7 +10,7 @@ import useWindowDimensions from '../../../hooks/useWindowDimensions'
 import abbreviateAddress from '../../../util/abbreviateAddress'
 import abbreviateText from '../../../util/abbreviateText'
 
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+// import { ConnectButton } frsom '@rainbow-me/rainbowkit'
 import ConnectButtonCustom from './ConnectButtonCustom'
 
 import styles from '../../../styles/Header.module.css'
@@ -20,13 +20,14 @@ import EthereumVerify from '../EthereumVerify'
 // import EthereumAuth from '../EthereumAuth'
 
 import {
-	Tooltip,
+	// Tooltip,
 	Typography,
 	Popover,
 	Button,
 	Select,
 	Space,
 	Badge,
+	Row,
 } from 'antd'
 import { BsGear } from 'react-icons/bs'
 
@@ -78,6 +79,8 @@ const Header: FC = () => {
 	const isSignedIn = context?.isSignedIn ?? false
 
 	const { width } = useWindowDimensions()
+
+	const isMobile = width < 768
 
 	useEffect(() => {
 		setIsMounted(true)
@@ -176,15 +179,17 @@ const Header: FC = () => {
 						) : null}
 					</>
 				) : isMounted && isSignedIn ? (
-					<Space wrap>
-						<Select
-							className='navbarSelect'
-							defaultValue={handleDefaultSelectValue()}
-							style={{ width: 150, border: 'none' }}
-							onChange={handleChange}
-							options={handleSelectOptions()}
-						/>
-					</Space>
+					isWalletConnected ? (
+						<Space wrap>
+							<Select
+								className='navbarSelect'
+								defaultValue={handleDefaultSelectValue()}
+								style={{ width: 150, border: 'none' }}
+								onChange={handleChange}
+								options={handleSelectOptions()}
+							/>
+						</Space>
+					) : null
 				) : (
 					<ActiveLink href='/'>
 						<Text>{'Garden'}</Text>
@@ -201,32 +206,40 @@ const Header: FC = () => {
 						alt={'Eden logo'}
 					/>
 				</Link>
-				<div style={{ display: 'flex', alignItems: 'center' }}>
-					<Popover
-						content={
-							<SettingsMenuPopOver
-								isWalletConnected={isWalletConnected}
-								userId={userId}
-								displayAddress={displayAddress}
-								isSignedIn={isSignedIn}
-								authToken={authToken}
-								displayAuthToken={displayAuthToken}
-							/>
-						}
-						trigger='click'
-						placement='bottom'
+
+				<Row className={styles.popoverConnectWrapper}>
+					<span
+						style={{
+							display: `${isMobile ? 'none' : 'flex'}`,
+						}}
 					>
-						{/* <Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}> */}
-						<Button type='link' shape='circle' style={{ marginRight: 10 }}>
-							<Badge count={handleBadgeCount()}>
-								<BsGear style={{ fontSize: '1.5rem' }} />
-							</Badge>
-						</Button>
-						{/* </Tooltip> */}
-					</Popover>
+						<Popover
+							content={
+								<SettingsMenuPopOver
+									isWalletConnected={isWalletConnected}
+									userId={userId}
+									displayAddress={displayAddress}
+									isSignedIn={isSignedIn}
+									authToken={authToken}
+									displayAuthToken={displayAuthToken}
+								/>
+							}
+							trigger='click'
+							placement='bottom'
+						>
+							{/* <Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}> */}
+							<Button type='link' shape='circle' style={{ marginRight: 10 }}>
+								<Badge count={handleBadgeCount()}>
+									<BsGear style={{ fontSize: '1.5rem' }} />
+								</Badge>
+							</Button>
+							{/* </Tooltip> */}
+						</Popover>
+					</span>
+
 					{/* <ConnectButton /> */}
-					<ConnectButtonCustom />
-				</div>
+					<ConnectButtonCustom isMobile={isMobile} />
+				</Row>
 			</section>
 		</header>
 	)

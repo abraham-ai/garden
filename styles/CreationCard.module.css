@@ -127,16 +127,6 @@
 	-webkit-transition: 1s;
 	-webkit-mask-image: linear-gradient(transparent, transparent 50%);
 }
-.crPromptMainWrapper {
-	padding: 20px;
-	z-index: 10;
-}
-.promptWrapper {
-	background: rgba(0, 0, 0, 0.5);
-	padding: 10px;
-	border-radius: 10px;
-	/* mask-image: linear-gradient(transparent, transparent 50%); */
-}
 .crContentMain {
 	overflow-y: auto;
 	display: flex;
@@ -146,8 +136,47 @@
 	bottom: 0;
 	z-index: 150;
 }
+.crPromptMainWrapper {
+	padding: 20px;
+	z-index: 10;
+}
+/* CREATION CARD MOBILE */
+.crContentMainMobile {
+	position: relative;
+}
+.crContentMainMobile .crPromptMainWrapper {
+	display: flex;
+	padding: 0;
+}
+.crContentMainMobile .promptWrapper {
+	padding: 0;
+	margin-bottom: 10px;
+	background: transparent;
+	display: flex;
+	flex-direction: column;
+}
+.crContentMainMobile .crPrompt {
+	color: black;
+	font-size: 1em;
+}
+.crContentMainMobile .displayAddress,
+.crContentMainMobile .crDate {
+	color: black;
+}
+.crContentMainMobile .crContentHoverBgWrapper,
+.crContentMainMobile .crLink {
+	margin-left: 48px;
+}
+
+.promptWrapper {
+	background: rgba(0, 0, 0, 0.5);
+	padding: 10px;
+	border-radius: 10px;
+	/* mask-image: linear-gradient(transparent, transparent 50%); */
+}
 .crDate {
 	color: white;
+	padding-left: 10px;
 }
 .crPromptCommand {
 	font-weight: bold;

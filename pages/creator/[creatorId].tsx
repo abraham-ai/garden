@@ -11,20 +11,21 @@ import abbreviateAddress from '../../util/abbreviateAddress'
 
 import useGetCreator from '../../hooks/useGetCreator'
 
-import Blockies from 'react-blockies'
+// import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
-import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
+// import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 import useGetMyCreations from '../../hooks/useGetMyCreations'
+import useWindowDimensions from '../../hooks/useWindowDimensions'
 
 import type CreationResponse from '../../interfaces/CreationResponse'
 
-import { Button, Row, Typography, Spin } from 'antd'
+import { Row, Typography, Spin } from 'antd'
 
 import { LoadingOutlined } from '@ant-design/icons'
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
@@ -43,6 +44,8 @@ const Creator: FC<CreatorPageProps> = () => {
 
 	// console.log(creatorId)
 	// console.log(router.query)
+
+	const { width } = useWindowDimensions()
 
 	const queryCreatorId = Array.isArray(router.query.creatorId)
 		? router.query.creatorId[0]
@@ -76,6 +79,8 @@ const Creator: FC<CreatorPageProps> = () => {
 		creatorCreationsData !== null &&
 		Object.keys(creatorCreationsData).length > 0
 
+	const isMobile = width < 768
+
 	return (
 		<>
 			<Header />
@@ -98,6 +103,7 @@ const Creator: FC<CreatorPageProps> = () => {
 							>
 								<CreationsGridSimple
 									creations={creatorCreationsData.creations}
+									isMobile={isMobile}
 								/>
 							</section>
 						) : (

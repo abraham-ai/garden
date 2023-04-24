@@ -8,11 +8,14 @@ import React, {
 	useMemo,
 	useContext,
 } from 'react'
+import type { FC } from 'react'
 import useSWRInfinite from 'swr/infinite'
 
 import AppContext from '../../../context/AppContext'
 
 import type Creation from '../../../interfaces/Creation'
+
+import useWindowDimensions from '../../../hooks/useWindowDimensions'
 
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './CreationsGridAnalytics'
@@ -25,7 +28,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const CreationsGrid = (): JSX.Element => {
+const CreationsGrid: FC = () => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
 	const [username, setUsername] = useState<string | string>('')
@@ -33,6 +36,10 @@ const CreationsGrid = (): JSX.Element => {
 	const [earliestTime, setEarliestTime] = useState<number | string>('')
 	const [latestTime, setLatestTime] = useState<number | string>('')
 	const [limit, setLimit] = useState<number>(10)
+
+	const { width } = useWindowDimensions()
+
+	const isMobile = width < 768
 
 	const [latestCreationTime, setLatestCreationTime] = useState<number | string>(
 		() => {
@@ -173,7 +180,7 @@ const CreationsGrid = (): JSX.Element => {
 				/>
 			) : null}
 
-			<CreationsMasonry creations={allCreationsData} />
+			<CreationsMasonry creations={allCreationsData} isMobile={isMobile} />
 
 			<Row
 				ref={lastElementRef}

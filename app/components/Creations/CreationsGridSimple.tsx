@@ -12,9 +12,13 @@ import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
 interface CreationsGridTypes {
 	creations: Creation[]
+	isMobile: boolean
 }
 
-const CreationsGridSimple: FC<CreationsGridTypes> = ({ creations }) => {
+const CreationsGridSimple: FC<CreationsGridTypes> = ({
+	creations,
+	isMobile,
+}) => {
 	console.log('CREATIONS GRID SIMPLE')
 	console.log(creations)
 
@@ -41,7 +45,12 @@ const CreationsGridSimple: FC<CreationsGridTypes> = ({ creations }) => {
 						return null
 					} else {
 						return (
-							<CreationCard creation={creation} key={creation._id} index={i} />
+							<CreationCard
+								creation={creation}
+								key={creation._id}
+								index={i}
+								isMobile={isMobile}
+							/>
 						)
 					}
 				})}

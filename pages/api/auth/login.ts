@@ -36,12 +36,12 @@ const handler = async (
 
 		const loginResponse: SuccessResponse = {
 			message: 'Successfully authenticated key pair',
-			token
+			token,
 		}
 		res.send(loginResponse)
 	} catch (error: unknown) {
 		const errorResponse: ErrorResponse = {
-			errorMessage: 'Error authenticating key pair'
+			errorMessage: 'Error authenticating key pair',
 		}
 		console.error(error)
 		res.status(500).json(errorResponse)

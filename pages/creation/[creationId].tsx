@@ -12,7 +12,7 @@ import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-import CreationSocial from '../../app/components/CreationSocial'
+// import CreationSocial from '../../app/components/CreationSocial'
 import CreationSaveModal from '../../app/components/CreationSaveModal'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
@@ -42,7 +42,7 @@ interface CreationPageProps {
 const Creation: FC<CreationPageProps> = ({
 	params,
 	creation = emptyCreation,
-	size = 'regular'
+	size = 'regular',
 }) => {
 	const router = useRouter()
 
@@ -54,7 +54,7 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log(router.query)
 
 	const creationData = useGetCreation(queryCreationId)
-	console.log({ creationData })
+	// console.log({ creationData })
 
 	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
@@ -82,14 +82,14 @@ const Creation: FC<CreationPageProps> = ({
 				praises: praisesData,
 				praised: praisedData,
 				burns: burnsData,
-				burned: burnedData
+				burned: burnedData,
 			})
 		}
 	}, [
 		reactionCountList,
 		updateReactionState,
 		creationData,
-		isReactionStateNotInitialized
+		isReactionStateNotInitialized,
 	])
 
 	const isCreationDataTaskConfig =
@@ -99,19 +99,19 @@ const Creation: FC<CreationPageProps> = ({
 		!(creationData._id in reactionState) &&
 		typeof creationData?.task?.config?.text_input !== 'undefined'
 
-	console.log({ isCreationDataTaskConfig })
+	// console.log({ isCreationDataTaskConfig })
 
 	let timeAgoCreatedAt = '0'
 	if (isCreationDataTaskConfig) {
-		console.log(creationData)
-		console.log(creationData.task.config.text_input)
-		console.log(creationData.createdAt)
+		// console.log(creationData)
+		// console.log(creationData.task.config.text_input)
+		// console.log(creationData.createdAt)
 		timeAgoCreatedAt = timeAgo(creationData.createdAt)
 
-		console.log(timeAgoCreatedAt)
+		// console.log(timeAgoCreatedAt)
 	}
 
-	console.log('[creationId]: CreationId: ' + queryCreationId)
+	// console.log('[creationId]: CreationId: ' + queryCreationId)
 
 	return (
 		<>
@@ -162,7 +162,7 @@ const Creation: FC<CreationPageProps> = ({
 									<article className={styles.crMainHeader}>
 										<div className={styles.crCreator}>
 											<Avatar
-												className="profileAvatarWrapper"
+												className='profileAvatarWrapper'
 												style={{ display: 'flex', flex: 1 }}
 												size={50}
 												icon={<Blockies scale={6} seed={creationData?.user} />}
@@ -170,7 +170,7 @@ const Creation: FC<CreationPageProps> = ({
 											<div className={styles.crCreatorNameWrapper}>
 												<Title
 													level={3}
-													className="profileName"
+													className='profileName'
 													style={{ marginTop: 10 }}
 												>
 													{abbreviateAddress(creationData?.user ?? '')}
@@ -217,21 +217,21 @@ const Creation: FC<CreationPageProps> = ({
 										<ul className={styles.crPropertiesWrapper}>
 											<li className={styles.crProperty}>
 												<span className={styles.crPropertyType}>
-													<MdOutlineDateRange className="icon" />
+													<MdOutlineDateRange className='icon' />
 													<Text>{'Date'}</Text>
 												</span>
 												<Text>{timeAgoCreatedAt}</Text>
 											</li>
 											<li className={styles.crProperty}>
 												<span className={styles.crPropertyType}>
-													<SlSizeFullscreen className="icon" />
+													<SlSizeFullscreen className='icon' />
 													<Text>{'Size'}</Text>
 												</span>
 												<Text>{'512 x 512'}</Text>
 											</li>
 											<li className={styles.crProperty}>
 												<span className={styles.crPropertyType}>
-													<BsAspectRatio className="icon" />
+													<BsAspectRatio className='icon' />
 													<Text>{'Command'}</Text>
 												</span>
 												<Text>{'/dream'}</Text>

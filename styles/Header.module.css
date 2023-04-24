@@ -18,7 +18,7 @@
 	height: 50px;
 	align-items: center;
 	margin: 7px 0;
-	background: white;
+	/* background: white; */
 }
 .authSectionStyle {
 	padding: 10px 20px;
@@ -121,4 +121,9 @@
 .navItem {
 	display: inline-block;
 	margin-right: 1rem;
+}
+
+.popoverConnectWrapper {
+	display: flex;
+	alignitems: center;
 }

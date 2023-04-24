@@ -16,7 +16,7 @@ const CreationSocial: FC<CreationSocialType> = ({
 	creationId,
 	creation,
 	reactionCountList,
-	layout = 'minimal',
+	isMobile,
 }) => {
 	const [isBookmarked, setIsBookmarked] = useState(false)
 	const { reactionState, updateReactionState } = useReaction()
@@ -27,8 +27,6 @@ const CreationSocial: FC<CreationSocialType> = ({
 		burns,
 		burned: isBurned,
 	} = reactionState[creationId] ?? {}
-
-	const isLayoutMinimal = layout === 'minimal'
 
 	// console.log({ reactionState })
 
@@ -51,14 +49,21 @@ const CreationSocial: FC<CreationSocialType> = ({
 	console.log('CreationSocial: CreationId: ' + creationId)
 
 	return (
-		<Row style={{ display: 'flex' }}>
+		<Row
+			style={{
+				display: 'flex',
+				marginLeft: isMobile ? 60 : 0,
+				marginTop: isMobile ? 10 : 0,
+				justifyContent: isMobile ? 'space-between' : 'unset',
+			}}
+		>
 			<article
 				style={{
 					display: 'flex',
 					alignItems: 'flex-start',
-					position: isLayoutMinimal ? 'relative' : 'absolute',
-					top: isLayoutMinimal ? 0 : 20,
-					left: isLayoutMinimal ? 0 : 20,
+					position: isMobile ? 'relative' : 'absolute',
+					top: isMobile ? 0 : 20,
+					left: isMobile ? 0 : 20,
 					zIndex: 150,
 					paddingRight: 10,
 				}}
@@ -68,14 +73,14 @@ const CreationSocial: FC<CreationSocialType> = ({
 					burns={Number(burns)}
 					isBurned={isBurned}
 					setIsBurned={handleBurnUpdate}
-					layout={layout}
+					isMobile={isMobile}
 				/>
 				<PraiseButton
 					creationId={creationId}
 					praises={praises}
 					isPraised={isPraised}
 					setIsPraised={handlePraiseUpdate}
-					layout={layout}
+					isMobile={isMobile}
 				/>
 			</article>
 
@@ -85,9 +90,10 @@ const CreationSocial: FC<CreationSocialType> = ({
 					flexDirection: 'row',
 					alignItems: 'flex-start',
 					justifyContent: 'flex-start',
-					position: isLayoutMinimal ? 'relative' : 'absolute',
-					right: isLayoutMinimal ? 0 : 20,
-					top: isLayoutMinimal ? 0 : 20,
+					position: isMobile ? 'relative' : 'absolute',
+					right: isMobile ? 0 : 20,
+					top: isMobile ? 0 : 20,
+					flex: isMobile ? 1 : 0,
 					zIndex: 150,
 				}}
 			>
@@ -95,9 +101,9 @@ const CreationSocial: FC<CreationSocialType> = ({
 					isBookmarked={isBookmarked}
 					setIsBookmarked={setIsBookmarked}
 					creation={creation}
-					layout={layout}
+					isMobile={isMobile}
 				/>
-				<ShareButton creationId={creationId} layout={layout} />
+				<ShareButton creationId={creationId} isMobile={isMobile} />
 			</article>
 		</Row>
 	)

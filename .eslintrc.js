@@ -25,18 +25,6 @@ module.exports = {
 		'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
 		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'@typescript-eslint/indent': 'off',
-		'prettier/prettier': [
-			'error',
-			{
-			  semi: false,
-			  singleQuote: true,
-			  tabWidth: 2,
-			  trailingComma: 'none',
-			  bracketSpacing: true,
-			  arrowParens: 'avoid',
-			  useTabs: true
-			},
-		],
 		// "quotes": [2, "single", { "avoidEscape": true }],
 		// semi: ["error", "never"]
 		// "prettier/prettier": ["error", {}, { usePrettierrc: true }]

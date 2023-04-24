@@ -31,7 +31,7 @@ const MyCollections: FC = () => {
 	const {
 		collections: myCollectionsData,
 		isLoading,
-		error
+		error,
 	} = useGetCollections()
 
 	console.log({ myCollectionsData })
@@ -65,7 +65,7 @@ const MyCollections: FC = () => {
 					<Row
 						style={{
 							display: 'flex',
-							flexDirection: 'column'
+							flexDirection: 'column',
 						}}
 					>
 						{/* <Row className={styles.createCollectionButtonWrapper}>
@@ -83,13 +83,13 @@ const MyCollections: FC = () => {
 								</Text>
 							</Button>
 						</Row> */}
-						<Row>
+						<Row style={{ justifyContent: 'center' }}>
 							{myCollectionsData.map((collection: Collection) => {
 								return (
 									<Button
 										className={styles.collectionButton}
 										key={collection._id}
-										onClick={e => {
+										onClick={(e) => {
 											handleClickCollection(e, collection._id)
 										}}
 									>
