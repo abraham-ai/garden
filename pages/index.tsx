@@ -15,9 +15,9 @@ const Index: FC = () => {
 		<>
 			<Head>
 				<title>{'Eden Art'}</title>
-				<meta name="description" content="The Garden of Artificial Delights" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
+				<meta name='description' content='The Garden of Artificial Delights' />
+				<meta name='viewport' content='width=device-width, initial-scale=1' />
+				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<>
 				<main className={stylesHeader.headerWrapper}>

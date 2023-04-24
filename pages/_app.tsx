@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import type { FC } from 'react'
 import AppContext from '../context/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
