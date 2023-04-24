@@ -83,7 +83,7 @@ const MyCollections: FC = () => {
 								</Text>
 							</Button>
 						</Row> */}
-						<Row>
+						<Row style={{ justifyContent: 'center' }}>
 							{myCollectionsData.map((collection: Collection) => {
 								return (
 									<Button

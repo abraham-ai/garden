@@ -54,7 +54,7 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log(router.query)
 
 	const creationData = useGetCreation(queryCreationId)
-	console.log({ creationData })
+	// console.log({ creationData })
 
 	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
@@ -99,19 +99,19 @@ const Creation: FC<CreationPageProps> = ({
 		!(creationData._id in reactionState) &&
 		typeof creationData?.task?.config?.text_input !== 'undefined'
 
-	console.log({ isCreationDataTaskConfig })
+	// console.log({ isCreationDataTaskConfig })
 
 	let timeAgoCreatedAt = '0'
 	if (isCreationDataTaskConfig) {
-		console.log(creationData)
-		console.log(creationData.task.config.text_input)
-		console.log(creationData.createdAt)
+		// console.log(creationData)
+		// console.log(creationData.task.config.text_input)
+		// console.log(creationData.createdAt)
 		timeAgoCreatedAt = timeAgo(creationData.createdAt)
 
-		console.log(timeAgoCreatedAt)
+		// console.log(timeAgoCreatedAt)
 	}
 
-	console.log('[creationId]: CreationId: ' + queryCreationId)
+	// console.log('[creationId]: CreationId: ' + queryCreationId)
 
 	return (
 		<>

@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import AppContext from '../../../context/AppContext'
+
 import type { FC } from 'react'
 
 import { Button } from 'antd' // Popover
@@ -13,11 +15,15 @@ import styles from '../../../styles/CreationSocial.module.css'
 interface ShareButtonProps {
 	creationId: string
 	layout: string
+	isMobile: boolean
 }
 
-const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
+const ShareButton: FC<ShareButtonProps> = ({ creationId, isMobile }) => {
 	const [isShareHovering, setIsShareHovering] = useState(false)
 	const [copySuccess, setCopySuccess] = useState('')
+
+	const context = useContext(AppContext)
+	const currentTheme = context.currentTheme ?? 'light'
 
 	const handleMouseOver = (): void => {
 		// console.log('handleMouseOver')
@@ -43,9 +49,9 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 		? 'rgb(0, 186, 124, 0.2)'
 		: 'rgba(0, 0, 0, 0.5)'
 
-	const isLayoutMinimal = layout === 'minimal'
-
 	console.log({ creationId })
+
+	const isMobileThemeLight = isMobile && currentTheme === 'light'
 
 	return (
 		<div
@@ -63,9 +69,9 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
-						background: bgHoverStyles,
-						width: isLayoutMinimal ? 30 : 50,
-						height: isLayoutMinimal ? 30 : 50,
+						background: isMobileThemeLight ? 'transparent' : bgHoverStyles,
+						width: isMobile ? 30 : 50,
+						height: isMobile ? 30 : 50,
 						border: 'none',
 						transition: '300ms',
 					}}
@@ -80,14 +86,17 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 							className={styles.crSocialIcon}
 							size={18}
 							style={{
-								bottom: isLayoutMinimal ? 6 : 12,
+								bottom: isMobile ? 6 : 12,
 								position: 'absolute',
-								left: isLayoutMinimal ? 6 : 12,
+								left: isMobile ? 6 : 12,
 								fontSize: '1rem',
-								minWidth: isLayoutMinimal ? 15 : 25,
-								minHeight: isLayoutMinimal ? 15 : 25,
+								minWidth: isMobile ? 15 : 25,
+								minHeight: isMobile ? 15 : 25,
 								transform: 'scaleX(1)',
 								color: 'rgb(0, 186, 124)',
+								filter: isMobileThemeLight
+									? 'transparent'
+									: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 							}}
 						/>
 					) : (
@@ -95,14 +104,17 @@ const ShareButton: FC<ShareButtonProps> = ({ creationId, layout }) => {
 							className={styles.crSocialIcon}
 							size={18}
 							style={{
-								bottom: isLayoutMinimal ? 6 : 12,
+								bottom: isMobile ? 6 : 12,
 								position: 'absolute',
-								left: isLayoutMinimal ? 6 : 12,
+								left: isMobile ? 6 : 12,
 								fontSize: '1rem',
-								minWidth: isLayoutMinimal ? 15 : 25,
-								minHeight: isLayoutMinimal ? 15 : 25,
+								minWidth: isMobile ? 15 : 25,
+								minHeight: isMobile ? 15 : 25,
 								transform: 'scaleX(-1)',
-								color: 'white',
+								color: isMobileThemeLight ? 'black' : 'white',
+								filter: isMobileThemeLight
+									? 'transparent'
+									: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 							}}
 						/>
 					)}

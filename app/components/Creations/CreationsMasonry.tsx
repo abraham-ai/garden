@@ -12,9 +12,13 @@ import styles from '../../../styles/CreationsGrid.module.css'
 
 interface CreationsMasonryTypes {
 	creations: Creation[]
+	isMobile: boolean
 }
 
-const CreationsMasonry: FC<CreationsMasonryTypes> = ({ creations }) => {
+const CreationsMasonry: FC<CreationsMasonryTypes> = ({
+	creations,
+	isMobile,
+}) => {
 	return (
 		<Masonry
 			breakpointCols={breakpointColumnsObj}
@@ -36,7 +40,12 @@ const CreationsMasonry: FC<CreationsMasonryTypes> = ({ creations }) => {
 					return null
 				} else {
 					return (
-						<CreationCard creation={creation} key={creation._id} index={i} />
+						<CreationCard
+							creation={creation}
+							key={creation._id}
+							index={i}
+							isMobile={isMobile}
+						/>
 					)
 				}
 			})}

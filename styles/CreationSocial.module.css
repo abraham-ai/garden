@@ -33,5 +33,5 @@
 	color: white;
 	min-height: 32px;
 	min-width: 32px;
-	filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4));
+	/* filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4)); */
 }

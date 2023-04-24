@@ -13,6 +13,7 @@ interface BurnButtonTypes {
 	isBurned: boolean
 	setIsBurned: (isBurned: boolean, updatedBurns: number) => void
 	layout?: string
+	isMobile?: boolean
 }
 
 const BurnButton: FC<BurnButtonTypes> = ({
@@ -21,18 +22,18 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	isBurned,
 	setIsBurned,
 	layout = 'default',
+	isMobile,
 }) => {
 	const context = useContext(AppContext)
 	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const { openConnectModal } = useConnectModal()
 
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
 
-	const isLayoutMinimal = layout === 'minimal'
-
-	console.log('Burn Button: CreationId: ' + creationId)
+	// console.log('Burn Button: CreationId: ' + creationId)
 
 	const handleBurn = async (): Promise<void> => {
 		console.log({ isSignedIn, isWalletConnected })
@@ -62,7 +63,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 		<span
 			style={{
 				filter: 'grayscale(1)',
-				fontSize: isLayoutMinimal ? '1rem' : '1.8rem',
+				fontSize: isMobile ? '1rem' : '1.8rem',
 			}}
 		>
 			{'🔥'}
@@ -70,9 +71,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	)
 
 	const burnFilled = (
-		<span style={{ fontSize: isLayoutMinimal ? '1rem' : '1.8rem' }}>
-			{'🔥'}
-		</span>
+		<span style={{ fontSize: isMobile ? '1rem' : '1.8rem' }}>{'🔥'}</span>
 	)
 
 	const handleMouseOver = (): void => {
@@ -87,13 +86,15 @@ const BurnButton: FC<BurnButtonTypes> = ({
 
 	// console.log(isBurned)
 
+	const isMobileThemeLight = isMobile && currentTheme === 'light'
+
 	return (
 		<div
 			className='socialButtonWrapper'
 			style={{
 				display: 'flex',
 				alignItems: 'center',
-				paddingRight: isLayoutMinimal ? 10 : 10,
+				paddingRight: isMobile ? 10 : 10,
 			}}
 		>
 			<Button
@@ -104,10 +105,11 @@ const BurnButton: FC<BurnButtonTypes> = ({
 				style={{
 					display: 'flex',
 					alignItems: 'center',
-					justifyContent: 'center',
-					background: 'rgba(0, 0, 0, 0.5)',
-					width: isLayoutMinimal ? 60 : 100,
-					height: isLayoutMinimal ? 30 : 50,
+					justifyContent: isMobile ? 'flex-start' : 'center',
+					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
+					width: isMobile ? 60 : 100,
+					height: isMobile ? 30 : 50,
+					padding: isMobile ? '10px 0' : 10,
 					border: 'none',
 					transition: '1s',
 				}}
@@ -125,10 +127,12 @@ const BurnButton: FC<BurnButtonTypes> = ({
 				</span>
 				<Text
 					style={{
-						color: 'white',
-						filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
+						color: isMobileThemeLight ? 'black' : 'white',
+						filter: isMobileThemeLight
+							? 'transparent'
+							: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,
-						fontWeight: 'bold',
+						fontWeight: isMobileThemeLight ? 'regular' : 'bold',
 					}}
 				>
 					{burns}

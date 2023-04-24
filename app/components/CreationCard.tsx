@@ -27,15 +27,16 @@ import CreationSocial from './CreationSocial'
 
 import Blockies from 'react-blockies'
 
-import { Skeleton, Typography } from 'antd'
+import { Skeleton, Typography, Col } from 'antd'
 const { Text } = Typography
 
 interface CreationCardTypes {
 	creation: Creation
 	index: number
+	isMobile: boolean
 }
 
-const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
+const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 	// console.log(creation)
 
 	const context = useContext(AppContext)
@@ -44,6 +45,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 		() => context?.creationsData != null || [],
 		[context?.creationsData]
 	)
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const [modalOpen, setModalOpen] = useState<boolean>(false)
 	const [currentCreation, setCurrentCreation] = useState<Creation>(
@@ -173,7 +175,9 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 
 	const creationTextInput = creation.task.config.text_input
 	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
-		if (creation.task.config.height > 550) {
+		if (isMobile) {
+			prompt = abbreviateText(creationTextInput)
+		} else if (creation.task.config.height > 550) {
 			prompt = abbreviateText(creationTextInput, 80) // 100
 		} else if (creation.task.config.height > 500) {
 			prompt = abbreviateText(creationTextInput, 40) // 100
@@ -195,6 +199,8 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 
 	const GeneratorName = creation?.task?.generator?.generatorName
 
+	// console.log({ currentTheme })
+
 	return (
 		<>
 			<section
@@ -202,79 +208,163 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>
-				<article id={'creationCard'} className={styles.crCard}>
+				<article
+					id={`creationCard ${isMobile ? 'isMobile' : ''}`}
+					className={styles.crCard}
+				>
 					<div className={styles.crTopWrapper}>
 						<div className={styles.crImageWrapper}>
 							{typeof creation === 'undefined' ? (
 								<Skeleton />
 							) : (
 								<section>
-									{isCreationHovering ? (
+									{isCreationHovering || isMobile ? (
 										<>
-											<CreationSocial
-												layout={'expanded'}
-												creation={creation}
-												creationId={creation._id}
-												reactionCountList={{
-													praises: reactionState[creation._id]?.praises ?? 0,
-													praised:
-														reactionState[creation._id]?.praised ?? false,
-													burns: reactionState[creation._id]?.burns ?? 0,
-													burned: reactionState[creation._id]?.burned ?? false,
-												}}
-											/>
-
-											<div className={styles.crContentMain}>
-												<div className={styles.crPromptMainWrapper}>
-													<article className={styles.promptWrapper}>
-														<Text
-															className={styles.crPromptCommand}
-														>{`/${String(GeneratorName)} `}</Text>
-														<Text className={styles.crPrompt}>{prompt}</Text>
-
-														<div
+											<div
+												className={
+													isMobile
+														? styles.crContentMainMobile
+														: styles.crContentMain
+												}
+											>
+												{isMobile ? (
+													<div className={styles.crPromptMainWrapper}>
+														<Link
+															href={{
+																pathname: `/creator/${String(creation.user)}`,
+																query: { user },
+															}}
 															style={{
 																display: 'flex',
-																alignItems: 'center',
-																marginTop: 10,
+																alignItems: isMobile ? 'flex-start' : 'center',
+																marginRight: 10,
 															}}
 														>
-															<Link
-																href={{
-																	pathname: `/creator/${String(creation.user)}`,
-																	query: { user },
-																}}
+															<span
 																style={{
-																	display: 'flex',
-																	alignItems: 'center',
-																	marginRight: 10,
+																	borderRadius: '50%',
+																	overflow: 'hidden',
+																	width: isMobile ? '48px' : '32px',
+																	height: isMobile ? '48px' : '32px',
+																	marginRight: isMobile ? 0 : 10,
+																	background: 'orange',
 																}}
 															>
-																<span
+																<Blockies seed={creation.user} size={12} />
+															</span>
+														</Link>
+														<article className={styles.promptWrapper}>
+															<Col
+																style={{
+																	order: isMobile ? 2 : 'unset',
+																}}
+															>
+																<Text
+																	className={styles.crPromptCommand}
+																>{`/${String(GeneratorName)} `}</Text>
+																<Text
+																	className={styles.crPrompt}
 																	style={{
-																		borderRadius: '50%',
-																		overflow: 'hidden',
-																		width: '32px',
-																		height: '32px',
-																		marginRight: 10,
-																		background: 'orange',
+																		color:
+																			currentTheme === 'light'
+																				? 'black'
+																				: 'white',
 																	}}
 																>
-																	<Blockies seed={creation.user} />
-																</span>
+																	{prompt}
+																</Text>
+															</Col>
+															<div
+																style={{
+																	display: 'flex',
+																	order: isMobile ? 1 : 'unset',
+																	alignItems: 'center',
+																	marginTop: isMobile ? 0 : 10,
+																}}
+															>
 																<Text className={styles.displayAddress}>
 																	{displayAddress}
 																</Text>
-															</Link>
-															<Text className={styles.crDate}>
-																{timeAgoCreatedAt}
-															</Text>
-														</div>
-													</article>
-												</div>
+																<Text className={styles.crDate}>
+																	{timeAgoCreatedAt}
+																</Text>
+															</div>
+														</article>
+													</div>
+												) : (
+													<div className={styles.crPromptMainWrapper}>
+														<article className={styles.promptWrapper}>
+															<Col
+																style={{
+																	order: isMobile ? 2 : 'unset',
+																}}
+															>
+																<Text
+																	className={styles.crPromptCommand}
+																>{`/${String(GeneratorName)} `}</Text>
+																<Text
+																	className={styles.crPrompt}
+																	style={{
+																		color:
+																			currentTheme === 'ligiht'
+																				? 'black'
+																				: 'white',
+																	}}
+																>
+																	{prompt}
+																</Text>
+															</Col>
+															<div
+																style={{
+																	display: 'flex',
+																	order: isMobile ? 1 : 'unset',
+																	alignItems: 'center',
+																	marginTop: 10,
+																}}
+															>
+																<Link
+																	href={{
+																		pathname: `/creator/${String(
+																			creation.user
+																		)}`,
+																		query: { user },
+																	}}
+																	style={{
+																		display: 'flex',
+																		alignItems: 'center',
+																		marginRight: 10,
+																	}}
+																>
+																	<span
+																		style={{
+																			borderRadius: '50%',
+																			overflow: 'hidden',
+																			width: '32px',
+																			height: '32px',
+																			marginRight: 10,
+																			background: 'orange',
+																		}}
+																	>
+																		<Blockies seed={creation.user} />
+																	</span>
+
+																	<Text className={styles.displayAddress}>
+																		{displayAddress}
+																	</Text>
+																</Link>
+																<Text className={styles.crDate}>
+																	{timeAgoCreatedAt}
+																</Text>
+															</div>
+														</article>
+													</div>
+												)}
 											</div>
 
-											<div className={styles.crContentHoverBgWrapper} />
+											<div
+												className={styles.crContentHoverBgWrapper}
+												style={{ marginLeft: isMobile ? 60 : 0 }}
+											/>
 										</>
 									) : null}
 
@@ -288,6 +378,8 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 											flexDirection: 'column',
 											background: 'black',
 											border: 20,
+											marginLeft: isMobile ? 60 : 0,
+											position: isMobile ? 'relative' : 'absolute',
 										}}
 										onClick={() => {
 											showModal()
@@ -319,6 +411,23 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index }) => {
 											alt={creation.task.config.text_input}
 										/>
 									</Link>
+
+									{isCreationHovering || isMobile ? (
+										<>
+											<CreationSocial
+												isMobile={isMobile}
+												creation={creation}
+												creationId={creation._id}
+												reactionCountList={{
+													praises: reactionState[creation._id]?.praises ?? 0,
+													praised:
+														reactionState[creation._id]?.praised ?? false,
+													burns: reactionState[creation._id]?.burns ?? 0,
+													burned: reactionState[creation._id]?.burned ?? false,
+												}}
+											/>
+										</>
+									) : null}
 								</section>
 							)}
 						</div>

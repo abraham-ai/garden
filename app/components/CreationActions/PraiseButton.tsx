@@ -12,7 +12,7 @@ interface PraiseButtonTypes {
 	praises: number
 	isPraised: boolean
 	setIsPraised: (value: boolean, updatedPraises: number) => void
-	layout: string
+	isMobile: boolean
 }
 
 const PraiseButton: FC<PraiseButtonTypes> = ({
@@ -20,17 +20,16 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	praises,
 	isPraised,
 	setIsPraised,
-	layout,
+	isMobile,
 }) => {
 	const context = useContext(AppContext)
 	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const [isPraiseHovering, setIsPraiseHovering] = useState(false)
 
 	const { openConnectModal } = useConnectModal()
-
-	const isLayoutMinimal = layout === 'minimal'
 
 	const handlePraise = async (): Promise<void> => {
 		if (!isSignedIn && isWalletConnected) {
@@ -63,7 +62,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 		<span
 			style={{
 				filter: 'grayscale(1)',
-				fontSize: isLayoutMinimal ? '1rem' : '1.8rem',
+				fontSize: isMobile ? '1rem' : '1.8rem',
 				marginBottom: 6,
 			}}
 		>
@@ -72,9 +71,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	)
 
 	const praiseFilled = (
-		<span
-			style={{ fontSize: isLayoutMinimal ? '1rem' : '1.8rem', marginBottom: 6 }}
-		>
+		<span style={{ fontSize: isMobile ? '1rem' : '1.8rem', marginBottom: 6 }}>
 			{'🙌'}
 		</span>
 	)
@@ -87,13 +84,15 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 		setIsPraiseHovering(false)
 	}
 
+	const isMobileThemeLight = isMobile && currentTheme === 'light'
+
 	return (
 		<div
 			className='socialButtonWrapper'
 			style={{
-				position: isLayoutMinimal ? 'relative' : 'relative',
-				margin: isLayoutMinimal ? 'unset' : 'unset',
-				alignItems: isLayoutMinimal ? 'center' : 'center',
+				position: isMobile ? 'relative' : 'relative',
+				margin: isMobile ? 'unset' : 'unset',
+				alignItems: isMobile ? 'center' : 'center',
 				display: 'flex',
 			}}
 		>
@@ -104,9 +103,9 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
-					background: 'rgba(0, 0, 0, 0.5)',
-					width: isLayoutMinimal ? 60 : 100,
-					height: isLayoutMinimal ? 30 : 50,
+					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
+					width: isMobile ? 60 : 100,
+					height: isMobile ? 30 : 50,
 					border: 'none',
 					transition: '1s',
 				}}
@@ -124,10 +123,12 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 				</span>
 				<Text
 					style={{
-						color: 'white',
-						filter: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
+						color: isMobileThemeLight ? 'black' : 'white',
+						filter: isMobileThemeLight
+							? 'transparent'
+							: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,
-						fontWeight: 'bold',
+						fontWeight: isMobileThemeLight ? 'regular' : 'bold',
 					}}
 				>
 					{praises}

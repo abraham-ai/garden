@@ -38,6 +38,9 @@ interface AppContext {
 
 	collectionModalView: number
 	setCollectionModalView: Dispatch<SetStateAction<number>>
+
+	currentTheme: string
+	setCurrentTheme: Dispatch<SetStateAction<string>>
 }
 
 export default AppContext

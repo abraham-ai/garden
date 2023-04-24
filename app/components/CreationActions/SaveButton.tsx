@@ -21,13 +21,14 @@ interface SaveButtonTypes {
 	setIsBookmarked: (value: boolean) => void
 	creation: Creation
 	layout?: string
+	isMobile: string
 }
 
 const SaveButton: FC<SaveButtonTypes> = ({
 	isBookmarked,
 	setIsBookmarked,
 	creation,
-	layout,
+	isMobile,
 }) => {
 	const [isSaveHovering, setIsSaveHovering] = useState(false)
 
@@ -41,6 +42,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 	const setCollectionModalView = context?.setCollectionModalView ?? (() => null)
 	const collections = context?.collections ?? []
 	const setCollections = context?.setCollections ?? (() => {})
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const setIsSaveCreationModalOpen =
 		context?.setIsSaveCreationModalOpen ?? (() => {})
@@ -48,8 +50,6 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
 	// console.log({ isSignedIn })
-
-	const isLayoutMinimal = layout === 'minimal'
 
 	const handleSave = (): void => {
 		// console.log({ isSignedIn })
@@ -79,6 +79,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		? 'rgb(26, 115, 232, 0.4)'
 		: 'rgba(0, 0, 0, 0.5)'
 
+	const isMobileThemeLight = isMobile === true && currentTheme === 'light'
+
 	return (
 		<>
 			<span
@@ -87,7 +89,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 					display: 'flex',
 					width: '100%',
 					justifyContent: 'space-between',
-					marginBottom: 5,
+					margin: isMobile ? '0 0 5px 25px' : 'unset',
 				}}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
@@ -103,9 +105,9 @@ const SaveButton: FC<SaveButtonTypes> = ({
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
-						background: bgHoverStyles,
-						width: isLayoutMinimal ? 30 : 50,
-						height: isLayoutMinimal ? 30 : 50,
+						background: isMobileThemeLight ? 'transparent' : bgHoverStyles,
+						width: isMobile ? 30 : 50,
+						height: isMobile ? 30 : 50,
 						border: 'none',
 						transition: '300ms',
 					}}
@@ -115,8 +117,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 							className={styles.crSocialIcon}
 							style={{
 								fontSize: '1rem',
-								minWidth: isLayoutMinimal ? 15 : 25,
-								minHeight: isLayoutMinimal ? 15 : 25,
+								minWidth: isMobile ? 15 : 25,
+								minHeight: isMobile ? 15 : 25,
 								color: '#1a73e8',
 							}}
 						/>
@@ -125,8 +127,9 @@ const SaveButton: FC<SaveButtonTypes> = ({
 							className={styles.crSocialIcon}
 							style={{
 								fontSize: '1rem',
-								minWidth: isLayoutMinimal ? 15 : 25,
-								minHeight: isLayoutMinimal ? 15 : 25,
+								minWidth: isMobile ? 15 : 25,
+								minHeight: isMobile ? 15 : 25,
+								color: isMobileThemeLight ? 'black' : 'white',
 							}}
 						/>
 					)}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import type { FC } from 'react'
 import AppContext from '../context/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
@@ -26,6 +26,8 @@ import type Creation from '../interfaces/Creation'
 import type Collection from '../interfaces/Collection'
 import type Task from '../interfaces/Task'
 import type Config from '../interfaces/Config'
+
+import { ConfigProvider, theme } from 'antd'
 
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
@@ -114,7 +116,11 @@ const emptyCreation = {
 	thumbnail: '',
 }
 
-const CustomAvatar: FC = ({ address }: { address: string }) => {
+interface CustomAvatarProps {
+	address: string
+}
+
+const CustomAvatar: FC<CustomAvatarProps> = ({ address }) => {
 	return <Blockies seed={address} />
 }
 
@@ -145,6 +151,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [selectedCollection, setSelectedCollection] = useState<string>('')
 	const [collectionModalView, setCollectionModalView] = useState<number>(0)
 
+	const [currentTheme, setCurrentTheme] = useState<string>('')
+
 	const contextValues = {
 		authToken,
 		setAuthToken,
@@ -170,17 +178,38 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setCurrentCreationModalCreation,
 		isSaveCreationModalOpen,
 		setIsSaveCreationModalOpen,
+		currentTheme,
+		setCurrentTheme,
 	}
+
+	const { defaultAlgorithm, darkAlgorithm } = theme
 
 	// routing progress bar
 	Router.events.on('routeChangeStart', nProgress.start)
 	Router.events.on('routeChangeError', nProgress.done)
 	Router.events.on('routeChangeComplete', nProgress.done)
 
+	const currentThemeOnLoad = useMemo(() => {
+		const now = new Date()
+		const hours = now.getHours()
+
+		if (hours < 12) {
+			return 'light'
+		} else if (hours >= 12 && hours <= 24) {
+			return 'dark'
+		} else {
+			return 'light'
+		}
+	}, [])
+
 	useEffect(() => {
 		setIsWalletConnected(isConnected)
 		setUserId(address?.toString() ?? '')
 	}, [isConnected, setIsWalletConnected, address, setUserId, userId])
+
+	useEffect(() => {
+		setCurrentTheme(currentThemeOnLoad)
+	}, [currentThemeOnLoad])
 
 	return (
 		<>
@@ -204,7 +233,14 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 				<WagmiConfig client={wagmiClient}>
 					<RainbowKitProvider avatar={CustomAvatar} chains={chains}>
 						<ReactionProvider>
-							<Component {...pageProps} />
+							<ConfigProvider
+								theme={{
+									algorithm:
+										currentTheme === 'light' ? defaultAlgorithm : darkAlgorithm,
+								}}
+							>
+								<Component {...pageProps} />
+							</ConfigProvider>
 						</ReactionProvider>
 					</RainbowKitProvider>
 				</WagmiConfig>
