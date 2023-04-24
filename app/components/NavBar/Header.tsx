@@ -213,6 +213,7 @@ const Header: FC = () => {
 					<span
 						style={{
 							display: `${isMobile && isMounted ? 'none' : 'flex'}`,
+							alignItems: 'center',
 						}}
 					>
 						<Popover

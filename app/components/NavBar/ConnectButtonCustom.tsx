@@ -34,6 +34,8 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
 		? (displayAddress += '...' + walletAddress.slice(-4))
 		: walletAddress
 
+	const isMobileMounted = isMobile && isMounted
+
 	return (
 		<ConnectButton.Custom>
 			{({
@@ -71,11 +73,11 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
 									<Button
 										type='primary'
 										onClick={openConnectModal}
-										shape={isMobile ? 'round' : 'round'}
+										shape={'round'}
 										size='large'
 									>
 										<Text style={{ color: 'white' }}>
-											{isMobile && isMounted ? 'Connect' : 'Connect Wallet'}
+											{isMobileMounted ? 'Connect' : 'Connect Wallet'}
 										</Text>
 									</Button>
 								)
@@ -134,9 +136,11 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
 									<Button
 										onClick={openAccountModal}
 										type='default'
-										shape={isMobile ? 'circle' : 'round'}
+										shape={isMobileMounted ? 'circle' : 'round'}
 										size='large'
-										style={{ padding: isMobile ? 0 : 10 }}
+										style={{
+											padding: isMobileMounted ? 0 : '6px 10px 10px 10px',
+										}}
 									>
 										{!isMobile && displayAddress !== null ? (
 											<Text style={{ marginRight: 10 }}>
@@ -146,9 +150,15 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
 													: ''}
 											</Text>
 										) : null}
+
 										<Avatar
-											size={34}
-											src={<Blockies seed={String(address)} scale={4} />}
+											size={isMobileMounted ? 34 : 22}
+											src={
+												<Blockies
+													seed={String(address)}
+													scale={isMobileMounted ? 4 : 2.5}
+												/>
+											}
 										/>
 									</Button>
 									{/* </Popover> */}

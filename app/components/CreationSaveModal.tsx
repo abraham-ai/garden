@@ -66,7 +66,7 @@ const CreationSaveModal: FC = () => {
 	const collectionsData = useGetCollections()
 
 	// console.log(collections)
-	console.log(collectionsData)
+	// console.log(collectionsData)
 	// console.log(collectionModalView)
 
 	const createNotification = (placement: NotificationPlacement): void => {
@@ -141,7 +141,7 @@ const CreationSaveModal: FC = () => {
 			Array.isArray(collectionsData.collections) &&
 			collectionsData.collections.length > 0
 		) {
-			console.log('SET COLLECTIONS!')
+			// console.log('SET COLLECTIONS!')
 			setCollections(collectionsData.collections)
 		}
 	}, [collectionsData, setCollections])
@@ -318,7 +318,7 @@ const CreationSaveModal: FC = () => {
 		</Button>
 	)
 
-	console.log({ currentCreationModalCreation })
+	// console.log({ currentCreationModalCreation })
 
 	return (
 		<Modal

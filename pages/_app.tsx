@@ -195,7 +195,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 		if (hours < 12) {
 			return 'light'
-		} else if (hours >= 12 && hours <= 24) {
+		} else if (hours >= 8 && hours <= 24) {
 			return 'dark'
 		} else {
 			return 'light'
@@ -236,7 +236,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 							<ConfigProvider
 								theme={{
 									algorithm:
-										currentTheme === 'light' ? defaultAlgorithm : darkAlgorithm,
+										currentTheme === 'light' ? darkAlgorithm : defaultAlgorithm,
 								}}
 							>
 								<Component {...pageProps} />

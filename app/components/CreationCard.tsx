@@ -199,7 +199,9 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 
 	const GeneratorName = creation?.task?.generator?.generatorName
 
+	// console.log({ creation })
 	// console.log({ currentTheme })
+	// console.log({ isMobile })
 
 	return (
 		<>
