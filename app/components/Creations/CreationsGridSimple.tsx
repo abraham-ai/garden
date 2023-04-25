@@ -10,14 +10,16 @@ import Masonry from 'react-masonry-css'
 import styles from '../../../styles/CreationsGrid.module.css'
 import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
-interface CreationsGridTypes {
+interface CreationsGridProps {
 	creations: Creation[]
 	isMobile: boolean
+	appWidth: number
 }
 
-const CreationsGridSimple: FC<CreationsGridTypes> = ({
+const CreationsGridSimple: FC<CreationsGridProps> = ({
 	creations,
 	isMobile,
+	appWidth,
 }) => {
 	console.log('CREATIONS GRID SIMPLE')
 	console.log(creations)
@@ -50,6 +52,7 @@ const CreationsGridSimple: FC<CreationsGridTypes> = ({
 								key={creation._id}
 								index={i}
 								isMobile={isMobile}
+								appWidth={appWidth}
 							/>
 						)
 					}

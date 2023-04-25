@@ -63,7 +63,7 @@ const SignInModal: FC<SignInModalProps> = ({ isMobile }) => {
 			footer={<></>}
 		>
 			<Col className={styles.signInModalInnerWrapper}>
-				<AppLogo logo='eden' size='x-large' />
+				<AppLogo logo='eden' size='x-large' position='middle' />
 
 				<Title className={styles.signInMessageCntd} level={4}>
 					{
@@ -72,7 +72,7 @@ const SignInModal: FC<SignInModalProps> = ({ isMobile }) => {
 				</Title>
 
 				<div>
-					<EthereumAuth onModalCancel={handleCancel} isMobile={isMobile} />
+					<EthereumAuth isMobile={isMobile} />
 				</div>
 
 				{isSuccess && (

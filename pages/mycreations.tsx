@@ -47,6 +47,7 @@ const MyCreations: FC = () => {
 					<CreationsGridSimple
 						creations={myCreationsData.creations}
 						isMobile={isMobile}
+						appWidth={width}
 					/>
 				</section>
 			) : (

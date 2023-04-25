@@ -109,6 +109,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 							<CreationsGridSimple
 								creations={collectionCreations}
 								isMobile={isMobile}
+								appWidth={width}
 							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

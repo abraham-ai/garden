@@ -226,6 +226,7 @@ const Header: FC = () => {
 									isSignedIn={isSignedIn}
 									authToken={authToken}
 									displayAuthToken={displayAuthToken}
+									isMobile={isMobile}
 								/>
 							}
 							trigger='click'

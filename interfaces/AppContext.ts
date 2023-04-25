@@ -14,7 +14,7 @@ interface AppContext {
 	setIsSignedIn: Dispatch<SetStateAction<boolean | undefined>>
 	isWalletConnected?: boolean
 	setIsWalletConnected: Dispatch<SetStateAction<boolean | undefined>>
-	isSignInModalOpen: string
+	isSignInModalOpen: boolean
 	setIsSignInModalOpen: Dispatch<SetStateAction<boolean>>
 
 	creationsData: Creation[]

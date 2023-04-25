@@ -9,7 +9,11 @@ import axios from 'axios'
 
 import EthereumAccount from './EthereumAccount'
 
-const EthereumAuth: FC = ({ isMobile }) => {
+interface EthereumAuthProps {
+	isMobile: boolean
+}
+
+const EthereumAuth: FC<EthereumAuthProps> = ({ isMobile }) => {
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected ?? false

@@ -75,17 +75,14 @@ const CreationModal: FC<CreationModalTypes> = ({
 	// console.log({ praises, praised, burns, burned })
 
 	const handleDirection = useMemo(() => {
-		switch (appWidth) {
-			case appWidth <= 768:
-				return 'column'
-				break
-			case appWidth >= 768 && appWidth <= 1024:
-				return 'column'
-				break
-			default:
-				return 'row'
+		if (appWidth <= 768) {
+			return 'column'
+		} else if (appWidth >= 768 && appWidth <= 1024) {
+			return 'column'
+		} else {
+			return 'row'
 		}
-	})
+	}, [appWidth])
 
 	// console.log({ appWidth })
 	// console.log(handleDirection)
