@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -46,6 +46,12 @@ const Creation: FC<CreationPageProps> = ({
 	size = 'regular',
 }) => {
 	const router = useRouter()
+
+	const [isMounted, setIsMounted] = useState(false)
+
+	useEffect(() => {
+		setIsMounted(true)
+	}, [])
 
 	const queryCreationId = Array.isArray(router.query.creationId)
 		? router.query.creationId[0]
@@ -164,7 +170,10 @@ const Creation: FC<CreationPageProps> = ({
 						</Col>
 
 						<article className={styles.creationText}>
-							<div className={styles.crPostText}>
+							<div
+								className={styles.crPostText}
+								style={{ maxWidth: isMobile ? 'unset' : 'unset' }}
+							>
 								{/* <Text>{creationId}</Text> */}
 								{/* <Text>{'Server:'} {creationData.creation._id}</Text> */}
 								{/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}

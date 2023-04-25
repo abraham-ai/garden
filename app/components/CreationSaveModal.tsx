@@ -28,6 +28,7 @@ const CreationSaveModal: FC = () => {
 	const [currentRenameCollection, setCurrentRenameCollection] = useState('')
 	const [currentSavedCollection, setCurrentSavedCollection] =
 		useState<Collection | null>(null)
+	const [createdCollectionName, setCreatedCollectionName] = useState<string>('')
 
 	const [api, contextHolder] = notification.useNotification()
 
@@ -68,12 +69,14 @@ const CreationSaveModal: FC = () => {
 	// console.log(collections)
 	// console.log(collectionsData)
 	// console.log(collectionModalView)
+	console.log({ currentSavedCollection })
+	console.log({ createdCollectionName })
 
 	const createNotification = (placement: NotificationPlacement): void => {
 		api.info({
 			message: (
 				<Text>
-					{`Creation saved to new collection `}
+					{`Creation saved to ${currentSavedCollection?._id ?? ''} collection `}
 					<Link
 						href={`/collection/${String(currentSavedCollection?._id ?? '')}`}
 						style={{ margin: '0 5px' }}
@@ -161,6 +164,21 @@ const CreationSaveModal: FC = () => {
 			})
 		}
 	}, [currentSavedCollection])
+
+	useEffect(() => {
+		if (
+			typeof createdCollectionName !== 'undefined' &&
+			createdCollectionName !== ''
+		) {
+			handleCollectionAction(
+				'create',
+				null,
+				currentCreationModalCreation?._id ?? null
+			).catch((error) => {
+				console.error('Error creating collection:', error)
+			})
+		}
+	}, [createdCollectionName])
 
 	const handleFirstModal = (): void => {
 		console.log('handleFirstModal')
@@ -288,6 +306,10 @@ const CreationSaveModal: FC = () => {
 			</Col>
 		)
 
+	const handleSetCurrentSavedCollection = (inputCollectionName): void => {
+		setCreatedCollectionName(inputCollectionName)
+	}
+
 	const CreateCollectionButton = (
 		<Button
 			shape='round'
@@ -319,6 +341,9 @@ const CreationSaveModal: FC = () => {
 	)
 
 	// console.log({ currentCreationModalCreation })
+
+	console.log(currentSavedCollection)
+	// console.log(collections)
 
 	return (
 		<Modal
@@ -452,13 +477,7 @@ const CreationSaveModal: FC = () => {
 										className={styles.buttonPrimary}
 										disabled={inputCollectionName === ''}
 										onClick={() => {
-											handleCollectionAction(
-												'create',
-												null,
-												currentCreationModalCreation?._id ?? null
-											).catch((error) => {
-												console.error('Error creating collection:', error)
-											})
+											handleSetCurrentSavedCollection(inputCollectionName)
 										}}
 									>
 										{'Create'}

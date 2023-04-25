@@ -1,0 +1,87 @@
+'use client'
+
+import React, { useState, useContext } from 'react'
+import type { FC } from 'react'
+import AppContext from '../../../context/AppContext'
+
+import { useSignMessage, useAccount } from 'wagmi'
+
+import EthereumAuth from '../EthereumAuth'
+
+import { Typography, Modal, Col } from 'antd'
+
+import AppLogo from './AppLogo'
+
+import styles from '../../../styles/SignInModal.module.css'
+const { Title } = Typography
+
+interface SignInModalProps {
+	isMobile: boolean
+}
+
+const SignInModal: FC<SignInModalProps> = ({ isMobile }) => {
+	const { address } = useAccount()
+
+	const context = useContext(AppContext)
+	const isWalletConnected = context?.isWalletConnected ?? false
+	const isSignedIn = context?.isSignedIn ?? false
+
+	const isSignInModalOpen = context?.isSignInModalOpen ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
+
+	const handleCancel = (): void => {
+		setIsSignInModalOpen(false)
+	}
+
+	const [appMessage] = useState(
+		`I am ${String(address)} and I would like to create with Eden`
+	)
+
+	const { data, isSuccess } = useSignMessage({
+		message: appMessage,
+	})
+
+	return (
+		<Modal
+			className={styles.signInModal}
+			open={isWalletConnected && !isSignedIn}
+			mask
+			maskClosable
+			keyboard
+			onCancel={handleCancel}
+			style={{
+				width: '480px',
+				background: 'transparent',
+				border: 'transparent',
+				borderRadius: '25px',
+				padding: 0,
+				overflow: 'hidden',
+				height: 'auto',
+			}}
+			footer={<></>}
+		>
+			<Col className={styles.signInModalInnerWrapper}>
+				<AppLogo logo='eden' size='x-large' />
+
+				<Title className={styles.signInMessageCntd} level={4}>
+					{
+						'Eden uses a signature from your wallet to verify that you’re the owner of this Ethereum address.'
+					}
+				</Title>
+
+				<div>
+					<EthereumAuth onModalCancel={handleCancel} isMobile={isMobile} />
+				</div>
+
+				{isSuccess && (
+					<div className={styles.signInSignatureWrapper}>
+						<p className={styles.signInSignature}>{'Signature:'}</p>
+						<p className={styles.signInSignature}>{data}</p>
+					</div>
+				)}
+			</Col>
+		</Modal>
+	)
+}
+
+export default SignInModal

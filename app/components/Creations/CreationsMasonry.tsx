@@ -10,14 +10,16 @@ import CreationCard from '../CreationCard'
 
 import styles from '../../../styles/CreationsGrid.module.css'
 
-interface CreationsMasonryTypes {
+interface CreationsMasonryProps {
 	creations: Creation[]
 	isMobile: boolean
+	appWidth: number
 }
 
-const CreationsMasonry: FC<CreationsMasonryTypes> = ({
+const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	creations,
 	isMobile,
+	appWidth,
 }) => {
 	return (
 		<Masonry
@@ -45,6 +47,7 @@ const CreationsMasonry: FC<CreationsMasonryTypes> = ({
 							key={creation._id}
 							index={i}
 							isMobile={isMobile}
+							appWidth={appWidth}
 						/>
 					)
 				}

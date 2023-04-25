@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import type { FC } from 'react'
 import type Creation from '../../interfaces/Creation'
 import Image from 'next/image'
@@ -23,6 +23,7 @@ interface CreationModalTypes {
 	creation: Creation
 	creationIndex: number
 	isMobile: boolean
+	appWidth: number
 }
 
 const CreationModal: FC<CreationModalTypes> = ({
@@ -31,6 +32,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 	creation,
 	creationIndex,
 	isMobile,
+	appWidth,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex || 0
@@ -72,6 +74,22 @@ const CreationModal: FC<CreationModalTypes> = ({
 
 	// console.log({ praises, praised, burns, burned })
 
+	const handleDirection = useMemo(() => {
+		switch (appWidth) {
+			case appWidth <= 768:
+				return 'column'
+				break
+			case appWidth >= 768 && appWidth <= 1024:
+				return 'column'
+				break
+			default:
+				return 'row'
+		}
+	})
+
+	// console.log({ appWidth })
+	// console.log(handleDirection)
+
 	return (
 		<Modal
 			className={'crModal'}
@@ -89,6 +107,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 				justifyContent: 'center',
 				maxWidth: 1200,
 				height: isMobile ? '100%' : 'auto',
+				padding: isMobile ? 0 : 20,
 			}}
 		>
 			{/* <Button
@@ -119,7 +138,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 					<div
 						style={{
 							display: 'flex',
-							flexDirection: isMobile ? 'column' : 'row',
+							flexDirection: handleDirection,
 							height: isMobile ? '100%' : 'auto',
 						}}
 					>

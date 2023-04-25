@@ -9,7 +9,7 @@ import axios from 'axios'
 
 import EthereumAccount from './EthereumAccount'
 
-const EthereumAuth: FC = () => {
+const EthereumAuth: FC = ({ isMobile }) => {
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected ?? false
@@ -46,7 +46,6 @@ const EthereumAuth: FC = () => {
 		onSuccess: async (data, variables) => {
 			// console.log({ address })
 			try {
-				console.log('TEST TEST TEST')
 				console.info('/api/login !')
 				console.info({
 					message: variables.message,
@@ -165,7 +164,13 @@ const EthereumAuth: FC = () => {
 		setIsSignedIn,
 	])
 
-	return <EthereumAccount state={state} handleSiwe={handleSiwe} />
+	return (
+		<EthereumAccount
+			state={state}
+			handleSiwe={handleSiwe}
+			isMobile={isMobile}
+		/>
+	)
 }
 
 export default EthereumAuth

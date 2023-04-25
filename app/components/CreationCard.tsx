@@ -30,13 +30,19 @@ import Blockies from 'react-blockies'
 import { Skeleton, Typography, Col } from 'antd'
 const { Text } = Typography
 
-interface CreationCardTypes {
+interface CreationCardProps {
 	creation: Creation
 	index: number
 	isMobile: boolean
+	appWidth: number
 }
 
-const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
+const CreationCard: FC<CreationCardProps> = ({
+	creation,
+	index,
+	isMobile,
+	appWidth,
+}) => {
 	// console.log(creation)
 
 	const context = useContext(AppContext)
@@ -382,6 +388,8 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 											border: 20,
 											marginLeft: isMobile ? 60 : 0,
 											position: isMobile ? 'relative' : 'relative',
+											borderRadius: isMobile ? 10 : 'unset',
+											overflow: 'hidden',
 										}}
 										onClick={() => {
 											showModal()
@@ -448,6 +456,7 @@ const CreationCard: FC<CreationCardTypes> = ({ creation, index, isMobile }) => {
 				modalOpen={modalOpen}
 				creationIndex={index}
 				isMobile={isMobile}
+				appWidth={appWidth}
 			/>
 		</>
 	)

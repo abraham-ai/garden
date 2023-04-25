@@ -10,7 +10,7 @@ import styles from '../../styles/EthereumAuth.module.css'
 import { Button, Typography, Row } from 'antd'
 const { Text } = Typography
 
-interface EthereumAccountTypes {
+interface EthereumAccountProps {
 	handleSiwe: (event: MouseEvent) => Promise<void>
 	state: {
 		address?: string
@@ -18,9 +18,14 @@ interface EthereumAccountTypes {
 		loading?: boolean
 		authToken?: string
 	}
+	isMobile: boolean
 }
 
-const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
+const EthereumAccount: FC<EthereumAccountProps> = ({
+	handleSiwe,
+	state,
+	isMobile,
+}) => {
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected ?? false
@@ -69,15 +74,24 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 							fontSize: '1rem',
 							marginBottom: 10,
 							color: 'gray',
+							textAlign: 'center',
 						}}
 					>
-						{'Settings'}
+						{'Auth Settings'}
 					</Text>
 
-					<Row style={{ display: 'flex', marginBottom: 20 }}>
+					<Row
+						style={{
+							display: 'flex',
+							marginBottom: 20,
+							justifyContent: isMobile ? 'center' : 'center',
+						}}
+					>
 						{typeof userId === 'string' && isSignedIn ? (
 							<div>
 								<Button
+									size='large'
+									shape='round'
 									onClick={() => {
 										handleDisconnect()
 									}}
@@ -89,6 +103,7 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 							<Button
 								type='primary'
 								shape='round'
+								size='large'
 								disabled={state.loading}
 								onClick={(e) => {
 									handleSignIn(e)
@@ -100,6 +115,8 @@ const EthereumAccount: FC<EthereumAccountTypes> = ({ handleSiwe, state }) => {
 
 						{typeof userId === 'string' && isSignedIn ? (
 							<Button
+								size='large'
+								shape='round'
 								onClick={() => {
 									fetch('/api/auth/logout')
 										.then((response) => {

@@ -18,6 +18,7 @@ import ConnectButtonCustom from './ConnectButtonCustom'
 import styles from '../../../styles/Header.module.css'
 
 import SettingsMenuPopOver from './SettingsMenuPopOver'
+import SignInModal from './SignInModal'
 import EthereumVerify from '../EthereumVerify'
 // import EthereumAuth from '../EthereumAuth'
 
@@ -244,6 +245,8 @@ const Header: FC = () => {
 					<ConnectButtonCustom isMobile={isMobile} isMounted={isMounted} />
 				</Row>
 			</section>
+
+			<SignInModal isMobile={isMobile} />
 		</header>
 	)
 }
