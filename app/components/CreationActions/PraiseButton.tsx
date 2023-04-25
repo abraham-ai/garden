@@ -7,7 +7,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { Button, Typography } from 'antd'
 const { Text } = Typography
 
-interface PraiseButtonTypes {
+interface PraiseButtonProps {
 	creationId: string
 	praises: number
 	isPraised: boolean
@@ -15,7 +15,7 @@ interface PraiseButtonTypes {
 	isMobile: boolean
 }
 
-const PraiseButton: FC<PraiseButtonTypes> = ({
+const PraiseButton: FC<PraiseButtonProps> = ({
 	creationId,
 	praises,
 	isPraised,
@@ -25,6 +25,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 	const context = useContext(AppContext)
 	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 	const currentTheme = context?.currentTheme ?? 'light'
 
 	const [isPraiseHovering, setIsPraiseHovering] = useState(false)
@@ -33,6 +34,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 
 	const handlePraise = async (): Promise<void> => {
 		if (!isSignedIn && isWalletConnected) {
+			setIsSignInModalOpen(true)
 			await Promise.resolve()
 		} else if (!isSignedIn && !isWalletConnected) {
 			openConnectModal?.() ?? (() => null)()
@@ -131,7 +133,7 @@ const PraiseButton: FC<PraiseButtonTypes> = ({
 						fontWeight: isMobileThemeLight ? 'regular' : 'bold',
 					}}
 				>
-					{praises}
+					{isNaN(praises) ? 0 : praises}
 				</Text>
 			</Button>
 		</div>

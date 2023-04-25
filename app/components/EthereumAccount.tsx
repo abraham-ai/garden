@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import type { FC, MouseEvent } from 'react'
 
 import AppContext from '../../context/AppContext'
@@ -29,6 +29,7 @@ const EthereumAccount: FC<EthereumAccountProps> = ({
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 
 	const setAuthToken = useMemo(() => {
 		return context?.setAuthToken != null ? context.setAuthToken : () => {}
@@ -63,6 +64,12 @@ const EthereumAccount: FC<EthereumAccountProps> = ({
 				console.error(error)
 			})
 	}
+
+	useEffect(() => {
+		if (isSignedIn) {
+			setIsSignInModalOpen(false)
+		}
+	}, [isSignedIn])
 
 	if (isWalletConnected) {
 		return (

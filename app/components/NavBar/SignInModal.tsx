@@ -41,10 +41,12 @@ const SignInModal: FC<SignInModalProps> = ({ isMobile }) => {
 		message: appMessage,
 	})
 
+	console.log({ isSignInModalOpen })
+
 	return (
 		<Modal
 			className={styles.signInModal}
-			open={isWalletConnected && !isSignedIn}
+			open={isSignInModalOpen}
 			mask
 			maskClosable
 			keyboard

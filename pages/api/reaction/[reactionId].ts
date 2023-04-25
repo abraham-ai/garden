@@ -17,18 +17,8 @@ const handler = async (
 	const session = req.session
 
 	const userId = session?.userId ?? ''
-	const authToken = session?.token ?? ''
-
-	if (typeof authToken === 'undefined' || authToken === '') {
-		res.status(401).json({ error: 'Not authenticated' })
-		return
-	}
 
 	try {
-		if (typeof authToken === 'string') {
-			eden.setAuthToken(authToken)
-		}
-
 		if (typeof creationId !== 'string') {
 			res.status(400).json({ error: 'Invalid creationId' })
 			return
