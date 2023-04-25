@@ -135,6 +135,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false)
 	const [authToken, setAuthToken] = useState<string | undefined>('')
 	const [userId, setUserId] = useState<string | undefined>('')
+	const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false)
 
 	// creation context
 	const [creationsData, setCreationsData] = useState<Creation[]>([])
@@ -180,6 +181,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setIsSaveCreationModalOpen,
 		currentTheme,
 		setCurrentTheme,
+		isSignInModalOpen,
+		setIsSignInModalOpen,
 	}
 
 	const { defaultAlgorithm, darkAlgorithm } = theme
@@ -228,6 +231,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 					setCurrentCreationModalCreation,
 					isSaveCreationModalOpen,
 					setIsSaveCreationModalOpen,
+					isSignInModalOpen,
+					setIsSignInModalOpen,
 				}}
 			>
 				<WagmiConfig client={wagmiClient}>

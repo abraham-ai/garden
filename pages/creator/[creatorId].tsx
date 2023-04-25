@@ -104,6 +104,7 @@ const Creator: FC<CreatorPageProps> = () => {
 								<CreationsGridSimple
 									creations={creatorCreationsData.creations}
 									isMobile={isMobile}
+									appWidth={width}
 								/>
 							</section>
 						) : (

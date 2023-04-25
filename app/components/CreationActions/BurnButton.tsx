@@ -27,6 +27,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	const context = useContext(AppContext)
 	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 	const currentTheme = context?.currentTheme ?? 'light'
 
 	const { openConnectModal } = useConnectModal()
@@ -54,8 +55,10 @@ const BurnButton: FC<BurnButtonTypes> = ({
 				setIsBurned(!newIsBurned, burns)
 				console.error('Error updating praise:', error)
 			}
-		} else {
+		} else if (!isSignedIn && !isWalletConnected) {
 			openConnectModal?.() ?? (() => null)()
+		} else if (!isSignedIn && isWalletConnected) {
+			setIsSignInModalOpen(true)
 		}
 	}
 
@@ -135,7 +138,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 						fontWeight: isMobileThemeLight ? 'regular' : 'bold',
 					}}
 				>
-					{burns}
+					{isNaN(burns) ? 0 : burns}
 				</Text>
 			</Button>
 		</div>

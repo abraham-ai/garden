@@ -14,6 +14,7 @@ interface SettingsMenuPopOverTypes {
 	isSignedIn: boolean
 	authToken: string
 	displayAuthToken: string
+	isMobile: boolean
 }
 
 const SettingsMenuPopOver: FC<SettingsMenuPopOverTypes> = ({
@@ -23,6 +24,7 @@ const SettingsMenuPopOver: FC<SettingsMenuPopOverTypes> = ({
 	isSignedIn,
 	authToken,
 	displayAuthToken,
+	isMobile,
 }) => {
 	console.log({
 		userId,
@@ -35,7 +37,7 @@ const SettingsMenuPopOver: FC<SettingsMenuPopOverTypes> = ({
 
 	return (
 		<>
-			{isWalletConnected ? <EthereumAuth /> : null}
+			{isWalletConnected ? <EthereumAuth isMobile={isMobile} /> : null}
 
 			{isWalletConnected && typeof userId !== 'undefined' ? (
 				<Text>

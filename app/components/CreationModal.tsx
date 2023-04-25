@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import type { FC } from 'react'
 import type Creation from '../../interfaces/Creation'
 import Image from 'next/image'
@@ -11,7 +11,7 @@ import Blockies from 'react-blockies'
 import timeAgo from '../../util/timeAgo'
 import abbreviateText from '../../util/abbreviateText'
 import abbreviateAddress from '../../util/abbreviateAddress'
-import { Modal, Typography } from 'antd'
+import { Modal, Typography, Col } from 'antd'
 
 import styles from '../../styles/CreationModal.module.css'
 
@@ -22,6 +22,8 @@ interface CreationModalTypes {
 	setModalOpen: (open: boolean) => void
 	creation: Creation
 	creationIndex: number
+	isMobile: boolean
+	appWidth: number
 }
 
 const CreationModal: FC<CreationModalTypes> = ({
@@ -29,6 +31,8 @@ const CreationModal: FC<CreationModalTypes> = ({
 	setModalOpen,
 	creation,
 	creationIndex,
+	isMobile,
+	appWidth,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex || 0
@@ -70,11 +74,25 @@ const CreationModal: FC<CreationModalTypes> = ({
 
 	// console.log({ praises, praised, burns, burned })
 
+	const handleDirection = useMemo(() => {
+		if (appWidth <= 768) {
+			return 'column'
+		} else if (appWidth >= 768 && appWidth <= 1024) {
+			return 'column'
+		} else {
+			return 'row'
+		}
+	}, [appWidth])
+
+	// console.log({ appWidth })
+	// console.log(handleDirection)
+
 	return (
 		<Modal
+			className={'crModal'}
 			title=''
 			open={modalOpen}
-			width={'90vw'}
+			width={isMobile ? '100vw' : '90vw'}
 			footer={<></>}
 			onCancel={() => {
 				setModalOpen(false)
@@ -84,6 +102,9 @@ const CreationModal: FC<CreationModalTypes> = ({
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
+				maxWidth: 1200,
+				height: isMobile ? '100%' : 'auto',
+				padding: isMobile ? 0 : 20,
 			}}
 		>
 			{/* <Button
@@ -101,13 +122,26 @@ const CreationModal: FC<CreationModalTypes> = ({
 					alignItems: 'center',
 					borderRadius: 10,
 					overflow: 'hidden',
+					height: isMobile ? '100%' : 'auto',
 				}}
 			>
-				<div style={{ display: 'flex', flexDirection: 'column' }}>
-					<div style={{ display: 'flex' }}>
-						<div
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						height: isMobile ? '100%' : 'auto',
+					}}
+				>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: handleDirection,
+							height: isMobile ? '100%' : 'auto',
+						}}
+					>
+						<Col
 							style={{
-								flex: '1 0 600px',
+								flex: isMobile ? 1 : '1 0 600px',
 								justifyContent: 'center',
 								maxWidth: '100%',
 								background: 'rgb(0, 0, 0)',
@@ -144,21 +178,24 @@ const CreationModal: FC<CreationModalTypes> = ({
 									background: 'black',
 								}}
 							/>
-						</div>
+						</Col>
 
-						<div
+						<Col
 							style={{
 								display: 'flex',
 								flexDirection: 'column',
-								padding: 40,
+								padding: isMobile ? 20 : 40,
 								justifyContent: 'center',
+								position: isMobile ? 'absolute' : 'relative',
+								bottom: isMobile ? 0 : 'unset',
+								zIndex: 100,
 							}}
 						>
 							<article
 								style={{
 									display: 'flex',
 									alignItems: 'center',
-									marginBottom: 50,
+									marginBottom: isMobile ? 20 : 50,
 								}}
 							>
 								<div
@@ -181,19 +218,43 @@ const CreationModal: FC<CreationModalTypes> = ({
 									</span>
 									<Text
 										className={styles.displayAddress}
-										style={{ color: 'black' }}
+										style={{
+											color: isMobile ? 'white' : 'black',
+											fontWeight: isMobile ? 'bold' : 'regular',
+										}}
 									>
 										{displayAddress}
 									</Text>
 								</div>
-								<Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
+								<Text
+									className={styles.crDate}
+									style={{
+										color: isMobile ? 'white' : 'black',
+										fontWeight: isMobile ? 'bold' : 'regular',
+									}}
+								>
+									{timeAgoCreatedAt}
+								</Text>
 							</article>
 
 							<article className={styles.promptWrapper}>
-								<Text className={styles.crPromptCommand}>{`/${String(
-									creation.task.generator.generatorName
-								)} `}</Text>
-								<Text className={styles.crPrompt}>{prompt}</Text>
+								<Text
+									className={styles.crPromptCommand}
+									style={{
+										fontSize: isMobile ? '1em' : '2rem',
+										fontWeight: isMobile ? 'bold' : 'regular',
+									}}
+								>{`/${String(creation.task.generator.generatorName)} `}</Text>
+								<Text
+									className={styles.crPrompt}
+									style={{
+										fontSize: isMobile ? '1em' : '2rem',
+										color: isMobile ? 'white' : 'black',
+										fontWeight: isMobile ? 'bold' : 'regular',
+									}}
+								>
+									{prompt}
+								</Text>
 							</article>
 
 							{/* <span
@@ -212,7 +273,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 										: currentCreationIndex}
 								</Text>
 							</span> */}
-						</div>
+						</Col>
 					</div>
 				</div>
 			</div>

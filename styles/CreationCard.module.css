@@ -159,9 +159,11 @@
 	color: black;
 	font-size: 1em;
 }
-.crContentMainMobile .displayAddress,
-.crContentMainMobile .crDate {
+.crContentMainMobile .displayAddress {
 	color: black;
+}
+.crContentMainMobile .crDate {
+	color: gray;
 }
 .crContentMainMobile .crContentHoverBgWrapper,
 .crContentMainMobile .crLink {

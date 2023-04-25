@@ -1,0 +1,48 @@
+.signInModal {
+	width: 480px;
+	background: white;
+	border: 2px solid #000;
+	border-radius: 25px;
+	padding: 0;
+	overflow: hidden;
+}
+.signInModalInnerWrapper {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+}
+.signInHeaderText {
+	color: rgb(0 80 30);
+}
+.signInMessage {
+	padding-top: 30px;
+	color: rgb(0 80 30);
+	text-align: center;
+	font-size: 1rem;
+}
+.signInMessageCntd {
+	margin-top: 20px;
+	padding-top: 10;
+	padding-bottom: 30px;
+	color: rgb(0 80 30);
+	text-align: center;
+	font-weight: normal;
+	display: flex;
+	justify-content: center;
+}
+.signInAuthTokenWrapper {
+	display: flex;
+	flex-direction: column;
+}
+.signInSignatureWrapper {
+	background: red;
+}
+.signInAuthTokenHeader {
+	font-weight: 600;
+}
+.signInAuthToken,
+.signInSignature {
+	word-break: break-word;
+	color: black;
+}

@@ -38,6 +38,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 
 	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 
 	const setCollectionModalView = context?.setCollectionModalView ?? (() => null)
 	const collections = context?.collections ?? []
@@ -55,6 +56,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		// console.log({ isSignedIn })
 		if (!isSignedIn && !isWalletConnected) {
 			openConnectModal?.() ?? (() => null)()
+		} else if (!isSignedIn && isWalletConnected) {
+			setIsSignInModalOpen(true)
 		} else if (isSignedIn && isWalletConnected) {
 			console.log('handle SAVE 🔖!')
 			setIsBookmarked(!isBookmarked)
