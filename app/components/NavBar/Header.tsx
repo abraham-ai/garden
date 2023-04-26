@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import type { FC, MouseEvent } from 'react'
 import AppContext from '../../../context/AppContext'
 
@@ -81,6 +81,7 @@ const Header: FC = () => {
 	const authToken = context?.authToken ?? ''
 	const userId = context?.userId ?? ''
 	const isSignedIn = context?.isSignedIn ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 
 	const { width } = useWindowDimensions()
 
@@ -89,6 +90,16 @@ const Header: FC = () => {
 	useEffect(() => {
 		setIsMounted(true)
 	}, [])
+
+	useEffect(() => {
+		if (isMounted && !firstSignInRequest) {
+			setFirstSignInRequest(true)
+		}
+	}, [isMounted, firstSignInRequest])
+
+	useMemo(() => {
+		setIsSignInModalOpen(true)
+	}, firstSignInRequest)
 
 	let displayAddress = ''
 	if (typeof userId === 'string') {
