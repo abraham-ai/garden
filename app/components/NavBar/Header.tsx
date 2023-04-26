@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useContext, useState, useEffect } from 'react'
-import type { FC } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import type { FC, MouseEvent } from 'react'
 import AppContext from '../../../context/AppContext'
 
 import Image from 'next/image'
@@ -51,7 +51,7 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 		fontWeight: asPath === href ? 'bolder' : 'regular',
 	}
 
-	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+	const handleClick = (e: MouseEvent<HTMLAnchorElement>): void => {
 		e.preventDefault()
 		router.push(href)
 	}
@@ -71,7 +71,8 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 }
 
 const Header: FC = () => {
-	const [isMounted, setIsMounted] = useState(false)
+	const [isMounted, setIsMounted] = useState<boolean>(false)
+	const [firstSignInRequest, setFirstSignInRequest] = useState<boolean>(false)
 
 	const router = useRouter()
 
@@ -80,6 +81,7 @@ const Header: FC = () => {
 	const authToken = context?.authToken ?? ''
 	const userId = context?.userId ?? ''
 	const isSignedIn = context?.isSignedIn ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 
 	const { width } = useWindowDimensions()
 
@@ -88,6 +90,16 @@ const Header: FC = () => {
 	useEffect(() => {
 		setIsMounted(true)
 	}, [])
+
+	useEffect(() => {
+		if (isMounted && !firstSignInRequest) {
+			setFirstSignInRequest(true)
+		}
+	}, [isMounted, firstSignInRequest])
+
+	useMemo(() => {
+		setIsSignInModalOpen(true)
+	}, [firstSignInRequest])
 
 	let displayAddress = ''
 	if (typeof userId === 'string') {

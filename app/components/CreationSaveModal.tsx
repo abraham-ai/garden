@@ -352,6 +352,7 @@ const CreationSaveModal: FC = () => {
 			onCancel={() => {
 				setIsSaveCreationModalOpen(false)
 			}}
+			style={{ zIndex: 200 }}
 		>
 			<div style={{ padding: 20, borderRadius: 20 }}>
 				<section className={styles.modalView1}>

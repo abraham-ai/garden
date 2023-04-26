@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import type { FC } from 'react'
 import type Creation from '../../interfaces/Creation'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 import AppContext from '../../context/AppContext'
 
@@ -11,31 +11,42 @@ import Blockies from 'react-blockies'
 import timeAgo from '../../util/timeAgo'
 import abbreviateText from '../../util/abbreviateText'
 import abbreviateAddress from '../../util/abbreviateAddress'
-import { Modal, Typography, Col } from 'antd'
+import { Modal, Typography, Col, Row } from 'antd'
+
+import CreationSocial from './CreationSocial'
 
 import styles from '../../styles/CreationModal.module.css'
 
 const { Text } = Typography
 
-interface CreationModalTypes {
+interface ReactionCountList {
+	praises: number
+	praised: boolean
+	burns: number
+	burned: boolean
+}
+
+interface CreationModalProps {
 	modalOpen: boolean
 	setModalOpen: (open: boolean) => void
 	creation: Creation
 	creationIndex: number
 	isMobile: boolean
 	appWidth: number
+	reactionCountList: ReactionCountList
 }
 
-const CreationModal: FC<CreationModalTypes> = ({
+const CreationModal: FC<CreationModalProps> = ({
 	modalOpen,
 	setModalOpen,
 	creation,
 	creationIndex,
 	isMobile,
 	appWidth,
+	reactionCountList,
 }) => {
 	const context = useContext(AppContext)
-	const currentCreationIndex = context?.currentCreationIndex || 0
+	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const setCurrentCreationIndex =
 		context?.setCurrentCreationIndex != null
 			? context.setCurrentCreationIndex
@@ -84,6 +95,11 @@ const CreationModal: FC<CreationModalTypes> = ({
 		}
 	}, [appWidth])
 
+	const handleModalCancel = (): void => {
+		router.push('/', undefined, { scroll: false })
+		setModalOpen(false)
+	}
+
 	// console.log({ appWidth })
 	// console.log(handleDirection)
 
@@ -95,8 +111,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 			width={isMobile ? '100vw' : '90vw'}
 			footer={<></>}
 			onCancel={() => {
-				setModalOpen(false)
-				router.push('/')
+				handleModalCancel()
 			}}
 			style={{
 				display: 'flex',
@@ -191,14 +206,14 @@ const CreationModal: FC<CreationModalTypes> = ({
 								zIndex: 100,
 							}}
 						>
-							<article
+							<Row
 								style={{
 									display: 'flex',
 									alignItems: 'center',
 									marginBottom: isMobile ? 20 : 50,
 								}}
 							>
-								<div
+								<Row
 									style={{
 										display: 'flex',
 										alignItems: 'center',
@@ -225,7 +240,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 									>
 										{displayAddress}
 									</Text>
-								</div>
+								</Row>
 								<Text
 									className={styles.crDate}
 									style={{
@@ -235,9 +250,28 @@ const CreationModal: FC<CreationModalTypes> = ({
 								>
 									{timeAgoCreatedAt}
 								</Text>
-							</article>
+							</Row>
 
-							<article className={styles.promptWrapper}>
+							<Row
+								style={{
+									position: 'relative',
+									display: 'block',
+									height: 'auto',
+									padding: 0,
+									margin: '10px 0 0 0',
+								}}
+							>
+								<CreationSocial
+									layout={'minimal'}
+									creation={creation}
+									creationId={creation._id}
+									reactionCountList={reactionCountList}
+									isMobile={isMobile}
+									isCrModal={true}
+								/>
+							</Row>
+
+							<Col className={styles.promptWrapper}>
 								<Text
 									className={styles.crPromptCommand}
 									style={{
@@ -255,7 +289,7 @@ const CreationModal: FC<CreationModalTypes> = ({
 								>
 									{prompt}
 								</Text>
-							</article>
+							</Col>
 
 							{/* <span
 								style={{
