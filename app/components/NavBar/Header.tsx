@@ -99,7 +99,7 @@ const Header: FC = () => {
 
 	useMemo(() => {
 		setIsSignInModalOpen(true)
-	}, firstSignInRequest)
+	}, [firstSignInRequest])
 
 	let displayAddress = ''
 	if (typeof userId === 'string') {
