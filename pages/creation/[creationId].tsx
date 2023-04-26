@@ -123,6 +123,7 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log('[creationId]: CreationId: ' + queryCreationId)
 
 	const isMobile = width < 768
+	// const isTablet = width >= 768 && width < 1024
 
 	return (
 		<>
@@ -231,6 +232,8 @@ const Creation: FC<CreationPageProps> = ({
 													burned:
 														reactionState[queryCreationId]?.burned ?? false,
 												}}
+												isMobile={isMobile}
+												isCrModal={false}
 											/>
 										</Row>
 

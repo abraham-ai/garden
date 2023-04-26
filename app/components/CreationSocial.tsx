@@ -12,9 +12,9 @@ import ShareButton from './CreationActions/ShareButton'
 
 import { Row } from 'antd'
 
-type HandleCrSocialPos = (
+type HandleCrWrapSocialPos = (
 	isMobile: boolean,
-	isCreationModal: boolean
+	isCrModal: boolean
 ) => 'relative' | 'absolute'
 
 const CreationSocial: FC<CreationSocialProps> = ({
@@ -22,7 +22,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 	creation,
 	reactionCountList,
 	isMobile,
-	isCreationModal
+	isCrModal,
 }) => {
 	const [isBookmarked, setIsBookmarked] = useState(false)
 	const { reactionState, updateReactionState } = useReaction()
@@ -55,25 +55,25 @@ const CreationSocial: FC<CreationSocialProps> = ({
 
 	const handleCrWrapSocialPos: HandleCrWrapSocialPos = (
 		isMobile,
-		isCreationModal
+		isCrModal
 	) => {
-		if (isMobile || isCreationModal) {
+		if (isMobile || isCrModal) {
 			return 'relative'
 		} else {
 			return 'absolute'
 		}
 	}
 
-	const handleCrSocialPos = (isMobile, isCreationModal) => {
-		if (isMobile === true || isCreationModal === true) {
+	const handleCrSocialPos = (isMobile, isCrModal) => {
+		if (isMobile === true || isCrModal === true) {
 			return 0
 		} else {
 			return 20
 		}
 	}
 
-	const crWrapSocialPos = handleCrWrapSocialPos(isMobile, isCreationModal)
-	const crSocialPos = handleCrSocialPos(isMobile, isCreationModal)
+	const crWrapSocialPos = handleCrWrapSocialPos(isMobile, isCrModal)
+	const crSocialPos = handleCrSocialPos(isMobile, isCrModal)
 
 	return (
 		<Row

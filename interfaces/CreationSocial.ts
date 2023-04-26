@@ -11,7 +11,7 @@ interface CreationSocialProps {
 	creationId: string
 	layout?: string
 	isMobile: boolean
-	isCreationModal: boolean
+	isCrModal: boolean
 }
 
 export default CreationSocialProps

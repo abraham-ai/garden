@@ -267,7 +267,7 @@ const CreationModal: FC<CreationModalProps> = ({
 									creationId={creation._id}
 									reactionCountList={reactionCountList}
 									isMobile={isMobile}
-									isCreationModal={true}
+									isCrModal={true}
 								/>
 							</Row>
 

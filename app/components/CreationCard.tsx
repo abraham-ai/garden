@@ -435,6 +435,7 @@ const CreationCard: FC<CreationCardProps> = ({
 													burns: reactionState[creation._id]?.burns ?? 0,
 													burned: reactionState[creation._id]?.burned ?? false,
 												}}
+												isCrModal={false}
 											/>
 										</>
 									) : null}
