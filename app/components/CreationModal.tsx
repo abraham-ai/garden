@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import type { FC } from 'react'
 import type Creation from '../../interfaces/Creation'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 import AppContext from '../../context/AppContext'
 
@@ -94,9 +94,10 @@ const CreationModal: FC<CreationModalTypes> = ({
 			open={modalOpen}
 			width={isMobile ? '100vw' : '90vw'}
 			footer={<></>}
-			onCancel={() => {
+			onCancel={(e) => {
+				e.preventDefault()
+				router.push('/', undefined, { scroll: false })
 				setModalOpen(false)
-				router.push('/')
 			}}
 			style={{
 				display: 'flex',
