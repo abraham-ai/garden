@@ -457,6 +457,12 @@ const CreationCard: FC<CreationCardProps> = ({
 				creationIndex={index}
 				isMobile={isMobile}
 				appWidth={appWidth}
+				reactionCountList={{
+					praises: reactionState[creation._id]?.praises ?? 0,
+					praised: reactionState[creation._id]?.praised ?? false,
+					burns: reactionState[creation._id]?.burns ?? 0,
+					burned: reactionState[creation._id]?.burned ?? false,
+				}}
 			/>
 		</>
 	)

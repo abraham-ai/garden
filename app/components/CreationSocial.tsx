@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import type { FC } from 'react'
 
-import type CreationSocialType from '../../interfaces/CreationSocial'
+import type CreationSocialProps from '../../interfaces/CreationSocial'
 
 import { useReaction } from '../../context/ReactionContext'
 
@@ -12,11 +12,17 @@ import ShareButton from './CreationActions/ShareButton'
 
 import { Row } from 'antd'
 
-const CreationSocial: FC<CreationSocialType> = ({
+type HandleCrSocialPos = (
+	isMobile: boolean,
+	isCreationModal: boolean
+) => 'relative' | 'absolute'
+
+const CreationSocial: FC<CreationSocialProps> = ({
 	creationId,
 	creation,
 	reactionCountList,
 	isMobile,
+	isCreationModal
 }) => {
 	const [isBookmarked, setIsBookmarked] = useState(false)
 	const { reactionState, updateReactionState } = useReaction()
@@ -47,6 +53,28 @@ const CreationSocial: FC<CreationSocialType> = ({
 	// console.log({ creation })
 	// console.log('CreationSocial: CreationId: ' + creationId)
 
+	const handleCrWrapSocialPos: HandleCrWrapSocialPos = (
+		isMobile,
+		isCreationModal
+	) => {
+		if (isMobile || isCreationModal) {
+			return 'relative'
+		} else {
+			return 'absolute'
+		}
+	}
+
+	const handleCrSocialPos = (isMobile, isCreationModal) => {
+		if (isMobile === true || isCreationModal === true) {
+			return 0
+		} else {
+			return 20
+		}
+	}
+
+	const crWrapSocialPos = handleCrWrapSocialPos(isMobile, isCreationModal)
+	const crSocialPos = handleCrSocialPos(isMobile, isCreationModal)
+
 	return (
 		<Row
 			style={{
@@ -60,9 +88,9 @@ const CreationSocial: FC<CreationSocialType> = ({
 				style={{
 					display: 'flex',
 					alignItems: 'flex-start',
-					position: isMobile ? 'relative' : 'absolute',
-					top: isMobile ? 0 : 20,
-					left: isMobile ? 0 : 20,
+					position: crWrapSocialPos,
+					top: crSocialPos,
+					left: crSocialPos,
 					zIndex: 150,
 					paddingRight: 10,
 				}}
@@ -89,9 +117,9 @@ const CreationSocial: FC<CreationSocialType> = ({
 					flexDirection: 'row',
 					alignItems: 'flex-start',
 					justifyContent: 'flex-start',
-					position: isMobile ? 'relative' : 'absolute',
-					right: isMobile ? 0 : 20,
-					top: isMobile ? 0 : 20,
+					position: crWrapSocialPos,
+					right: crSocialPos,
+					top: crSocialPos,
 					flex: isMobile ? 1 : 0,
 					zIndex: 150,
 				}}
