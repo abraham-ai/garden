@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import type { SWRResponse, SWRConfiguration, KeyedMutator } from 'swr'
+import type { SWRResponse, KeyedMutator } from 'swr'
 import type CollectionResponse from '../interfaces/CollectionResponse'
 
 const fetcher = async (url: string): Promise<CollectionResponse | null> => {
@@ -33,14 +33,14 @@ const useGetCollection = (
 
 	console.log({ data })
 
-	const isLoading = data == null && error === false
+	const isLoading = data == null && !(error instanceof Error)
 
 	return {
 		data,
 		error,
 		isLoading,
 		mutate,
-		isValidating: !isLoading && error === false,
+		isValidating: !isLoading && !(error instanceof Error),
 	}
 }
 
