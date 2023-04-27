@@ -13,7 +13,7 @@ import useGetCollections from '../hooks/useGetCollections'
 
 import styles from '../styles/MyCollections.module.css'
 
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { LoadingOutlined } from '@ant-design/icons' // PlusOutlined
 import { Typography, Button, Row, Spin, Col } from 'antd'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const { Text } = Typography
@@ -44,9 +44,9 @@ const MyCollections: FC = () => {
 		router.push(`/collection/${String(collectionId)}`)
 	}
 
-	const handleCreateCollection = (): void => {
-		console.log('Create Collection Modal')
-	}
+	// const handleCreateCollection = (): void => {
+	// 	console.log('Create Collection Modal')
+	// }
 
 	const isMyCollections =
 		myCollectionsData !== null && !isLoading && typeof error === 'undefined'

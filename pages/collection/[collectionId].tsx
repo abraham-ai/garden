@@ -80,7 +80,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 				typeof creation === 'object' && creation !== null
 		)
 	const collectionCreations =
-		isCollectionArray && isCollectionCreations
+		isCollectionArray && isCollectionCreations === true
 			? collectionData?.creations ?? []
 			: []
 
@@ -113,7 +113,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 								</Col>
 							</>
 						) : null}
-						{isCollectionCreations ? (
+						{isCollectionCreations === true ? (
 							<CreationsGridSimple
 								creations={collectionCreations}
 								isMobile={isMobile}

@@ -173,7 +173,7 @@ const Header: FC = () => {
 	}
 
 	const isThemeLight = currentTheme === 'light'
-	const textThemeColor = isThemeLight ? 'black' : 'white'
+	const textThemeColor = { color: isThemeLight ? 'black' : 'white' }
 
 	// console.log({ isThemeLight })
 

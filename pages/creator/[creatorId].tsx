@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import type { FC } from 'react'
 
 import { useRouter } from 'next/router'
@@ -7,7 +7,7 @@ import styles from '../../styles/CreationId.module.css'
 import stylesHeader from '../../styles/Header.module.css'
 import stylesCreationsGrid from '../../styles/CreationsGrid.module.css'
 
-import abbreviateAddress from '../../util/abbreviateAddress'
+// import abbreviateAddress from '../../util/abbreviateAddress'
 
 import useGetCreator from '../../hooks/useGetCreator'
 
@@ -38,7 +38,7 @@ interface CreatorPageProps {
 const Creator: FC<CreatorPageProps> = () => {
 	const router = useRouter()
 
-	const [isFollowing, setIsFollowing] = useState(false)
+	// const [isFollowing, setIsFollowing] = useState(false)
 
 	// const queryCreatorId = router.query.creatorId
 
@@ -60,24 +60,24 @@ const Creator: FC<CreatorPageProps> = () => {
 	// console.log(creatorData)
 	// console.log(router.query.creatorId)j
 
-	let displayAddress = ''
-	if (typeof queryCreatorId === 'string') {
-		displayAddress = abbreviateAddress(queryCreatorId)
-	}
+	// let displayAddress = ''
+	// if (typeof queryCreatorId === 'string') {
+	// 	displayAddress = abbreviateAddress(queryCreatorId)
+	// }
 
 	if (typeof creatorData !== 'undefined' && creatorData !== null) {
 		console.log(creatorData)
 	}
 
-	const handleFollow = (): void => {
-		setIsFollowing(!isFollowing)
-	}
+	// const handleFollow = (): void => {
+	// 	setIsFollowing(!isFollowing)
+	// }
 
 	const creatorCreationsData = useGetMyCreations(queryCreatorId)
 
-	const isCreatorCreationsData =
-		creatorCreationsData !== null &&
-		Object.keys(creatorCreationsData).length > 0
+	// const isCreatorCreationsData =
+	// 	creatorCreationsData !== null &&
+	// 	Object.keys(creatorCreationsData).length > 0
 
 	const isMobile = width < 768
 

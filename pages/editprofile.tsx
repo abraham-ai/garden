@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import type { FC, MouseEvent, ChangeEvent } from 'react'
+import type { FC, ChangeEvent } from 'react'
 import AppContext from '../context/AppContext'
 
 import Header from '../app/components/NavBar/Header'

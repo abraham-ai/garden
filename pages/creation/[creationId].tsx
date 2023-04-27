@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -34,7 +34,11 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const { Title, Text } = Typography
 
-const CreationCreator = ({ creationData }) => {
+interface CreationCreatorProps {
+	creationData: CreationTypes
+}
+
+const CreationCreator: FC<CreationCreatorProps> = ({ creationData }) => {
 	return (
 		<div className={styles.crCreator}>
 			<Avatar
@@ -55,7 +59,12 @@ const CreationCreator = ({ creationData }) => {
 	)
 }
 
-const CreationImage = ({ size, creationData }) => {
+interface CreationImageProps {
+	creationData: CreationTypes
+	size: string
+}
+
+const CreationImage: FC<CreationImageProps> = ({ size, creationData }) => {
 	return (
 		<Col className={styles.creation}>
 			<Row className={styles.crPost}>
@@ -102,11 +111,11 @@ const Creation: FC<CreationPageProps> = ({
 }) => {
 	const router = useRouter()
 
-	const [isMounted, setIsMounted] = useState(false)
+	// const [isMounted, setIsMounted] = useState(false)
 
-	useEffect(() => {
-		setIsMounted(true)
-	}, [])
+	// useEffect(() => {
+	// 	setIsMounted(true)
+	// }, [])
 
 	const queryCreationId = Array.isArray(router.query.creationId)
 		? router.query.creationId[0]
