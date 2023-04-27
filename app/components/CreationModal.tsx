@@ -307,6 +307,8 @@ const CreationModal: FC<CreationModalProps> = ({
 										reactionCountList={reactionCountList}
 										isMobile={isMobile}
 										isCrModal={true}
+										appWidth={appWidth}
+										isCrIdPage={false}
 									/>
 								</Row>
 							</section>

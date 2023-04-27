@@ -1,5 +1,7 @@
-import type { FC } from 'react'
-import React, { useEffect } from 'react'
+'use client'
+
+import React, { useEffect, useState } from 'react'
+import type { FC, CSSProperties } from 'react'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -33,6 +35,12 @@ import { BsAspectRatio } from 'react-icons/bs'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const { Title, Text } = Typography
+
+// type CrSocialStyleContext = (
+// 	isMobile: boolean,
+// 	isCrModal: boolean,
+// 	appWidth: number
+// ) => 'column' | 'row'
 
 interface CreationCreatorProps {
 	creationData: CreationTypes
@@ -111,11 +119,13 @@ const Creation: FC<CreationPageProps> = ({
 }) => {
 	const router = useRouter()
 
+	const [isMounted, setIsMounted] = useState<boolean>(false)
+
 	// const [isMounted, setIsMounted] = useState(false)
 
-	// useEffect(() => {
-	// 	setIsMounted(true)
-	// }, [])
+	useEffect(() => {
+		setIsMounted(true)
+	}, [])
 
 	const queryCreationId = Array.isArray(router.query.creationId)
 		? router.query.creationId[0]
@@ -127,10 +137,12 @@ const Creation: FC<CreationPageProps> = ({
 	const creationData = useGetCreation(queryCreationId)
 	// console.log({ creationData })
 
-	const { width } = useWindowDimensions()
+	const { width: appWidth } = useWindowDimensions()
 
 	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
+
+	const isMobile = appWidth < 768
 
 	const isCreationData =
 		typeof creationData !== 'undefined' &&
@@ -186,8 +198,21 @@ const Creation: FC<CreationPageProps> = ({
 
 	// console.log('[creationId]: CreationId: ' + queryCreationId)
 
-	const isMobile = width < 768
-	// const isTablet = width >= 768 && width < 1024
+	const styleContext: boolean = isMobile
+
+	const handleCrWrapSocialFlex = (
+		styleContext
+	): CSSProperties['flexDirection'] => {
+		if (styleContext === true) {
+			return 'column'
+		} else {
+			return 'row'
+		}
+	}
+
+	const crWrapSocialFlex = handleCrWrapSocialFlex(styleContext)
+
+	console.log(handleCrWrapSocialFlex)
 
 	return (
 		<>
@@ -199,9 +224,10 @@ const Creation: FC<CreationPageProps> = ({
 				<Col
 					className={styles.creationIdWrapper}
 					style={{
-						flexDirection: isMobile ? 'column' : 'row',
+						flexDirection: isMounted ? crWrapSocialFlex : undefined,
 						margin: isMobile ? '80px 10px' : '150px 50px 0 50px;',
 						justifyContent: isMobile ? 'center' : 'center',
+						width: '100%',
 						maxWidth: 1000,
 					}}
 				>
@@ -219,17 +245,16 @@ const Creation: FC<CreationPageProps> = ({
 									{/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
 									<section className={styles.crMain}>
-										<article className={styles.crMainHeader}>
-											<CreationCreator creationData={creationData} />
-										</article>
-
-										<div style={{ display: 'flex', flexDirection: 'column' }}>
-											<Text style={{ color: 'purple', fontWeight: 600 }}>
-												{'/dream'}
-											</Text>
-											<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
-												{creationData?.task?.config?.text_input ?? 'No text'}
-											</Text>
+										<Row
+											style={{
+												display: 'flex',
+												flexDirection: 'row',
+												justifyContent: 'space-between',
+											}}
+										>
+											<article className={styles.crMainHeader}>
+												<CreationCreator creationData={creationData} />
+											</article>
 
 											<Row
 												style={{
@@ -253,10 +278,21 @@ const Creation: FC<CreationPageProps> = ({
 														burned:
 															reactionState[queryCreationId]?.burned ?? false,
 													}}
+													appWidth={appWidth}
 													isMobile={isMobile}
 													isCrModal={false}
+													isCrIdPage={true}
 												/>
 											</Row>
+										</Row>
+
+										<div style={{ display: 'flex', flexDirection: 'column' }}>
+											<Text style={{ color: 'purple', fontWeight: 600 }}>
+												{'/dream'}
+											</Text>
+											<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
+												{creationData?.task?.config?.text_input ?? 'No text'}
+											</Text>
 
 											<ul className={styles.crPropertiesWrapper}>
 												<li className={styles.crProperty}>

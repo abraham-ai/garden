@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react'
-import type { FC } from 'react'
+import React, { useState } from 'react'
+import type { FC, CSSProperties } from 'react'
 
 import type CreationSocialProps from '../../interfaces/CreationSocial'
 
@@ -12,9 +12,10 @@ import ShareButton from './CreationActions/ShareButton'
 
 import { Row } from 'antd'
 
-type HandleCrWrapSocialPos = (
+type CrSocialStyleContext = (
 	isMobile: boolean,
-	isCrModal: boolean
+	isCrModal: boolean,
+	appWidth: number
 ) => 'relative' | 'absolute'
 
 const CreationSocial: FC<CreationSocialProps> = ({
@@ -22,7 +23,9 @@ const CreationSocial: FC<CreationSocialProps> = ({
 	creation,
 	reactionCountList,
 	isMobile,
+	appWidth,
 	isCrModal,
+	isCrIdPage,
 }) => {
 	const [isBookmarked, setIsBookmarked] = useState(false)
 	const { reactionState, updateReactionState } = useReaction()
@@ -53,34 +56,71 @@ const CreationSocial: FC<CreationSocialProps> = ({
 	// console.log({ creation })
 	// console.log('CreationSocial: CreationId: ' + creationId)
 
-	const handleCrWrapSocialPos: HandleCrWrapSocialPos = (
+	const styleContext = isMobile || isCrModal || isCrIdPage
+
+	const handleCrWrapSocialPos = (
 		isMobile,
-		isCrModal
-	) => {
-		if (isMobile || isCrModal) {
+		appWidth,
+		isCrModal,
+		isCrIdPage
+	): CSSProperties['position'] => {
+		if (styleContext) {
 			return 'relative'
 		} else {
 			return 'absolute'
 		}
 	}
 
-	const handleCrSocialPos = (isMobile, isCrModal) => {
-		if (isMobile === true || isCrModal === true) {
+	const handleCrWrapSocialAbsPos = (
+		isMobile,
+		appWidth,
+		isCrModal,
+		isCrIdPage
+	): string => {
+		if (styleContext) {
+			return '10px 0 0 60px'
+		} else {
+			return '0'
+		}
+	}
+
+	const handleCrSocialPos = (
+		isMobile,
+		appWidth,
+		isCrModal,
+		isCrIdPage
+	): number => {
+		if (styleContext) {
 			return 0
 		} else {
 			return 20
 		}
 	}
 
-	const crWrapSocialPos = handleCrWrapSocialPos(isMobile, isCrModal)
-	const crSocialPos = handleCrSocialPos(isMobile, isCrModal)
+	const crWrapSocialPos = handleCrWrapSocialPos(
+		isMobile,
+		appWidth,
+		isCrModal,
+		isCrIdPage
+	)
+	const crWrapSocialAbsPos = handleCrWrapSocialAbsPos(
+		isMobile,
+		appWidth,
+		isCrModal,
+		isCrIdPage
+	)
+	const crSocialPos = handleCrSocialPos(
+		isMobile,
+		appWidth,
+		isCrModal,
+		isCrIdPage
+	)
 
 	return (
 		<Row
 			style={{
 				display: 'flex',
-				marginLeft: isMobile ? 60 : 0,
-				marginTop: isMobile ? 10 : 0,
+				margin: crWrapSocialAbsPos,
 				justifyContent: isMobile ? 'space-between' : 'unset',
 			}}
 		>

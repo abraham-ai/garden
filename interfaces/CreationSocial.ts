@@ -12,6 +12,8 @@ interface CreationSocialProps {
 	layout?: string
 	isMobile: boolean
 	isCrModal: boolean
+	isCrIdPage: boolean
+	appWidth: number
 }
 
 export default CreationSocialProps
