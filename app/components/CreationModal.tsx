@@ -19,7 +19,14 @@ import styles from '../../styles/CreationModal.module.css'
 
 const { Text } = Typography
 
-const CreationProfile: FC = ({
+interface CreationProfileProps {
+	creation: Creation
+	displayAddress: string
+	isMobile: boolean
+	timeAgoCreatedAt: string
+}
+
+const CreationProfile: FC<CreationProfileProps> = ({
 	creation,
 	displayAddress,
 	isMobile,

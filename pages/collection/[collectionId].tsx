@@ -75,7 +75,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 
 	const isCollectionCreations =
 		isCollectionArray &&
-		collectionData?.creations.every(
+		collectionData?.creations?.every(
 			(creation): creation is Creation =>
 				typeof creation === 'object' && creation !== null
 		)

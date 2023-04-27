@@ -211,7 +211,7 @@ const Creation: FC<CreationPageProps> = ({
 
 									<section className={styles.crMain}>
 										<article className={styles.crMainHeader}>
-											<CreationCreator />
+											<CreationCreator creationData={creationData} />
 										</article>
 
 										<div style={{ display: 'flex', flexDirection: 'column' }}>

@@ -118,7 +118,7 @@ const Header: FC = () => {
 		value: string,
 		option: { value: string; label: string }
 	): void => {
-		console.log(`selected ${value}`)
+		// console.log(`selected ${value}`)
 		if (value === 'garden') {
 			router.push('/')
 		} else {
@@ -128,8 +128,8 @@ const Header: FC = () => {
 
 	const handleDefaultSelectValue = (): string => {
 		const { asPath } = router
-		// const { collection } = router.query
 
+		// const { collection } = router.query
 		// console.log('handleDefaultSelectValue')
 		// console.log({ asPath })
 		// console.log({ collection })
@@ -155,7 +155,7 @@ const Header: FC = () => {
 				{ value: 'garden', label: 'Garden' },
 				{ value: 'mycreations', label: 'My Creations' },
 				{ value: 'mycollections', label: 'My Collections' },
-				// { value: 'editprofile', label: 'Edit Profile' },
+				{ value: 'editprofile', label: 'Edit Profile' },
 			]
 		} else {
 			return [{ value: 'garden', label: 'Garden' }]
@@ -173,8 +173,9 @@ const Header: FC = () => {
 	}
 
 	const isThemeLight = currentTheme === 'light'
+	const textThemeColor = isThemeLight ? 'black' : 'white'
 
-	console.log({ isThemeLight })
+	// console.log({ isThemeLight })
 
 	return (
 		<header className={styles.headerWrapper}>
@@ -189,15 +190,10 @@ const Header: FC = () => {
 						{userId !== 'undefined' ? (
 							<>
 								<ActiveLink href='/mycreations'>
-									<Text style={{ color: isThemeLight ? 'black' : 'white' }}>
-										{'My Creations'}
-									</Text>
+									<Text style={textThemeColor}>{'My Creations'}</Text>
 								</ActiveLink>
-								<ActiveLink
-									style={{ color: isThemeLight ? 'black' : 'white' }}
-									href='/mycollections'
-								>
-									<Text>{'My Collections'}</Text>
+								<ActiveLink href='/mycollections'>
+									<Text style={textThemeColor}>{'My Collections'}</Text>
 								</ActiveLink>
 								{/* <ActiveLink href='/profile'>
 									<Text>{'Edit Profile'}</Text>

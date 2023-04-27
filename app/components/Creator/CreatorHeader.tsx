@@ -1,13 +1,12 @@
 import React from 'react'
 import type { FC } from 'react'
-import Link from 'next/link'
 
-import { Avatar, Typography, Col, Row, Button } from 'antd'
+import { Avatar, Typography, Col, Row } from 'antd'
 
 import Blockies from 'react-blockies'
 
 import abbreviateAddress from '../../../util/abbreviateAddress'
-const { Title, Text } = Typography
+const { Title } = Typography
 
 interface CreatorHeaderProps {
 	collectionId?: string
@@ -30,10 +29,10 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	}
 
 	const isCollectionRoute = typeof collectionId !== 'undefined'
-	// const isCreationRoute = typeof creatorId !== 'undefined'
 
-	console.log({ collectionId })
-	console.log({ isCollectionRoute })
+	// const isCreationRoute = typeof creatorId !== 'undefined'
+	// console.log({ collectionId })
+	// console.log({ isCollectionRoute })
 
 	const isQueryCreatorId =
 		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''

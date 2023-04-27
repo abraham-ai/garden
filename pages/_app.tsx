@@ -135,6 +135,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false)
 	const [authToken, setAuthToken] = useState<string | undefined>('')
 	const [userId, setUserId] = useState<string | undefined>('')
+	const [userAddress, setUserAddress] = useState<string | undefined>('')
 	const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false)
 
 	// creation context
@@ -163,6 +164,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setIsSignedIn,
 		userId,
 		setUserId,
+		userAddress,
+		setUserAddress,
 		creationsLoading,
 		creationsData,
 		setCreationsData,
@@ -199,16 +202,16 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		console.log(hours)
 		console.log(hours >= 8 && hours <= 20)
 
-		if (hours >= 8 && hours <= 20) {
+		if (hours >= 6 && hours <= 20) {
 			return 'light'
-		} else if (hours >= 20 || hours <= 8) {
+		} else if (hours >= 20 || hours <= 6) {
 			return 'dark'
 		} else {
 			return 'light'
 		}
 	}, [])
 
-	console.log({ currentThemeOnLoad })
+	// console.log({ currentThemeOnLoad })
 
 	useEffect(() => {
 		setIsWalletConnected(isConnected)

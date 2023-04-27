@@ -123,7 +123,8 @@
 	font-weight: bold;
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 10px;
+	align-items: center;
+	justify-content: center;
 }
 /** FORM LABEL OPTIONAL **/
 .formLabelOptional {
@@ -197,6 +198,8 @@
 	.formSubmit {
 		width: 100%;
 		max-width: unset;
+		display: flex;
+		justify-content: center;
 	}
 	/** FORM SUBMIT CONTROL ***/
 	.formSubmit .ant-form-item-control {
