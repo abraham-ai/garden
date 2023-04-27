@@ -82,6 +82,7 @@ const Header: FC = () => {
 	const userId = context?.userId ?? ''
 	const isSignedIn = context?.isSignedIn ?? false
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const { width } = useWindowDimensions()
 
@@ -92,14 +93,16 @@ const Header: FC = () => {
 	}, [])
 
 	useEffect(() => {
-		if (isMounted && !firstSignInRequest) {
+		if (isMounted && !isSignedIn && !firstSignInRequest) {
 			setFirstSignInRequest(true)
 		}
 	}, [isMounted, firstSignInRequest])
 
-	useMemo(() => {
-		setIsSignInModalOpen(true)
-	}, [firstSignInRequest])
+	useEffect(() => {
+		if (firstSignInRequest) {
+			setIsSignInModalOpen(true)
+		}
+	}, [firstSignInRequest, setIsSignInModalOpen])
 
 	let displayAddress = ''
 	if (typeof userId === 'string') {
@@ -169,6 +172,10 @@ const Header: FC = () => {
 		}
 	}
 
+	const isThemeLight = currentTheme === 'light'
+
+	console.log({ isThemeLight })
+
 	return (
 		<header className={styles.headerWrapper}>
 			<ul className={styles.linksWrapper}>
@@ -182,9 +189,14 @@ const Header: FC = () => {
 						{userId !== 'undefined' ? (
 							<>
 								<ActiveLink href='/mycreations'>
-									<Text>{'My Creations'}</Text>
+									<Text style={{ color: isThemeLight ? 'black' : 'white' }}>
+										{'My Creations'}
+									</Text>
 								</ActiveLink>
-								<ActiveLink href='/mycollections'>
+								<ActiveLink
+									style={{ color: isThemeLight ? 'black' : 'white' }}
+									href='/mycollections'
+								>
 									<Text>{'My Collections'}</Text>
 								</ActiveLink>
 								{/* <ActiveLink href='/profile'>

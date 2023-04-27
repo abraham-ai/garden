@@ -34,6 +34,61 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const { Title, Text } = Typography
 
+const CreationCreator = ({ creationData }) => {
+	return (
+		<div className={styles.crCreator}>
+			<Avatar
+				className='profileAvatarWrapper'
+				// style={{ display: 'flex', flex: 1 }}
+				size={50}
+				icon={<Blockies scale={6} seed={creationData?.user} />}
+			/>
+			<div className={styles.crCreatorNameWrapper}>
+				<Title level={3} className='profileName' style={{ marginTop: 10 }}>
+					{abbreviateAddress(creationData?.user ?? '')}
+				</Title>
+				{/* <Text style={{ marginLeft: 10 }}>
+													{timeAgoCreatedAt}
+												</Text> */}
+			</div>
+		</div>
+	)
+}
+
+const CreationImage = ({ size, creationData }) => {
+	return (
+		<Col className={styles.creation}>
+			<Row className={styles.crPost}>
+				<article className={`${styles.crCard} ${size}`}>
+					<div className={styles.crImgWrapper}>
+						<div className={styles.crImgWrapperMain}>
+							<Image
+								className={styles.crImg}
+								style={{ width: '100%' }}
+								width={creationData?.task?.config?.width ?? 0}
+								height={creationData?.task?.config?.height ?? 0}
+								alt={creationData?.task?.config?.text_input ?? ''}
+								src={creationData?.thumbnail ?? ''}
+							/>
+						</div>
+
+						<div className={styles.crImgWrapperBackground}>
+							<Image
+								className={styles.crImg}
+								style={{ width: '100%' }}
+								width={creationData?.task?.config?.width ?? 0}
+								height={creationData?.task?.config?.height ?? 0}
+								alt={creationData?.task?.config?.text_input ?? ''}
+								src={creationData?.thumbnail ?? ''}
+							/>
+						</div>
+					</div>
+				</article>
+			</Row>
+		</Col>
+	)
+}
+
 interface CreationPageProps {
 	params: { id: string }
 	creation: CreationTypes
@@ -131,153 +186,111 @@ const Creation: FC<CreationPageProps> = ({
 
 			<CreationSaveModal />
 
-			<Col
-				className={styles.creationIdWrapper}
-				style={{
-					flexDirection: isMobile ? 'column' : 'row',
-					margin: isMobile ? '80px 10px' : '150px 50px 0 50px;',
-				}}
-			>
-				{isCreationData ? (
-					<>
-						<Col className={styles.creation}>
-							<Row className={styles.crPost}>
-								<article className={`${styles.crCard} ${size}`}>
-									<div className={styles.crImgWrapper}>
-										<div className={styles.crImgWrapperMain}>
-											<Image
-												className={styles.crImg}
-												style={{ width: '100%' }}
-												width={creationData?.task?.config?.width ?? 0}
-												height={creationData?.task?.config?.height ?? 0}
-												alt={creationData?.task?.config?.text_input ?? ''}
-												src={creationData?.thumbnail ?? ''}
-											/>
-										</div>
+			<section style={{ display: 'flex', justifyContent: 'center' }}>
+				<Col
+					className={styles.creationIdWrapper}
+					style={{
+						flexDirection: isMobile ? 'column' : 'row',
+						margin: isMobile ? '80px 10px' : '150px 50px 0 50px;',
+						justifyContent: isMobile ? 'center' : 'center',
+						maxWidth: 1000,
+					}}
+				>
+					{isCreationData ? (
+						<>
+							<CreationImage creationData={creationData} size={size} />
 
-										<div className={styles.crImgWrapperBackground}>
-											<Image
-												className={styles.crImg}
-												style={{ width: '100%' }}
-												width={creationData?.task?.config?.width ?? 0}
-												height={creationData?.task?.config?.height ?? 0}
-												alt={creationData?.task?.config?.text_input ?? ''}
-												src={creationData?.thumbnail ?? ''}
-											/>
-										</div>
-									</div>
-								</article>
-							</Row>
-						</Col>
+							<article className={styles.creationText}>
+								<div
+									className={styles.crPostText}
+									style={{ maxWidth: isMobile ? 'unset' : 'unset' }}
+								>
+									{/* <Text>{creationId}</Text> */}
+									{/* <Text>{'Server:'} {creationData.creation._id}</Text> */}
+									{/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
 
-						<article className={styles.creationText}>
-							<div
-								className={styles.crPostText}
-								style={{ maxWidth: isMobile ? 'unset' : 'unset' }}
-							>
-								{/* <Text>{creationId}</Text> */}
-								{/* <Text>{'Server:'} {creationData.creation._id}</Text> */}
-								{/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
+									<section className={styles.crMain}>
+										<article className={styles.crMainHeader}>
+											<CreationCreator />
+										</article>
 
-								<section className={styles.crMain}>
-									<article className={styles.crMainHeader}>
-										<div className={styles.crCreator}>
-											<Avatar
-												className='profileAvatarWrapper'
-												style={{ display: 'flex', flex: 1 }}
-												size={50}
-												icon={<Blockies scale={6} seed={creationData?.user} />}
-											/>
-											<div className={styles.crCreatorNameWrapper}>
-												<Title
-													level={3}
-													className='profileName'
-													style={{ marginTop: 10 }}
-												>
-													{abbreviateAddress(creationData?.user ?? '')}
-												</Title>
-												{/* <Text style={{ marginLeft: 10 }}>
-													{timeAgoCreatedAt}
-												</Text> */}
-											</div>
-										</div>
-									</article>
+										<div style={{ display: 'flex', flexDirection: 'column' }}>
+											<Text style={{ color: 'purple', fontWeight: 600 }}>
+												{'/dream'}
+											</Text>
+											<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
+												{creationData?.task?.config?.text_input ?? 'No text'}
+											</Text>
 
-									<div style={{ display: 'flex', flexDirection: 'column' }}>
-										<Text style={{ color: 'purple', fontWeight: 600 }}>
-											{'/dream'}
-										</Text>
-										<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
-											{creationData?.task?.config?.text_input ?? 'No text'}
-										</Text>
-
-										<Row
-											style={{
-												position: 'relative',
-												display: 'block',
-												height: 'auto',
-												padding: 0,
-												margin: '10px 0 0 0',
-											}}
-										>
-											<CreationSocial
-												layout={'minimal'}
-												creation={creationData}
-												creationId={queryCreationId}
-												reactionCountList={{
-													praises: reactionState[queryCreationId]?.praises ?? 0,
-													praised:
-														reactionState[queryCreationId]?.praised ?? false,
-													burns: reactionState[queryCreationId]?.burns ?? 0,
-													burned:
-														reactionState[queryCreationId]?.burned ?? false,
+											<Row
+												style={{
+													position: 'relative',
+													display: 'block',
+													height: 'auto',
+													padding: 0,
+													margin: '10px 0 0 0',
 												}}
-												isMobile={isMobile}
-												isCrModal={false}
-											/>
-										</Row>
+											>
+												<CreationSocial
+													layout={'minimal'}
+													creation={creationData}
+													creationId={queryCreationId}
+													reactionCountList={{
+														praises:
+															reactionState[queryCreationId]?.praises ?? 0,
+														praised:
+															reactionState[queryCreationId]?.praised ?? false,
+														burns: reactionState[queryCreationId]?.burns ?? 0,
+														burned:
+															reactionState[queryCreationId]?.burned ?? false,
+													}}
+													isMobile={isMobile}
+													isCrModal={false}
+												/>
+											</Row>
 
-										<ul className={styles.crPropertiesWrapper}>
-											<li className={styles.crProperty}>
-												<span className={styles.crPropertyType}>
-													<MdOutlineDateRange className='icon' />
-													<Text>{'Date'}</Text>
-												</span>
-												<Text>{timeAgoCreatedAt}</Text>
-											</li>
-											<li className={styles.crProperty}>
-												<span className={styles.crPropertyType}>
-													<SlSizeFullscreen className='icon' />
-													<Text>{'Size'}</Text>
-												</span>
-												<Text>{'512 x 512'}</Text>
-											</li>
-											<li className={styles.crProperty}>
-												<span className={styles.crPropertyType}>
-													<BsAspectRatio className='icon' />
-													<Text>{'Command'}</Text>
-												</span>
-												<Text>{'/dream'}</Text>
-											</li>
-											<li className={styles.crProperty}>
-												<span className={styles.crPropertyType}>
-													<BsAspectRatio className={styles.icon} />
-													<Text>{'Shape'}</Text>
-												</span>
-												<Text>{'square'}</Text>
-											</li>
-										</ul>
-									</div>
-								</section>
-							</div>
-						</article>
-					</>
-				) : (
-					<Row style={{ display: 'flex', justifyContent: 'center' }}>
-						<Spin indicator={antIcon} />
-					</Row>
-				)}
-			</Col>
+											<ul className={styles.crPropertiesWrapper}>
+												<li className={styles.crProperty}>
+													<span className={styles.crPropertyType}>
+														<MdOutlineDateRange className='icon' />
+														<Text>{'Date'}</Text>
+													</span>
+													<Text>{timeAgoCreatedAt}</Text>
+												</li>
+												<li className={styles.crProperty}>
+													<span className={styles.crPropertyType}>
+														<SlSizeFullscreen className='icon' />
+														<Text>{'Size'}</Text>
+													</span>
+													<Text>{'512 x 512'}</Text>
+												</li>
+												<li className={styles.crProperty}>
+													<span className={styles.crPropertyType}>
+														<BsAspectRatio className='icon' />
+														<Text>{'Command'}</Text>
+													</span>
+													<Text>{'/dream'}</Text>
+												</li>
+												<li className={styles.crProperty}>
+													<span className={styles.crPropertyType}>
+														<BsAspectRatio className={styles.icon} />
+														<Text>{'Shape'}</Text>
+													</span>
+													<Text>{'square'}</Text>
+												</li>
+											</ul>
+										</div>
+									</section>
+								</div>
+							</article>
+						</>
+					) : (
+						<Row style={{ display: 'flex', justifyContent: 'center' }}>
+							<Spin indicator={antIcon} />
+						</Row>
+					)}
+				</Col>
+			</section>
 		</>
 	)
 }

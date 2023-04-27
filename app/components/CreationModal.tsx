@@ -19,6 +19,61 @@ import styles from '../../styles/CreationModal.module.css'
 
 const { Text } = Typography
 
+const CreationProfile: FC = ({
+	creation,
+	displayAddress,
+	isMobile,
+	timeAgoCreatedAt,
+}) => {
+	return (
+		<Row
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				marginBottom: isMobile ? 20 : 50,
+			}}
+		>
+			<Row
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					marginRight: 10,
+				}}
+			>
+				<span
+					style={{
+						borderRadius: '50%',
+						overflow: 'hidden',
+						width: '32px',
+						height: '32px',
+						marginRight: 10,
+					}}
+				>
+					<Blockies seed={creation.user} />
+				</span>
+				<Text
+					className={styles.displayAddress}
+					style={{
+						color: isMobile ? 'white' : 'black',
+						fontWeight: isMobile ? 'bold' : 'regular',
+					}}
+				>
+					{displayAddress}
+				</Text>
+			</Row>
+			<Text
+				className={styles.crDate}
+				style={{
+					color: isMobile ? 'white' : 'black',
+					fontWeight: isMobile ? 'bold' : 'regular',
+				}}
+			>
+				{timeAgoCreatedAt}
+			</Text>
+		</Row>
+	)
+}
+
 interface ReactionCountList {
 	praises: number
 	praised: boolean
@@ -102,6 +157,16 @@ const CreationModal: FC<CreationModalProps> = ({
 
 	// console.log({ appWidth })
 	// console.log(handleDirection)
+
+	const crProfileActionsFlex = useMemo(() => {
+		if (appWidth <= 768) {
+			return 'row'
+		} else if (appWidth >= 768 && appWidth <= 1024) {
+			return 'row'
+		} else {
+			return 'column'
+		}
+	}, [appWidth])
 
 	return (
 		<Modal
@@ -206,70 +271,38 @@ const CreationModal: FC<CreationModalProps> = ({
 								zIndex: 100,
 							}}
 						>
-							<Row
+							<section
 								style={{
 									display: 'flex',
-									alignItems: 'center',
-									marginBottom: isMobile ? 20 : 50,
+									flexDirection: crProfileActionsFlex,
+									justifyContent: 'space-between',
 								}}
 							>
+								<CreationProfile
+									displayAddress={displayAddress}
+									creation={creation}
+									isMobile={isMobile}
+									timeAgoCreatedAt={timeAgoCreatedAt}
+								/>
 								<Row
 									style={{
-										display: 'flex',
-										alignItems: 'center',
-										marginRight: 10,
+										position: 'relative',
+										display: 'block',
+										height: 'auto',
+										padding: 0,
+										margin: '10px 0 0 0',
 									}}
 								>
-									<span
-										style={{
-											borderRadius: '50%',
-											overflow: 'hidden',
-											width: '32px',
-											height: '32px',
-											marginRight: 10,
-										}}
-									>
-										<Blockies seed={creation.user} />
-									</span>
-									<Text
-										className={styles.displayAddress}
-										style={{
-											color: isMobile ? 'white' : 'black',
-											fontWeight: isMobile ? 'bold' : 'regular',
-										}}
-									>
-										{displayAddress}
-									</Text>
+									<CreationSocial
+										layout={'minimal'}
+										creation={creation}
+										creationId={creation._id}
+										reactionCountList={reactionCountList}
+										isMobile={isMobile}
+										isCrModal={true}
+									/>
 								</Row>
-								<Text
-									className={styles.crDate}
-									style={{
-										color: isMobile ? 'white' : 'black',
-										fontWeight: isMobile ? 'bold' : 'regular',
-									}}
-								>
-									{timeAgoCreatedAt}
-								</Text>
-							</Row>
-
-							<Row
-								style={{
-									position: 'relative',
-									display: 'block',
-									height: 'auto',
-									padding: 0,
-									margin: '10px 0 0 0',
-								}}
-							>
-								<CreationSocial
-									layout={'minimal'}
-									creation={creation}
-									creationId={creation._id}
-									reactionCountList={reactionCountList}
-									isMobile={isMobile}
-									isCrModal={true}
-								/>
-							</Row>
+							</section>
 
 							<Col className={styles.promptWrapper}>
 								<Text

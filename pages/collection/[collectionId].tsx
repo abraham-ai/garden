@@ -39,15 +39,17 @@ interface CollectionPageTypes {
 
 const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
-	const { collectionId } = router.query
-	// console.log(collectionId)
+
+	const queryCollectionId = Array.isArray(router.query.collectionId)
+		? router.query.collectionId[0]
+		: router.query.collectionId ?? null
+
+	console.log(router.query)
+	console.log(queryCollectionId)
 
 	const { width } = useWindowDimensions()
 
-	const collectionData =
-		typeof collectionId === 'string'
-			? useGetCollection(collectionId)
-			: undefined
+	const collectionData = useGetCollection(queryCollectionId)
 
 	// console.log('[collectionId] ROUTE')
 	// console.log({ collectionData })
@@ -59,26 +61,32 @@ const Collection: FC<CollectionPageTypes> = () => {
 		// console.log(timeAgoCreatedAt)
 	}
 
-	const isCollectionData =
-		typeof collectionData !== 'undefined' &&
-		typeof collectionData?.data !== 'undefined'
-	const isUser = typeof collectionData?.data?.collection?.user !== 'undefined'
+	const isCollectionData = collectionData !== null
+	console.log({ isCollectionData })
+	const isUser = collectionData?.profile?.user !== undefined
+	console.log('isUser', isUser)
 
-	const isCollectionArray = Array.isArray(collectionData?.data?.creations)
+	const isCollectionArray = Array.isArray(collectionData?.creations)
+	console.log({ isCollectionArray })
+
+	if (typeof collectionData?.creations !== 'undefined') {
+		console.log(collectionData.creations.length)
+	}
+
 	const isCollectionCreations =
-		!isCollectionArray ||
-		(collectionData?.data?.creations != null &&
-			collectionData.data.creations.every(
-				(creation): creation is Creation =>
-					typeof creation === 'object' && creation !== null
-			))
+		isCollectionArray &&
+		collectionData?.creations.every(
+			(creation): creation is Creation =>
+				typeof creation === 'object' && creation !== null
+		)
 	const collectionCreations =
 		isCollectionArray && isCollectionCreations
-			? collectionData?.data?.creations ?? []
+			? collectionData?.creations ?? []
 			: []
 
+	console.log('isCollectionCreations:', isCollectionCreations)
 	const isCollectionId =
-		typeof collectionId === 'string' ? collectionId : undefined
+		typeof queryCollectionId === 'string' ? queryCollectionId : undefined
 
 	const isMobile = width < 768
 
@@ -92,14 +100,14 @@ const Collection: FC<CollectionPageTypes> = () => {
 						{isUser ? (
 							<>
 								<CreatorHeader
-									userId={collectionData?.data?.profile?.user?.userId}
+									userId={collectionData?.profile?.user?.userId}
 									collectionId={isCollectionId}
 									isMyCollectionsRoute={false}
 									isMyCreationsRoute={false}
 								/>
 								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
-										{collectionData?.data?.collection?.name}
+										{collectionData?.collection?.name}
 									</Text>
 									{/* <pre>{JSON.stringify(collectionData, null, 2)}</pre> */}
 								</Col>
