@@ -31,6 +31,7 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { SlSizeFullscreen } from 'react-icons/sl'
 import { MdOutlineDateRange } from 'react-icons/md'
 import { BsAspectRatio } from 'react-icons/bs'
+import { TbPrompt } from 'react-icons/tb'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
@@ -311,7 +312,7 @@ const Creation: FC<CreationPageProps> = ({
 												</li>
 												<li className={styles.crProperty}>
 													<span className={styles.crPropertyType}>
-														<BsAspectRatio className='icon' />
+														<TbPrompt className='icon' />
 														<Text>{'Command'}</Text>
 													</span>
 													<Text>{'/dream'}</Text>
