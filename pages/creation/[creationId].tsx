@@ -122,6 +122,7 @@ const Creation: FC<CreationPageProps> = ({
 
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 
+	const isCrIdPage = true
 	// const [isMounted, setIsMounted] = useState(false)
 
 	useEffect(() => {
@@ -211,6 +212,15 @@ const Creation: FC<CreationPageProps> = ({
 		}
 	}
 
+	const handleCrPromptSize = (): string => {
+		if (isCrIdPage && !isMobile) {
+			return '1.5rem'
+		} else if (isMobile && isCrIdPage) {
+			return '1.3rem'
+		}
+	}
+	const crPromptSize = handleCrPromptSize()
+
 	const crWrapSocialFlex = handleCrWrapSocialFlex(styleContext)
 
 	console.log(handleCrWrapSocialFlex)
@@ -298,28 +308,40 @@ const Creation: FC<CreationPageProps> = ({
 											<ul className={styles.crPropertiesWrapper}>
 												<li className={styles.crProperty}>
 													<span className={styles.crPropertyType}>
-														<MdOutlineDateRange className='icon' />
+														<MdOutlineDateRange
+															className={styles.icon}
+															style={{ fontSize: '1.5rem' }}
+														/>
 														<Text>{'Date'}</Text>
 													</span>
 													<Text>{timeAgoCreatedAt}</Text>
 												</li>
 												<li className={styles.crProperty}>
 													<span className={styles.crPropertyType}>
-														<SlSizeFullscreen className='icon' />
+														<SlSizeFullscreen
+															className={styles.icon}
+															style={{ fontSize: '1.2rem' }}
+														/>
 														<Text>{'Size'}</Text>
 													</span>
 													<Text>{'512 x 512'}</Text>
 												</li>
 												<li className={styles.crProperty}>
 													<span className={styles.crPropertyType}>
-														<TbPrompt className='icon' />
+														<TbPrompt
+															className={styles.icon}
+															style={{ fontSize: '1.5rem' }}
+														/>
 														<Text>{'Command'}</Text>
 													</span>
 													<Text>{'/dream'}</Text>
 												</li>
 												<li className={styles.crProperty}>
 													<span className={styles.crPropertyType}>
-														<BsAspectRatio className={styles.icon} />
+														<BsAspectRatio
+															className={styles.icon}
+															style={{ fontSize: '1.5rem' }}
+														/>
 														<Text>{'Shape'}</Text>
 													</span>
 													<Text>{'square'}</Text>

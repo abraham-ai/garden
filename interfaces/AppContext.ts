@@ -45,6 +45,13 @@ interface AppContext {
 	collectionModalView: number
 	setCollectionModalView: Dispatch<SetStateAction<number>>
 
+	isCollectionModalOpen: boolean
+	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+	isCreateCollectionModalOpen: boolean
+	setIsCreateCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+	isRenameCollectionModalOpen: boolean
+	setIsRenameCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+
 	currentTheme: string
 	setCurrentTheme: Dispatch<SetStateAction<string>>
 }

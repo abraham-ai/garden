@@ -58,12 +58,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 
 	const styleContext = isMobile || isCrModal || isCrIdPage
 
-	const handleCrWrapSocialPos = (
-		isMobile,
-		appWidth,
-		isCrModal,
-		isCrIdPage
-	): CSSProperties['position'] => {
+	const handleCrWrapSocialPos = (): CSSProperties['position'] => {
 		if (styleContext) {
 			return 'relative'
 		} else {
@@ -71,25 +66,15 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		}
 	}
 
-	const handleCrWrapSocialAbsPos = (
-		isMobile,
-		appWidth,
-		isCrModal,
-		isCrIdPage
-	): string => {
-		if (styleContext) {
+	const handleCrWrapSocialAbsPos = (): string => {
+		if (isCrIdPage && !isMobile) {
+			return '20px 0'
+		} else if (isMobile && isCrIdPage) {
 			return '10px 0 0 60px'
-		} else {
-			return '0'
 		}
 	}
 
-	const handleCrSocialPos = (
-		isMobile,
-		appWidth,
-		isCrModal,
-		isCrIdPage
-	): number => {
+	const handleCrSocialPos = (): number => {
 		if (styleContext) {
 			return 0
 		} else {
@@ -97,24 +82,9 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		}
 	}
 
-	const crWrapSocialPos = handleCrWrapSocialPos(
-		isMobile,
-		appWidth,
-		isCrModal,
-		isCrIdPage
-	)
-	const crWrapSocialAbsPos = handleCrWrapSocialAbsPos(
-		isMobile,
-		appWidth,
-		isCrModal,
-		isCrIdPage
-	)
-	const crSocialPos = handleCrSocialPos(
-		isMobile,
-		appWidth,
-		isCrModal,
-		isCrIdPage
-	)
+	const crWrapSocialPos = handleCrWrapSocialPos()
+	const crWrapSocialAbsPos = handleCrWrapSocialAbsPos()
+	const crSocialPos = handleCrSocialPos()
 
 	return (
 		<Row

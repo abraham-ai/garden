@@ -33,8 +33,8 @@ const handler = async (
 		console.log(profileResult)
 
 		const updateProfileResult = await eden.updateProfile({
-			username: { newUsername },
-			discordId: { newDiscordId },
+			username: newUsername,
+			discordId: newDiscordId,
 		})
 
 		console.log(updateProfileResult)
