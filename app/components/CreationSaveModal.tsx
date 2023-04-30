@@ -420,7 +420,7 @@ const CreationSaveModal: FC = () => {
 											<BiLeftArrowAlt size={'1.2rem'} />
 										</Button>
 										<Text className={styles.textBold}>
-											{'Rename Collection:'}
+											{`Rename ${String(collection?.name)} Collection:`}
 										</Text>
 									</Row>
 

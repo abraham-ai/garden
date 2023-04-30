@@ -37,33 +37,31 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	const isQueryCreatorId =
 		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
 
+	const profileWrapperStyles = {
+		zIndex: 150,
+		position: 'relative',
+		margin: '150px 0 20px 0',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		width: '100%',
+	}
+
+	const creatorProfileStyles = {
+		width: '100%',
+		display: 'flex',
+		flex: 2,
+		flexDirection: 'column',
+		alignItems: 'flex-start',
+	}
+
 	return (
 		<article
 			className='creatorHeader'
 			style={{ display: 'flex', flex: 1, justifyContent: 'space-between' }}
 		>
-			<span
-				className='creatorProfile'
-				style={{
-					width: '100%',
-					// background: 'white',
-					display: 'flex',
-					flex: 2,
-					flexDirection: 'column',
-					alignItems: 'flex-start',
-				}}
-			>
-				<Col
-					style={{
-						zIndex: 150,
-						position: 'relative',
-						margin: '150px 0 20px 0',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						width: '100%',
-					}}
-				>
+			<span className='creatorProfile' style={creatorProfileStyles}>
+				<Col style={profileWrapperStyles}>
 					<Avatar
 						className='profileAvatarWrapper'
 						style={{ display: 'flex', flex: 1 }}

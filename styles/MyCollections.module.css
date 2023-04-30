@@ -73,11 +73,23 @@
 }
 
 .collectionsWrapper {
-	margin-top: 50px;
+	margin: 50px 0 80px 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+@media only screen and (max-width: 1000px) {
+	.collectionsWrapper {
+		max-width: 800px;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	.collectionsWrapper {
+		max-width: 1000px;
+	}
 }
 
 .loading {
@@ -89,7 +101,7 @@
 .createCollectionButtonWrapper {
 	display: flex;
 	justify-content: flex-end;
-	padding: 0 10px 15px 10px;
+	padding: 0 70px 50px 10px;
 }
 
 .createCollectionButton {

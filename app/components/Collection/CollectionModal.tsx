@@ -2,141 +2,317 @@ import React, { useState, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import type { FC } from 'react'
 
+import axios from 'axios'
+
 import styles from '../../../styles/CreationSaveModal.module.css'
 
-import { Row, Button, Typography, Modal, Input } from 'antd'
-import { BiLeftArrowAlt } from 'react-icons/bi'
+import {
+	Row,
+	Col,
+	Button,
+	Typography,
+	Modal,
+	Input,
+	Checkbox,
+	notification,
+} from 'antd'
+import type { CheckboxChangeEvent } from 'antd/es/checkbox'
+
 const { Text } = Typography
 
-const CreateCollection: FC = ({ inputName, setInputName }) => {
+const openNotificationWithIcon = (
+	type: 'success' | 'error',
+	message: string,
+	description: string
+): void => {
+	notification[type]({
+		message,
+		description,
+		placement: 'bottom',
+	})
+}
+
+const CreateCollection: FC = ({
+	inputCollectionName,
+	setInputCollectionName,
+	handleCollectionAction,
+	handleCollectionCancel,
+	setIsCollectionModalOpen,
+	setCollectionModalView,
+	currentModalCollection,
+	setCurrentModalCollection,
+}) => {
 	return (
-		<article className={styles.modalView2}>
+		<article className={styles.modalView2} style={{ minWidth: 300 }}>
 			{
-				<>
-					<Row>
-						<Text className={styles.textBold}>{'Create new collection'}</Text>
+				<Col>
+					<Row
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							margin: '20px 0',
+						}}
+					>
+						<Text className={styles.textBold}>{'Create new Collection'}</Text>
 					</Row>
 
 					<Input
-						placeholder='Name'
+						placeholder='Collection Name'
 						onChange={(e) => {
 							setInputCollectionName(e.target.value)
 						}}
 					/>
 
-					<Button
-						type={'primary'}
-						shape='round'
-						className={styles.buttonPrimary}
-						disabled={inputName === ''}
-						onClick={() => {
-							handleCollectionAction(
-								'create',
-								null,
-								currentCreationModalCreation?._id ?? null
-							).catch((error) => {
-								console.error('Error creating collection:', error)
-							})
-						}}
+					<span
+						style={{ display: 'flex', flex: 1, justifyContent: 'flex-end' }}
 					>
-						{'Create'}
-					</Button>
-				</>
+						<Button
+							type={'primary'}
+							shape='round'
+							size='large'
+							className={styles.buttonPrimary}
+							disabled={inputCollectionName === ''}
+							onClick={() => {
+								handleCollectionAction('create', undefined, inputCollectionName)
+									.then((res) => {
+										console.log({ res })
+										openNotificationWithIcon(
+											'success',
+											'Creation created successfully!',
+											'New Collection Name'
+										)
+										handleCollectionCancel()
+									})
+									.catch((error) => {
+										console.error('Error creating collection:', error)
+									})
+							}}
+						>
+							{'Create'}
+						</Button>
+					</span>
+				</Col>
 			}
 		</article>
 	)
 }
 
 const RenameCollection: FC = ({
+	collection,
+	inputCollectionName,
+	setInputCollectionName,
+	handleCollectionAction,
+	handleCollectionCancel,
 	setIsCollectionModalOpen,
-	setIsRenameCollectionModalOpen,
+	setCollectionModalView,
 }) => {
-	const handleRenameCollectionModal = (): void => {
-		setIsCollectionModalOpen(true)
-		setIsRenameCollectionModalOpen(true)
+	const textWrapperStyle = {
+		display: 'flex',
+		alignItems: 'center',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		width: '100%',
 	}
+	const textStyle = {
+		color: '#1677ff',
+		fontWeight: 600,
+		fontSize: '1rem',
+		margin: '0 10px',
+	}
+
+	console.log({ collection })
+	console.log(collection._id)
+	console.log(collection.name)
+
+	const displayRenameCollection =
+		inputCollectionName === '' ? collection.name : inputCollectionName
 	return (
 		<>
-			<Row className={styles.row}>
-				<Button
-					type='link'
-					className={styles.buttonLink}
-					onClick={() => {
-						handleRenameCollectionModal()
-					}}
-				>
-					<BiLeftArrowAlt size={'1.2rem'} />
-				</Button>
-				<Text className={styles.textBold}>{'Rename Collection:'}</Text>
+			<Row className={styles.row} style={{ marginTop: 20, minWidth: 300 }}>
+				<span className={styles.textBold} style={textWrapperStyle}>
+					<Text>{'Rename Collection:'}</Text>
+					<Text style={textStyle}>{displayRenameCollection}</Text>
+				</span>
 			</Row>
 
 			<Input
-				placeholder={currentRenameCollection}
+				style={{ margin: '10px 0' }}
 				onChange={(e) => {
 					setInputCollectionName(e.target.value)
 				}}
 			/>
-			<Button
-				type={'primary'}
-				shape='round'
-				className={styles.buttonPrimary}
-				disabled={inputCollectionName === ''}
-				onClick={() => {
-					handleRenameCollectionName(
-						currentRenameCollection,
-						currentCreationModalCreation?._id ?? null
-					).catch((error) => {
-						console.error('Error renaming collection:', error)
-					})
-				}}
-			>
-				{'Rename'}
-			</Button>
+
+			<span style={{ display: 'flex', flex: 1, justifyContent: 'flex-end' }}>
+				<Button
+					type={'primary'}
+					shape='round'
+					className={styles.buttonPrimary}
+					disabled={inputCollectionName === ''}
+					size='large'
+					onClick={() => {
+						handleCollectionAction(
+							'rename',
+							collection._id,
+							inputCollectionName
+						)
+							.then((res) => {
+								console.log({ res })
+								openNotificationWithIcon(
+									'success',
+									'Collection Renamed successfully!',
+									'New Collection Name'
+								)
+								handleCollectionCancel()
+							})
+							.catch((error) => {
+								console.error('Error creating collection:', error)
+							})
+					}}
+				>
+					{'Rename'}
+				</Button>
+			</span>
 		</>
 	)
 }
 
-const CollectionModal: FC = () => {
+const DeleteCollection: FC = ({
+	collection,
+	inputName,
+	setInputName,
+	handleCollectionAction,
+	handleCollectionCancel,
+	setIsCollectionModalOpen,
+	setCollectionModalView,
+	setCurrentModalCollection,
+}) => {
+	const [isDeleteDisabled, setIsDeleteDisabled] = useState<boolean>(true)
+	const onChange = (e: CheckboxChangeEvent): void => {
+		console.log(`checked = ${String(e.target.checked)}`)
+		setIsDeleteDisabled(!isDeleteDisabled)
+	}
+
+	const textStyle = {
+		color: '#1677ff',
+		fontWeight: 600,
+		fontSize: '1rem',
+		margin: '0 10px',
+	}
+	const textWrapperStyle = {
+		display: 'flex',
+		alignItems: 'center',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		width: '100%',
+		margin: '20px 0',
+		minWidth: 200,
+	}
+
+	const deleteWrapperStyle = {
+		display: 'flex',
+		minWidth: 300,
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column',
+	}
+
+	return (
+		<article className={styles.modalView2}>
+			{
+				<Col style={deleteWrapperStyle}>
+					<Row style={textWrapperStyle}>
+						<Text className={styles.textBold}>{'Delete collection'}</Text>
+						<Text style={textStyle}>{collection?.name}</Text>
+					</Row>
+
+					<Row>
+						<Checkbox onChange={onChange} style={{ marginRight: 20 }} />
+						<Text style={{ maxWidth: 200 }}>
+							{
+								'Once you delete a Collection, there is no going back. Please be certain.'
+							}
+						</Text>
+					</Row>
+
+					<span
+						style={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							width: '100%',
+						}}
+					>
+						<Button
+							type={'default'}
+							shape='round'
+							danger
+							disabled={isDeleteDisabled}
+							className={styles.buttonPrimary}
+							onClick={() => {
+								handleCollectionAction('delete', collection._id, undefined)
+									.then(() => {
+										openNotificationWithIcon(
+											'success',
+											'Collection Deleted successfully!',
+											'Deleted Collection'
+										)
+										handleCollectionCancel()
+									})
+									.catch((error) => {
+										console.error('Error creating collection:', error)
+									})
+							}}
+						>
+							{'Delete'}
+						</Button>
+					</span>
+				</Col>
+			}
+		</article>
+	)
+}
+
+const CollectionModal: FC = ({ collection }) => {
 	const context = useContext(AppContext)
 
-	const [inputCollectionName, setInputCollectionName] = useState([])
-
-	const isCollectionModalOpen = context?.isCollectionModalOpen ?? (() => {})
+	const isCollectionModalOpen = context?.isCollectionModalOpen ?? false
 	const setIsCollectionModalOpen =
 		context?.setIsCollectionModalOpen ?? (() => {})
 
-	const isCreateCollectionModalOpen =
-		context?.isCreateCollectionModalOpen ?? false
-	const setIsCreateCollectionModalOpen =
-		context?.setIsSaveCreationModalOpen != null
-			? context.setIsSaveCreationModalOpen
-			: noop
+	const collectionModalView = context?.collectionModalView ?? ''
+	const setCollectionModalView = context?.setCollectionModalView ?? (() => {})
 
-	const isRenameCollectionModalOpen =
-		context?.isRenameCollectionModalOpen ?? false
-	const setIsRenameCollectionModalOpen =
-		context?.setIsSaveCreationModalOpen != null
-			? context.setIsSaveCreationModalOpen
-			: noop
+	const [inputCollectionName, setInputCollectionName] = useState<string>('')
+
+	const setCurrentModalCollection =
+		context?.setCurrentModalCollection ?? (() => {})
 
 	const handleCollectionAction = async (
-		actionType: 'create' | 'rename',
+		actionType: 'create' | 'rename' | 'delete',
 		collectionId: string | null,
-		creationId: string | null
+		collectionName: string | null
 	): Promise<void> => {
+		console.log({ collectionId })
+		console.log({ collectionName })
 		try {
 			let endpoint = ''
 			let requestData = {}
 
 			if (actionType === 'create') {
-				endpoint = '/api/collection/createEmtpy'
+				endpoint = '/api/collection/create'
 				requestData = {
-					collectionName: inputCollectionName,
+					collectionName,
 				}
 			} else if (actionType === 'rename') {
 				endpoint = '/api/collection/rename'
 				requestData = {
 					collectionId,
+					newCollectionName: collectionName,
+				}
+			} else if (actionType === 'delete') {
+				endpoint = '/api/collection/delete'
+				requestData = {
+					collectionId,
+					collectionName,
 				}
 			} else {
 				throw new Error('Invalid action type')
@@ -145,18 +321,9 @@ const CollectionModal: FC = () => {
 			const { data } = await axios.post(endpoint, requestData)
 
 			if (actionType === 'create') {
-				setCollections((prevCollections) => [...prevCollections, data])
-				handleCreateModalCleanUp()
-			} else if (actionType === 'save') {
-				const { addedCreationResult, collection } = data
-
-				if (addedCreationResult?.success === true) {
-					setCurrentSavedCollection(collection)
-					handleSaveModalCleanUp().catch((error) => {
-						console.error(error)
-						console.error('Error handling saveModalCleanUp')
-					})
-				}
+				setCollections((prevCollections) => [...data])
+			} else if (actionType === 'delete' || actionType === 'rename') {
+				setCollections((prevCollections) => [...data])
 			}
 		} catch (error) {
 			console.error(`Error in ${actionType} collection:`, error)
@@ -165,9 +332,15 @@ const CollectionModal: FC = () => {
 
 	const handleCollectionCancel = (): void => {
 		setIsCollectionModalOpen(false)
-		setIsRenameCollectionModalOpen(false)
-		setIsCreateCollectionModalOpen(false)
+		setCollectionModalView('')
+		setCurrentModalCollection({})
+		setInputCollectionName('')
 	}
+
+	console.log({ collection })
+	console.log(collection.name)
+	console.log({ collectionModalView })
+	console.log({ inputCollectionName })
 
 	return (
 		<Modal
@@ -177,23 +350,39 @@ const CollectionModal: FC = () => {
 				handleCollectionCancel()
 			}}
 		>
-			{isRenameCollectionModalOpen ? (
+			{collectionModalView === 'rename' ? (
 				<RenameCollection
-					inputName={inputCollectionName}
-					setInputName={setInputCollectionName}
+					collection={collection}
+					inputCollectionName={inputCollectionName}
+					setInputCollectionName={setInputCollectionName}
 					handleCollectionAction={handleCollectionAction}
+					handleCollectionCancel={handleCollectionCancel}
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
-					setIsRenameCollectionModalOpen={setIsRenameCollectionModalOpen}
+					setCollectionModalView={setCollectionModalView}
 				/>
 			) : null}
 
-			{isCreateCollectionModalOpen ? (
+			{collectionModalView === 'create' ? (
 				<CreateCollection
-					inputName={inputCollectionName}
-					setInputName={setInputCollectionName}
+					collection={collection}
+					inputCollectionName={inputCollectionName}
+					setInputCollectionName={setInputCollectionName}
 					handleCollectionAction={handleCollectionAction}
+					handleCollectionCancel={handleCollectionCancel}
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
-					setIsCreateCollectionModalOpen={setIsCreateCollectionModalOpen}
+					setCollectionModalView={setCollectionModalView}
+				/>
+			) : null}
+
+			{collectionModalView === 'delete' ? (
+				<DeleteCollection
+					collection={collection}
+					inputCollectionName={inputCollectionName}
+					setInputCollectionName={setInputCollectionName}
+					handleCollectionAction={handleCollectionAction}
+					handleCollectionCancel={handleCollectionCancel}
+					setIsCollectionModalOpen={setIsCollectionModalOpen}
+					setCollectionModalView={setCollectionModalView}
 				/>
 			) : null}
 		</Modal>

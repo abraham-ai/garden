@@ -20,6 +20,9 @@ const handler = async (
 	console.log('collectionName', collectionName)
 	console.log('creationId', creationId)
 
+	const isCreationId = typeof creationId !== 'undefined' || creationId !== ''
+	console.log({ isCreationId })
+
 	try {
 		eden.setAuthToken(authToken)
 
@@ -29,12 +32,13 @@ const handler = async (
 		console.log(createdCollection)
 		console.log(collections)
 
-		// get creation
-		const creation = await eden.getCreation(creationId)
-
-		// add creation to collection
-		const addedCreationResult = await createdCollection.addCreation(creation)
-		console.log(addedCreationResult)
+		if (isCreationId) {
+			// get creation
+			const creation = await eden.getCreation(creationId)
+			// add creation to collection
+			const addedCreationResult = await createdCollection.addCreation(creation)
+			console.log(addedCreationResult)
+		}
 
 		// result = await collections.create(name)
 		// const collections = await creation.getCollections(filter)

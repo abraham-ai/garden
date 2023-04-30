@@ -152,12 +152,10 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	// collection context
 	const [collections, setCollections] = useState<Collection[]>([])
 	const [selectedCollection, setSelectedCollection] = useState<string>('')
+	const [currentModalCollection, setCurrentModalCollection] =
+		useState<string>('')
 	const [collectionModalView, setCollectionModalView] = useState<number>(0)
 	const [isCollectionModalOpen, setIsCollectionModalOpen] =
-		useState<boolean>(false)
-	const [isCreateCollectionModalOpen, setIsCreateCollectionModalOpen] =
-		useState<boolean>(false)
-	const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] =
 		useState<boolean>(false)
 
 	const [currentTheme, setCurrentTheme] = useState<string>('')
@@ -187,12 +185,10 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setCollectionModalView,
 		isCollectionModalOpen,
 		setIsCollectionModalOpen,
-		isCreateCollectionModalOpen,
-		setIsCreateCollectionModalOpen,
-		isRenameCollectionModalOpen,
-		setIsRenameCollectionModalOpen,
 		currentCreationModalCreation,
 		setCurrentCreationModalCreation,
+		currentModalCollection,
+		setCurrentModalCollection,
 		isSaveCreationModalOpen,
 		setIsSaveCreationModalOpen,
 		currentTheme,
