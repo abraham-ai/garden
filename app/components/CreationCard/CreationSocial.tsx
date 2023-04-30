@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import type { FC, CSSProperties } from 'react'
 
-import type CreationSocialProps from '../../interfaces/CreationSocial'
+import type CreationSocialProps from '../../../interfaces/CreationSocial'
 
-import { useReaction } from '../../context/ReactionContext'
+import { useReaction } from '../../../context/ReactionContext'
 
-import SaveButton from './CreationActions/SaveButton'
-import BurnButton from './CreationActions/BurnButton'
-import PraiseButton from './CreationActions/PraiseButton'
-import ShareButton from './CreationActions/ShareButton'
+import SaveButton from '../CreationActions/SaveButton'
+import BurnButton from '../CreationActions/BurnButton'
+import PraiseButton from '../CreationActions/PraiseButton'
+import ShareButton from '../CreationActions/ShareButton'
 
 import { Row } from 'antd'
 

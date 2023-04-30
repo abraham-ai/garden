@@ -4,7 +4,7 @@ import type Creator from '../interfaces/Creator'
 import axios from 'axios'
 
 const useGetCreatorCreations = (creatorId: string): Creator | null => {
-	const [creator, setCreator] = useState<Creator | null>(null)
+	const [creatorCreations, setCreatorCreations] = useState<Creator | null>(null)
 
 	const handleGetCreatorCreations = useCallback(async (creatorId: string) => {
 		console.log(`useGetCreatorCreations: creatorId: ${creatorId}`)
@@ -13,9 +13,9 @@ const useGetCreatorCreations = (creatorId: string): Creator | null => {
 				creatorId,
 			})
 
-			// console.log(response.data)
+			console.log(response)
 
-			setCreator(response.data)
+			setCreatorCreations(response.data)
 		} catch (error) {
 			console.error('Error fetching creator creations:', error)
 		}
@@ -40,9 +40,9 @@ const useGetCreatorCreations = (creatorId: string): Creator | null => {
 	}, [creatorId, handleGetCreatorCreations])
 
 	console.log({ creatorId })
-	console.log({ creator })
+	console.log({ creatorCreations })
 
-	return typeof creator !== 'undefined' ? creator : null
+	return typeof creatorCreations !== 'undefined' ? creatorCreations : null
 }
 
 export default useGetCreatorCreations

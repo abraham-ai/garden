@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react'
-import type Collection from '../../interfaces/Collection'
+import type Collection from '../../../interfaces/Collection'
 import type { FC } from 'react'
-import type Creation from '../../interfaces/Creation'
+import type Creation from '../../../interfaces/Creation'
 
 import Link from 'next/link'
 
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 
 import axios from 'axios'
 
-import useGetCollections from '../../hooks/useGetCollections'
+import useGetCollections from '../../../hooks/useGetCollections'
 
 import { Modal, Button, Input, notification, Typography, Row, Col } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
@@ -17,7 +17,7 @@ import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import { MdOutlineAdd } from 'react-icons/md'
 
-import styles from '../../styles/CreationSaveModal.module.css'
+import styles from '../../../styles/CreationSaveModal.module.css'
 
 const { Text } = Typography
 

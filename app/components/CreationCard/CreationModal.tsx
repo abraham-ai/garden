@@ -1,21 +1,21 @@
 import React, { useContext, useMemo } from 'react'
 import type { FC } from 'react'
-import type Creation from '../../interfaces/Creation'
+import type Creation from '../../../interfaces/Creation'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 
 import Blockies from 'react-blockies'
 
-import timeAgo from '../../util/timeAgo'
-import abbreviateText from '../../util/abbreviateText'
-import abbreviateAddress from '../../util/abbreviateAddress'
+import timeAgo from '../../../util/timeAgo'
+import abbreviateText from '../../../util/abbreviateText'
+import abbreviateAddress from '../../../util/abbreviateAddress'
 import { Modal, Typography, Col, Row } from 'antd'
 
 import CreationSocial from './CreationSocial'
 
-import styles from '../../styles/CreationModal.module.css'
+import styles from '../../../styles/CreationModal.module.css'
 
 const { Text } = Typography
 

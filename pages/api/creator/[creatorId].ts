@@ -13,28 +13,31 @@ const handler = async (
 	const { creatorId } = req.body
 
 	// Save the user data in the session
-	const session = req.session
-
-	const userId = session?.userId ?? ''
-	const authToken = session?.token ?? ''
-
+	// const session = req.session
+	// const userId = session?.userId ?? ''
+	// const authToken = session?.token ?? ''
 	// console.log({ queryCreatorId })
-	// console.log({ creatorId })
 	// console.log({ authToken })
+
+	console.log({ creatorId })
 
 	try {
 		const filter = {}
-		Object.assign(filter, creatorId !== 'null' ? { username: userId } : {})
+		Object.assign(filter, creatorId !== 'null' ? { userId: creatorId } : {})
 		Object.assign(filter, { limit: 10 })
 		console.log({ filter })
 
-		eden.setAuthToken(authToken)
+		const creator = await eden.getCreator(creatorId)
+		console.log(creator)
 
-		// if (typeof authTokenResult !== 'undefined') {
-		const creations = await eden.getCreations(filter)
-		console.log(creations.length)
-		console.log(creations)
-		res.status(200).json(creations)
+		// const creatorProfile = await creator.getProfile() // 404
+		// console.log(creatorProfile)
+
+		const creatorCreations = await eden.getCreations(filter)
+		console.log(creatorCreations.length)
+		console.log(creatorCreations)
+
+		res.status(200).json({ creatorCreations, creatorId }) // creatorProfile
 		return
 		// }
 		// return res.status(200).json(null)

@@ -7,22 +7,22 @@ import React, {
 } from 'react'
 import type { FC } from 'react'
 
-import type Creation from '../../interfaces/Creation'
+import type Creation from '../../../interfaces/Creation'
 
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 
 import Image from 'next/image'
 import Link from 'next/link'
 
-import timeAgo from '../../util/timeAgo'
-import abbreviateText from '../../util/abbreviateText'
-import abbreviateAddress from '../../util/abbreviateAddress'
+import timeAgo from '../../../util/timeAgo'
+import abbreviateText from '../../../util/abbreviateText'
+import abbreviateAddress from '../../../util/abbreviateAddress'
 
-import useGetReactionCount from '../../hooks/useGetReactionCount'
-import { useReaction } from '../../context/ReactionContext'
+import useGetReactionCount from '../../../hooks/useGetReactionCount'
+import { useReaction } from '../../../context/ReactionContext'
 
 import CreationModal from './CreationModal'
-import styles from '../../styles/CreationCard.module.css'
+import styles from '../../../styles/CreationCard.module.css'
 import CreationSocial from './CreationSocial'
 
 import Blockies from 'react-blockies'

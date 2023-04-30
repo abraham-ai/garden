@@ -12,6 +12,7 @@ const { Title } = Typography
 
 interface CreatorHeaderProps {
 	collectionId?: string
+	userName?: string
 	userAddress?: string
 	isMyCreationsRoute?: boolean
 	isMyCollectionsRoute?: boolean
@@ -22,6 +23,7 @@ interface CreatorHeaderProps {
 const CreatorHeader: FC<CreatorHeaderProps> = ({
 	collectionId,
 	userAddress,
+	userName,
 	isMyCreationsRoute = false,
 	isMyCollectionsRoute = false,
 	queryCreatorId = '',
@@ -32,6 +34,10 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 			if (typeof creator?.creatorProfile?.user !== 'undefined') {
 				return creator?.creatorProfile?.user?.username
 			}
+		}
+
+		if (typeof userName === 'string') {
+			return userName
 		}
 
 		if (typeof userAddress === 'string') {
@@ -52,6 +58,8 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	const isQueryCreatorId =
 		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
+
+	const isUserAddress = typeof userAddress !== 'undefined'
 
 	const creatorHeaderWrapperStyles = {
 		display: 'flex',
@@ -85,7 +93,12 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 						className='profileAvatarWrapper'
 						style={{ display: 'flex', flex: 1 }}
 						size={64}
-						icon={<Blockies scale={8} seed={String(userAddress)} />}
+						icon={
+							<Blockies
+								scale={8}
+								seed={String(isUserAddress ? userAddress : displayAddress)}
+							/>
+						}
 					/>
 
 					<Link href={`/creator/${String(userAddress)}`}>

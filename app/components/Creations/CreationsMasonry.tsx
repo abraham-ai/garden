@@ -6,7 +6,7 @@ import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
 import type Creation from '../../../interfaces/Creation'
 
-import CreationCard from '../CreationCard'
+import CreationCard from '../CreationCard/CreationCard'
 
 import styles from '../../../styles/CreationsGrid.module.css'
 

@@ -1,5 +1,5 @@
-import React from 'react'
 import type { FC } from 'react'
+import React, { useState } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -14,14 +14,13 @@ import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
-// import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
+import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
-import useGetMyCreations from '../../hooks/useGetMyCreations'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 
 import type CreationResponse from '../../interfaces/CreationResponse'
 
-import { Row, Typography, Spin } from 'antd'
+import { Row, Typography, Spin, Button } from 'antd'
 
 import { LoadingOutlined } from '@ant-design/icons'
 
@@ -38,7 +37,7 @@ interface CreatorPageProps {
 const Creator: FC<CreatorPageProps> = () => {
 	const router = useRouter()
 
-	// const [isFollowing, setIsFollowing] = useState(false)
+	const [isFollowing, setIsFollowing] = useState(false)
 
 	// const queryCreatorId = router.query.creatorId
 
@@ -51,10 +50,16 @@ const Creator: FC<CreatorPageProps> = () => {
 		? router.query.creatorId[0]
 		: router.query.creatorId ?? ''
 
+	console.log({ queryCreatorId })
+
 	if (typeof queryCreatorId === 'undefined') {
 		return <Text>{'Loading...'}</Text>
 	}
 	const creatorCreationsData = useGetCreatorCreations(queryCreatorId)
+
+	// const { creatorCreationsData, creatorId } = data
+
+	// console.log({ creatorCreationsData })
 
 	// console.log(queryCreatorId)
 	// console.log(creatorData)
@@ -72,11 +77,9 @@ const Creator: FC<CreatorPageProps> = () => {
 		console.log(creatorCreationsData)
 	}
 
-	// const handleFollow = (): void => {
-	// 	setIsFollowing(!isFollowing)
-	// }
-
-	const myCreationsData = useGetMyCreations(queryCreatorId)
+	const handleFollow = (): void => {
+		setIsFollowing(!isFollowing)
+	}
 
 	// const isCreatorCreationsData =
 	// 	creatorCreationsData !== null &&
@@ -86,6 +89,10 @@ const Creator: FC<CreatorPageProps> = () => {
 
 	const isCreatorCreationsData =
 		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null
+
+	const creatorId = creatorCreationsData?.creatorId
+
+	console.log({ creatorId })
 
 	return (
 		<>
@@ -98,17 +105,20 @@ const Creator: FC<CreatorPageProps> = () => {
 							<Header />
 						</main>
 						<CreatorHeader
-							userId={queryCreatorId}
+							userName={creatorId}
 							isMyCreationsRoute={true}
 							queryCreatorId={queryCreatorId}
 						/>
-						{creatorCreationsData !== null ? (
+
+						<CreatorDashboard />
+
+						{isCreatorCreationsData ? (
 							<section
 								className={stylesCreationsGrid.creationsWrapper}
 								style={{ marginTop: 50 }}
 							>
 								<CreationsGridSimple
-									creations={creatorCreationsData.creations}
+									creations={creatorCreationsData.creatorCreations}
 									isMobile={isMobile}
 									appWidth={width}
 								/>
