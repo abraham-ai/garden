@@ -3,17 +3,17 @@ import type Creator from '../interfaces/Creator'
 
 import axios from 'axios'
 
-const useGetCreator = (creatorId: string): Creator | null => {
+const useGetProfile = (creatorId: string): Creator | null => {
 	const [creator, setCreator] = useState<Creator | null>(null)
 
-	const handleGetCreator = useCallback(async (creatorId: string) => {
-		console.log(`useGetCreator: creatorId: ${creatorId}`)
+	const handleGetProfile = useCallback(async (creatorId: string) => {
+		console.log(`useGetProfile: creatorId: ${creatorId}`)
 		try {
-			const response = await axios.post(`/api/creator/get`, {
+			const response = await axios.post(`/api/profile/get`, {
 				creatorId,
 			})
 
-			// console.log(response.data)
+			console.log(response.data)
 
 			setCreator(response.data)
 		} catch (error) {
@@ -22,9 +22,9 @@ const useGetCreator = (creatorId: string): Creator | null => {
 	}, [])
 
 	useEffect(() => {
-		const fetchCreator = async (): Promise<void> => {
+		const fetchProfile = async (): Promise<void> => {
 			try {
-				await handleGetCreator(creatorId)
+				await handleGetProfile(creatorId)
 			} catch (error) {
 				console.error('Error fetching creator:', error)
 			}
@@ -35,9 +35,9 @@ const useGetCreator = (creatorId: string): Creator | null => {
 			creatorId !== null &&
 			creatorId !== ''
 		) {
-			void fetchCreator()
+			void fetchProfile()
 		}
-	}, [creatorId, handleGetCreator])
+	}, [creatorId, handleGetProfile])
 
 	console.log({ creatorId })
 	console.log({ creator })
@@ -45,4 +45,4 @@ const useGetCreator = (creatorId: string): Creator | null => {
 	return typeof creator !== 'undefined' ? creator : null
 }
 
-export default useGetCreator
+export default useGetProfile

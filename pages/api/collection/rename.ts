@@ -15,7 +15,7 @@ const handler = async (
 	// Safely retrieve the session data
 	const session = req.session
 
-	// const userId = session?.userId ?? ''
+	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
 	try {
@@ -33,7 +33,10 @@ const handler = async (
 		const newRenamedCollection = await eden.getCollection(collectionId)
 		console.log(newRenamedCollection)
 
-		res.status(200).json(newRenamedCollection)
+		// return updated collections
+		const updatedCollections = await eden.getCollections(userId)
+
+		res.status(200).json({ newRenamedCollection, updatedCollections })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

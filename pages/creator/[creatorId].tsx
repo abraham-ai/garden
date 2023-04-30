@@ -9,7 +9,7 @@ import stylesCreationsGrid from '../../styles/CreationsGrid.module.css'
 
 // import abbreviateAddress from '../../util/abbreviateAddress'
 
-import useGetCreator from '../../hooks/useGetCreator'
+import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
@@ -54,7 +54,7 @@ const Creator: FC<CreatorPageProps> = () => {
 	if (typeof queryCreatorId === 'undefined') {
 		return <Text>{'Loading...'}</Text>
 	}
-	const creatorData = useGetCreator(queryCreatorId)
+	const creatorCreationsData = useGetCreatorCreations(queryCreatorId)
 
 	// console.log(queryCreatorId)
 	// console.log(creatorData)
@@ -65,15 +65,18 @@ const Creator: FC<CreatorPageProps> = () => {
 	// 	displayAddress = abbreviateAddress(queryCreatorId)
 	// }
 
-	if (typeof creatorData !== 'undefined' && creatorData !== null) {
-		console.log(creatorData)
+	if (
+		typeof creatorCreationsData !== 'undefined' &&
+		creatorCreationsData !== null
+	) {
+		console.log(creatorCreationsData)
 	}
 
 	// const handleFollow = (): void => {
 	// 	setIsFollowing(!isFollowing)
 	// }
 
-	const creatorCreationsData = useGetMyCreations(queryCreatorId)
+	const myCreationsData = useGetMyCreations(queryCreatorId)
 
 	// const isCreatorCreationsData =
 	// 	creatorCreationsData !== null &&
@@ -81,12 +84,15 @@ const Creator: FC<CreatorPageProps> = () => {
 
 	const isMobile = width < 768
 
+	const isCreatorCreationsData =
+		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null
+
 	return (
 		<>
 			<Header />
 
 			<section className={styles.creationWrapper} style={{ marginTop: 90 }}>
-				{typeof creatorData !== 'undefined' && creatorData !== null ? (
+				{isCreatorCreationsData ? (
 					<>
 						<main className={stylesHeader.headerWrapper}>
 							<Header />

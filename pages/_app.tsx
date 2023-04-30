@@ -17,11 +17,14 @@ import {
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
+import axios from 'axios'
+
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 
 import Blockies from 'react-blockies'
 
+import themeOnLoad from '../util/themeOnLoad'
 import type Creation from '../interfaces/Creation'
 import type Collection from '../interfaces/Collection'
 import type Task from '../interfaces/Task'
@@ -160,6 +163,54 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	const [currentTheme, setCurrentTheme] = useState<string>('')
 
+	const handleCollectionAction = async (
+		actionType: 'create' | 'rename' | 'delete',
+		collectionId: string | null,
+		collectionName: string | null
+	): Promise<void> => {
+		console.log({ collectionId })
+		console.log({ collectionName })
+		try {
+			let endpoint = ''
+			let requestData = {}
+
+			if (actionType === 'create') {
+				endpoint = '/api/collection/create'
+				requestData = {
+					collectionName,
+				}
+			} else if (actionType === 'rename') {
+				endpoint = '/api/collection/rename'
+				requestData = {
+					collectionId,
+					newCollectionName: collectionName,
+				}
+			} else if (actionType === 'delete') {
+				endpoint = '/api/collection/delete'
+				requestData = {
+					collectionId,
+					collectionName,
+				}
+			} else {
+				throw new Error('Invalid action type')
+			}
+
+			const { data } = await axios.post(endpoint, requestData)
+
+			console.log(data)
+
+			if (actionType === 'create') {
+				console.log(`APP: setCollections ${actionType}`)
+				setCollections(() => [...data.updatedCollections])
+			} else if (actionType === 'delete' || actionType === 'rename') {
+				console.log(`APP: setCollections ${actionType}`)
+				setCollections(() => [...data.updatedCollections])
+			}
+		} catch (error) {
+			console.error(`Error in ${actionType} collection:`, error)
+		}
+	}
+
 	const contextValues = {
 		authToken,
 		setAuthToken,
@@ -195,6 +246,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setCurrentTheme,
 		isSignInModalOpen,
 		setIsSignInModalOpen,
+
+		handleCollectionAction,
 	}
 
 	const { defaultAlgorithm, darkAlgorithm } = theme
@@ -204,21 +257,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	Router.events.on('routeChangeError', nProgress.done)
 	Router.events.on('routeChangeComplete', nProgress.done)
 
-	const currentThemeOnLoad = useMemo(() => {
-		const now = new Date()
-		const hours = now.getHours()
-
-		console.log(hours)
-		console.log(hours >= 8 && hours <= 20)
-
-		if (hours >= 6 && hours <= 20) {
-			return 'light'
-		} else if (hours >= 20 || hours <= 6) {
-			return 'dark'
-		} else {
-			return 'light'
-		}
-	}, [])
+	const currentThemeOnLoad = themeOnLoad()
 
 	// console.log({ currentThemeOnLoad })
 

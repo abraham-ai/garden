@@ -25,9 +25,30 @@ const handler = async (
 		eden.setAuthToken(authToken)
 
 		const collections = await eden.getCollections(userId)
-		// console.log(collections)
+		console.log({ collections })
 
-		res.status(200).json({ result: collections })
+		const collectionsCreations = await Promise.all(
+			collections.map(async (collection) => {
+				const collectionId = collection._id
+				const collectionName = collection.name
+				// console.log({ collectionId, collectionName })
+
+				const collectionCreations = await eden.getCreations({
+					collectionId,
+					limit: 4,
+				})
+
+				// console.log(collectionCreations)
+				// console.log(collection.name, collectionCreations.length)
+
+				return collectionCreations
+			})
+		)
+
+		// console.log(collectionsCreations)
+		// console.log(collectionsCreations.length)
+
+		res.status(200).json({ collections, collectionsCreations })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

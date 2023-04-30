@@ -1,5 +1,7 @@
-import React from 'react'
 import type { FC } from 'react'
+import type Creator from '../../../interfaces/Creator'
+import React from 'react'
+import Link from 'next/link'
 
 import { Avatar, Typography, Col, Row } from 'antd'
 
@@ -10,23 +12,37 @@ const { Title } = Typography
 
 interface CreatorHeaderProps {
 	collectionId?: string
-	userId?: string
+	userAddress?: string
 	isMyCreationsRoute?: boolean
 	isMyCollectionsRoute?: boolean
 	queryCreatorId?: string
+	creator?: Creator
 }
 
 const CreatorHeader: FC<CreatorHeaderProps> = ({
 	collectionId,
-	userId,
+	userAddress,
 	isMyCreationsRoute = false,
 	isMyCollectionsRoute = false,
 	queryCreatorId = '',
+	creator,
 }) => {
-	let displayAddress = ''
-	if (typeof userId === 'string') {
-		displayAddress = abbreviateAddress(userId)
+	const handleCreatorDisplayName = (): string => {
+		if (typeof creator !== 'undefined') {
+			if (typeof creator?.creatorProfile?.user !== 'undefined') {
+				return creator?.creatorProfile?.user?.username
+			}
+		}
+
+		if (typeof userAddress === 'string') {
+			return abbreviateAddress(userAddress)
+		}
 	}
+
+	const displayAddress = handleCreatorDisplayName()
+
+	console.log({ creator })
+	console.log({ displayAddress })
 
 	const isCollectionRoute = typeof collectionId !== 'undefined'
 
@@ -36,6 +52,12 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	const isQueryCreatorId =
 		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
+
+	const creatorHeaderWrapperStyles = {
+		display: 'flex',
+		flex: 1,
+		justifyContent: 'space-between',
+	}
 
 	const profileWrapperStyles = {
 		zIndex: 150,
@@ -56,21 +78,21 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	}
 
 	return (
-		<article
-			className='creatorHeader'
-			style={{ display: 'flex', flex: 1, justifyContent: 'space-between' }}
-		>
+		<article className='creatorHeader' style={creatorHeaderWrapperStyles}>
 			<span className='creatorProfile' style={creatorProfileStyles}>
 				<Col style={profileWrapperStyles}>
 					<Avatar
 						className='profileAvatarWrapper'
 						style={{ display: 'flex', flex: 1 }}
 						size={64}
-						icon={<Blockies scale={8} seed={String(userId)} />}
+						icon={<Blockies scale={8} seed={String(userAddress)} />}
 					/>
-					<Title level={3} className='profileName' style={{ marginTop: 10 }}>
-						{displayAddress}
-					</Title>
+
+					<Link href={`/creator/${String(userAddress)}`}>
+						<Title level={3} className='profileName' style={{ marginTop: 10 }}>
+							{displayAddress}
+						</Title>
+					</Link>
 				</Col>
 
 				{isQueryCreatorId ? (

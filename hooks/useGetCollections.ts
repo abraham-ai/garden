@@ -8,7 +8,7 @@ const fetcher = async (url: string): Promise<Collection[]> => {
 		headers: { 'Content-Type': 'application/json' },
 	})
 	const data = await response.json()
-	return data.result
+	return data
 }
 
 export const useGetCollections = (): CollectionsResponse => {

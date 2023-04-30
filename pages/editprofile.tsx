@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import type { FC, ChangeEvent } from 'react'
 import AppContext from '../context/AppContext'
 
+import useGetProfile from '../hooks/useGetProfile'
+
 import Header from '../app/components/NavBar/Header'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 
@@ -53,6 +55,9 @@ const EditProfile: FC = () => {
 	})
 
 	const userId = context?.userId ?? ''
+	const userAddress = context?.userAddress ?? ''
+
+	const creator = useGetProfile(userId)
 
 	const onFormLayoutChange = ({ disabled }: { disabled: boolean }): void => {
 		setComponentDisabled(disabled)
@@ -136,7 +141,7 @@ const EditProfile: FC = () => {
 			<Header />
 
 			<Content className={styles.contentWrapper}>
-				<CreatorHeader userId={userId} />
+				<CreatorHeader creator={creator} userAddress={userAddress} />
 				<Row
 					style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
 				>

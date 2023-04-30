@@ -14,7 +14,7 @@ const handler = async (
 	// Safely retrieve the session data
 	const session = req.session
 
-	// const userId = session?.userId ?? ''
+	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
 	try {
@@ -28,7 +28,11 @@ const handler = async (
 		const deletedCollectionResult = await collection.delete()
 		console.log(deletedCollectionResult)
 
-		res.status(200).json(deletedCollectionResult)
+		// return updated collections
+		const updatedCollections = await eden.getCollections(userId)
+		console.log(updatedCollections)
+
+		res.status(200).json({ deletedCollectionResult, updatedCollections })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

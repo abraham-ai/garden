@@ -20,7 +20,7 @@ const handler = async (
 	console.log('collectionName', collectionName)
 	console.log('creationId', creationId)
 
-	const isCreationId = typeof creationId !== 'undefined' || creationId !== ''
+	const isCreationId = typeof creationId !== 'undefined' && creationId !== ''
 	console.log({ isCreationId })
 
 	try {
@@ -28,9 +28,8 @@ const handler = async (
 
 		// create collection
 		const createdCollection = await eden.createCollection(collectionName)
-		const collections = await eden.getCollections(userId)
+
 		console.log(createdCollection)
-		console.log(collections)
 
 		if (isCreationId) {
 			// get creation
@@ -40,13 +39,11 @@ const handler = async (
 			console.log(addedCreationResult)
 		}
 
-		// result = await collections.create(name)
-		// const collections = await creation.getCollections(filter)
+		// return updated collections
+		const updatedCollections = await eden.getCollections(userId)
+		console.log(updatedCollections)
 
-		// console.log(result)
-		// console.log(creations)
-
-		res.status(200).json({ collectionName })
+		res.status(200).json({ collectionName, updatedCollections })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {
