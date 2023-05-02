@@ -110,7 +110,7 @@ const Creator: FC<CreatorPageProps> = () => {
 							queryCreatorId={queryCreatorId}
 						/>
 
-						<CreatorDashboard />
+						<CreatorDashboard profileAddress={creatorId ?? ''} />
 
 						{isCreatorCreationsData ? (
 							<section
@@ -118,7 +118,7 @@ const Creator: FC<CreatorPageProps> = () => {
 								style={{ marginTop: 50 }}
 							>
 								<CreationsGridSimple
-									creations={creatorCreationsData.creatorCreations}
+									creations={creatorCreationsData?.creations ?? []}
 									isMobile={isMobile}
 									appWidth={width}
 								/>
@@ -128,107 +128,6 @@ const Creator: FC<CreatorPageProps> = () => {
 								<Spin indicator={antIcon} />
 							</Row>
 						)}
-
-						{/* <article
-							style={{
-								marginTop: '-90px',
-								zIndex: 150,
-								position: 'relative',
-								paddingLeft: 20,
-							}}
-						>
-							<span
-								className='profile-avatar-wrapper'
-								style={{ display: 'flex', flex: 1 }}
-							>
-								<Blockies scale={13} seed={displayAddress} />
-							</span>
-						</article>
-
-						<article
-							className='creator-header'
-							style={{
-								display: 'flex',
-								flex: 1,
-								justifyContent: 'space-between',
-							}}
-						>
-							<span
-								className='creator-profile'
-								style={{
-									width: '100%',
-									background: 'white',
-									display: 'flex',
-									flex: 2,
-									flexDirection: 'column',
-									alignItems: 'flex-start',
-									paddingLeft: 20,
-								}}
-							>
-								<Title level={1} className='profile-name'>
-									{queryCreatorId}
-								</Title>
-
-								<div
-									className='creator-profile-info'
-									style={{
-										display: 'flex',
-										flex: 1,
-										flexDirection: 'column',
-										alignItems: 'flex-start',
-									}}
-								>
-									<div className='profile-actions'>
-										{queryCreatorId === displayAddress ? null : (
-											<Button
-												size='large'
-												shape='round'
-												className={
-													isFollowing
-														? `${styles.following}`
-														: `${styles.notFollowing}`
-												}
-												onClick={() => {
-													handleFollow()
-												}}
-											>
-												{isFollowing ? 'Following' : 'Follow'}
-											</Button>
-										)}
-
-										{queryCreatorId === displayAddress ? (
-											<Link href='/profile'>
-												<Button shape='round' style={{ marginLeft: 20 }}>
-													<Text>{'Edit Profile'}</Text>
-												</Button>
-											</Link>
-										) : null}
-									</div>
-								</div>
-							</span>
-						</article>
-
-						<article className='creatorBody'>
-							<article className='creatorGridWrapper'>
-								<div className='creatorDashboardWrapper'>
-									<CreatorDashboard profileAddress={displayAddress} />
-								</div>
-								{isCreatorData ? (
-									<div className='creatorGrid'>
-										<CreationsGridSimple creations={creatorData.creations} />
-									</div>
-								) : (
-									<div className='noCreations'>
-										<Row
-											className={styles.loadMore}
-											style={{ display: 'flex', justifyContent: 'center' }}
-										>
-											<Spin indicator={antIcon} />
-										</Row>
-									</div>
-								)}
-							</article>
-						</article> */}
 					</>
 				) : (
 					<Row style={{ display: 'flex', justifyContent: 'center' }}>
@@ -241,3 +140,104 @@ const Creator: FC<CreatorPageProps> = () => {
 }
 
 export default Creator
+
+// {/* <article
+// 	style={{
+// 		marginTop: '-90px',
+// 		zIndex: 150,
+// 		position: 'relative',
+// 		paddingLeft: 20,
+// 	}}
+// >
+// 	<span
+// 		className='profile-avatar-wrapper'
+// 		style={{ display: 'flex', flex: 1 }}
+// 	>
+// 		<Blockies scale={13} seed={displayAddress} />
+// 	</span>
+// </article>
+
+// <article
+// 	className='creator-header'
+// 	style={{
+// 		display: 'flex',
+// 		flex: 1,
+// 		justifyContent: 'space-between',
+// 	}}
+// >
+// 	<span
+// 		className='creator-profile'
+// 		style={{
+// 			width: '100%',
+// 			background: 'white',
+// 			display: 'flex',
+// 			flex: 2,
+// 			flexDirection: 'column',
+// 			alignItems: 'flex-start',
+// 			paddingLeft: 20,
+// 		}}
+// 	>
+// 		<Title level={1} className='profile-name'>
+// 			{queryCreatorId}
+// 		</Title>
+
+// 		<div
+// 			className='creator-profile-info'
+// 			style={{
+// 				display: 'flex',
+// 				flex: 1,
+// 				flexDirection: 'column',
+// 				alignItems: 'flex-start',
+// 			}}
+// 		>
+// 			<div className='profile-actions'>
+// 				{queryCreatorId === displayAddress ? null : (
+// 					<Button
+// 						size='large'
+// 						shape='round'
+// 						className={
+// 							isFollowing
+// 								? `${styles.following}`
+// 								: `${styles.notFollowing}`
+// 						}
+// 						onClick={() => {
+// 							handleFollow()
+// 						}}
+// 					>
+// 						{isFollowing ? 'Following' : 'Follow'}
+// 					</Button>
+// 				)}
+
+// 				{queryCreatorId === displayAddress ? (
+// 					<Link href='/profile'>
+// 						<Button shape='round' style={{ marginLeft: 20 }}>
+// 							<Text>{'Edit Profile'}</Text>
+// 						</Button>
+// 					</Link>
+// 				) : null}
+// 			</div>
+// 		</div>
+// 	</span>
+// </article>
+
+// <article className='creatorBody'>
+// 	<article className='creatorGridWrapper'>
+// 		<div className='creatorDashboardWrapper'>
+// 			<CreatorDashboard profileAddress={displayAddress} />
+// 		</div>
+// 		{isCreatorData ? (
+// 			<div className='creatorGrid'>
+// 				<CreationsGridSimple creations={creatorData.creations} />
+// 			</div>
+// 		) : (
+// 			<div className='noCreations'>
+// 				<Row
+// 					className={styles.loadMore}
+// 					style={{ display: 'flex', justifyContent: 'center' }}
+// 				>
+// 					<Spin indicator={antIcon} />
+// 				</Row>
+// 			</div>
+// 		)}
+// 	</article>
+// </article> */}

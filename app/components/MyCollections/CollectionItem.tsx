@@ -1,15 +1,24 @@
-import type { FC, MouseEvent } from 'react'
+import type { FC, MouseEvent, CSSProperties } from 'react'
 import type Collection from '../../../interfaces/Collection'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+
+import type Creation from '../../../interfaces/Creation'
 
 import CollectionItemRenameButton from './CollectionItemRenameButton'
 import CollectionItemDeleteButton from './CollectionItemDeleteButton'
 
 import styles from '../../../styles/MyCollections.module.css'
 
-import { Typography, Button, Row, ConfigProvider, theme } from 'antd'
+import {
+	Typography,
+	Button,
+	Row,
+	ConfigProvider,
+	theme,
+	type ThemeConfig,
+} from 'antd'
 
 const themeDark = { algorithm: theme.darkAlgorithm }
 const themeDefault = { algorithm: theme.defaultAlgorithm }
@@ -19,7 +28,7 @@ const { Text } = Typography
 interface CollectionItemProps {
 	collection: Collection
 	currentTheme: string
-	collectionCreations: Creations[]
+	collectionCreations: Creation[]
 }
 
 const CollectionItem: FC<CollectionItemProps> = ({
@@ -50,7 +59,7 @@ const CollectionItem: FC<CollectionItemProps> = ({
 		router.push(`/collection/${String(collectionId)}`)
 	}
 
-	const handleButtonTheme = (): string => {
+	const handleButtonTheme = (): ThemeConfig => {
 		if (currentTheme === 'light' && !isCollectionEmpty) {
 			return themeDark
 		} else if (currentTheme === 'light' && isCollectionEmpty) {
@@ -67,7 +76,7 @@ const CollectionItem: FC<CollectionItemProps> = ({
 
 	const isCollectionCreations = collectionCreations?.length > 0
 
-	const collectionImageStyles = {
+	const collectionImageStyles: CSSProperties = {
 		position: 'absolute',
 		top: 0,
 		right: 0,
@@ -76,13 +85,13 @@ const CollectionItem: FC<CollectionItemProps> = ({
 		zIndex: 0,
 	}
 
-	const deleteWrapperStyles = {
+	const deleteWrapperStyles: CSSProperties = {
 		position: 'absolute',
 		bottom: 20,
 		right: 20,
 		zIndex: 100,
 	}
-	const renameWrapperStyles = {
+	const renameWrapperStyles: CSSProperties = {
 		position: 'absolute',
 		top: 20,
 		right: 20,

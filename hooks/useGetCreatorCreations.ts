@@ -1,10 +1,18 @@
 import { useState, useEffect, useCallback } from 'react'
-import type Creator from '../interfaces/Creator'
+import type CreatorCreations from '../interfaces/CreatorCreations'
 
 import axios from 'axios'
 
-const useGetCreatorCreations = (creatorId: string): Creator | null => {
-	const [creatorCreations, setCreatorCreations] = useState<Creator | null>(null)
+const emptyCreatorCreations = {
+	creations: [],
+	creatorUsername: '',
+	creatorId: '',
+}
+
+const useGetCreatorCreations = (creatorId: string): CreatorCreations | null => {
+	const [creatorCreations, setCreatorCreations] = useState<CreatorCreations>(
+		emptyCreatorCreations
+	)
 
 	const handleGetCreatorCreations = useCallback(async (creatorId: string) => {
 		console.log(`useGetCreatorCreations: creatorId: ${creatorId}`)
@@ -42,7 +50,9 @@ const useGetCreatorCreations = (creatorId: string): Creator | null => {
 	console.log({ creatorId })
 	console.log({ creatorCreations })
 
-	return typeof creatorCreations !== 'undefined' ? creatorCreations : null
+	return typeof creatorCreations !== 'undefined'
+		? creatorCreations
+		: emptyCreatorCreations
 }
 
 export default useGetCreatorCreations

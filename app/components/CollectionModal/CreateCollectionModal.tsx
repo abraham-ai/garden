@@ -1,7 +1,8 @@
-import type { FC } from 'react'
+import type { FC, Dispatch, SetStateAction } from 'react'
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 
+import type Collection from '../../../interfaces/Collection'
 import styles from '../../../styles/CreationSaveModal.module.css'
 
 import { Row, Col, Button, Typography, Input, notification } from 'antd'
@@ -20,7 +21,18 @@ const openNotificationWithIcon = (
 	})
 }
 
-const CreateCollectionModal: FC = ({
+interface CreateCollectionModalProps {
+	collection: Collection
+	inputCollectionName: string
+	setInputCollectionName: Dispatch<SetStateAction<string>>
+	handleCollectionCancel: () => void
+	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+	setCollectionModalView: Dispatch<SetStateAction<string>>
+	currentModalCollection: Collection
+	setCurrentModalCollection: Dispatch<SetStateAction<Collection>>
+}
+
+const CreateCollectionModal: FC<CreateCollectionModalProps> = ({
 	inputCollectionName,
 	setInputCollectionName,
 	handleCollectionCancel,
@@ -31,7 +43,12 @@ const CreateCollectionModal: FC = ({
 }) => {
 	const context = useContext(AppContext)
 
-	const handleCollectionAction = context?.handleCollectionAction ?? (() => {})
+	const handleCollectionAction =
+		context?.handleCollectionAction ??
+		(async () => {
+			await Promise.resolve()
+		})
+
 	return (
 		<article className={styles.modalView2} style={{ minWidth: 300 }}>
 			{
@@ -63,7 +80,7 @@ const CreateCollectionModal: FC = ({
 							className={styles.buttonPrimary}
 							disabled={inputCollectionName === ''}
 							onClick={() => {
-								handleCollectionAction('create', undefined, inputCollectionName)
+								handleCollectionAction('create', null, inputCollectionName)
 									.then((res) => {
 										console.log({ res })
 										openNotificationWithIcon(

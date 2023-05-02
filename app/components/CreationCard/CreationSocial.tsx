@@ -72,6 +72,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		} else if (isMobile && isCrIdPage) {
 			return '10px 0 0 60px'
 		}
+		return '10px 0 0 60px'
 	}
 
 	const handleCrSocialPos = (): number => {

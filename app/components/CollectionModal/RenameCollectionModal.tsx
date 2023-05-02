@@ -1,6 +1,8 @@
-import type { FC } from 'react'
+import type { FC, CSSProperties, Dispatch, SetStateAction } from 'react'
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
+
+import type Collection from '../../../interfaces/Collection'
 
 import styles from '../../../styles/CreationSaveModal.module.css'
 
@@ -20,7 +22,16 @@ const openNotificationWithIcon = (
 	})
 }
 
-const RenameCollectionModal: FC = ({
+interface RenameCollectionModalProps {
+	collection: Collection
+	inputCollectionName: string
+	setInputCollectionName: Dispatch<SetStateAction<string>>
+	handleCollectionCancel: () => void
+	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+	setCollectionModalView: Dispatch<SetStateAction<string>>
+}
+
+const RenameCollectionModal: FC<RenameCollectionModalProps> = ({
 	collection,
 	inputCollectionName,
 	setInputCollectionName,
@@ -30,16 +41,20 @@ const RenameCollectionModal: FC = ({
 }) => {
 	const context = useContext(AppContext)
 
-	const handleCollectionAction = context?.handleCollectionAction ?? (() => {})
+	const handleCollectionAction =
+		context?.handleCollectionAction ??
+		(async () => {
+			await Promise.resolve()
+		})
 
-	const textWrapperStyle = {
+	const textWrapperStyle: CSSProperties = {
 		display: 'flex',
 		alignItems: 'center',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		width: '100%',
 	}
-	const textStyle = {
+	const textStyle: CSSProperties = {
 		color: '#1677ff',
 		fontWeight: 600,
 		fontSize: '1rem',

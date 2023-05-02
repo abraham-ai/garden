@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import type { FC } from 'react'
 import AppContext from '../context/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
@@ -119,6 +119,11 @@ const emptyCreation = {
 	thumbnail: '',
 }
 
+const emptyCollection: Collection = {
+	_id: '',
+	name: '',
+}
+
 interface CustomAvatarProps {
 	address: string
 }
@@ -156,8 +161,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [collections, setCollections] = useState<Collection[]>([])
 	const [selectedCollection, setSelectedCollection] = useState<string>('')
 	const [currentModalCollection, setCurrentModalCollection] =
-		useState<string>('')
-	const [collectionModalView, setCollectionModalView] = useState<number>(0)
+		useState<Collection>(emptyCollection)
+	const [collectionModalView, setCollectionModalView] = useState<string>('')
 	const [isCollectionModalOpen, setIsCollectionModalOpen] =
 		useState<boolean>(false)
 

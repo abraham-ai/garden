@@ -1,10 +1,21 @@
 import { useState, useEffect, useCallback } from 'react'
-import type Creator from '../interfaces/Creator'
+import type CreatorProfile from '../interfaces/CreatorProfile'
 
 import axios from 'axios'
 
-const useGetProfile = (creatorId: string): Creator | null => {
-	const [creator, setCreator] = useState<Creator | null>(null)
+const emptyCreatorProfile: CreatorProfile = {
+	profile: {
+		creatorProfile: {
+			user: {
+				username: '',
+				_id: '',
+			},
+		},
+	},
+}
+
+const useGetProfile = (creatorId: string): CreatorProfile => {
+	const [creator, setCreator] = useState<CreatorProfile>(emptyCreatorProfile)
 
 	const handleGetProfile = useCallback(async (creatorId: string) => {
 		console.log(`useGetProfile: creatorId: ${creatorId}`)
@@ -42,7 +53,7 @@ const useGetProfile = (creatorId: string): Creator | null => {
 	console.log({ creatorId })
 	console.log({ creator })
 
-	return typeof creator !== 'undefined' ? creator : null
+	return typeof creator !== 'undefined' ? creator : emptyCreatorProfile
 }
 
 export default useGetProfile

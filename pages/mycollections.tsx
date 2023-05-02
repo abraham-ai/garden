@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import type { FC, CSSProperties } from 'react'
 import type Collection from '../interfaces/Collection'
 
 import React, { useState, useContext, useEffect } from 'react'
@@ -11,8 +11,10 @@ import CollectionModal from '../app/components/CollectionModal/CollectionModal'
 import CreateCollectionButton from '../app/components/MyCollections/CreateCollectionButton'
 import CollectionItem from '../app/components/MyCollections/CollectionItem'
 
-import useGetCollections from '../hooks/useGetCollections'
+import useGetCollectionsCreations from '../hooks/useGetCollectionsCreations'
 import useGetProfile from '../hooks/useGetProfile'
+
+import type CollectionsCreations from '../interfaces/CollectionsCreations'
 
 import styles from '../styles/MyCollections.module.css'
 
@@ -21,10 +23,19 @@ import { Row, Spin, Col } from 'antd'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
+const emtpyCollectionsCreations = {
+	collections: [],
+	collectionsCreations: [],
+	isLoading: false,
+	error: false,
+	isValidating: false,
+}
+
 const MyCollections: FC = () => {
 	const context = useContext(AppContext)
 
-	const [myCollections, setMyCollections] = useState<Collections>([])
+	const [myCollectionsCreations, setMyCollectionsCreations] =
+		useState<CollectionsCreations>(emtpyCollectionsCreations)
 
 	const isContext =
 		typeof context !== 'undefined' && context !== null && 'userId' in context
@@ -33,45 +44,67 @@ const MyCollections: FC = () => {
 
 	const currentTheme = context?.currentTheme ?? ''
 
-	const collections = context?.collections ?? []
-	const setCollections = context?.setCollections ?? (() => {})
-
-	const currentModalCollection = context?.currentModalCollection ?? ''
+	const currentModalCollection = context?.currentModalCollection ?? {
+		_id: '',
+		name: '',
+	}
 
 	const creator = useGetProfile(userId)
 
 	const {
-		collections: myCollectionsData,
+		collectionsCreationsData: myCollectionsCreationsData,
 		isLoading,
 		error,
-	} = useGetCollections()
+	} = useGetCollectionsCreations()
+
+	const isMyCollectionsCreations =
+		myCollectionsCreations !== null &&
+		typeof myCollectionsCreations !== 'undefined'
+
+	const isMyCollectionsCreationsData =
+		typeof myCollectionsCreationsData !== 'undefined' &&
+		myCollectionsCreationsData !== null
 
 	useEffect(() => {
-		setMyCollections(collections)
-	}, [collections, setCollections])
+		if (isMyCollectionsCreationsData) {
+			setMyCollectionsCreations(myCollectionsCreationsData)
+		}
+	}, [myCollectionsCreationsData])
 
 	useEffect(() => {
-		if (myCollectionsData?.collections?.length > 0) {
-			setMyCollections(myCollectionsData?.collections)
+		if (isMyCollectionsCreationsData) {
+			if (myCollectionsCreationsData?.collections?.length > 0) {
+				setMyCollectionsCreations(myCollectionsCreationsData)
+			}
 		}
-	}, [myCollectionsData])
+	}, [myCollectionsCreations])
 
-	const handleCurrentCollectionsData = (): Collection[] => {
-		if (myCollections.length > 0) {
-			return myCollections
-		} else if (myCollectionsData.length > 0) {
-			return myCollectionsData
+	const handleCurrentCollectionsData = (): CollectionsCreations => {
+		if (isMyCollectionsCreations) {
+			if (myCollectionsCreations?.collections.length > 0) {
+				return myCollectionsCreations
+			}
 		}
-		return []
+
+		if (isMyCollectionsCreationsData) {
+			if (myCollectionsCreationsData?.collections.length > 0) {
+				return myCollectionsCreationsData
+			}
+		}
+
+		return emtpyCollectionsCreations
 	}
-	const currentMyCollections = handleCurrentCollectionsData()
+	const currentMyCollectionsCreations = handleCurrentCollectionsData()
 
-	const isCurrentMyCollectionsData =
-		currentMyCollections !== null && !isLoading && typeof error === 'undefined'
+	// const isCurrentMyCollectionsCreationsData =
+	// 	currentMyCollectionsCreations !== null &&
+	// 	!isLoading &&
+	// 	typeof error === 'undefined'
 
-	const isCurrentMyCollections = currentMyCollections?.length > 0 ?? []
+	const isCurrentMyCollectionsCreations =
+		currentMyCollectionsCreations?.collections.length > 0 ?? null
 
-	console.log({ myCollectionsData, isLoading, error })
+	console.log({ myCollectionsCreationsData, isLoading, error })
 	console.log({ creator })
 	// console.log({ myCollections })
 	// console.log({ currentMyCollections })
@@ -79,13 +112,13 @@ const MyCollections: FC = () => {
 	// console.log({ collectionModalView })
 	// console.log({ currentModalCollection })
 
-	const collectionWrapperStyles = {
+	const collectionWrapperStyles: CSSProperties = {
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 	}
 
-	const collectionInnerWrapperStyles = {
+	const collectionInnerWrapperStyles: CSSProperties = {
 		display: 'flex',
 		flexDirection: 'column',
 	}
@@ -104,15 +137,15 @@ const MyCollections: FC = () => {
 					userAddress={userAddress}
 					isMyCollectionsRoute={true}
 				/>
-				{isCurrentMyCollections ? (
+				{isCurrentMyCollectionsCreations ? (
 					<Col className={styles.collectionsWrapper}>
 						<Row style={collectionInnerWrapperStyles}>
-							<CreateCollectionButton />
+							<CreateCollectionButton currentTheme={currentTheme} />
 
 							<CollectionModal collection={currentModalCollection} />
 
 							<Row style={{ justifyContent: 'center' }}>
-								{currentMyCollections?.map(
+								{currentMyCollectionsCreations.collections?.map(
 									(collection: Collection, index: number) => {
 										return (
 											<CollectionItem
@@ -120,7 +153,9 @@ const MyCollections: FC = () => {
 												collection={collection}
 												currentTheme={currentTheme}
 												collectionCreations={
-													myCollectionsData?.collectionsCreations[index]
+													currentMyCollectionsCreations?.collectionsCreations[
+														index
+													]
 												}
 											/>
 										)

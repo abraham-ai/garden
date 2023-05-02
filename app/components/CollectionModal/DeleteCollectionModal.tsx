@@ -1,6 +1,8 @@
-import type { FC } from 'react'
+import type { FC, CSSProperties, Dispatch, SetStateAction } from 'react'
 import React, { useState, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
+
+import type Collection from '../../../interfaces/Collection'
 
 import styles from '../../../styles/CreationSaveModal.module.css'
 
@@ -21,10 +23,16 @@ const openNotificationWithIcon = (
 	})
 }
 
-const DeleteCollectionModal: FC = ({
+interface DeleteCollectionModalProps {
+	collection: Collection
+	handleCollectionCancel: () => void
+	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+	setCollectionModalView: Dispatch<SetStateAction<string>>
+	setCurrentModalCollection: Dispatch<SetStateAction<Collection>>
+}
+
+const DeleteCollectionModal: FC<DeleteCollectionModalProps> = ({
 	collection,
-	inputName,
-	setInputName,
 	handleCollectionCancel,
 	setIsCollectionModalOpen,
 	setCollectionModalView,
@@ -32,7 +40,11 @@ const DeleteCollectionModal: FC = ({
 }) => {
 	const context = useContext(AppContext)
 
-	const handleCollectionAction = context?.handleCollectionAction ?? (() => {})
+	const handleCollectionAction =
+		context?.handleCollectionAction ??
+		(async () => {
+			await Promise.resolve()
+		})
 
 	const [isDeleteDisabled, setIsDeleteDisabled] = useState<boolean>(true)
 	const onChange = (e: CheckboxChangeEvent): void => {
@@ -40,13 +52,13 @@ const DeleteCollectionModal: FC = ({
 		setIsDeleteDisabled(!isDeleteDisabled)
 	}
 
-	const textStyle = {
+	const textStyle: CSSProperties = {
 		color: '#1677ff',
 		fontWeight: 600,
 		fontSize: '1rem',
 		margin: '0 10px',
 	}
-	const textWrapperStyle = {
+	const textWrapperStyle: CSSProperties = {
 		display: 'flex',
 		alignItems: 'center',
 		flexDirection: 'column',
@@ -56,7 +68,7 @@ const DeleteCollectionModal: FC = ({
 		minWidth: 200,
 	}
 
-	const deleteWrapperStyle = {
+	const deleteWrapperStyle: CSSProperties = {
 		display: 'flex',
 		minWidth: 300,
 		justifyContent: 'center',
@@ -64,7 +76,7 @@ const DeleteCollectionModal: FC = ({
 		flexDirection: 'column',
 	}
 
-	const deleteButtonWrapper = {
+	const deleteButtonWrapper: CSSProperties = {
 		display: 'flex',
 		justifyContent: 'flex-end',
 		width: '100%',
@@ -96,7 +108,7 @@ const DeleteCollectionModal: FC = ({
 							disabled={isDeleteDisabled}
 							className={styles.buttonPrimary}
 							onClick={() => {
-								handleCollectionAction('delete', collection._id, undefined)
+								handleCollectionAction('delete', collection._id, null)
 									.then(() => {
 										openNotificationWithIcon(
 											'success',

@@ -9,7 +9,13 @@ import styles from '../../../styles/MyCollections.module.css'
 import { Typography, Button, Row } from 'antd'
 const { Text } = Typography
 
-const CreateCollectionButton: FC = ({ currentTheme }) => {
+interface CreateCollectionButtonProps {
+	currentTheme: string
+}
+
+const CreateCollectionButton: FC<CreateCollectionButtonProps> = ({
+	currentTheme,
+}) => {
 	const context = useContext(AppContext)
 
 	const setIsCollectionModalOpen =

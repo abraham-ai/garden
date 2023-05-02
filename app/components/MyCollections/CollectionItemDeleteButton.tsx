@@ -11,6 +11,7 @@ import { Button } from 'antd'
 interface CollectionItemButton {
 	collection: Collection
 	collectionCreations: Creation[]
+	isCollectionHovering: boolean
 	currentTheme: string
 }
 

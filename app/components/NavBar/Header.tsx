@@ -231,7 +231,7 @@ const Header: FC = () => {
 				</Link>
 
 				<Row className={styles.popoverConnectWrapper}>
-					<span
+					{/* <span
 						style={{
 							display: `${isMobile && isMounted ? 'none' : 'flex'}`,
 							alignItems: 'center',
@@ -252,15 +252,15 @@ const Header: FC = () => {
 							trigger='click'
 							placement='bottom'
 						>
-							{/* <Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}> */}
+							<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
 							<Button type='link' shape='circle' style={{ marginRight: 10 }}>
 								<Badge count={handleBadgeCount()}>
 									<BsGear style={{ fontSize: '1.5rem' }} />
 								</Badge>
 							</Button>
-							{/* </Tooltip> */}
+							</Tooltip>
 						</Popover>
-					</span>
+					</span> */}
 
 					{/* <ConnectButton /> */}
 					<ConnectButtonCustom isMobile={isMobile} isMounted={isMounted} />

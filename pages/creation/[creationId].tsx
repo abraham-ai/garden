@@ -14,8 +14,8 @@ import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-import CreationSocial from '../../app/components/CreationSocial'
-import CreationSaveModal from '../../app/components/CreationSaveModal'
+import CreationSocial from '../../app/components/CreationCard/CreationSocial'
+import CreationSaveModal from '../../app/components/CreationCard/CreationSaveModal'
 
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
@@ -218,8 +218,9 @@ const Creation: FC<CreationPageProps> = ({
 		} else if (isMobile && isCrIdPage) {
 			return '1.3rem'
 		}
+		return '1rem'
 	}
-	const crPromptSize = handleCrPromptSize()
+	// const crPromptSize = handleCrPromptSize()
 
 	const crWrapSocialFlex = handleCrWrapSocialFlex(styleContext)
 

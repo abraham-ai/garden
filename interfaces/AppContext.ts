@@ -42,15 +42,20 @@ interface AppContext {
 	isSaveCreationModalOpen: boolean
 	setIsSaveCreationModalOpen: Dispatch<SetStateAction<boolean>>
 
-	collectionModalView: number
-	setCollectionModalView: Dispatch<SetStateAction<number>>
+	collectionModalView: string
+	setCollectionModalView: Dispatch<SetStateAction<string>>
 
 	isCollectionModalOpen: boolean
 	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
-	isCreateCollectionModalOpen: boolean
-	setIsCreateCollectionModalOpen: Dispatch<SetStateAction<boolean>>
-	isRenameCollectionModalOpen: boolean
-	setIsRenameCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+
+	currentModalCollection: Collection
+	setCurrentModalCollection: Dispatch<SetStateAction<Collection>>
+
+	handleCollectionAction: (
+		actionType: 'create' | 'rename' | 'delete',
+		collectionId: string | null,
+		collectionName: string | null
+	) => Promise<void>
 
 	currentTheme: string
 	setCurrentTheme: Dispatch<SetStateAction<string>>

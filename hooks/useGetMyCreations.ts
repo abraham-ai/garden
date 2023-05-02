@@ -1,11 +1,19 @@
 import { useState, useEffect, useCallback } from 'react'
-import type Creator from '../interfaces/Creator'
+import type CreatorCreations from '../interfaces/CreatorCreations'
 import type Creations from '../interfaces/Creations'
 
 import axios from 'axios'
 
-const useGetMyCreations = (userId: string): Creations | null => {
-	const [myCreations, setMyCreations] = useState<Creations | null>(null)
+const emptyCreatorCreations = {
+	creations: [],
+	creatorId: '',
+	creatorUsername: '',
+}
+
+const useGetMyCreations = (userId: string): CreatorCreations => {
+	const [myCreations, setMyCreations] = useState<CreatorCreations>(
+		emptyCreatorCreations
+	)
 
 	const handleGetMyCreations = useCallback(async (userId: string) => {
 		console.log(`useGetMyCreations: myCreations: ${userId}`)
@@ -13,7 +21,11 @@ const useGetMyCreations = (userId: string): Creations | null => {
 			.post('/api/mycreations')
 			.then((response) => {
 				console.log(response.data)
-				setMyCreations({ creations: response.data })
+				setMyCreations({
+					creations: response.data,
+					creatorId: userId,
+					creatorUsername: '',
+				}) // Add creatorId and creatorUsername
 			})
 			.catch((error) => {
 				console.error('Error fetching my creations:', error)
@@ -28,7 +40,9 @@ const useGetMyCreations = (userId: string): Creations | null => {
 
 	console.log({ myCreations })
 
-	return typeof myCreations !== 'undefined' ? myCreations : null
+	return typeof myCreations !== 'undefined'
+		? myCreations
+		: emptyCreatorCreations
 }
 
 export default useGetMyCreations

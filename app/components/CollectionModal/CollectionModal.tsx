@@ -2,13 +2,24 @@ import React, { useState, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import type { FC } from 'react'
 
+import type Collection from '../../../interfaces/Collection'
+
 import RenameCollectionModal from './RenameCollectionModal'
 import CreateCollectionModal from './CreateCollectionModal'
 import DeleteCollectionModal from './DeleteCollectionModal'
 
 import { Modal } from 'antd'
 
-const CollectionModal: FC = ({ collection }) => {
+const emptyCollection: Collection = {
+	_id: '',
+	name: '',
+}
+
+interface CollectionModalProps {
+	collection: Collection
+}
+
+const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
 	const context = useContext(AppContext)
 
 	const isCollectionModalOpen = context?.isCollectionModalOpen ?? false
@@ -26,7 +37,7 @@ const CollectionModal: FC = ({ collection }) => {
 	const handleCollectionCancel = (): void => {
 		setIsCollectionModalOpen(false)
 		setCollectionModalView('')
-		setCurrentModalCollection({})
+		setCurrentModalCollection(emptyCollection)
 		setInputCollectionName('')
 	}
 
@@ -62,17 +73,18 @@ const CollectionModal: FC = ({ collection }) => {
 					handleCollectionCancel={handleCollectionCancel}
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
 					setCollectionModalView={setCollectionModalView}
+					currentModalCollection={emptyCollection}
+					setCurrentModalCollection={setCurrentModalCollection}
 				/>
 			) : null}
 
 			{collectionModalView === 'delete' ? (
 				<DeleteCollectionModal
 					collection={collection}
-					inputCollectionName={inputCollectionName}
-					setInputCollectionName={setInputCollectionName}
 					handleCollectionCancel={handleCollectionCancel}
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
 					setCollectionModalView={setCollectionModalView}
+					setCurrentModalCollection={setCurrentModalCollection}
 				/>
 			) : null}
 		</Modal>

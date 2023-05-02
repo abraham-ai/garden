@@ -100,7 +100,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 						{isUser ? (
 							<>
 								<CreatorHeader
-									userId={collectionData?.profile?.user?.userId}
+									userAddress={collectionData?.profile?.user?.userId}
 									collectionId={isCollectionId}
 									isMyCollectionsRoute={false}
 									isMyCreationsRoute={false}

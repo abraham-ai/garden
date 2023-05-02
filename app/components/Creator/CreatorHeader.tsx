@@ -1,5 +1,5 @@
-import type { FC } from 'react'
-import type Creator from '../../../interfaces/Creator'
+import type { FC, CSSProperties } from 'react'
+import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import React from 'react'
 import Link from 'next/link'
 
@@ -17,7 +17,7 @@ interface CreatorHeaderProps {
 	isMyCreationsRoute?: boolean
 	isMyCollectionsRoute?: boolean
 	queryCreatorId?: string
-	creator?: Creator
+	creator?: CreatorProfile
 }
 
 const CreatorHeader: FC<CreatorHeaderProps> = ({
@@ -31,8 +31,8 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 }) => {
 	const handleCreatorDisplayName = (): string => {
 		if (typeof creator !== 'undefined') {
-			if (typeof creator?.creatorProfile?.user !== 'undefined') {
-				return creator?.creatorProfile?.user?.username
+			if (typeof creator?.profile?.creatorProfile?.user !== 'undefined') {
+				return creator?.profile?.creatorProfile?.user?.username
 			}
 		}
 
@@ -43,6 +43,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 		if (typeof userAddress === 'string') {
 			return abbreviateAddress(userAddress)
 		}
+		return ''
 	}
 
 	const displayAddress = handleCreatorDisplayName()
@@ -61,13 +62,13 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	const isUserAddress = typeof userAddress !== 'undefined'
 
-	const creatorHeaderWrapperStyles = {
+	const creatorHeaderWrapperStyles: CSSProperties = {
 		display: 'flex',
 		flex: 1,
 		justifyContent: 'space-between',
 	}
 
-	const profileWrapperStyles = {
+	const profileWrapperStyles: CSSProperties = {
 		zIndex: 150,
 		position: 'relative',
 		margin: '150px 0 20px 0',
@@ -77,7 +78,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 		width: '100%',
 	}
 
-	const creatorProfileStyles = {
+	const creatorProfileStyles: CSSProperties = {
 		width: '100%',
 		display: 'flex',
 		flex: 2,
