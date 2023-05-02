@@ -1,57 +1,129 @@
-import type { FC, MouseEvent } from 'react'
+import type { FC, CSSProperties } from 'react'
 import type Collection from '../interfaces/Collection'
 
-import React, { useContext } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useState, useContext, useEffect } from 'react'
 
 import AppContext from '../context/AppContext'
 
 import Header from '../app/components/NavBar/Header'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
+import CollectionModal from '../app/components/CollectionModal/CollectionModal'
+import CreateCollectionButton from '../app/components/MyCollections/CreateCollectionButton'
+import CollectionItem from '../app/components/MyCollections/CollectionItem'
 
-import useGetCollections from '../hooks/useGetCollections'
+import useGetCollectionsCreations from '../hooks/useGetCollectionsCreations'
+import useGetProfile from '../hooks/useGetProfile'
+
+import type CollectionsCreations from '../interfaces/CollectionsCreations'
 
 import styles from '../styles/MyCollections.module.css'
 
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Typography, Button, Row, Spin, Col } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import { Row, Spin, Col } from 'antd'
+
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-const { Text } = Typography
+
+const emtpyCollectionsCreations = {
+	collections: [],
+	collectionsCreations: [],
+	isLoading: false,
+	error: false,
+	isValidating: false,
+}
 
 const MyCollections: FC = () => {
 	const context = useContext(AppContext)
 
-	const userId =
-		typeof context !== 'undefined' && context !== null && 'userId' in context
-			? String(context.userId)
-			: ''
+	const [myCollectionsCreations, setMyCollectionsCreations] =
+		useState<CollectionsCreations>(emtpyCollectionsCreations)
 
-	const router = useRouter()
+	const isContext =
+		typeof context !== 'undefined' && context !== null && 'userId' in context
+	const userId = isContext ? String(context.userId) : ''
+	const userAddress = context?.userAddress ?? ''
+
+	const currentTheme = context?.currentTheme ?? ''
+
+	const currentModalCollection = context?.currentModalCollection ?? {
+		_id: '',
+		name: '',
+	}
+
+	const creator = useGetProfile(userId)
 
 	const {
-		collections: myCollectionsData,
+		collectionsCreationsData: myCollectionsCreationsData,
 		isLoading,
 		error,
-	} = useGetCollections()
+	} = useGetCollectionsCreations()
 
-	console.log({ myCollectionsData })
+	const isMyCollectionsCreations =
+		myCollectionsCreations !== null &&
+		typeof myCollectionsCreations !== 'undefined'
 
-	const handleClickCollection = (
-		e: MouseEvent<HTMLAnchorElement>,
-		collectionId: string
-	): void => {
-		e.preventDefault()
-		router.push(`/collection/${String(collectionId)}`)
+	const isMyCollectionsCreationsData =
+		typeof myCollectionsCreationsData !== 'undefined' &&
+		myCollectionsCreationsData !== null
+
+	useEffect(() => {
+		if (isMyCollectionsCreationsData) {
+			setMyCollectionsCreations(myCollectionsCreationsData)
+		}
+	}, [myCollectionsCreationsData])
+
+	useEffect(() => {
+		if (isMyCollectionsCreationsData) {
+			if (myCollectionsCreationsData?.collections?.length > 0) {
+				setMyCollectionsCreations(myCollectionsCreationsData)
+			}
+		}
+	}, [myCollectionsCreations])
+
+	const handleCurrentCollectionsData = (): CollectionsCreations => {
+		if (isMyCollectionsCreations) {
+			if (myCollectionsCreations?.collections.length > 0) {
+				return myCollectionsCreations
+			}
+		}
+
+		if (isMyCollectionsCreationsData) {
+			if (myCollectionsCreationsData?.collections.length > 0) {
+				return myCollectionsCreationsData
+			}
+		}
+
+		return emtpyCollectionsCreations
+	}
+	const currentMyCollectionsCreations = handleCurrentCollectionsData()
+
+	// const isCurrentMyCollectionsCreationsData =
+	// 	currentMyCollectionsCreations !== null &&
+	// 	!isLoading &&
+	// 	typeof error === 'undefined'
+
+	const isCurrentMyCollectionsCreations =
+		currentMyCollectionsCreations?.collections.length > 0 ?? null
+
+	console.log({ myCollectionsCreationsData, isLoading, error })
+	console.log({ creator })
+	// console.log({ myCollections })
+	// console.log({ currentMyCollections })
+
+	// console.log({ collectionModalView })
+	// console.log({ currentModalCollection })
+
+	const collectionWrapperStyles: CSSProperties = {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
 	}
 
-	const handleCreateCollection = (): void => {
-		console.log('Create Collection Modal')
+	const collectionInnerWrapperStyles: CSSProperties = {
+		display: 'flex',
+		flexDirection: 'column',
 	}
 
-	const isMyCollections =
-		myCollectionsData !== null && !isLoading && typeof error === 'undefined'
-
-	console.log({ myCollectionsData, isLoading, error })
+	console.log({ userAddress })
 
 	return (
 		<>
@@ -59,54 +131,45 @@ const MyCollections: FC = () => {
 				<Header />
 			</main>
 
-			<CreatorHeader userId={userId} isMyCollectionsRoute={true} />
-			{isMyCollections ? (
-				<Col className={styles.collectionsWrapper}>
-					<Row
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-						}}
-					>
-						{/* <Row className={styles.createCollectionButtonWrapper}>
-							<Button
-								className={styles.createCollectionButton}
-								type='default'
-								shape='round'
-								icon={<PlusOutlined />}
-								onClick={(e) => {
-									handleCreateCollection()
-								}}
-							>
-								<Text className={styles.createCollectionButtonText}>
-									{'Create Collection'}
-								</Text>
-							</Button>
-						</Row> */}
-						<Row style={{ justifyContent: 'center' }}>
-							{myCollectionsData.map((collection: Collection) => {
-								return (
-									<Button
-										className={styles.collectionButton}
-										key={collection._id}
-										onClick={(e) => {
-											handleClickCollection(e, collection._id)
-										}}
-									>
-										<Text className={styles.collectionButtonText}>
-											{collection.name}
-										</Text>
-									</Button>
-								)
-							})}
+			<Col style={collectionWrapperStyles}>
+				<CreatorHeader
+					creator={creator}
+					userAddress={userAddress}
+					isMyCollectionsRoute={true}
+				/>
+				{isCurrentMyCollectionsCreations ? (
+					<Col className={styles.collectionsWrapper}>
+						<Row style={collectionInnerWrapperStyles}>
+							<CreateCollectionButton currentTheme={currentTheme} />
+
+							<CollectionModal collection={currentModalCollection} />
+
+							<Row style={{ justifyContent: 'center' }}>
+								{currentMyCollectionsCreations.collections?.map(
+									(collection: Collection, index: number) => {
+										return (
+											<CollectionItem
+												key={collection._id}
+												collection={collection}
+												currentTheme={currentTheme}
+												collectionCreations={
+													currentMyCollectionsCreations?.collectionsCreations[
+														index
+													]
+												}
+											/>
+										)
+									}
+								)}
+							</Row>
 						</Row>
+					</Col>
+				) : (
+					<Row className={styles.loading}>
+						<Spin indicator={antIcon} />
 					</Row>
-				</Col>
-			) : (
-				<Row className={styles.loading}>
-					<Spin indicator={antIcon} />
-				</Row>
-			)}
+				)}
+			</Col>
 		</>
 	)
 }

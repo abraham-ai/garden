@@ -1,47 +1,29 @@
-import useSWR from 'swr'
-import type { SWRResponse, SWRConfiguration, KeyedMutator } from 'swr'
+import { useState, useEffect } from 'react'
 import type CollectionResponse from '../interfaces/CollectionResponse'
 
-const fetcher = async (url: string): Promise<CollectionResponse | null> => {
-	if (typeof url === 'undefined' || url === '') return null
-
-	const response = await fetch(url, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-	})
-	const data = await response.json()
-
-	console.log({ data })
-	return data
-}
-
 const useGetCollection = (
-	collectionId: string
-): SWRResponse<CollectionResponse | null, any> & {
-	mutate: KeyedMutator<CollectionResponse | null>
-} => {
-	console.log('USE-GET-COLLECTION')
+	collectionId: string | null
+): CollectionResponse | null => {
+	const [collectionData, setCollectionData] =
+		useState<CollectionResponse | null>(null)
 
-	const { data, error, mutate } = useSWR<CollectionResponse | null>(
-		`/api/collection/${collectionId}`,
-		fetcher,
-		{
-			revalidateOnFocus: false,
-			revalidateOnReconnect: false,
-		} as const
-	)
+	const isCollectionId = typeof collectionId === 'string'
 
-	console.log({ data })
+	useEffect(() => {
+		if (collectionId === null) return
+		if (isCollectionId) {
+			const fetchData = async () => {
+				// Call your API fetch logic here
+				// For example:
+				const response = await fetch(`/api/collection/${collectionId}`)
+				const data = await response.json()
+				setCollectionData(data)
+			}
+			fetchData()
+		}
+	}, [collectionId, isCollectionId])
 
-	const isLoading = data == null && error === false
-
-	return {
-		data,
-		error,
-		isLoading,
-		mutate,
-		isValidating: !isLoading && error === false,
-	}
+	return collectionData
 }
 
 export default useGetCollection

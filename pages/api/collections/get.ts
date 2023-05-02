@@ -4,6 +4,10 @@ import { withSessionRoute } from '../../../util/withSession'
 
 import { EdenClient } from 'eden-sdk'
 
+interface CustomSession {
+	userId: string
+	token: string
+}
 const eden = new EdenClient()
 
 const handler = async (
@@ -11,12 +15,15 @@ const handler = async (
 	res: NextApiResponse
 ): Promise<void> => {
 	// Save the user data in the session
-	const session = req.session
+	const session = req.session as CustomSession
 
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
-	if (authToken === '') {
+	// console.log({ req })
+	console.log(req.url)
+
+	if (typeof authToken === 'undefined' || authToken === null) {
 		res.status(401).json({ error: 'Authentication token is missing' })
 		return
 	}
@@ -29,13 +36,12 @@ const handler = async (
 
 		res.status(200).json({ result: collections })
 		return
-	} catch (error: unknown) {
-		if (error instanceof Error) {
-			console.log(error)
-			res.status(500).json({ error })
-		} else {
-			res.status(500).json({ error: 'Unknown error' })
-		}
+	} catch (error: any) {
+		console.log(error)
+		// if (error.response.data == 'jwt expired') {
+		//   return res.status(401).json({ error: 'Authentication expired' })
+		// }
+		res.status(500).json({ error })
 	}
 }
 

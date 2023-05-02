@@ -10,11 +10,12 @@ const handler = async (
 	res: NextApiResponse
 ): Promise<void> => {
 	const { collectionId, newCollectionName } = req.body
+	console.log({ collectionId, newCollectionName })
 
 	// Safely retrieve the session data
 	const session = req.session
 
-	// const userId = session?.userId ?? ''
+	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
 	try {
@@ -24,10 +25,18 @@ const handler = async (
 		const collection = await eden.getCollection(collectionId)
 		console.log(collection)
 
-		// renamte collection
-		const renamedCollection = await collection.rename(newCollectionName)
+		// rename collection
+		const renamedResult = await collection.rename(newCollectionName)
+		console.log(renamedResult)
 
-		res.status(200).json(renamedCollection)
+		// check collection name
+		const newRenamedCollection = await eden.getCollection(collectionId)
+		console.log(newRenamedCollection)
+
+		// return updated collections
+		const updatedCollections = await eden.getCollections(userId)
+
+		res.status(200).json({ newRenamedCollection, updatedCollections })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

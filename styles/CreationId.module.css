@@ -151,7 +151,7 @@
 @media (max-width: 1400px) {
 	.crMainHeader {
 		align-items: flex-start;
-		flex-direction: column;
+		flex-direction: row;
 	}
 }
 /*** CR-TEXT ***/

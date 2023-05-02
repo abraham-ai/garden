@@ -24,6 +24,11 @@ const EthereumVerify = (): JSX.Element | null => {
 		[context?.setUserId]
 	)
 
+	const setUserAddress = useMemo(
+		() => context?.setUserAddress ?? (() => {}),
+		[context?.setUserAddress]
+	)
+
 	const setIsSignedIn = useMemo(
 		() => context?.setIsSignedIn ?? (() => {}),
 		[context?.setIsSignedIn]
@@ -35,7 +40,8 @@ const EthereumVerify = (): JSX.Element | null => {
 	useEffect(() => {
 		if (isWalletConnected && isConnected) {
 			setIsWalletConnected(true)
-			setUserId(typeof address === 'string' ? `${String(address)}` : '')
+			setUserAddress(typeof address === 'string' ? `${String(address)}` : '')
+			// setUserId(typeof address === 'string' ? `${String(address)}` : '')
 		}
 
 		const handler = async (): Promise<void> => {
@@ -43,17 +49,20 @@ const EthereumVerify = (): JSX.Element | null => {
 				const res = await fetch('/api/auth/me')
 				const json = await res.json()
 
-				const { token, userId } = json
+				const { token, userProfile } = json
 
 				// console.log('EthereumVerify.tsx')
 				// console.log(json)
 				// console.log(res)
 				// console.log({ token, userId })
 
-				if (typeof token !== 'undefined' && typeof userId !== 'undefined') {
+				if (
+					typeof token !== 'undefined' &&
+					typeof userProfile !== 'undefined'
+				) {
 					setIsSignedIn(true)
 					setAuthToken(token)
-					setUserId(`${String(userId)}`)
+					setUserAddress(`${String(userProfile.user.userId)}`)
 				}
 			} catch (_error) {}
 		}

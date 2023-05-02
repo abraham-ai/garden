@@ -82,6 +82,7 @@ const Header: FC = () => {
 	const userId = context?.userId ?? ''
 	const isSignedIn = context?.isSignedIn ?? false
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const { width } = useWindowDimensions()
 
@@ -92,14 +93,16 @@ const Header: FC = () => {
 	}, [])
 
 	useEffect(() => {
-		if (isMounted && !firstSignInRequest) {
+		if (isMounted && !isSignedIn && !firstSignInRequest) {
 			setFirstSignInRequest(true)
 		}
 	}, [isMounted, firstSignInRequest])
 
-	useMemo(() => {
-		setIsSignInModalOpen(true)
-	}, [firstSignInRequest])
+	useEffect(() => {
+		if (firstSignInRequest) {
+			setIsSignInModalOpen(true)
+		}
+	}, [firstSignInRequest, setIsSignInModalOpen])
 
 	let displayAddress = ''
 	if (typeof userId === 'string') {
@@ -115,7 +118,7 @@ const Header: FC = () => {
 		value: string,
 		option: { value: string; label: string }
 	): void => {
-		console.log(`selected ${value}`)
+		// console.log(`selected ${value}`)
 		if (value === 'garden') {
 			router.push('/')
 		} else {
@@ -125,8 +128,8 @@ const Header: FC = () => {
 
 	const handleDefaultSelectValue = (): string => {
 		const { asPath } = router
-		// const { collection } = router.query
 
+		// const { collection } = router.query
 		// console.log('handleDefaultSelectValue')
 		// console.log({ asPath })
 		// console.log({ collection })
@@ -152,7 +155,7 @@ const Header: FC = () => {
 				{ value: 'garden', label: 'Garden' },
 				{ value: 'mycreations', label: 'My Creations' },
 				{ value: 'mycollections', label: 'My Collections' },
-				// { value: 'editprofile', label: 'Edit Profile' },
+				{ value: 'editprofile', label: 'Edit Profile' },
 			]
 		} else {
 			return [{ value: 'garden', label: 'Garden' }]
@@ -169,6 +172,11 @@ const Header: FC = () => {
 		}
 	}
 
+	const isThemeLight = currentTheme === 'light'
+	const textThemeColor = { color: isThemeLight ? 'black' : 'white' }
+
+	// console.log({ isThemeLight })
+
 	return (
 		<header className={styles.headerWrapper}>
 			<ul className={styles.linksWrapper}>
@@ -182,10 +190,10 @@ const Header: FC = () => {
 						{userId !== 'undefined' ? (
 							<>
 								<ActiveLink href='/mycreations'>
-									<Text>{'My Creations'}</Text>
+									<Text style={textThemeColor}>{'My Creations'}</Text>
 								</ActiveLink>
 								<ActiveLink href='/mycollections'>
-									<Text>{'My Collections'}</Text>
+									<Text style={textThemeColor}>{'My Collections'}</Text>
 								</ActiveLink>
 								{/* <ActiveLink href='/profile'>
 									<Text>{'Edit Profile'}</Text>
@@ -199,7 +207,7 @@ const Header: FC = () => {
 							<Select
 								className='navbarSelect'
 								defaultValue={handleDefaultSelectValue()}
-								style={{ width: 150, border: 'none' }}
+								style={{ width: 150, border: 'none', textAlign: 'center' }}
 								onChange={handleChange}
 								options={handleSelectOptions()}
 							/>
@@ -223,7 +231,7 @@ const Header: FC = () => {
 				</Link>
 
 				<Row className={styles.popoverConnectWrapper}>
-					<span
+					{/* <span
 						style={{
 							display: `${isMobile && isMounted ? 'none' : 'flex'}`,
 							alignItems: 'center',
@@ -244,15 +252,15 @@ const Header: FC = () => {
 							trigger='click'
 							placement='bottom'
 						>
-							{/* <Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}> */}
+							<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
 							<Button type='link' shape='circle' style={{ marginRight: 10 }}>
 								<Badge count={handleBadgeCount()}>
 									<BsGear style={{ fontSize: '1.5rem' }} />
 								</Badge>
 							</Button>
-							{/* </Tooltip> */}
+							</Tooltip>
 						</Popover>
-					</span>
+					</span> */}
 
 					{/* <ConnectButton /> */}
 					<ConnectButtonCustom isMobile={isMobile} isMounted={isMounted} />

@@ -5,7 +5,7 @@ import Head from 'next/head'
 
 import Header from '../app/components/NavBar/Header'
 import CreationsGrid from '../app/components/Creations/CreationsGrid'
-import CreationSaveModal from '../app/components/CreationSaveModal'
+import CreationSaveModal from '../app/components/CreationCard/CreationSaveModal'
 
 import stylesHeader from '../styles/Header.module.css'
 import stylesCreationsGrid from '../styles/CreationsGrid.module.css'

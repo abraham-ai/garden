@@ -20,29 +20,30 @@ const handler = async (
 	console.log('collectionName', collectionName)
 	console.log('creationId', creationId)
 
+	const isCreationId = typeof creationId !== 'undefined' && creationId !== ''
+	console.log({ isCreationId })
+
 	try {
 		eden.setAuthToken(authToken)
 
 		// create collection
 		const createdCollection = await eden.createCollection(collectionName)
-		const collections = await eden.getCollections(userId)
+
 		console.log(createdCollection)
-		console.log(collections)
 
-		// get creation
-		const creation = await eden.getCreation(creationId)
+		if (isCreationId) {
+			// get creation
+			const creation = await eden.getCreation(creationId)
+			// add creation to collection
+			const addedCreationResult = await createdCollection.addCreation(creation)
+			console.log(addedCreationResult)
+		}
 
-		// add creation to collection
-		const addedCreationResult = await createdCollection.addCreation(creation)
-		console.log(addedCreationResult)
+		// return updated collections
+		const updatedCollections = await eden.getCollections(userId)
+		console.log(updatedCollections)
 
-		// result = await collections.create(name)
-		// const collections = await creation.getCollections(filter)
-
-		// console.log(result)
-		// console.log(creations)
-
-		res.status(200).json({ collectionName })
+		res.status(200).json({ collectionName, updatedCollections })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

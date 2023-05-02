@@ -1,79 +1,108 @@
+import type { FC, CSSProperties } from 'react'
+import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import React from 'react'
-import type { FC } from 'react'
 import Link from 'next/link'
 
-import { Avatar, Typography, Col, Row, Button } from 'antd'
+import styles from '../../../styles/CreatorHeader.module.css'
+
+import { Avatar, Typography, Col, Row, Skeleton } from 'antd'
 
 import Blockies from 'react-blockies'
 
 import abbreviateAddress from '../../../util/abbreviateAddress'
-const { Title, Text } = Typography
+const { Title } = Typography
 
 interface CreatorHeaderProps {
 	collectionId?: string
-	userId?: string
+	userName?: string
+	userAddress?: string
 	isMyCreationsRoute?: boolean
 	isMyCollectionsRoute?: boolean
 	queryCreatorId?: string
+	creator?: CreatorProfile
 }
 
 const CreatorHeader: FC<CreatorHeaderProps> = ({
 	collectionId,
-	userId,
+	userAddress,
+	userName,
 	isMyCreationsRoute = false,
 	isMyCollectionsRoute = false,
 	queryCreatorId = '',
+	creator,
 }) => {
-	let displayAddress = ''
-	if (typeof userId === 'string') {
-		displayAddress = abbreviateAddress(userId)
-	}
+	const isCreator = typeof creator !== 'undefined'
 
-	const isCollectionRoute = typeof collectionId !== 'undefined'
-	// const isCreationRoute = typeof creatorId !== 'undefined'
-
-	console.log({ collectionId })
-	console.log({ isCollectionRoute })
+	const isUserName = typeof userName === 'string'
+	const isUserAddress =
+		typeof userAddress === 'string' && typeof userAddress !== 'undefined'
 
 	const isQueryCreatorId =
 		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
 
+	const isCollectionRoute = typeof collectionId !== 'undefined'
+
+	const handleCreatorDisplayName = (): string => {
+		if (isCreator) {
+			if (typeof creator?.profile?.creatorProfile?.user !== 'undefined') {
+				return creator?.profile?.creatorProfile?.user?.username
+			}
+		}
+
+		if (isUserName) {
+			return userName
+		}
+
+		if (isUserAddress) {
+			return abbreviateAddress(userAddress)
+		}
+		return ''
+	}
+
+	const displayAddress = handleCreatorDisplayName()
+
+	console.log({ creator })
+	console.log({ displayAddress })
+	console.log({ isUserAddress })
+
+	// const isCreationRoute = typeof creatorId !== 'undefined'
+	// console.log({ collectionId })
+	// console.log({ isCollectionRoute })
+
 	return (
-		<article
-			className='creatorHeader'
-			style={{ display: 'flex', flex: 1, justifyContent: 'space-between' }}
-		>
-			<span
-				className='creatorProfile'
-				style={{
-					width: '100%',
-					// background: 'white',
-					display: 'flex',
-					flex: 2,
-					flexDirection: 'column',
-					alignItems: 'flex-start',
-				}}
-			>
-				<Col
-					style={{
-						zIndex: 150,
-						position: 'relative',
-						margin: '150px 0 20px 0',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						width: '100%',
-					}}
-				>
-					<Avatar
-						className='profileAvatarWrapper'
-						style={{ display: 'flex', flex: 1 }}
-						size={64}
-						icon={<Blockies scale={8} seed={String(userId)} />}
-					/>
-					<Title level={3} className='profileName' style={{ marginTop: 10 }}>
-						{displayAddress}
-					</Title>
+		<article className={styles.creatorHeaderWrapperStyles}>
+			<span className={styles.creatorProfileStyles}>
+				<Col className={styles.profileWrapperStyles}>
+					<Skeleton.Avatar loading={isUserAddress} active size={50}>
+						<Avatar
+							className={styles.profileAvatarWrapperStyles}
+							size={64}
+							icon={
+								<Blockies
+									scale={8}
+									seed={String(isUserAddress ? userAddress : displayAddress)}
+								/>
+							}
+						/>
+					</Skeleton.Avatar>
+
+					<Skeleton
+						loading={isUserAddress}
+						active
+						width={400}
+						paragraph={{ rows: 0 }}
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							textAlign: 'center',
+						}}
+					>
+						<Link href={`/creator/${String(userAddress)}`}>
+							<Title level={3} className={styles.profileName}>
+								{displayAddress}
+							</Title>
+						</Link>
+					</Skeleton>
 				</Col>
 
 				{isQueryCreatorId ? (

@@ -64,7 +64,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 			// showSaveNotification()
 			setIsSaveCreationModalOpen(true)
 			setCurrentCreationModalCreation(creation)
-			setCollectionModalView(0)
+			setCollectionModalView('first-modal')
 		}
 	}
 

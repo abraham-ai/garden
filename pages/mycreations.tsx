@@ -3,6 +3,8 @@ import type { FC } from 'react'
 
 import AppContext from '../context/AppContext'
 
+import useGetProfile from '../hooks/useGetProfile'
+
 import Header from '../app/components/NavBar/Header'
 import CreationsGridSimple from '../app/components/Creations/CreationsGridSimple'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
@@ -23,8 +25,11 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const MyCreations: FC = () => {
 	const context = useContext(AppContext)
 	const userId = context?.userId ?? ''
+	const userAddress = context?.userAddress ?? ''
 
 	const myCreationsData = useGetMyCreations(userId)
+
+	const creator = useGetProfile(userId)
 
 	const { width } = useWindowDimensions()
 
@@ -38,7 +43,11 @@ const MyCreations: FC = () => {
 
 			{/* <EditCollectionModal /> */}
 
-			<CreatorHeader userId={userId} isMyCreationsRoute={true} />
+			<CreatorHeader
+				creator={creator}
+				userAddress={userAddress}
+				isMyCreationsRoute={true}
+			/>
 			{myCreationsData !== null ? (
 				<section
 					className={stylesCreationsGrid.creationsWrapper}

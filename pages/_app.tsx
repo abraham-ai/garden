@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import type { FC } from 'react'
 import AppContext from '../context/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
@@ -17,11 +17,14 @@ import {
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
+import axios from 'axios'
+
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 
 import Blockies from 'react-blockies'
 
+import themeOnLoad from '../util/themeOnLoad'
 import type Creation from '../interfaces/Creation'
 import type Collection from '../interfaces/Collection'
 import type Task from '../interfaces/Task'
@@ -116,6 +119,11 @@ const emptyCreation = {
 	thumbnail: '',
 }
 
+const emptyCollection: Collection = {
+	_id: '',
+	name: '',
+}
+
 interface CustomAvatarProps {
 	address: string
 }
@@ -135,6 +143,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [isSignedIn, setIsSignedIn] = useState<boolean | undefined>(false)
 	const [authToken, setAuthToken] = useState<string | undefined>('')
 	const [userId, setUserId] = useState<string | undefined>('')
+	const [userAddress, setUserAddress] = useState<string | undefined>('')
 	const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false)
 
 	// creation context
@@ -148,11 +157,64 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	const [currentCreationIndex, setCurrentCreationIndex] = useState<number>(0)
 
+	// collection context
 	const [collections, setCollections] = useState<Collection[]>([])
 	const [selectedCollection, setSelectedCollection] = useState<string>('')
-	const [collectionModalView, setCollectionModalView] = useState<number>(0)
+	const [currentModalCollection, setCurrentModalCollection] =
+		useState<Collection>(emptyCollection)
+	const [collectionModalView, setCollectionModalView] = useState<string>('')
+	const [isCollectionModalOpen, setIsCollectionModalOpen] =
+		useState<boolean>(false)
 
 	const [currentTheme, setCurrentTheme] = useState<string>('')
+
+	const handleCollectionAction = async (
+		actionType: 'create' | 'rename' | 'delete',
+		collectionId: string | null,
+		collectionName: string | null
+	): Promise<void> => {
+		console.log({ collectionId })
+		console.log({ collectionName })
+		try {
+			let endpoint = ''
+			let requestData = {}
+
+			if (actionType === 'create') {
+				endpoint = '/api/collection/create'
+				requestData = {
+					collectionName,
+				}
+			} else if (actionType === 'rename') {
+				endpoint = '/api/collection/rename'
+				requestData = {
+					collectionId,
+					newCollectionName: collectionName,
+				}
+			} else if (actionType === 'delete') {
+				endpoint = '/api/collection/delete'
+				requestData = {
+					collectionId,
+					collectionName,
+				}
+			} else {
+				throw new Error('Invalid action type')
+			}
+
+			const { data } = await axios.post(endpoint, requestData)
+
+			console.log(data)
+
+			if (actionType === 'create') {
+				console.log(`APP: setCollections ${actionType}`)
+				setCollections(() => [...data.updatedCollections])
+			} else if (actionType === 'delete' || actionType === 'rename') {
+				console.log(`APP: setCollections ${actionType}`)
+				setCollections(() => [...data.updatedCollections])
+			}
+		} catch (error) {
+			console.error(`Error in ${actionType} collection:`, error)
+		}
+	}
 
 	const contextValues = {
 		authToken,
@@ -163,6 +225,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setIsSignedIn,
 		userId,
 		setUserId,
+		userAddress,
+		setUserAddress,
 		creationsLoading,
 		creationsData,
 		setCreationsData,
@@ -175,14 +239,20 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setSelectedCollection,
 		collectionModalView,
 		setCollectionModalView,
+		isCollectionModalOpen,
+		setIsCollectionModalOpen,
 		currentCreationModalCreation,
 		setCurrentCreationModalCreation,
+		currentModalCollection,
+		setCurrentModalCollection,
 		isSaveCreationModalOpen,
 		setIsSaveCreationModalOpen,
 		currentTheme,
 		setCurrentTheme,
 		isSignInModalOpen,
 		setIsSignInModalOpen,
+
+		handleCollectionAction,
 	}
 
 	const { defaultAlgorithm, darkAlgorithm } = theme
@@ -192,18 +262,9 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	Router.events.on('routeChangeError', nProgress.done)
 	Router.events.on('routeChangeComplete', nProgress.done)
 
-	const currentThemeOnLoad = useMemo(() => {
-		const now = new Date()
-		const hours = now.getHours()
+	const currentThemeOnLoad = themeOnLoad()
 
-		if (hours < 20) {
-			return 'light'
-		} else if (hours >= 20 && hours <= 8) {
-			return 'dark'
-		} else {
-			return 'light'
-		}
-	}, [])
+	// console.log({ currentThemeOnLoad })
 
 	useEffect(() => {
 		setIsWalletConnected(isConnected)

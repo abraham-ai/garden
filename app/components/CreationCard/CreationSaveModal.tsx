@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react'
-import type Collection from '../../interfaces/Collection'
+import type Collection from '../../../interfaces/Collection'
 import type { FC } from 'react'
-import type Creation from '../../interfaces/Creation'
+import type Creation from '../../../interfaces/Creation'
 
 import Link from 'next/link'
 
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 
 import axios from 'axios'
 
-import useGetCollections from '../../hooks/useGetCollections'
+import useGetCollections from '../../../hooks/useGetCollections'
 
 import { Modal, Button, Input, notification, Typography, Row, Col } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
@@ -17,7 +17,7 @@ import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import { MdOutlineAdd } from 'react-icons/md'
 
-import styles from '../../styles/CreationSaveModal.module.css'
+import styles from '../../../styles/CreationSaveModal.module.css'
 
 const { Text } = Typography
 
@@ -33,19 +33,12 @@ const CreationSaveModal: FC = () => {
 	const [api, contextHolder] = notification.useNotification()
 
 	const context = useContext(AppContext)
-	const collections =
-		context != null && context.collections != null ? context.collections : []
 
-	const setCollections = useMemo(
-		() =>
-			context != null && context.setCollections
-				? context.setCollections
-				: () => null,
-		[context]
-	)
+	const collections = context?.collections ?? []
+	const setCollections = context?.setCollections ?? (() => {})
 
 	const collectionModalView = context?.collectionModalView
-	const setCollectionModalView = (value: number): void => {
+	const setCollectionModalView = (value: string): void => {
 		context?.setCollectionModalView(value)
 	}
 
@@ -182,7 +175,7 @@ const CreationSaveModal: FC = () => {
 
 	const handleFirstModal = (): void => {
 		console.log('handleFirstModal')
-		setCollectionModalView(1)
+		setCollectionModalView('first-modal')
 	}
 
 	const handleCollectionAction = async (
@@ -233,7 +226,7 @@ const CreationSaveModal: FC = () => {
 
 	const handleSaveModalCleanUp = async (): Promise<void> => {
 		// setModalOpen(false)
-		setCollectionModalView(0)
+		setCollectionModalView('first-modal')
 		// console.log({ currentSavedCollection })
 		// setInputCollectionName('')
 
@@ -254,7 +247,7 @@ const CreationSaveModal: FC = () => {
 
 	const handleCreateModalCleanUp = (): void => {
 		setIsSaveCreationModalOpen(false)
-		setCollectionModalView(0)
+		setCollectionModalView('first-modal')
 		// setInputCollectionName('')
 		createNotification('bottom')
 	}
@@ -356,7 +349,7 @@ const CreationSaveModal: FC = () => {
 		>
 			<div style={{ padding: 20, borderRadius: 20 }}>
 				<section className={styles.modalView1}>
-					{collectionModalView === 0 ? (
+					{collectionModalView === 'first-modal' ? (
 						<article className={styles.modalView1}>
 							{collections.length > 0 ? (
 								<>
@@ -375,37 +368,10 @@ const CreationSaveModal: FC = () => {
 									{CreateCollectionButton}
 								</>
 							)}
-							{/* <Button
-								shape='round'
-								type='primary'
-								icon={
-									<span
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
-											marginRight: 10,
-										}}
-									>
-										<MdOutlineAdd style={{ fontSize: '1.3rem' }} />
-									</span>
-								}
-								onClick={() => {
-									handleFirstModal()
-								}}
-								className={styles.buttonPrimary}
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}
-							>
-								{'Add to a new collection'}
-							</Button> */}
 						</article>
 					) : null}
 
-					{collectionModalView === 1 ? (
+					{collectionModalView === 'second-modal' ? (
 						<article className={styles.modalView2}>
 							{isRenameCollection ? (
 								<>
@@ -414,13 +380,13 @@ const CreationSaveModal: FC = () => {
 											type='link'
 											className={styles.buttonLink}
 											onClick={() => {
-												setCollectionModalView(0)
+												setCollectionModalView('first-modal')
 											}}
 										>
 											<BiLeftArrowAlt size={'1.2rem'} />
 										</Button>
 										<Text className={styles.textBold}>
-											{'Rename Collection:'}
+											{`Rename ${String(currentRenameCollection)} Collection:`}
 										</Text>
 									</Row>
 
@@ -454,7 +420,7 @@ const CreationSaveModal: FC = () => {
 											type='link'
 											className={styles.buttonLink}
 											onClick={() => {
-												setCollectionModalView(0)
+												setCollectionModalView('first-modal')
 											}}
 										>
 											<BiLeftArrowAlt size={'1rem'} />

@@ -75,7 +75,7 @@ const EthereumAccount: FC<EthereumAccountProps> = ({
 		return (
 			<>
 				<section className={styles.ethereumAuthWrapper}>
-					<Text
+					{/* <Text
 						style={{
 							fontWeight: 'bold',
 							fontSize: '1rem',
@@ -85,7 +85,7 @@ const EthereumAccount: FC<EthereumAccountProps> = ({
 						}}
 					>
 						{'Auth Settings'}
-					</Text>
+					</Text> */}
 
 					<Row
 						style={{

@@ -3,7 +3,7 @@
 import React from 'react'
 import type { FC } from 'react'
 
-import CreationCard from '../CreationCard'
+import CreationCard from '../CreationCard/CreationCard'
 import type Creation from '../../../interfaces/Creation'
 
 import Masonry from 'react-masonry-css'

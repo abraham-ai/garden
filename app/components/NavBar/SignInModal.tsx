@@ -41,7 +41,7 @@ const SignInModal: FC<SignInModalProps> = ({ isMobile }) => {
 		message: appMessage,
 	})
 
-	console.log({ isSignInModalOpen })
+	// console.log({ isSignInModalOpen })
 
 	return (
 		<Modal

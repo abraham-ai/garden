@@ -2,6 +2,9 @@ import type { NextApiResponse } from 'next'
 import { withSessionRoute } from '../../../util/withSession'
 import type { ExtendedApiRequest } from '../../../util/withSession'
 
+import { EdenClient } from 'eden-sdk'
+const eden = new EdenClient()
+
 const handler = async (
 	req: ExtendedApiRequest,
 	res: NextApiResponse
@@ -20,8 +23,10 @@ const handler = async (
 		return
 	}
 
+	const userProfile = eden.getProfile()
+
 	// Return the user data
-	res.status(200).json({ userId, token })
+	res.status(200).json({ userProfile, token })
 }
 
 export default withSessionRoute(handler)

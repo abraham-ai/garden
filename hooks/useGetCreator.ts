@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback } from 'react'
-import type Creator from '../interfaces/Creator'
+import type CreatorProfile from '../interfaces/CreatorProfile'
 
 import axios from 'axios'
 
-const useGetCreator = (creatorId: string): Creator | null => {
-	const [creator, setCreator] = useState<Creator | null>(null)
+const useGetCreator = (creatorId: string): CreatorProfile | null => {
+	const [creator, setCreator] = useState<CreatorProfile | null>(null)
 
 	const handleGetCreator = useCallback(async (creatorId: string) => {
 		console.log(`useGetCreator: creatorId: ${creatorId}`)
 		try {
-			const response = await axios.post(`/api/creator/${creatorId}`, {
+			const response = await axios.post(`/api/creator/get`, {
 				creatorId,
 			})
 

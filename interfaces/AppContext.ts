@@ -8,8 +8,12 @@ type Dispatch<A> = (action: A) => void
 interface AppContext {
 	authToken?: string
 	setAuthToken: Dispatch<SetStateAction<string | undefined>>
+
 	userId?: userIdType
 	setUserId: Dispatch<SetStateAction<userIdType>>
+	userAddress?: userIdType
+	setUserAddress: Dispatch<SetStateAction<string>>
+
 	isSignedIn?: boolean
 	setIsSignedIn: Dispatch<SetStateAction<boolean | undefined>>
 	isWalletConnected?: boolean
@@ -38,8 +42,20 @@ interface AppContext {
 	isSaveCreationModalOpen: boolean
 	setIsSaveCreationModalOpen: Dispatch<SetStateAction<boolean>>
 
-	collectionModalView: number
-	setCollectionModalView: Dispatch<SetStateAction<number>>
+	collectionModalView: string
+	setCollectionModalView: Dispatch<SetStateAction<string>>
+
+	isCollectionModalOpen: boolean
+	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
+
+	currentModalCollection: Collection
+	setCurrentModalCollection: Dispatch<SetStateAction<Collection>>
+
+	handleCollectionAction: (
+		actionType: 'create' | 'rename' | 'delete',
+		collectionId: string | null,
+		collectionName: string | null
+	) => Promise<void>
 
 	currentTheme: string
 	setCurrentTheme: Dispatch<SetStateAction<string>>

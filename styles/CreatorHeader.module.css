@@ -1,0 +1,32 @@
+.creatorHeaderWrapperStyles {
+	display: flex;
+	flex: 1;
+	justify-content: space-between;
+}
+
+.profileWrapperStyles = {
+	z-index: 150;
+	position: relative;
+	margin: 150px 0 20px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.creatorProfileStyles = {
+	width: 100%;
+	display: flex;
+	flex: 2;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.profileAvatarWrapperStyles = {
+	display: flex;
+	flex: 1;
+}
+
+.profileName {
+	margin-top: 10;
+}
