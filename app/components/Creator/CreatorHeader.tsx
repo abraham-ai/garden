@@ -3,7 +3,9 @@ import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import React from 'react'
 import Link from 'next/link'
 
-import { Avatar, Typography, Col, Row } from 'antd'
+import styles from '../../../styles/CreatorHeader.module.css'
+
+import { Avatar, Typography, Col, Row, Skeleton } from 'antd'
 
 import Blockies from 'react-blockies'
 
@@ -29,18 +31,29 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	queryCreatorId = '',
 	creator,
 }) => {
+	const isCreator = typeof creator !== 'undefined'
+
+	const isUserName = typeof userName === 'string'
+	const isUserAddress =
+		typeof userAddress === 'string' && typeof userAddress !== 'undefined'
+
+	const isQueryCreatorId =
+		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
+
+	const isCollectionRoute = typeof collectionId !== 'undefined'
+
 	const handleCreatorDisplayName = (): string => {
-		if (typeof creator !== 'undefined') {
+		if (isCreator) {
 			if (typeof creator?.profile?.creatorProfile?.user !== 'undefined') {
 				return creator?.profile?.creatorProfile?.user?.username
 			}
 		}
 
-		if (typeof userName === 'string') {
+		if (isUserName) {
 			return userName
 		}
 
-		if (typeof userAddress === 'string') {
+		if (isUserAddress) {
 			return abbreviateAddress(userAddress)
 		}
 		return ''
@@ -50,63 +63,46 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	console.log({ creator })
 	console.log({ displayAddress })
-
-	const isCollectionRoute = typeof collectionId !== 'undefined'
+	console.log({ isUserAddress })
 
 	// const isCreationRoute = typeof creatorId !== 'undefined'
 	// console.log({ collectionId })
 	// console.log({ isCollectionRoute })
 
-	const isQueryCreatorId =
-		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
-
-	const isUserAddress = typeof userAddress !== 'undefined'
-
-	const creatorHeaderWrapperStyles: CSSProperties = {
-		display: 'flex',
-		flex: 1,
-		justifyContent: 'space-between',
-	}
-
-	const profileWrapperStyles: CSSProperties = {
-		zIndex: 150,
-		position: 'relative',
-		margin: '150px 0 20px 0',
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		width: '100%',
-	}
-
-	const creatorProfileStyles: CSSProperties = {
-		width: '100%',
-		display: 'flex',
-		flex: 2,
-		flexDirection: 'column',
-		alignItems: 'flex-start',
-	}
-
 	return (
-		<article className='creatorHeader' style={creatorHeaderWrapperStyles}>
-			<span className='creatorProfile' style={creatorProfileStyles}>
-				<Col style={profileWrapperStyles}>
-					<Avatar
-						className='profileAvatarWrapper'
-						style={{ display: 'flex', flex: 1 }}
-						size={64}
-						icon={
-							<Blockies
-								scale={8}
-								seed={String(isUserAddress ? userAddress : displayAddress)}
-							/>
-						}
-					/>
+		<article className={styles.creatorHeaderWrapperStyles}>
+			<span className={styles.creatorProfileStyles}>
+				<Col className={styles.profileWrapperStyles}>
+					<Skeleton.Avatar loading={isUserAddress} active size={50}>
+						<Avatar
+							className={styles.profileAvatarWrapperStyles}
+							size={64}
+							icon={
+								<Blockies
+									scale={8}
+									seed={String(isUserAddress ? userAddress : displayAddress)}
+								/>
+							}
+						/>
+					</Skeleton.Avatar>
 
-					<Link href={`/creator/${String(userAddress)}`}>
-						<Title level={3} className='profileName' style={{ marginTop: 10 }}>
-							{displayAddress}
-						</Title>
-					</Link>
+					<Skeleton
+						loading={isUserAddress}
+						active
+						width={400}
+						paragraph={{ rows: 0 }}
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							textAlign: 'center',
+						}}
+					>
+						<Link href={`/creator/${String(userAddress)}`}>
+							<Title level={3} className={styles.profileName}>
+								{displayAddress}
+							</Title>
+						</Link>
+					</Skeleton>
 				</Col>
 
 				{isQueryCreatorId ? (

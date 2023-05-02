@@ -207,7 +207,7 @@ const Header: FC = () => {
 							<Select
 								className='navbarSelect'
 								defaultValue={handleDefaultSelectValue()}
-								style={{ width: 150, border: 'none' }}
+								style={{ width: 150, border: 'none', textAlign: 'center' }}
 								onChange={handleChange}
 								options={handleSelectOptions()}
 							/>

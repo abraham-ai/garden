@@ -81,7 +81,7 @@ export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 										shape={'round'}
 										size='large'
 									>
-										<Text style={{ color: 'white' }}>
+										<Text style={{ color: 'white', fontWeight: 'bold' }}>
 											{isMobileMounted ? 'Connect' : 'Connect Wallet'}
 										</Text>
 									</Button>

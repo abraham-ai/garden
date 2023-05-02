@@ -222,9 +222,7 @@ const CreationCard: FC<CreationCardProps> = ({
 				>
 					<div className={styles.crTopWrapper}>
 						<div className={styles.crImageWrapper}>
-							{typeof creation === 'undefined' ? (
-								<Skeleton />
-							) : (
+							<Skeleton loading={typeof creation === 'undefined'} active>
 								<section>
 									{isCreationHovering || isMobile ? (
 										<>
@@ -442,7 +440,7 @@ const CreationCard: FC<CreationCardProps> = ({
 										</>
 									) : null}
 								</section>
-							)}
+							</Skeleton>
 						</div>
 					</div>
 				</article>
