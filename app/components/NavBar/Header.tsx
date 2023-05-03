@@ -19,6 +19,7 @@ import styles from '../../../styles/Header.module.css'
 
 // import SettingsMenuPopOver from './SettingsMenuPopOver'
 import SignInModal from './SignInModal'
+import SettingsMenu from './SettingsMenu'
 import EthereumVerify from '../Ethereum/EthereumVerify'
 // import EthereumAuth from '../Ethereum/EthereumAuth'
 
@@ -84,9 +85,7 @@ const Header: FC = () => {
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 	const currentTheme = context?.currentTheme ?? 'light'
 
-	const { width } = useWindowDimensions()
-
-	const isMobile = width < 768
+	const { width: appWidth } = useWindowDimensions()
 
 	useEffect(() => {
 		setIsMounted(true)
@@ -107,11 +106,6 @@ const Header: FC = () => {
 	let displayAddress = ''
 	if (typeof userId === 'string') {
 		displayAddress = abbreviateAddress(userId)
-	}
-
-	let displayAuthToken = ''
-	if (typeof authToken === 'string') {
-		displayAuthToken = abbreviateText(authToken, 80)
 	}
 
 	const handleChange = (
@@ -162,16 +156,6 @@ const Header: FC = () => {
 		}
 	}
 
-	const handleBadgeCount = (): number => {
-		if (isWalletConnected && !isSignedIn) {
-			return 1
-		} else if (isWalletConnected && isSignedIn) {
-			return 0
-		} else {
-			return 0
-		}
-	}
-
 	const isThemeLight = currentTheme === 'light'
 	const textThemeColor = { color: isThemeLight ? 'black' : 'white' }
 
@@ -182,7 +166,7 @@ const Header: FC = () => {
 			<ul className={styles.linksWrapper}>
 				<EthereumVerify />
 
-				{isMounted && width > 1280 ? (
+				{isMounted && appWidth > 1280 ? (
 					<>
 						{/* <ActiveLink href='/'>
 							<Text>{'Garden'}</Text>
@@ -231,43 +215,14 @@ const Header: FC = () => {
 				</Link>
 
 				<Row className={styles.popoverConnectWrapper}>
-					{/* <span
-						style={{
-							display: `${isMobile && isMounted ? 'none' : 'flex'}`,
-							alignItems: 'center',
-						}}
-					>
-						<Popover
-							content={
-								<SettingsMenuPopOver
-									isWalletConnected={isWalletConnected}
-									userId={userId}
-									displayAddress={displayAddress}
-									isSignedIn={isSignedIn}
-									authToken={authToken}
-									displayAuthToken={displayAuthToken}
-									isMobile={isMobile}
-								/>
-							}
-							trigger='click'
-							placement='bottom'
-						>
-							<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
-							<Button type='link' shape='circle' style={{ marginRight: 10 }}>
-								<Badge count={handleBadgeCount()}>
-									<BsGear style={{ fontSize: '1.5rem' }} />
-								</Badge>
-							</Button>
-							</Tooltip>
-						</Popover>
-					</span> */}
+					<SettingsMenu appWidth={appWidth} />
 
 					{/* <ConnectButton /> */}
-					<ConnectButtonCustom isMobile={isMobile} isMounted={isMounted} />
+					<ConnectButtonCustom appWidth={appWidth} isMounted={isMounted} />
 				</Row>
 			</section>
 
-			<SignInModal isMobile={isMobile} />
+			<SignInModal appWidth={appWidth} />
 		</header>
 	)
 }

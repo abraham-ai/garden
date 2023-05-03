@@ -42,11 +42,12 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	const isCollectionRoute = typeof collectionId !== 'undefined'
 
+	const isCreatorUser =
+		typeof creator?.profile?.creatorProfile?.user !== 'undefined'
+
 	const handleCreatorDisplayName = (): string => {
-		if (isCreator) {
-			if (typeof creator?.profile?.creatorProfile?.user !== 'undefined') {
-				return creator?.profile?.creatorProfile?.user?.username
-			}
+		if (isCreator && isCreatorUser) {
+			return creator?.profile?.creatorProfile?.user?.username
 		}
 
 		if (isUserName) {
@@ -63,6 +64,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	console.log({ creator })
 	console.log({ displayAddress })
+	console.log({ userAddress })
 	console.log({ isUserAddress })
 
 	// const isCreationRoute = typeof creatorId !== 'undefined'
@@ -73,21 +75,16 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 		<article className={styles.creatorHeaderWrapperStyles}>
 			<span className={styles.creatorProfileStyles}>
 				<Col className={styles.profileWrapperStyles}>
-					<Skeleton.Avatar loading={isUserAddress} active size={50}>
+					<Skeleton loading={!isUserAddress} active size={50}>
 						<Avatar
 							className={styles.profileAvatarWrapperStyles}
 							size={64}
-							icon={
-								<Blockies
-									scale={8}
-									seed={String(isUserAddress ? userAddress : displayAddress)}
-								/>
-							}
+							icon={<Blockies scale={8} seed={String(userAddress)} />}
 						/>
-					</Skeleton.Avatar>
+					</Skeleton>
 
 					<Skeleton
-						loading={isUserAddress}
+						loading={!isUserAddress}
 						active
 						paragraph={{ rows: 0 }}
 						style={{
@@ -96,7 +93,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 							textAlign: 'center',
 						}}
 					>
-						<Link href={`/creator/${String(userAddress)}`}>
+						<Link href={`/creator/${String(userName)}`}>
 							<Title level={3} className={styles.profileName}>
 								{displayAddress}
 							</Title>

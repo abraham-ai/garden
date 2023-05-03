@@ -108,9 +108,10 @@ const Creator: FC<CreatorPageProps> = () => {
 							userName={creatorId}
 							isMyCreationsRoute={true}
 							queryCreatorId={queryCreatorId}
+							userAddress={creatorId ?? ''}
 						/>
 
-						<CreatorDashboard profileAddress={creatorId ?? ''} />
+						{/* <CreatorDashboard profileAddress={creatorId ?? ''} /> */}
 
 						{isCreatorCreationsData ? (
 							<section

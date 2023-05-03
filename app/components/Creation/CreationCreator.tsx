@@ -65,7 +65,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 			} else if (isModal) {
 				return isThemeLight ? 'black' : 'white'
 			} else {
-				return isThemeLight ? 'black' : 'white'
+				return isThemeLight ? 'black' : 'black'
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
@@ -87,12 +87,30 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	}, [appWidth])
 
 	const handleUsernameSize = useMemo(() => {
-		if (appWidth <= 768) {
-			return '1rem'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
-			return '1rem'
+		if (isMobile) {
+			if (isOverlay) {
+				return '1rem'
+			} else if (isModal) {
+				return '1rem'
+			} else {
+				return '1rem'
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return '1rem'
+			} else if (isModal) {
+				return '1rem'
+			} else {
+				return '1rem'
+			}
 		} else {
-			return '1.5rem'
+			if (isOverlay) {
+				return '1rem'
+			} else if (isModal) {
+				return '1rem'
+			} else {
+				return '1rem'
+			}
 		}
 	}, [appWidth])
 
@@ -105,7 +123,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		<Link
 			href={{
 				pathname: `/creator/${String(creationData?.user)}`,
-				query: { user },
+				// query: { user: creationData?.user },
 			}}
 			className={styles.crCreator}
 			onMouseEnter={handleMouseOver}

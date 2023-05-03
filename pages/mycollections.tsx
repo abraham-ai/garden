@@ -113,6 +113,7 @@ const MyCollections: FC = () => {
 	// console.log({ currentModalCollection })
 
 	const collectionWrapperStyles: CSSProperties = {
+		marginTop: 100,
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',

@@ -72,7 +72,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	const [width, setWidth] = useState<number>(0)
 	const [height, setHeight] = useState<number>(0)
 
-	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(true)
+	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(false)
 
 	const [status, setStatus] = useState<string>('')
 
