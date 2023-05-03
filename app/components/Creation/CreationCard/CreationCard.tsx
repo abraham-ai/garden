@@ -31,6 +31,7 @@ import { Skeleton } from 'antd'
 
 interface CreationCardProps {
 	creation: Creation
+	layout?: string
 	index: number
 	isMobile: boolean
 	appWidth: number
@@ -38,6 +39,7 @@ interface CreationCardProps {
 }
 
 const CreationCard: FC<CreationCardProps> = ({
+	layout = 'overlay',
 	creation,
 	index,
 	isMobile,
@@ -227,6 +229,7 @@ const CreationCard: FC<CreationCardProps> = ({
 		typeof creationsData[currentCreationIndex] === 'undefined' ||
 		typeof creationsData[currentCreationIndex]._id === 'undefined'
 
+	console.log({ prompt })
 	console.log({ crColor })
 
 	const aspectRatio =

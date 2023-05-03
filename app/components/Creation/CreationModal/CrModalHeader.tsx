@@ -6,7 +6,7 @@ import React, { useMemo } from 'react'
 import { Row } from 'antd'
 
 import CreationSocial from '../CreationSocial'
-import CreationCreator from './CreationCreator'
+import CreationCreator from '../CreationCreator'
 
 import timeAgo from '../../../../util/timeAgo'
 

@@ -1,26 +1,32 @@
 import type { FC } from 'react'
-import type Creation from '../../../../interfaces/Creation'
+import type Creation from '../../../interfaces/Creation'
 
 import React, { useMemo } from 'react'
 import { Typography, Col } from 'antd'
 
-import styles from '../../../../styles/CreationModal.module.css'
+import styles from '../../../styles/CreationModal.module.css'
 
 const { Text } = Typography
 
-interface CrModalPromptProps {
+interface CreationPromptProps {
 	creation: Creation
-	appWidth: number
-	isMobile: boolean
 	prompt: string
+	GeneratorName: string
+	isMobile: boolean
+	appWidth: number
+	currentTheme: string
 }
 
-const CrModalPrompt: FC<CrModalPromptProps> = ({
+const CreationPrompt: FC<CreationPromptProps> = ({
 	creation,
+	prompt,
+	GeneratorName,
 	isMobile,
 	appWidth,
-	prompt,
+	currentTheme,
 }) => {
+	const isThemeLight = currentTheme === 'light'
+
 	const handlePromptSize = useMemo(() => {
 		if (appWidth <= 768) {
 			return '1rem'
@@ -30,6 +36,18 @@ const CrModalPrompt: FC<CrModalPromptProps> = ({
 			return '1.5rem'
 		}
 	}, [appWidth])
+
+	const handlePromptColor = useMemo(() => {
+		if (appWidth <= 768) {
+			return isThemeLight ? 'white' : 'white'
+		} else if (appWidth >= 768 && appWidth <= 1024) {
+			return isThemeLight ? 'white' : 'white'
+		} else {
+			return isThemeLight ? 'white' : 'white'
+		}
+	}, [appWidth])
+
+	console.log({ prompt })
 
 	return (
 		<Col
@@ -44,16 +62,13 @@ const CrModalPrompt: FC<CrModalPromptProps> = ({
 					fontSize: handlePromptSize,
 					fontWeight: isMobile ? 'bold' : 'regular',
 				}}
-			>{`/${String(creation?.task?.generator?.generatorName)} `}</Text>
-			<Text className={styles.crPromptCommand}>{`/${String(
-				GeneratorName
-			)} `}</Text>
+			>{`/${String(GeneratorName)} `}</Text>
 			<Text
 				className={styles.crPrompt}
 				style={{
 					fontSize: handlePromptSize,
 					fontWeight: isMobile ? 'bold' : 'regular',
-					color: currentTheme === 'light' ? 'black' : 'white',
+					color: handlePromptColor,
 				}}
 			>
 				{prompt}
@@ -62,4 +77,4 @@ const CrModalPrompt: FC<CrModalPromptProps> = ({
 	)
 }
 
-export default CrModalPrompt
+export default CreationPrompt

@@ -6,8 +6,8 @@ import Link from 'next/link'
 
 import Blockies from 'react-blockies'
 
-import CreationCreator from '../CreationCreator/CreationCreator'
-import CreationPrompt from '../CreationPrompt/CreationPrompt'
+import CreationCreator from '../CreationCreator'
+import CreationPrompt from '../CreationPrompt'
 import styles from '../../../../styles/CreationCard.module.css'
 
 interface CrCardMobileProps {

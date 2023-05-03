@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 
 import Blockies from 'react-blockies'
+import CreationDate from './CreationDate'
 import abbreviateAddress from '../../../util/abbreviateAddress'
 
 import styles from '../../../styles/CreationId.module.css'
@@ -32,7 +33,6 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	timeAgoCreatedAt,
 	user,
 }) => {
-	console.log({ creationData })
 	const [isHovering, setIsHovering] = useState<boolean>(false)
 
 	const handleMouseOver = (): void => {
@@ -42,6 +42,9 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const handleMouseOut = (): void => {
 		setIsHovering(false)
 	}
+
+	console.log({ creationData })
+	console.log(creationData?.user)
 
 	return (
 		<Link
@@ -65,8 +68,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>
-				<Title
-					level={3}
+				<Text
 					style={{
 						textDecoration: isHovering ? 'underline' : 'unset',
 						color: isMobile ? 'white' : 'black',
@@ -75,26 +77,14 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					}}
 				>
 					{abbreviateAddress(creationData?.user ?? '')}
-				</Title>
+				</Text>
 			</div>
 
-			<Row
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					marginBottom: isMobile ? 20 : 50,
-				}}
-			>
-				<Text
-					className={styles.crDate}
-					style={{
-						color: isMobile ? 'white' : 'black',
-						fontWeight: isMobile ? 'bold' : 'regular',
-					}}
-				>
-					{timeAgoCreatedAt}
-				</Text>
-			</Row>
+			<CreationDate
+				timeAgoCreatedAt={timeAgoCreatedAt}
+				isMobile={isMobile}
+				appWidth={appWidth}
+			/>
 		</Link>
 	)
 }

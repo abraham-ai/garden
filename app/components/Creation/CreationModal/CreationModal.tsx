@@ -7,7 +7,7 @@ import AppContext from '../../../../context/AppContext'
 
 import CrModalImage from './CrModalImage'
 import CrModalHeader from './CrModalHeader'
-import CreationPrompt from './CrModalPrompt'
+import CreationPrompt from '../CreationPrompt'
 // import CrModalDebug from './CrModalDebug'
 // import TransitionCreationModalButton from './TransitionCreationModalButton'
 
