@@ -2,6 +2,7 @@
 
 import type { FC } from 'react'
 import type Creation from '../../../interfaces/Creation'
+import type CreatorProfile from '../../../interfaces/Creator'
 
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
@@ -14,11 +15,13 @@ import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
 interface CreationsGridProps {
 	creations: Creation[]
+	creator: CreatorProfile
 	appWidth: number
 }
 
 const CreationsGridSimple: FC<CreationsGridProps> = ({
 	creations,
+	creator,
 	appWidth,
 }) => {
 	const context = useContext(AppContext)
@@ -56,6 +59,7 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 								index={i}
 								appWidth={appWidth}
 								currentTheme={currentTheme}
+								creator={creator}
 							/>
 						)
 					}

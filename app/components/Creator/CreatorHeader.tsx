@@ -13,7 +13,7 @@ import abbreviateAddress from '../../../util/abbreviateAddress'
 
 const { Title } = Typography
 
-type CreatorRoute = 'creations' | 'collections'
+type CreatorRoute = 'creations' | 'collections' | 'editprofile'
 
 interface CreatorHeaderProps {
 	creator: CreatorProfile
@@ -32,7 +32,8 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 		typeof creator?.creatorProfile?.user?.userId !== 'undefined' &&
 		creator?.creatorProfile?.user?.userId !== null
 
-	console.log(creator?.creatorProfile?.user?.userId)
+	// console.log(creator?.creatorProfile?.user?.userId)
+
 	useEffect(() => {
 		if (isCreator && isCreatorUser) {
 			setUserAddress(creator?.creatorProfile?.user?.userId ?? '')
@@ -55,12 +56,12 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	const displayAddress = handleCreatorDisplayName()
 
-	console.log({ isCreator })
-	console.log({ isCreatorUser })
-	console.log({ creator })
-	console.log({ userAddress })
-	console.log({ userName })
-	console.log({ displayAddress })
+	// console.log({ isCreator })
+	// console.log({ isCreatorUser })
+	// console.log({ creator })
+	// console.log({ userAddress })
+	// console.log({ userName })
+	// console.log({ displayAddress })
 
 	return (
 		<article className={styles.creatorHeaderWrapperStyles}>

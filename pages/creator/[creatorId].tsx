@@ -81,18 +81,8 @@ const Creator: FC<CreatorPageProps> = () => {
 		setIsFollowing(!isFollowing)
 	}
 
-	// const isCreatorCreationsData =
-	// 	creatorCreationsData !== null &&
-	// 	Object.keys(creatorCreationsData).length > 0
-
-	const isMobile = width < 768
-
 	const isCreatorCreationsData =
 		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null
-
-	const creatorId = creatorCreationsData?.creatorId
-
-	console.log({ creatorId })
 
 	return (
 		<>
@@ -105,23 +95,18 @@ const Creator: FC<CreatorPageProps> = () => {
 							<Header />
 						</main>
 						<CreatorHeader
-							userName={creatorId}
-							isMyCreationsRoute={true}
-							queryCreatorId={queryCreatorId}
-							userAddress={creatorId ?? ''}
+							creator={creatorCreationsData?.creator ?? null}
+							creatorRoute={'creations'}
 						/>
 
 						{/* <CreatorDashboard profileAddress={creatorId ?? ''} /> */}
 
 						{isCreatorCreationsData ? (
-							<section
-								className={stylesCreationsGrid.creationsWrapper}
-								style={{ marginTop: 50 }}
-							>
+							<section className={stylesCreationsGrid.creationsWrapper}>
 								<CreationsGridSimple
 									creations={creatorCreationsData?.creations ?? []}
-									isMobile={isMobile}
 									appWidth={width}
+									creator={creatorCreationsData?.creator ?? null}
 								/>
 							</section>
 						) : (

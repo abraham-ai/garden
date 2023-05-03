@@ -189,7 +189,13 @@ const Creation: FC<CreationPageProps> = ({
 									<section className={styles.crMain}>
 										<Row style={crCreatorSocialWrapperStyles}>
 											<article className={styles.crMainHeader}>
-												<CreationCreator creationData={creationData} />
+												<CreationCreator
+													creationData={creationData}
+													layout='modal'
+													displayAddress={displayAddress}
+													timeAgoCreatedAt={timeAgoCreatedAt}
+													appWidth={appWidth}
+												/>
 											</article>
 
 											<Row style={crSocialWrapperStyles}>

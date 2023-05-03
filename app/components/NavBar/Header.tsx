@@ -73,7 +73,6 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 
 const Header: FC = () => {
 	const [isMounted, setIsMounted] = useState<boolean>(false)
-	const [firstSignInRequest, setFirstSignInRequest] = useState<boolean>(false)
 
 	const router = useRouter()
 
@@ -82,6 +81,9 @@ const Header: FC = () => {
 	const authToken = context?.authToken ?? ''
 	const userId = context?.userId ?? ''
 	const isSignedIn = context?.isSignedIn ?? false
+
+	const firstSignInRequest = context?.firstSignInRequest ?? false
+	const setFirstSignInRequest = context?.setFirstSignInRequest ?? (() => {})
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 	const currentTheme = context?.currentTheme ?? 'light'
 
@@ -98,7 +100,7 @@ const Header: FC = () => {
 	}, [isMounted, firstSignInRequest])
 
 	useEffect(() => {
-		if (firstSignInRequest) {
+		if (!firstSignInRequest) {
 			setIsSignInModalOpen(true)
 		}
 	}, [firstSignInRequest, setIsSignInModalOpen])
@@ -156,6 +158,8 @@ const Header: FC = () => {
 
 	// console.log({ isThemeLight })
 
+	console.log({ firstSignInRequest })
+
 	return (
 		<header className={styles.headerWrapper}>
 			<ul className={styles.linksWrapper}>
@@ -210,8 +214,7 @@ const Header: FC = () => {
 				</Link>
 
 				<Row className={styles.popoverConnectWrapper}>
-					<SettingsMenu appWidth={appWidth} />
-
+					{/* <SettingsMenu appWidth={appWidth} /> */}
 					{/* <ConnectButton /> */}
 					<ConnectButtonCustom appWidth={appWidth} isMounted={isMounted} />
 				</Row>

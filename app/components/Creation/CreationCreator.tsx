@@ -1,7 +1,8 @@
 'use client'
 
 import type { FC } from 'react'
-import type Creation, from '../../interfaces/Creation'
+import type Creation from '../../interfaces/Creation'
+import type CreatorProfile from '../../interfaces/CreatorProfile'
 
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
@@ -23,6 +24,8 @@ interface CreationCreatorProps {
 	timeAgoCreatedAt: string
 	appWidth: number
 	user: string
+	currentTheme: string
+	creator: CreatorProfile
 }
 
 const CreationCreator: FC<CreationCreatorProps> = ({
@@ -33,6 +36,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	timeAgoCreatedAt,
 	user,
 	currentTheme,
+	creator,
 }) => {
 	const [isHovering, setIsHovering] = useState<boolean>(false)
 
@@ -49,7 +53,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 
 	const isThemeLight = currentTheme === 'light'
 
-	const isOverlay= layout === 'overlay'
+	const isOverlay = layout === 'overlay'
 	const isModal = layout === 'modal'
 
 	const isMobile = appWidth <= 768
@@ -116,8 +120,29 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 
 	// console.log({ creationData })
 	// console.log(creationData?.user)
-
 	// console.log({ handleUsernameColor })
+
+	const handleCreatorDisplay = (): string => {
+		if (isCreator) {
+			return creator?.user?.username
+		} else {
+			return abbreviateAddress(creationData?.user ?? '')
+		}
+	}
+
+	const handleCreatorAddress = (): string => {
+		if (isCreator) {
+			return creator?.user?.userId
+		} else {
+			return creationData?.user ?? ''
+		}
+	}
+
+	const isCreator =
+		typeof creator?.user !== 'undefined' && creator?.user !== null
+
+	const creatorDisplay = handleCreatorDisplay()
+	const creatorAddress = handleCreatorAddress()
 
 	return (
 		<Link
@@ -132,10 +157,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 				textDecoration: isHovering ? 'underline' : 'unset',
 			}}
 		>
-			<Avatar
-				size={50}
-				icon={<Blockies scale={6} seed={creationData?.user} />}
-			/>
+			<Avatar size={50} icon={<Blockies scale={6} seed={creatorAddress} />} />
 			<div
 				className={styles.crCreatorNameWrapper}
 				onMouseOver={handleMouseOver}
@@ -150,7 +172,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 						margin: 0,
 					}}
 				>
-					{abbreviateAddress(creationData?.user ?? '')}
+					{creatorDisplay}
 				</Text>
 			</div>
 

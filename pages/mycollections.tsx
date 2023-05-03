@@ -133,11 +133,8 @@ const MyCollections: FC = () => {
 			</main>
 
 			<Col style={collectionWrapperStyles}>
-				<CreatorHeader
-					creator={creator}
-					userAddress={userAddress}
-					isMyCollectionsRoute={true}
-				/>
+				<CreatorHeader creator={creator} creatorRoute='collections' />
+
 				{isCurrentMyCollectionsCreations ? (
 					<Col className={styles.collectionsWrapper}>
 						<Row style={collectionInnerWrapperStyles}>

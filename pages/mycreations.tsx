@@ -33,7 +33,8 @@ const MyCreations: FC = () => {
 
 	const { width: appWidth } = useWindowDimensions()
 
-	const userName = creator?.profile?.creatorProfile?.user?.username
+	const isMyCreationsData =
+		myCreationsData !== null && typeof myCreationsData !== 'undefined'
 
 	return (
 		<>
@@ -44,9 +45,10 @@ const MyCreations: FC = () => {
 			{/* <EditCollectionModal /> */}
 
 			<CreatorHeader creator={creator} creatorRoute='creations' />
-			{myCreationsData ? (
+			{isMyCreationsData ? (
 				<CreationsGridSimple
 					creations={myCreationsData.creations}
+					creator={myCreationsData.creator}
 					appWidth={appWidth}
 				/>
 			) : (

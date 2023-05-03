@@ -15,6 +15,7 @@ interface CrCardDesktopProps {
 	displayAddress: string
 	timeAgoCreatedAt: string
 	prompt: string
+	creator?: CreatorProfile
 }
 
 const CrCardDesktop: FC<CrCardDesktopProps> = ({
@@ -26,6 +27,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 	displayAddress,
 	timeAgoCreatedAt,
 	prompt,
+	creator,
 }) => {
 	return (
 		<div className={styles.crPromptMainWrapper}>
@@ -50,6 +52,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 					timeAgoCreatedAt={timeAgoCreatedAt}
 					user={user}
 					currentTheme={currentTheme}
+					creator={creator}
 				/>
 			</article>
 		</div>

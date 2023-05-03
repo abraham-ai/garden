@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
+import type CreatorProfile from '../../../../interfaces/CreatorProfile'
 
 import React, {
 	useState,
@@ -36,6 +37,7 @@ interface CreationCardProps {
 	isMobile: boolean
 	appWidth: number
 	currentTheme: string
+	creator: CreatorProfile
 }
 
 const CreationCard: FC<CreationCardProps> = ({
@@ -45,6 +47,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	isMobile,
 	appWidth,
 	currentTheme,
+	creator,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
@@ -276,6 +279,7 @@ const CreationCard: FC<CreationCardProps> = ({
 														displayAddress={displayAddress}
 														timeAgoCreatedAt={timeAgoCreatedAt}
 														prompt={prompt}
+														creator={creator}
 													/>
 												) : (
 													<CrCardDesktop
@@ -287,6 +291,7 @@ const CreationCard: FC<CreationCardProps> = ({
 														prompt={prompt}
 														displayAddress={displayAddress}
 														timeAgoCreatedAt={timeAgoCreatedAt}
+														creator={creator}
 													/>
 												)}
 											</div>
