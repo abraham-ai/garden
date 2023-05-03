@@ -20,6 +20,8 @@ interface AppContext {
 	setIsWalletConnected: Dispatch<SetStateAction<boolean | undefined>>
 	isSignInModalOpen: boolean
 	setIsSignInModalOpen: Dispatch<SetStateAction<boolean>>
+	firstSignInRequest: boolean
+	setFirstSignInRequest: Dispatch<SetStateAction<boolean>>
 
 	creationsData: Creation[]
 	setCreationsData: Dispatch<SetStateAction<Creation[]>>

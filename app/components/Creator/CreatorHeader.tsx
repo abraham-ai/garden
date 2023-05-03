@@ -1,6 +1,7 @@
-import type { FC, CSSProperties } from 'react'
+import type { FC } from 'react'
 import type CreatorProfile from '../../../interfaces/CreatorProfile'
-import React from 'react'
+
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import styles from '../../../styles/CreatorHeader.module.css'
@@ -8,88 +9,80 @@ import styles from '../../../styles/CreatorHeader.module.css'
 import { Avatar, Typography, Col, Row, Skeleton } from 'antd'
 
 import Blockies from 'react-blockies'
-
 import abbreviateAddress from '../../../util/abbreviateAddress'
+
 const { Title } = Typography
 
+type CreatorRoute = 'creations' | 'collections' | 'editprofile'
+
 interface CreatorHeaderProps {
-	collectionId?: string
-	userName?: string
-	userAddress?: string
-	isMyCreationsRoute?: boolean
-	isMyCollectionsRoute?: boolean
-	queryCreatorId?: string
-	creator?: CreatorProfile
+	creator: CreatorProfile
+	creatorRoute: CreatorRoute
 }
 
 const CreatorHeader: FC<CreatorHeaderProps> = ({
-	collectionId,
-	userAddress,
-	userName,
-	isMyCreationsRoute = false,
-	isMyCollectionsRoute = false,
-	queryCreatorId = '',
 	creator,
+	creatorRoute = 'creations',
 }) => {
-	const isCreator = typeof creator !== 'undefined'
+	const [userAddress, setUserAddress] = useState<string>('')
+	const [userName, setUserName] = useState<string>('')
 
-	const isUserName = typeof userName === 'string'
-	const isUserAddress =
-		typeof userAddress === 'string' && typeof userAddress !== 'undefined'
+	const isCreator = typeof creator !== 'undefined' && creator !== null
+	const isCreatorUser =
+		typeof creator?.creatorProfile?.user?.userId !== 'undefined' &&
+		creator?.creatorProfile?.user?.userId !== null
 
-	const isQueryCreatorId =
-		typeof queryCreatorId !== 'undefined' && queryCreatorId !== ''
+	// console.log(creator?.creatorProfile?.user?.userId)
 
-	const isCollectionRoute = typeof collectionId !== 'undefined'
+	useEffect(() => {
+		if (isCreator && isCreatorUser) {
+			setUserAddress(creator?.creatorProfile?.user?.userId ?? '')
+			setUserName(creator?.creatorProfile?.user?.username ?? '')
+		}
+	}, [creator])
+
+	const isCollectionsRoute = creatorRoute === 'collections'
+	const isCreationsRoute = creatorRoute === 'creations'
 
 	const handleCreatorDisplayName = (): string => {
-		if (isCreator) {
-			if (typeof creator?.profile?.creatorProfile?.user !== 'undefined') {
-				return creator?.profile?.creatorProfile?.user?.username
-			}
-		}
-
-		if (isUserName) {
+		if (isCreator && isCreatorUser) {
 			return userName
 		}
-
-		if (isUserAddress) {
-			return abbreviateAddress(userAddress)
-		}
+		// if (isUserAddress) {
+		// 	return abbreviateAddress(userAddress)
+		// }
 		return ''
 	}
 
 	const displayAddress = handleCreatorDisplayName()
 
-	console.log({ creator })
-	console.log({ displayAddress })
-	console.log({ isUserAddress })
-
-	// const isCreationRoute = typeof creatorId !== 'undefined'
-	// console.log({ collectionId })
-	// console.log({ isCollectionRoute })
+	// console.log({ isCreator })
+	// console.log({ isCreatorUser })
+	// console.log({ creator })
+	// console.log({ userAddress })
+	// console.log({ userName })
+	// console.log({ displayAddress })
 
 	return (
 		<article className={styles.creatorHeaderWrapperStyles}>
 			<span className={styles.creatorProfileStyles}>
 				<Col className={styles.profileWrapperStyles}>
-					<Skeleton.Avatar loading={isUserAddress} active size={50}>
+					<Skeleton loading={!isCreator} active>
 						<Avatar
 							className={styles.profileAvatarWrapperStyles}
 							size={64}
 							icon={
 								<Blockies
 									scale={8}
-									seed={String(isUserAddress ? userAddress : displayAddress)}
+									seed={String(isCreator && isCreatorUser ? userAddress : '')}
 								/>
 							}
 						/>
-					</Skeleton.Avatar>
+					</Skeleton>
 
 					<Skeleton
-						loading={isUserAddress}
+						loading={!isCreator}
 						active
-						width={400}
 						paragraph={{ rows: 0 }}
 						style={{
 							display: 'flex',
@@ -97,80 +90,13 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 							textAlign: 'center',
 						}}
 					>
-						<Link href={`/creator/${String(userAddress)}`}>
+						<Link href={`/creator/${String(userName)}`}>
 							<Title level={3} className={styles.profileName}>
 								{displayAddress}
 							</Title>
 						</Link>
 					</Skeleton>
 				</Col>
-
-				{isQueryCreatorId ? (
-					<Row
-						className='creator-profile-info'
-						style={{
-							display: 'flex',
-							flex: 1,
-							flexDirection: 'column',
-							alignItems: 'flex-start',
-							width: '100%',
-						}}
-					>
-						<div
-							className='profile-actions'
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-								width: '100%',
-							}}
-						>
-							{/* <Link href='/editprofile'>
-								<Button
-									shape='round'
-									style={{ marginRight: 20, background: 'rgba(0,0,0,0.05)' }}
-								>
-									<Text style={{ fontWeight: 'bold', color: 'gray' }}>
-										{'Edit Profile'}
-									</Text>
-								</Button>
-							</Link> */}
-
-							{/* <Link href='/mycreations'>
-								<Button
-									shape='round'
-									type={isMyCreationsRoute ? 'primary' : 'default'}
-									style={{ marginRight: 10 }}
-								>
-									<Text
-										style={{
-											fontWeight: 'bold',
-											color: isMyCreationsRoute ? 'white' : 'gray',
-										}}
-									>
-										{'Creations'}
-									</Text>
-								</Button>
-							</Link>
-
-							<Link href='/mycollections'>
-								<Button
-									shape='round'
-									type={isMyCollectionsRoute ? 'primary' : 'default'}
-									// style={{ background: 'rgba(0,0,0,0.05)' }}
-								>
-									<Text
-										style={{
-											fontWeight: 'bold',
-											color: isMyCollectionsRoute ? 'white' : 'gray',
-										}}
-									>
-										{'Collections'}
-									</Text>
-								</Button>
-							</Link> */}
-						</div>
-					</Row>
-				) : null}
 			</span>
 		</article>
 	)

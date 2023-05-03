@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useState, useContext } from 'react'
 import type { FC } from 'react'
+
+import React, { useState, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 
 import { useSignMessage, useAccount } from 'wagmi'
-
-import EthereumAuth from '../EthereumAuth'
+import EthereumAuth from '../Ethereum/EthereumAuth'
 
 import { Typography, Modal, Col } from 'antd'
 
@@ -17,9 +17,11 @@ const { Title } = Typography
 
 interface SignInModalProps {
 	isMobile: boolean
+	isMounted: boolean
+	appWidth: number
 }
 
-const SignInModal: FC<SignInModalProps> = ({ isMobile }) => {
+const SignInModal: FC<SignInModalProps> = ({ isMobile, isMounted }) => {
 	const { address } = useAccount()
 
 	const context = useContext(AppContext)

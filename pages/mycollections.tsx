@@ -113,6 +113,7 @@ const MyCollections: FC = () => {
 	// console.log({ currentModalCollection })
 
 	const collectionWrapperStyles: CSSProperties = {
+		marginTop: 100,
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -132,11 +133,8 @@ const MyCollections: FC = () => {
 			</main>
 
 			<Col style={collectionWrapperStyles}>
-				<CreatorHeader
-					creator={creator}
-					userAddress={userAddress}
-					isMyCollectionsRoute={true}
-				/>
+				<CreatorHeader creator={creator} creatorRoute='collections' />
+
 				{isCurrentMyCollectionsCreations ? (
 					<Col className={styles.collectionsWrapper}>
 						<Row style={collectionInnerWrapperStyles}>

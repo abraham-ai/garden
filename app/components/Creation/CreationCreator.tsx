@@ -1,0 +1,188 @@
+'use client'
+
+import type { FC } from 'react'
+import type Creation from '../../interfaces/Creation'
+import type CreatorProfile from '../../interfaces/CreatorProfile'
+
+import React, { useState, useMemo } from 'react'
+import Link from 'next/link'
+
+import Blockies from 'react-blockies'
+import CreationDate from './CreationDate'
+import abbreviateAddress from '../../../util/abbreviateAddress'
+
+import styles from '../../../styles/CreationId.module.css'
+import modalStyles from '../../../../styles/CreationModal.module.css'
+import { Typography, Avatar, Row } from 'antd'
+
+const { Title, Text } = Typography
+
+interface CreationCreatorProps {
+	layout: string
+	creationData: Creation
+	displayAddress: string
+	timeAgoCreatedAt: string
+	appWidth: number
+	user: string
+	currentTheme: string
+	creator: CreatorProfile
+}
+
+const CreationCreator: FC<CreationCreatorProps> = ({
+	layout,
+	creationData,
+	displayAddress,
+	appWidth,
+	timeAgoCreatedAt,
+	user,
+	currentTheme,
+	creator,
+}) => {
+	const [isHovering, setIsHovering] = useState<boolean>(false)
+
+	const handleMouseOver = (): void => {
+		setIsHovering(true)
+	}
+
+	const handleMouseOut = (): void => {
+		setIsHovering(false)
+	}
+
+	// console.log({ currentTheme })
+	// console.log({ layout})
+
+	const isThemeLight = currentTheme === 'light'
+
+	const isOverlay = layout === 'overlay'
+	const isModal = layout === 'modal'
+
+	const isMobile = appWidth <= 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
+	// console.log({ isMobile })
+	// console.log({ isTablet })
+
+	const handleUsernameColor = useMemo(() => {
+		if (isMobile) {
+			if (isOverlay) {
+				return isThemeLight ? 'black' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'black' : 'white'
+			} else {
+				return isThemeLight ? 'black' : 'black'
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return isThemeLight ? 'black' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'black' : 'white'
+			} else {
+				return isThemeLight ? 'white' : 'white'
+			}
+		} else {
+			if (isOverlay) {
+				return isThemeLight ? 'white' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'black' : 'black'
+			} else {
+				return isThemeLight ? 'white' : 'white'
+			}
+		}
+	}, [appWidth])
+
+	const handleUsernameSize = useMemo(() => {
+		if (isMobile) {
+			if (isOverlay) {
+				return '1rem'
+			} else if (isModal) {
+				return '1rem'
+			} else {
+				return '1rem'
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return '1rem'
+			} else if (isModal) {
+				return '1rem'
+			} else {
+				return '1rem'
+			}
+		} else {
+			if (isOverlay) {
+				return '1rem'
+			} else if (isModal) {
+				return '1rem'
+			} else {
+				return '1rem'
+			}
+		}
+	}, [appWidth])
+
+	// console.log({ creationData })
+	// console.log(creationData?.user)
+	// console.log({ handleUsernameColor })
+
+	const handleCreatorDisplay = (): string => {
+		if (isCreator) {
+			return creator?.user?.username
+		} else {
+			return abbreviateAddress(creationData?.user ?? '')
+		}
+	}
+
+	const handleCreatorAddress = (): string => {
+		if (isCreator) {
+			return creator?.user?.userId
+		} else {
+			return creationData?.user ?? ''
+		}
+	}
+
+	const isCreator =
+		typeof creator?.user !== 'undefined' && creator?.user !== null
+
+	const creatorDisplay = handleCreatorDisplay()
+	const creatorAddress = handleCreatorAddress()
+
+	return (
+		<Link
+			href={{
+				pathname: `/creator/${String(creationData?.user)}`,
+				// query: { user: creationData?.user },
+			}}
+			className={styles.crCreator}
+			onMouseEnter={handleMouseOver}
+			onMouseOut={handleMouseOut}
+			style={{
+				textDecoration: isHovering ? 'underline' : 'unset',
+			}}
+		>
+			<Avatar size={50} icon={<Blockies scale={6} seed={creatorAddress} />} />
+			<div
+				className={styles.crCreatorNameWrapper}
+				onMouseOver={handleMouseOver}
+				onMouseOut={handleMouseOut}
+			>
+				<Text
+					style={{
+						textDecoration: isHovering ? 'underline' : 'unset',
+						fontSize: handleUsernameSize,
+						color: handleUsernameColor,
+						fontWeight: isMobile ? 'bold' : 'regular',
+						margin: 0,
+					}}
+				>
+					{creatorDisplay}
+				</Text>
+			</div>
+
+			<CreationDate
+				timeAgoCreatedAt={timeAgoCreatedAt}
+				isMobile={isMobile}
+				appWidth={appWidth}
+			/>
+		</Link>
+	)
+}
+
+export default CreationCreator

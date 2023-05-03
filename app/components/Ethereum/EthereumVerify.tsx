@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useContext, useMemo } from 'react'
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 import { useAccount } from 'wagmi'
 
 const EthereumVerify = (): JSX.Element | null => {

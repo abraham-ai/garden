@@ -144,6 +144,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [authToken, setAuthToken] = useState<string | undefined>('')
 	const [userId, setUserId] = useState<string | undefined>('')
 	const [userAddress, setUserAddress] = useState<string | undefined>('')
+	const [firstSignInRequest, setFirstSignInRequest] = useState<boolean>(true)
 	const [isSignInModalOpen, setIsSignInModalOpen] = useState<boolean>(false)
 
 	// creation context
@@ -249,6 +250,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setIsSaveCreationModalOpen,
 		currentTheme,
 		setCurrentTheme,
+		firstSignInRequest,
+		setFirstSignInRequest,
 		isSignInModalOpen,
 		setIsSignInModalOpen,
 
@@ -292,6 +295,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 					setCurrentCreationModalCreation,
 					isSaveCreationModalOpen,
 					setIsSaveCreationModalOpen,
+					firstSignInRequest,
+					setFirstSignInRequest,
 					isSignInModalOpen,
 					setIsSignInModalOpen,
 				}}

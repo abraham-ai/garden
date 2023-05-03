@@ -2,8 +2,8 @@ const themeOnLoad = (): string => {
 	const now = new Date()
 	const hours = now.getHours()
 
-	console.log(hours)
-	console.log(hours >= 8 && hours <= 20)
+	// console.log(hours)
+	// console.log(hours >= 8 && hours <= 20)
 
 	if (hours >= 6 && hours <= 20) {
 		return 'light'

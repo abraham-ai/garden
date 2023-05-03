@@ -1,9 +1,9 @@
 import type Creation from './Creation'
+import type CreatorProfile from './CreatorProfile'
 
 interface CreatorCreations {
 	creations: Creation[]
-	creatorId: string
-	creatorUsername: string
+	creator: CreatorProfile
 }
 
 export default CreatorCreations

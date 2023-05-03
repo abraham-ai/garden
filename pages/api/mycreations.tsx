@@ -27,18 +27,19 @@ const handler = async (
 			eden.setAuthToken(authToken)
 		}
 
-		const profileResult = await eden.getProfile()
-		console.log(profileResult)
+		const creator = await eden.getProfile()
+		console.log(creator)
 
-		const { username } = profileResult.user
+		const { username } = creator.user
 
 		const creations = await eden.getCreations({ username, limit: 10 }) // username not working
-		console.log(creations)
+		// console.log(creations)
 		console.log(creations.length)
 
 		console.log('userId: ', userId)
+		console.log('username: ', username)
 
-		res.status(200).json(creations)
+		res.status(200).json({ creations, creator })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

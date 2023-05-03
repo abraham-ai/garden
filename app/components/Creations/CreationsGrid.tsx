@@ -1,5 +1,7 @@
 'use client'
 
+import type { FC } from 'react'
+import type Creation from '../../../interfaces/Creation'
 import React, {
 	useState,
 	useEffect,
@@ -8,23 +10,18 @@ import React, {
 	useMemo,
 	useContext,
 } from 'react'
-import type { FC } from 'react'
-import useSWRInfinite from 'swr/infinite'
-
 import AppContext from '../../../context/AppContext'
-
-import type Creation from '../../../interfaces/Creation'
+import useSWRInfinite from 'swr/infinite'
 
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
 
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './CreationsGridAnalytics'
 
+import { LoadingOutlined } from '@ant-design/icons'
 import { Spin, Row } from 'antd'
 
 import styles from '../../../styles/CreationsGrid.module.css'
-
-import { LoadingOutlined } from '@ant-design/icons'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
@@ -56,6 +53,7 @@ const CreationsGrid: FC = () => {
 		() => context?.creationsData ?? [],
 		[context?.creationsData]
 	)
+
 	const setCreationsData = useMemo(
 		() => context?.setCreationsData,
 		[context?.setCreationsData]

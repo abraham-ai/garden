@@ -100,10 +100,8 @@ const Collection: FC<CollectionPageTypes> = () => {
 						{isUser ? (
 							<>
 								<CreatorHeader
-									userAddress={collectionData?.profile?.user?.userId}
-									collectionId={isCollectionId}
-									isMyCollectionsRoute={false}
-									isMyCreationsRoute={false}
+									creator={collectionData?.profile}
+									creatorRoute='collections'
 								/>
 								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
@@ -113,11 +111,11 @@ const Collection: FC<CollectionPageTypes> = () => {
 								</Col>
 							</>
 						) : null}
-						{isCollectionCreations === true ? (
+						{isCollectionCreations ? (
 							<CreationsGridSimple
 								creations={collectionCreations}
-								isMobile={isMobile}
 								appWidth={width}
+								creator={collectionData?.profile}
 							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

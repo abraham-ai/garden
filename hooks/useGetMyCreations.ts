@@ -6,8 +6,10 @@ import axios from 'axios'
 
 const emptyCreatorCreations = {
 	creations: [],
-	creatorId: '',
-	creatorUsername: '',
+	creator: {
+		userId: '',
+		username: '',
+	},
 }
 
 const useGetMyCreations = (userId: string): CreatorCreations => {
@@ -21,19 +23,18 @@ const useGetMyCreations = (userId: string): CreatorCreations => {
 			.post('/api/mycreations')
 			.then((response) => {
 				console.log(response.data)
-				setMyCreations({
-					creations: response.data,
-					creatorId: userId,
-					creatorUsername: '',
-				}) // Add creatorId and creatorUsername
+				setMyCreations(response.data) // Add creatorId and creatorUsername
 			})
 			.catch((error) => {
 				console.error('Error fetching my creations:', error)
 			})
 	}, [])
 
+	const isUserId =
+		typeof userId !== 'undefined' && userId !== null && userId !== ''
+
 	useEffect(() => {
-		if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+		if (isUserId) {
 			handleGetMyCreations(userId)
 		}
 	}, [userId, handleGetMyCreations])

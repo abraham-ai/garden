@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useEffect, useContext, useMemo } from 'react'
 import type { FC, MouseEvent } from 'react'
-import AppContext from '../../../context/AppContext'
 
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import AppContext from '../../../context/AppContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -17,10 +17,11 @@ import ConnectButtonCustom from './ConnectButtonCustom'
 
 import styles from '../../../styles/Header.module.css'
 
-import SettingsMenuPopOver from './SettingsMenuPopOver'
+// import SettingsMenuPopOver from './SettingsMenuPopOver'
 import SignInModal from './SignInModal'
-import EthereumVerify from '../EthereumVerify'
-// import EthereumAuth from '../EthereumAuth'
+import SettingsMenu from './SettingsMenu'
+import EthereumVerify from '../Ethereum/EthereumVerify'
+// import EthereumAuth from '../Ethereum/EthereumAuth'
 
 import {
 	// Tooltip,
@@ -72,7 +73,6 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 
 const Header: FC = () => {
 	const [isMounted, setIsMounted] = useState<boolean>(false)
-	const [firstSignInRequest, setFirstSignInRequest] = useState<boolean>(false)
 
 	const router = useRouter()
 
@@ -81,12 +81,13 @@ const Header: FC = () => {
 	const authToken = context?.authToken ?? ''
 	const userId = context?.userId ?? ''
 	const isSignedIn = context?.isSignedIn ?? false
+
+	const firstSignInRequest = context?.firstSignInRequest ?? false
+	const setFirstSignInRequest = context?.setFirstSignInRequest ?? (() => {})
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 	const currentTheme = context?.currentTheme ?? 'light'
 
-	const { width } = useWindowDimensions()
-
-	const isMobile = width < 768
+	const { width: appWidth } = useWindowDimensions()
 
 	useEffect(() => {
 		setIsMounted(true)
@@ -99,20 +100,10 @@ const Header: FC = () => {
 	}, [isMounted, firstSignInRequest])
 
 	useEffect(() => {
-		if (firstSignInRequest) {
+		if (!firstSignInRequest) {
 			setIsSignInModalOpen(true)
 		}
 	}, [firstSignInRequest, setIsSignInModalOpen])
-
-	let displayAddress = ''
-	if (typeof userId === 'string') {
-		displayAddress = abbreviateAddress(userId)
-	}
-
-	let displayAuthToken = ''
-	if (typeof authToken === 'string') {
-		displayAuthToken = abbreviateText(authToken, 80)
-	}
 
 	const handleChange = (
 		value: string,
@@ -162,27 +153,19 @@ const Header: FC = () => {
 		}
 	}
 
-	const handleBadgeCount = (): number => {
-		if (isWalletConnected && !isSignedIn) {
-			return 1
-		} else if (isWalletConnected && isSignedIn) {
-			return 0
-		} else {
-			return 0
-		}
-	}
-
 	const isThemeLight = currentTheme === 'light'
 	const textThemeColor = { color: isThemeLight ? 'black' : 'white' }
 
 	// console.log({ isThemeLight })
+
+	console.log({ firstSignInRequest })
 
 	return (
 		<header className={styles.headerWrapper}>
 			<ul className={styles.linksWrapper}>
 				<EthereumVerify />
 
-				{isMounted && width > 1280 ? (
+				{isMounted && appWidth > 1280 ? (
 					<>
 						{/* <ActiveLink href='/'>
 							<Text>{'Garden'}</Text>
@@ -231,43 +214,13 @@ const Header: FC = () => {
 				</Link>
 
 				<Row className={styles.popoverConnectWrapper}>
-					{/* <span
-						style={{
-							display: `${isMobile && isMounted ? 'none' : 'flex'}`,
-							alignItems: 'center',
-						}}
-					>
-						<Popover
-							content={
-								<SettingsMenuPopOver
-									isWalletConnected={isWalletConnected}
-									userId={userId}
-									displayAddress={displayAddress}
-									isSignedIn={isSignedIn}
-									authToken={authToken}
-									displayAuthToken={displayAuthToken}
-									isMobile={isMobile}
-								/>
-							}
-							trigger='click'
-							placement='bottom'
-						>
-							<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
-							<Button type='link' shape='circle' style={{ marginRight: 10 }}>
-								<Badge count={handleBadgeCount()}>
-									<BsGear style={{ fontSize: '1.5rem' }} />
-								</Badge>
-							</Button>
-							</Tooltip>
-						</Popover>
-					</span> */}
-
+					{/* <SettingsMenu appWidth={appWidth} /> */}
 					{/* <ConnectButton /> */}
-					<ConnectButtonCustom isMobile={isMobile} isMounted={isMounted} />
+					<ConnectButtonCustom appWidth={appWidth} isMounted={isMounted} />
 				</Row>
 			</section>
 
-			<SignInModal isMobile={isMobile} />
+			<SignInModal isMounted={isMounted} appWidth={appWidth} />
 		</header>
 	)
 }

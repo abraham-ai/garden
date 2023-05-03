@@ -15,9 +15,13 @@ const handler = async (
 
 	try {
 		const creation = await eden.getCreation(creationIdBody)
-		console.log(creation)
+		const creatorResult = await eden.getCreator(creation.user)
+		const creator = await creatorResult.getProfile()
 
-		res.status(200).json({ creation })
+		console.log(creator)
+		// console.log(creation)
+
+		res.status(200).json({ creation, creator })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

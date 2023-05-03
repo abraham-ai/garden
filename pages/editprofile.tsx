@@ -141,7 +141,7 @@ const EditProfile: FC = () => {
 			<Header />
 
 			<Content className={styles.contentWrapper}>
-				<CreatorHeader creator={creator} userAddress={userAddress} />
+				<CreatorHeader creator={creator} creatorRoute='editprofile' />
 				<Row
 					style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
 				>

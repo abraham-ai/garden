@@ -1,10 +1,13 @@
 'use client'
 
-import React from 'react'
 import type { FC } from 'react'
-
-import CreationCard from '../CreationCard/CreationCard'
 import type Creation from '../../../interfaces/Creation'
+import type CreatorProfile from '../../../interfaces/Creator'
+
+import React, { useContext } from 'react'
+import AppContext from '../../../context/AppContext'
+
+import CreationCard from '../Creation/CreationCard/CreationCard'
 
 import Masonry from 'react-masonry-css'
 import styles from '../../../styles/CreationsGrid.module.css'
@@ -12,15 +15,18 @@ import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
 interface CreationsGridProps {
 	creations: Creation[]
-	isMobile: boolean
+	creator: CreatorProfile
 	appWidth: number
 }
 
 const CreationsGridSimple: FC<CreationsGridProps> = ({
 	creations,
-	isMobile,
+	creator,
 	appWidth,
 }) => {
+	const context = useContext(AppContext)
+	const currentTheme = context?.currentTheme ?? 'light'
+
 	console.log('CREATIONS GRID SIMPLE')
 	console.log(creations)
 
@@ -51,8 +57,9 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 								creation={creation}
 								key={creation._id}
 								index={i}
-								isMobile={isMobile}
 								appWidth={appWidth}
+								currentTheme={currentTheme}
+								creator={creator}
 							/>
 						)
 					}

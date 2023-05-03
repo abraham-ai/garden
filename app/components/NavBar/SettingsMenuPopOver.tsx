@@ -1,6 +1,7 @@
-import React from 'react'
 import type { FC } from 'react'
-import EthereumAuth from '../EthereumAuth'
+
+import React from 'react'
+import EthereumAuth from '../Ethereum/EthereumAuth'
 
 import styles from '../../../styles/Header.module.css'
 
