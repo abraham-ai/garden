@@ -18,6 +18,7 @@ interface ReactionCountList {
 }
 
 interface CreationHeaderProps {
+	layout: string
 	creation: Creation
 	appWidth: number
 	isMobile: boolean
@@ -26,6 +27,7 @@ interface CreationHeaderProps {
 }
 
 const CrModalHeader: FC<CreationHeaderProps> = ({
+	layout,
 	creation,
 	isMobile,
 	appWidth,
@@ -61,9 +63,9 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 	return (
 		<section style={headerSocialWrapperStyles}>
 			<CreationCreator
+				layout={layout}
 				displayAddress={displayAddress}
-				creation={creation}
-				isMobile={isMobile}
+				creationData={creation}
 				appWidth={appWidth}
 				timeAgoCreatedAt={timeAgoCreatedAt}
 			/>

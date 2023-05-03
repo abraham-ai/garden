@@ -241,12 +241,12 @@ const CreationCard: FC<CreationCardProps> = ({
 				className={hoverStyles}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
-				style={{ backgroundColor: crColor[0] }}
+				// style={{ backgroundColor: crColor[0] }}
 			>
 				<article
 					id={`creationCard${isMobile ? ' isMobile' : ''}`}
 					className={styles.crCard}
-					style={{ backgroundColor: crColor[0] }}
+					// style={{ backgroundColor: crColor[0] }}
 				>
 					<span style={{ display: 'none' }}>
 						<ColorExtractor getColors={getColors}>
@@ -302,7 +302,7 @@ const CreationCard: FC<CreationCardProps> = ({
 										className={styles.crImageLinkWrapper}
 										style={{
 											'--aspect-ratio': aspectRatio,
-											background: crColor[0],
+											// background: crColor[0],
 										}}
 									>
 										{!isCrImageLinkLoading && (

@@ -1,9 +1,9 @@
 'use client'
 
 import type { FC } from 'react'
-import type Creation from '../../interfaces/Creation'
+import type Creation, from '../../interfaces/Creation'
 
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 
 import Blockies from 'react-blockies'
@@ -17,21 +17,22 @@ import { Typography, Avatar, Row } from 'antd'
 const { Title, Text } = Typography
 
 interface CreationCreatorProps {
+	layout: string
 	creationData: Creation
 	displayAddress: string
-	isMobile: boolean
 	timeAgoCreatedAt: string
 	appWidth: number
 	user: string
 }
 
 const CreationCreator: FC<CreationCreatorProps> = ({
+	layout,
 	creationData,
 	displayAddress,
 	appWidth,
-	isMobile,
 	timeAgoCreatedAt,
 	user,
+	currentTheme,
 }) => {
 	const [isHovering, setIsHovering] = useState<boolean>(false)
 
@@ -43,8 +44,62 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		setIsHovering(false)
 	}
 
+	console.log({ currentTheme })
+	console.log({ layout})
+
+	const isThemeLight = currentTheme === 'light'
+
+	const isOverlay= layout === 'overlay'
+	const isModal = layout === 'modal'
+
+	const isMobile = appWidth <= 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
+	console.log({ isMobile })
+	console.log({ isTablet })
+
+	const handleUsernameColor = useMemo(() => {
+		if (isMobile) {
+			if (isOverlay) {
+				return isThemeLight ? 'black' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'black' : 'white'
+			} else {
+				return isThemeLight ? 'black' : 'white'
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return isThemeLight ? 'black' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'black' : 'white'
+			} else {
+				return isThemeLight ? 'white' : 'white'
+			}
+		} else {
+			if (isOverlay) {
+				return isThemeLight ? 'white' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'black' : 'black'
+			} else {
+				return isThemeLight ? 'white' : 'white'
+			}
+		}
+	}, [appWidth])
+
+	const handleUsernameSize = useMemo(() => {
+		if (appWidth <= 768) {
+			return '1rem'
+		} else if (appWidth >= 768 && appWidth <= 1024) {
+			return '1rem'
+		} else {
+			return '1.5rem'
+		}
+	}, [appWidth])
+
 	console.log({ creationData })
 	console.log(creationData?.user)
+
+	console.log({ handleUsernameColor })
 
 	return (
 		<Link
@@ -71,7 +126,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 				<Text
 					style={{
 						textDecoration: isHovering ? 'underline' : 'unset',
-						color: isMobile ? 'white' : 'black',
+						fontSize: handleUsernameSize,
+						color: handleUsernameColor,
 						fontWeight: isMobile ? 'bold' : 'regular',
 						margin: 0,
 					}}

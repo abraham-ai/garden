@@ -35,7 +35,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 			style={{
 				color: 'black',
 				flexDirection: 'column',
-				background: crBgColor,
+				// background: crBgColor,
 				border: 20,
 				marginLeft: isMobile ? 60 : 0,
 				position: isMobile ? 'relative' : 'absolute',
@@ -71,7 +71,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				height={creation?.task?.config?.height}
 				width={creation?.task?.config?.width}
 				alt={creation?.task?.config?.text_input}
-				style={{ background: crBgColor }}
+				// style={{ background: crBgColor }}
 			/>
 		</Link>
 	)

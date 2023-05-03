@@ -43,8 +43,11 @@ const CreationModal: FC<CreationModalProps> = ({
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
+	const currentTheme = context?.currentTheme ?? 'light'
 
 	const creations = context?.creations != null || []
+
+	const GeneratorName = creation?.task?.generator?.generatorName
 
 	const router = useRouter()
 
@@ -170,6 +173,7 @@ const CreationModal: FC<CreationModalProps> = ({
 
 						<Col style={headerPromptWrapperStyles}>
 							<CrModalHeader
+								layout='modal'
 								creation={creation}
 								appWidth={appWidth}
 								isMobile={isMobile}
@@ -178,10 +182,13 @@ const CreationModal: FC<CreationModalProps> = ({
 							/>
 
 							<CreationPrompt
-								creation={creation}
+								layout='modal'
+								creationData={creation}
 								appWidth={appWidth}
 								isMobile={isMobile}
 								prompt={prompt}
+								GeneratorName={GeneratorName}
+								currentTheme={currentTheme}
 							/>
 
 							{/* <CrModalDebug

@@ -31,6 +31,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 		<div className={styles.crPromptMainWrapper}>
 			<article className={styles.promptWrapper}>
 				<CreationPrompt
+					layout='overlay'
 					creation={creation}
 					isMobile={isMobile}
 					displayAddress={displayAddress}

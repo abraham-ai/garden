@@ -9,6 +9,7 @@ import styles from '../../../styles/CreationModal.module.css'
 const { Text } = Typography
 
 interface CreationPromptProps {
+	layout: string
 	creation: Creation
 	prompt: string
 	GeneratorName: string
@@ -18,32 +19,67 @@ interface CreationPromptProps {
 }
 
 const CreationPrompt: FC<CreationPromptProps> = ({
+	layout,
 	creation,
 	prompt,
 	GeneratorName,
-	isMobile,
 	appWidth,
 	currentTheme,
 }) => {
 	const isThemeLight = currentTheme === 'light'
 
+	const isOverlay = layout === 'overlay'
+	const isModal = layout === 'modal'
+
+	console.log({ isOverlay })
+	console.log({ isModal })
+
+	const isMobile = appWidth <= 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
+	console.log({ isMobile })
+	console.log({ isTablet })
+
 	const handlePromptSize = useMemo(() => {
-		if (appWidth <= 768) {
-			return '1rem'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
-			return '1.5rem'
+		if (isMobile) {
+			if (isOverlay) {
+				return '12px'
+			} else if (isModal) {
+				return '1rem'
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return '.9rem'
+			} else if (isModal) {
+				return '.9rem'
+			}
 		} else {
-			return '1.5rem'
+			if (isOverlay) {
+				return '1rem'
+			} else if (isModal) {
+				return '1.5rem'
+			}
 		}
+		return '12px'
 	}, [appWidth])
 
 	const handlePromptColor = useMemo(() => {
-		if (appWidth <= 768) {
-			return isThemeLight ? 'white' : 'white'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		if (isMobile) {
+			if (isOverlay) {
+				return isThemeLight ? 'white' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'white' : 'white'
+			} else {
+				return isThemeLight ? 'black' : 'white'
+			}
+		} else if (isTablet) {
 			return isThemeLight ? 'white' : 'white'
 		} else {
-			return isThemeLight ? 'white' : 'white'
+			if (isOverlay) {
+				return isThemeLight ? 'white' : 'white'
+			} else if (isModal) {
+				return isThemeLight ? 'black' : 'white'
+			}
 		}
 	}, [appWidth])
 

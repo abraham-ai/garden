@@ -19,6 +19,7 @@ interface CrCardMobileProps {
 	user: string
 	GeneratorName: string
 	prompt: string
+	appWidth: number
 }
 
 const CrCardMobile: FC<CrCardMobileProps> = ({
@@ -30,49 +31,31 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 	user,
 	GeneratorName,
 	prompt,
+	appWidth,
 }) => {
+	const crCreatorPromptWrapperStyles = {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	}
 	return (
-		<div className={styles.crPromptMainWrapper}>
-			<Link
-				href={{
-					pathname: `/creator/${String(creation?.user)}`,
-					query: { user },
-				}}
-				style={{
-					display: 'flex',
-					alignItems: isMobile ? 'flex-start' : 'center',
-					marginRight: 10,
-				}}
-			>
-				<span
-					style={{
-						borderRadius: '50%',
-						overflow: 'hidden',
-						width: isMobile ? '48px' : '32px',
-						height: isMobile ? '48px' : '32px',
-						marginRight: isMobile ? 0 : 10,
-						background: 'white',
-					}}
-				>
-					<Blockies seed={creation?.user} size={12} />
-				</span>
-			</Link>
-			<article className={styles.promptWrapper}>
-				<CreationPrompt
-					creation={creation}
-					isMobile={isMobile}
-					appWidth={appWidth}
-					prompt={prompt}
-				/>
-
-				<CreationCreator
-					creation={creation}
-					isMobile={isMobile}
-					displayAddress={displayAddress}
-					timeAgoCreatedAt={timeAgoCreatedAt}
-					user={user}
-				/>
-			</article>
+		<div className={crCreatorPromptWrapperStyles}>
+			<CreationCreator
+				creationData={creation}
+				isMobile={isMobile}
+				displayAddress={displayAddress}
+				timeAgoCreatedAt={timeAgoCreatedAt}
+				user={user}
+				currentTheme={currentTheme}
+			/>
+			<CreationPrompt
+				creation={creation}
+				isMobile={isMobile}
+				appWidth={appWidth}
+				prompt={prompt}
+				GeneratorName={GeneratorName}
+			/>
 		</div>
 	)
 }
