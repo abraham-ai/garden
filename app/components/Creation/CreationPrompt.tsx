@@ -31,14 +31,14 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	const isOverlay = layout === 'overlay'
 	const isModal = layout === 'modal'
 
-	console.log({ isOverlay })
-	console.log({ isModal })
+	// console.log({ isOverlay })
+	// console.log({ isModal })
 
 	const isMobile = appWidth <= 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
-	console.log({ isMobile })
-	console.log({ isTablet })
+	// console.log({ isMobile })
+	// console.log({ isTablet })
 
 	const handlePromptSize = useMemo(() => {
 		if (isMobile) {
@@ -83,7 +83,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth])
 
-	console.log({ prompt })
+	// console.log({ prompt })
 
 	return (
 		<Col

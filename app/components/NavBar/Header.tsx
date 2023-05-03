@@ -103,11 +103,6 @@ const Header: FC = () => {
 		}
 	}, [firstSignInRequest, setIsSignInModalOpen])
 
-	let displayAddress = ''
-	if (typeof userId === 'string') {
-		displayAddress = abbreviateAddress(userId)
-	}
-
 	const handleChange = (
 		value: string,
 		option: { value: string; label: string }
@@ -222,7 +217,7 @@ const Header: FC = () => {
 				</Row>
 			</section>
 
-			<SignInModal appWidth={appWidth} />
+			<SignInModal isMounted={isMounted} appWidth={appWidth} />
 		</header>
 	)
 }

@@ -1,10 +1,9 @@
 interface CreatorProfile {
-	profile: {
-		creatorProfile: {
-			user: {
-				username: string
-				_id: string
-			}
+	creatorProfile: {
+		user: {
+			username: string
+			userId: string
+			_id: string
 		}
 	}
 }

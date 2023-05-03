@@ -44,8 +44,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		setIsHovering(false)
 	}
 
-	console.log({ currentTheme })
-	console.log({ layout})
+	// console.log({ currentTheme })
+	// console.log({ layout})
 
 	const isThemeLight = currentTheme === 'light'
 
@@ -55,8 +55,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const isMobile = appWidth <= 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
-	console.log({ isMobile })
-	console.log({ isTablet })
+	// console.log({ isMobile })
+	// console.log({ isTablet })
 
 	const handleUsernameColor = useMemo(() => {
 		if (isMobile) {
@@ -114,10 +114,10 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		}
 	}, [appWidth])
 
-	console.log({ creationData })
-	console.log(creationData?.user)
+	// console.log({ creationData })
+	// console.log(creationData?.user)
 
-	console.log({ handleUsernameColor })
+	// console.log({ handleUsernameColor })
 
 	return (
 		<Link

@@ -14,13 +14,11 @@ import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
 interface CreationsGridProps {
 	creations: Creation[]
-	isMobile: boolean
 	appWidth: number
 }
 
 const CreationsGridSimple: FC<CreationsGridProps> = ({
 	creations,
-	isMobile,
 	appWidth,
 }) => {
 	const context = useContext(AppContext)
@@ -56,7 +54,6 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 								creation={creation}
 								key={creation._id}
 								index={i}
-								isMobile={isMobile}
 								appWidth={appWidth}
 								currentTheme={currentTheme}
 							/>

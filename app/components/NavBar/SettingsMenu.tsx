@@ -2,8 +2,9 @@ import type { FC } from 'react'
 import React from 'react'
 import SettingsMenuPopOver from './SettingsMenuPopOver'
 
-import { Button, Badge, Popover, Tooltip } from 'antd'
+import { Button, Badge, Popover, Tooltip, Typography } from 'antd'
 import { BsGear } from 'react-icons/bs'
+const { Text } = Typography
 
 interface SettingsMenuProps {
 	appWidth: number

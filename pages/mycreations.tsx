@@ -31,9 +31,9 @@ const MyCreations: FC = () => {
 
 	const creator = useGetProfile(userId)
 
-	const { width } = useWindowDimensions()
+	const { width: appWidth } = useWindowDimensions()
 
-	const isMobile = width < 768
+	const userName = creator?.profile?.creatorProfile?.user?.username
 
 	return (
 		<>
@@ -43,22 +43,12 @@ const MyCreations: FC = () => {
 
 			{/* <EditCollectionModal /> */}
 
-			<CreatorHeader
-				creator={creator}
-				userAddress={userAddress}
-				isMyCreationsRoute={true}
-			/>
-			{myCreationsData !== null ? (
-				<section
-					className={stylesCreationsGrid.creationsWrapper}
-					style={{ marginTop: 50 }}
-				>
-					<CreationsGridSimple
-						creations={myCreationsData.creations}
-						isMobile={isMobile}
-						appWidth={width}
-					/>
-				</section>
+			<CreatorHeader creator={creator} creatorRoute='creations' />
+			{myCreationsData ? (
+				<CreationsGridSimple
+					creations={myCreationsData.creations}
+					appWidth={appWidth}
+				/>
 			) : (
 				<Row style={{ display: 'flex', justifyContent: 'center' }}>
 					<Spin indicator={antIcon} />
