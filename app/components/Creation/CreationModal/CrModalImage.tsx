@@ -21,7 +21,7 @@ const CrModalImage: FC<CrModalImageProps> = ({
 	return (
 		<Col
 			style={{
-				flex: isMobile ? 1 : '1 0 600px',
+				flex: isMobile ? 1 : '1 0 1000px',
 				justifyContent: 'center',
 				maxWidth: '100%',
 				background: 'rgb(0, 0, 0)',
