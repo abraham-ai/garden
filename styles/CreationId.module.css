@@ -104,7 +104,7 @@
 	right: 0;
 	filter: blur(1.5rem);
 	z-index: 0;
-	background: black;
+	background: transparent;
 }
 .crImgWrapperBackground img {
 	width: 100%;

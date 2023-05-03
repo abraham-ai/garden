@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react'
-import type Collection from '../../../interfaces/Collection'
 import type { FC } from 'react'
-import type Creation from '../../../interfaces/Creation'
+import type Collection from '../../../../interfaces/Collection'
+import type Creation from '../../../../interfaces/Creation'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 
 import Link from 'next/link'
 
-import AppContext from '../../../context/AppContext'
+import AppContext from '../../../../context/AppContext'
 
 import axios from 'axios'
 
-import useGetCollections from '../../../hooks/useGetCollections'
+import useGetCollections from '../../../../hooks/useGetCollections'
 
 import { Modal, Button, Input, notification, Typography, Row, Col } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
@@ -17,7 +17,7 @@ import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import { MdOutlineAdd } from 'react-icons/md'
 
-import styles from '../../../styles/CreationSaveModal.module.css'
+import styles from '../../../../styles/CreationSaveModal.module.css'
 
 const { Text } = Typography
 
@@ -62,8 +62,8 @@ const CreationSaveModal: FC = () => {
 	// console.log(collections)
 	// console.log(collectionsData)
 	// console.log(collectionModalView)
-	console.log({ currentSavedCollection })
-	console.log({ createdCollectionName })
+	// console.log({ currentSavedCollection })
+	// console.log({ createdCollectionName })
 
 	const createNotification = (placement: NotificationPlacement): void => {
 		api.info({
@@ -334,8 +334,7 @@ const CreationSaveModal: FC = () => {
 	)
 
 	// console.log({ currentCreationModalCreation })
-
-	console.log(currentSavedCollection)
+	// console.log(currentSavedCollection)
 	// console.log(collections)
 
 	return (

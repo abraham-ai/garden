@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
 import type { FC, CSSProperties } from 'react'
-
 import type CreationSocialProps from '../../../interfaces/CreationSocial'
 
+import React, { useState } from 'react'
 import { useReaction } from '../../../context/ReactionContext'
 
 import SaveButton from '../CreationActions/SaveButton'
@@ -11,12 +10,6 @@ import PraiseButton from '../CreationActions/PraiseButton'
 import ShareButton from '../CreationActions/ShareButton'
 
 import { Row } from 'antd'
-
-type CrSocialStyleContext = (
-	isMobile: boolean,
-	isCrModal: boolean,
-	appWidth: number
-) => 'relative' | 'absolute'
 
 const CreationSocial: FC<CreationSocialProps> = ({
 	creationId,
@@ -72,7 +65,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		} else if (isMobile && isCrIdPage) {
 			return '10px 0 0 60px'
 		}
-		return '10px 0 0 60px'
+		return '0'
 	}
 
 	const handleCrSocialPos = (): number => {
@@ -115,7 +108,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 				/>
 				<PraiseButton
 					creationId={creationId}
-					praises={praises}
+					praises={Number(praises)}
 					isPraised={isPraised}
 					setIsPraised={handlePraiseUpdate}
 					isMobile={isMobile}

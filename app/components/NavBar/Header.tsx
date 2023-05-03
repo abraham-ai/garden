@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useEffect, useContext, useMemo } from 'react'
 import type { FC, MouseEvent } from 'react'
-import AppContext from '../../../context/AppContext'
 
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import AppContext from '../../../context/AppContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -17,10 +17,10 @@ import ConnectButtonCustom from './ConnectButtonCustom'
 
 import styles from '../../../styles/Header.module.css'
 
-import SettingsMenuPopOver from './SettingsMenuPopOver'
+// import SettingsMenuPopOver from './SettingsMenuPopOver'
 import SignInModal from './SignInModal'
-import EthereumVerify from '../EthereumVerify'
-// import EthereumAuth from '../EthereumAuth'
+import EthereumVerify from '../Ethereum/EthereumVerify'
+// import EthereumAuth from '../Ethereum/EthereumAuth'
 
 import {
 	// Tooltip,

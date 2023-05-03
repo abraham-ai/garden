@@ -1,12 +1,12 @@
-import React from 'react'
+import type Creation from '../../../interfaces/Creation'
 import type { FC } from 'react'
+import React, { useContext } from 'react'
+import AppContext from '../../../context/AppContext'
 
 import Masonry from 'react-masonry-css'
 import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
-import type Creation from '../../../interfaces/Creation'
-
-import CreationCard from '../CreationCard/CreationCard'
+import CreationCard from '../Creation/CreationCard/CreationCard'
 
 import styles from '../../../styles/CreationsGrid.module.css'
 
@@ -21,13 +21,16 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	isMobile,
 	appWidth,
 }) => {
+	const context = useContext(AppContext)
+	const currentTheme = context?.currentTheme ?? 'light'
+
 	return (
 		<Masonry
 			breakpointCols={breakpointColumnsObj}
 			className={styles.crGridMasonry}
 			columnClassName={styles.crGridMasonryColumn}
 		>
-			{creations.map((creation: Creation, i: number) => {
+			{creations?.map((creation: Creation, i: number) => {
 				const generatorName = creation.task.generator.generatorName
 				// console.log({ creation })
 				if (
@@ -48,6 +51,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 							index={i}
 							isMobile={isMobile}
 							appWidth={appWidth}
+							currentTheme={currentTheme}
 						/>
 					)
 				}

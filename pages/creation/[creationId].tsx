@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
 import type { FC, CSSProperties } from 'react'
+import type CreationTypes from '../../interfaces/Creation'
 
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-
-import type CreationTypes from '../../interfaces/Creation'
 
 import emptyCreation from '../../constants/emptyCreation'
 
@@ -14,9 +13,9 @@ import styles from '../../styles/CreationId.module.css'
 
 import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-import CreationSocial from '../../app/components/CreationCard/CreationSocial'
-import CreationSaveModal from '../../app/components/CreationCard/CreationSaveModal'
-
+import CreationSocial from '../../app/components/Creation/CreationSocial'
+import CreationSaveModal from '../../app/components/Creation/CreationSaveModal/CreationSaveModal'
+import CreationIdProperties from '../../app/components/Creation/CreationId/CreationIdProperties'
 import abbreviateAddress from '../../util/abbreviateAddress'
 import timeAgo from '../../util/timeAgo'
 
@@ -28,26 +27,17 @@ import { useReaction } from '../../context/ReactionContext'
 import { Col, Row, Typography, Avatar, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
-import { SlSizeFullscreen } from 'react-icons/sl'
-import { MdOutlineDateRange } from 'react-icons/md'
-import { BsAspectRatio } from 'react-icons/bs'
-import { TbPrompt } from 'react-icons/tb'
-
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const { Title, Text } = Typography
-
-// type CrSocialStyleContext = (
-// 	isMobile: boolean,
-// 	isCrModal: boolean,
-// 	appWidth: number
-// ) => 'column' | 'row'
+const { Title } = Typography
 
 interface CreationCreatorProps {
 	creationData: CreationTypes
 }
 
 const CreationCreator: FC<CreationCreatorProps> = ({ creationData }) => {
+	console.log({ creationData })
+
 	return (
 		<div className={styles.crCreator}>
 			<Avatar
@@ -68,12 +58,12 @@ const CreationCreator: FC<CreationCreatorProps> = ({ creationData }) => {
 	)
 }
 
-interface CreationImageProps {
+interface CreationIdImageProps {
 	creationData: CreationTypes
 	size: string
 }
 
-const CreationImage: FC<CreationImageProps> = ({ size, creationData }) => {
+const CreationIdImage: FC<CreationIdImageProps> = ({ size, creationData }) => {
 	return (
 		<Col className={styles.creation}>
 			<Row className={styles.crPost}>
@@ -224,7 +214,29 @@ const Creation: FC<CreationPageProps> = ({
 
 	const crWrapSocialFlex = handleCrWrapSocialFlex(styleContext)
 
-	console.log(handleCrWrapSocialFlex)
+	// console.log(handleCrWrapSocialFlex)
+
+	const crIdWrapperStyles: CSSProperties = {
+		flexDirection: isMounted ? crWrapSocialFlex : undefined,
+		margin: isMobile ? '80px 10px' : '150px 50px 0 50px;',
+		justifyContent: isMobile ? 'center' : 'center',
+		width: '100%',
+		maxWidth: 1000,
+	}
+
+	const crCreatorSocialWrapperStyles: CSSProperties = {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	}
+
+	const crSocialWrapperStyles: CSSProperties = {
+		position: 'relative',
+		display: 'block',
+		height: 'auto',
+		padding: 0,
+		margin: '10px 0 0 0',
+	}
 
 	return (
 		<>
@@ -233,52 +245,24 @@ const Creation: FC<CreationPageProps> = ({
 			<CreationSaveModal />
 
 			<section style={{ display: 'flex', justifyContent: 'center' }}>
-				<Col
-					className={styles.creationIdWrapper}
-					style={{
-						flexDirection: isMounted ? crWrapSocialFlex : undefined,
-						margin: isMobile ? '80px 10px' : '150px 50px 0 50px;',
-						justifyContent: isMobile ? 'center' : 'center',
-						width: '100%',
-						maxWidth: 1000,
-					}}
-				>
+				<Col className={styles.creationIdWrapper} style={crIdWrapperStyles}>
 					{isCreationData ? (
 						<>
-							<CreationImage creationData={creationData} size={size} />
+							<CreationIdImage creationData={creationData} size={size} />
 
 							<article className={styles.creationText}>
 								<div
 									className={styles.crPostText}
 									style={{ maxWidth: isMobile ? 'unset' : 'unset' }}
 								>
-									{/* <Text>{creationId}</Text> */}
-									{/* <Text>{'Server:'} {creationData.creation._id}</Text> */}
-									{/* <pre>{JSON.stringify(creationData, null, 2)}</pre> */}
-
 									<section className={styles.crMain}>
-										<Row
-											style={{
-												display: 'flex',
-												flexDirection: 'row',
-												justifyContent: 'space-between',
-											}}
-										>
+										<Row style={crCreatorSocialWrapperStyles}>
 											<article className={styles.crMainHeader}>
 												<CreationCreator creationData={creationData} />
 											</article>
 
-											<Row
-												style={{
-													position: 'relative',
-													display: 'block',
-													height: 'auto',
-													padding: 0,
-													margin: '10px 0 0 0',
-												}}
-											>
+											<Row style={crSocialWrapperStyles}>
 												<CreationSocial
-													layout={'minimal'}
 													creation={creationData}
 													creationId={queryCreationId}
 													reactionCountList={{
@@ -298,57 +282,10 @@ const Creation: FC<CreationPageProps> = ({
 											</Row>
 										</Row>
 
-										<div style={{ display: 'flex', flexDirection: 'column' }}>
-											<Text style={{ color: 'purple', fontWeight: 600 }}>
-												{'/dream'}
-											</Text>
-											<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
-												{creationData?.task?.config?.text_input ?? 'No text'}
-											</Text>
-
-											<ul className={styles.crPropertiesWrapper}>
-												<li className={styles.crProperty}>
-													<span className={styles.crPropertyType}>
-														<MdOutlineDateRange
-															className={styles.icon}
-															style={{ fontSize: '1.5rem' }}
-														/>
-														<Text>{'Date'}</Text>
-													</span>
-													<Text>{timeAgoCreatedAt}</Text>
-												</li>
-												<li className={styles.crProperty}>
-													<span className={styles.crPropertyType}>
-														<SlSizeFullscreen
-															className={styles.icon}
-															style={{ fontSize: '1.2rem' }}
-														/>
-														<Text>{'Size'}</Text>
-													</span>
-													<Text>{'512 x 512'}</Text>
-												</li>
-												<li className={styles.crProperty}>
-													<span className={styles.crPropertyType}>
-														<TbPrompt
-															className={styles.icon}
-															style={{ fontSize: '1.5rem' }}
-														/>
-														<Text>{'Command'}</Text>
-													</span>
-													<Text>{'/dream'}</Text>
-												</li>
-												<li className={styles.crProperty}>
-													<span className={styles.crPropertyType}>
-														<BsAspectRatio
-															className={styles.icon}
-															style={{ fontSize: '1.5rem' }}
-														/>
-														<Text>{'Shape'}</Text>
-													</span>
-													<Text>{'square'}</Text>
-												</li>
-											</ul>
-										</div>
+										<CreationIdProperties
+											creationData={creationData}
+											timeAgoCreatedAt={timeAgoCreatedAt}
+										/>
 									</section>
 								</div>
 							</article>

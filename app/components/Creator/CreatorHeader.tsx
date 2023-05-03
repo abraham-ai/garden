@@ -89,7 +89,6 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 					<Skeleton
 						loading={isUserAddress}
 						active
-						width={400}
 						paragraph={{ rows: 0 }}
 						style={{
 							display: 'flex',

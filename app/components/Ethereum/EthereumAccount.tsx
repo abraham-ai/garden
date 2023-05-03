@@ -1,14 +1,13 @@
-import React, { useEffect, useContext, useMemo } from 'react'
 import type { FC, MouseEvent } from 'react'
 
-import AppContext from '../../context/AppContext'
+import React, { useEffect, useContext, useMemo } from 'react'
+import AppContext from '../../../context/AppContext'
 
 import { useDisconnect } from 'wagmi'
 
-import styles from '../../styles/EthereumAuth.module.css'
+import styles from '../../../styles/EthereumAuth.module.css'
 
-import { Button, Typography, Row } from 'antd'
-const { Text } = Typography
+import { Button, Row } from 'antd'
 
 interface EthereumAccountProps {
 	handleSiwe: (event: MouseEvent) => Promise<void>

@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useState, useEffect, useContext, useMemo } from 'react'
 import type { FC, MouseEvent } from 'react'
-import AppContext from '../../context/AppContext'
+
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import AppContext from '../../../context/AppContext'
 import { useAccount, useNetwork, useSignMessage } from 'wagmi'
 import { SiweMessage } from 'siwe'
 import axios from 'axios'

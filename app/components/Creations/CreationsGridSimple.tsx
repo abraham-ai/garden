@@ -1,10 +1,12 @@
 'use client'
 
-import React from 'react'
 import type { FC } from 'react'
-
-import CreationCard from '../CreationCard/CreationCard'
 import type Creation from '../../../interfaces/Creation'
+
+import React, { useContext } from 'react'
+import AppContext from '../../../context/AppContext'
+
+import CreationCard from '../Creation/CreationCard/CreationCard'
 
 import Masonry from 'react-masonry-css'
 import styles from '../../../styles/CreationsGrid.module.css'
@@ -21,6 +23,9 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 	isMobile,
 	appWidth,
 }) => {
+	const context = useContext(AppContext)
+	const currentTheme = context?.currentTheme ?? 'light'
+
 	console.log('CREATIONS GRID SIMPLE')
 	console.log(creations)
 
@@ -53,6 +58,7 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 								index={i}
 								isMobile={isMobile}
 								appWidth={appWidth}
+								currentTheme={currentTheme}
 							/>
 						)
 					}
