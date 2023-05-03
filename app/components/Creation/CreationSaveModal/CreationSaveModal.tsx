@@ -224,16 +224,17 @@ const CreationSaveModal: FC = () => {
 		}
 	}
 
+	const isCurrentSavedCollection =
+		typeof currentSavedCollection !== 'undefined' &&
+		currentSavedCollection != null
+
 	const handleSaveModalCleanUp = async (): Promise<void> => {
 		// setModalOpen(false)
 		setCollectionModalView('first-modal')
 		// console.log({ currentSavedCollection })
 		// setInputCollectionName('')
 
-		if (
-			typeof currentSavedCollection !== 'undefined' &&
-			currentSavedCollection != null
-		) {
+		if (isCurrentSavedCollection) {
 			// console.log(currentSavedCollection)
 			try {
 				await saveNotification('bottom')

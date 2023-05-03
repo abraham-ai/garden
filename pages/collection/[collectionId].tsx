@@ -73,14 +73,14 @@ const Collection: FC<CollectionPageTypes> = () => {
 		console.log(collectionData.creations.length)
 	}
 
-	const isCollectionCreations =
+	const isCollectionCreations: boolean =
 		isCollectionArray &&
 		collectionData?.creations?.every(
 			(creation): creation is Creation =>
 				typeof creation === 'object' && creation !== null
 		)
 	const collectionCreations =
-		isCollectionArray && isCollectionCreations === true
+		isCollectionArray && isCollectionCreations
 			? collectionData?.creations ?? []
 			: []
 
@@ -113,7 +113,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 								</Col>
 							</>
 						) : null}
-						{isCollectionCreations === true ? (
+						{isCollectionCreations ? (
 							<CreationsGridSimple
 								creations={collectionCreations}
 								isMobile={isMobile}

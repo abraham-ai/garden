@@ -7,9 +7,9 @@ import AppContext from '../../../../context/AppContext'
 
 import CrModalImage from './CrModalImage'
 import CrModalHeader from './CrModalHeader'
-import CrModalPrompt from './CrModalPrompt'
-import CrModalDebug from './CrModalDebug'
-import TransitionCreationModalButton from './TransitionCreationModalButton'
+import CreationPrompt from './CrModalPrompt'
+// import CrModalDebug from './CrModalDebug'
+// import TransitionCreationModalButton from './TransitionCreationModalButton'
 
 import abbreviateText from '../../../../util/abbreviateText'
 import abbreviateAddress from '../../../../util/abbreviateAddress'
@@ -177,7 +177,7 @@ const CreationModal: FC<CreationModalProps> = ({
 								reactionCountList={reactionCountList}
 							/>
 
-							<CrModalPrompt
+							<CreationPrompt
 								creation={creation}
 								appWidth={appWidth}
 								isMobile={isMobile}

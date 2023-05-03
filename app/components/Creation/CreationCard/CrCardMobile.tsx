@@ -6,10 +6,9 @@ import Link from 'next/link'
 
 import Blockies from 'react-blockies'
 
+import CreationCreator from '../CreationCreator/CreationCreator'
+import CreationPrompt from '../CreationPrompt/CreationPrompt'
 import styles from '../../../../styles/CreationCard.module.css'
-
-import { Typography, Col } from 'antd'
-const { Text } = Typography
 
 interface CrCardMobileProps {
 	creation: Creation
@@ -59,34 +58,20 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 				</span>
 			</Link>
 			<article className={styles.promptWrapper}>
-				<Col
-					style={{
-						order: isMobile ? 2 : 'unset',
-					}}
-				>
-					<Text className={styles.crPromptCommand}>{`/${String(
-						GeneratorName
-					)} `}</Text>
-					<Text
-						className={styles.crPrompt}
-						style={{
-							color: currentTheme === 'light' ? 'black' : 'white',
-						}}
-					>
-						{prompt}
-					</Text>
-				</Col>
-				<div
-					style={{
-						display: 'flex',
-						order: isMobile ? 1 : 'unset',
-						alignItems: 'center',
-						marginTop: isMobile ? 0 : 10,
-					}}
-				>
-					<Text className={styles.displayAddress}>{displayAddress}</Text>
-					<Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
-				</div>
+				<CreationPrompt
+					creation={creation}
+					isMobile={isMobile}
+					appWidth={appWidth}
+					prompt={prompt}
+				/>
+
+				<CreationCreator
+					creation={creation}
+					isMobile={isMobile}
+					displayAddress={displayAddress}
+					timeAgoCreatedAt={timeAgoCreatedAt}
+					user={user}
+				/>
 			</article>
 		</div>
 	)

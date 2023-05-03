@@ -14,11 +14,11 @@ import { TbPrompt } from 'react-icons/tb'
 
 const { Text } = Typography
 
-interface CreationIdPropertiesProps {
+interface CreationPropertiesProps {
 	creationData: Creation
 	timeAgoCreatedAt: string
 }
-const CreationIdProperties: FC<CreationIdPropertiesProps> = ({
+const CreationProperties: FC<CreationPropertiesProps> = ({
 	creationData,
 	timeAgoCreatedAt,
 }) => {
@@ -72,4 +72,4 @@ const CreationIdProperties: FC<CreationIdPropertiesProps> = ({
 	)
 }
 
-export default CreationIdProperties
+export default CreationProperties

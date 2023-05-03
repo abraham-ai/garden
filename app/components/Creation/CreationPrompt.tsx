@@ -32,7 +32,12 @@ const CrModalPrompt: FC<CrModalPromptProps> = ({
 	}, [appWidth])
 
 	return (
-		<Col className={styles.promptWrapper}>
+		<Col
+			className={styles.promptWrapper}
+			style={{
+				order: isMobile ? 2 : 'unset',
+			}}
+		>
 			<Text
 				className={styles.crPromptCommand}
 				style={{
@@ -40,12 +45,15 @@ const CrModalPrompt: FC<CrModalPromptProps> = ({
 					fontWeight: isMobile ? 'bold' : 'regular',
 				}}
 			>{`/${String(creation?.task?.generator?.generatorName)} `}</Text>
+			<Text className={styles.crPromptCommand}>{`/${String(
+				GeneratorName
+			)} `}</Text>
 			<Text
 				className={styles.crPrompt}
 				style={{
 					fontSize: handlePromptSize,
-					color: isMobile ? 'white' : 'black',
 					fontWeight: isMobile ? 'bold' : 'regular',
+					color: currentTheme === 'light' ? 'black' : 'white',
 				}}
 			>
 				{prompt}

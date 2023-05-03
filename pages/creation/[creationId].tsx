@@ -5,18 +5,17 @@ import type CreationTypes from '../../interfaces/Creation'
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 
 import emptyCreation from '../../constants/emptyCreation'
 
 import styles from '../../styles/CreationId.module.css'
 
-import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationSocial from '../../app/components/Creation/CreationSocial'
 import CreationSaveModal from '../../app/components/Creation/CreationSaveModal/CreationSaveModal'
-import CreationIdProperties from '../../app/components/Creation/CreationId/CreationIdProperties'
-import abbreviateAddress from '../../util/abbreviateAddress'
+import CreationCreator from '../../app/components/Creation/CreationCreator'
+import CreationIdImage from '../../app/components/Creation/CreationId/CreationIdImage'
+import CreationProperties from '../../app/components/Creation/CreationId/CreationProperties'
 import timeAgo from '../../util/timeAgo'
 
 import useGetCreation from '../../hooks/useGetCreation'
@@ -24,78 +23,10 @@ import useGetReactionCount from '../../hooks/useGetReactionCount'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 import { useReaction } from '../../context/ReactionContext'
 
-import { Col, Row, Typography, Avatar, Spin } from 'antd'
+import { Col, Row, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-
-const { Title } = Typography
-
-interface CreationCreatorProps {
-	creationData: CreationTypes
-}
-
-const CreationCreator: FC<CreationCreatorProps> = ({ creationData }) => {
-	console.log({ creationData })
-
-	return (
-		<div className={styles.crCreator}>
-			<Avatar
-				className='profileAvatarWrapper'
-				// style={{ display: 'flex', flex: 1 }}
-				size={50}
-				icon={<Blockies scale={6} seed={creationData?.user} />}
-			/>
-			<div className={styles.crCreatorNameWrapper}>
-				<Title level={3} className='profileName' style={{ marginTop: 10 }}>
-					{abbreviateAddress(creationData?.user ?? '')}
-				</Title>
-				{/* <Text style={{ marginLeft: 10 }}>
-													{timeAgoCreatedAt}
-												</Text> */}
-			</div>
-		</div>
-	)
-}
-
-interface CreationIdImageProps {
-	creationData: CreationTypes
-	size: string
-}
-
-const CreationIdImage: FC<CreationIdImageProps> = ({ size, creationData }) => {
-	return (
-		<Col className={styles.creation}>
-			<Row className={styles.crPost}>
-				<article className={`${styles.crCard} ${size}`}>
-					<div className={styles.crImgWrapper}>
-						<div className={styles.crImgWrapperMain}>
-							<Image
-								className={styles.crImg}
-								style={{ width: '100%' }}
-								width={creationData?.task?.config?.width ?? 0}
-								height={creationData?.task?.config?.height ?? 0}
-								alt={creationData?.task?.config?.text_input ?? ''}
-								src={creationData?.thumbnail ?? ''}
-							/>
-						</div>
-
-						<div className={styles.crImgWrapperBackground}>
-							<Image
-								className={styles.crImg}
-								style={{ width: '100%' }}
-								width={creationData?.task?.config?.width ?? 0}
-								height={creationData?.task?.config?.height ?? 0}
-								alt={creationData?.task?.config?.text_input ?? ''}
-								src={creationData?.thumbnail ?? ''}
-							/>
-						</div>
-					</div>
-				</article>
-			</Row>
-		</Col>
-	)
-}
 
 interface CreationPageProps {
 	params: { id: string }
@@ -134,7 +65,7 @@ const Creation: FC<CreationPageProps> = ({
 	const reactionCountList = useGetReactionCount(String(creation?._id))
 	const { reactionState, updateReactionState } = useReaction()
 
-	const isMobile = appWidth < 768
+	const isMobile: boolean = appWidth < 768
 
 	const isCreationData =
 		typeof creationData !== 'undefined' &&
@@ -282,7 +213,7 @@ const Creation: FC<CreationPageProps> = ({
 											</Row>
 										</Row>
 
-										<CreationIdProperties
+										<CreationProperties
 											creationData={creationData}
 											timeAgoCreatedAt={timeAgoCreatedAt}
 										/>

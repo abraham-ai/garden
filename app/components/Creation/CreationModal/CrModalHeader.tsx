@@ -6,7 +6,7 @@ import React, { useMemo } from 'react'
 import { Row } from 'antd'
 
 import CreationSocial from '../CreationSocial'
-import CrModalProfile from './CrModalProfile'
+import CreationCreator from './CreationCreator'
 
 import timeAgo from '../../../../util/timeAgo'
 
@@ -60,7 +60,7 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 
 	return (
 		<section style={headerSocialWrapperStyles}>
-			<CrModalProfile
+			<CreationCreator
 				displayAddress={displayAddress}
 				creation={creation}
 				isMobile={isMobile}

@@ -46,48 +46,19 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 					<Text
 						className={styles.crPrompt}
 						style={{
-							color: currentTheme === 'ligiht' ? 'black' : 'white',
+							color: currentTheme === 'light' ? 'black' : 'white',
 						}}
 					>
 						{prompt}
 					</Text>
 				</Col>
-				<div
-					style={{
-						display: 'flex',
-						order: isMobile ? 1 : 'unset',
-						alignItems: 'center',
-						marginTop: 10,
-					}}
-				>
-					<Link
-						href={{
-							pathname: `/creator/${String(creation?.user)}`,
-							query: { user },
-						}}
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							marginRight: 10,
-						}}
-					>
-						<span
-							style={{
-								borderRadius: '50%',
-								overflow: 'hidden',
-								width: '32px',
-								height: '32px',
-								marginRight: 10,
-								background: 'white',
-							}}
-						>
-							<Blockies seed={creation?.user} />
-						</span>
-
-						<Text className={styles.displayAddress}>{displayAddress}</Text>
-					</Link>
-					<Text className={styles.crDate}>{timeAgoCreatedAt}</Text>
-				</div>
+				<CreationCreator
+					creation={creation}
+					isMobile={isMobile}
+					displayAddress={displayAddress}
+					timeAgoCreatedAt={timeAgoCreatedAt}
+					user={user}
+				/>
 			</article>
 		</div>
 	)
