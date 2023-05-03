@@ -2,6 +2,8 @@ import type { FC } from 'react'
 import React from 'react'
 import SettingsMenuPopOver from './SettingsMenuPopOver'
 
+import abbreviateText from '../../../util/abbreviateText'
+
 import { Button, Badge, Popover, Tooltip, Typography } from 'antd'
 import { BsGear } from 'react-icons/bs'
 const { Text } = Typography

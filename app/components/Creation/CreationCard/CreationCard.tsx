@@ -34,7 +34,6 @@ interface CreationCardProps {
 	creation: Creation
 	layout?: string
 	index: number
-	isMobile: boolean
 	appWidth: number
 	currentTheme: string
 	creator: CreatorProfile
@@ -44,7 +43,6 @@ const CreationCard: FC<CreationCardProps> = ({
 	layout = 'overlay',
 	creation,
 	index,
-	isMobile,
 	appWidth,
 	currentTheme,
 	creator,
@@ -88,6 +86,8 @@ const CreationCard: FC<CreationCardProps> = ({
 	const isReactionCountListState =
 		reactionCountList != null &&
 		typeof reactionState[creation._id] === 'undefined'
+
+	const isMobile = appWidth < 768
 
 	const showModal = (): void => {
 		setModalOpen(true)

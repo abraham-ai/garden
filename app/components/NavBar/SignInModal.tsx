@@ -17,9 +17,11 @@ const { Title } = Typography
 
 interface SignInModalProps {
 	isMobile: boolean
+	isMounted: boolean
+	appWidth: number
 }
 
-const SignInModal: FC<SignInModalProps> = ({ isMobile }) => {
+const SignInModal: FC<SignInModalProps> = ({ isMobile, isMounted }) => {
 	const { address } = useAccount()
 
 	const context = useContext(AppContext)

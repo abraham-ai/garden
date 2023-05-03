@@ -169,6 +169,14 @@ const Creation: FC<CreationPageProps> = ({
 		margin: '10px 0 0 0',
 	}
 
+	console.log({ creationData })
+
+	let displayAddress
+	if (isCreationData) {
+		console.log(creationData)
+		displayAddress = creationData?.creator?.user?.userId ?? ''
+	}
+
 	return (
 		<>
 			<Header />

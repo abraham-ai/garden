@@ -4,12 +4,11 @@ import type CreatorProfile from '../interfaces/CreatorProfile'
 import axios from 'axios'
 
 const emptyCreatorProfile: CreatorProfile = {
-	profile: {
-		creatorProfile: {
-			user: {
-				username: '',
-				_id: '',
-			},
+	creatorProfile: {
+		user: {
+			username: '',
+			userId: '',
+			_id: '',
 		},
 	},
 }

@@ -73,14 +73,14 @@ const Collection: FC<CollectionPageTypes> = () => {
 		console.log(collectionData.creations.length)
 	}
 
-	const isCollectionCreations: boolean =
+	const isCollectionCreations =
 		isCollectionArray &&
 		collectionData?.creations?.every(
 			(creation): creation is Creation =>
 				typeof creation === 'object' && creation !== null
 		)
 	const collectionCreations =
-		isCollectionArray && isCollectionCreations
+		isCollectionArray && isCollectionCreations === true
 			? collectionData?.creations ?? []
 			: []
 

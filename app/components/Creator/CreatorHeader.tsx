@@ -48,10 +48,10 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 		if (isCreator && isCreatorUser) {
 			return userName
 		}
-
 		// if (isUserAddress) {
 		// 	return abbreviateAddress(userAddress)
 		// }
+		return ''
 	}
 
 	const displayAddress = handleCreatorDisplayName()
@@ -67,7 +67,7 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 		<article className={styles.creatorHeaderWrapperStyles}>
 			<span className={styles.creatorProfileStyles}>
 				<Col className={styles.profileWrapperStyles}>
-					<Skeleton loading={!isCreator} active size={50}>
+					<Skeleton loading={!isCreator} active>
 						<Avatar
 							className={styles.profileAvatarWrapperStyles}
 							size={64}
