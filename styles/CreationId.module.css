@@ -1,18 +1,55 @@
-/* styled.article
-  padding: 0 0 20px 0;
-  margin-top: 60px;
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column; */
-
 .creationIdWrapper {
 	display: flex;
 	margin: 150px 50px 0 50px;
 	justify-content: center;
 }
 
-/*** CREATION ***/
+@media (max-width: 1024px) {
+	.creationIdWrapper {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+/*** CR ID ***/
+.crId {
+	margin-top: 100px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 50px;
+}
+@media (min-width: 1024px) {
+	.crId {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+}
+
+.crIdSocialWrapper {
+	position: absolute;
+	display: block;
+	height: auto;
+	padding: 0;
+	margin: 10px 0 0 0;
+}
+
+/* CR PROMPT PROPERTIES WRAPPER */
+.crPrompProperties {
+	max-width: 500px;
+	display: flex;
+}
+
+@media (min-width: 1024px) {
+	.crPrompProperties {
+		display: flex;
+		background: red;
+	}
+}
+
+/* CREATION */
 .creation {
 	display: flex;
 	flex: 1 1 1000px;
@@ -123,37 +160,56 @@
 	display: flex;
 	flex: 1;
 }
-/*** CR-MAIN ***/
-.crMain {
+/*** CR-CONTENT ***/
+.crContent {
 	z-index: 10;
 	width: 100%;
-	padding: 20px;
 	display: flex;
 	flex-direction: column;
 }
-@media (max-width: 930px) {
-	.crMain {
+@media (min-width: 1024px) {
+	.crContent {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
 		width: 100%;
-		min-width: unset;
-		max-width: unset;
-		margin: 0 20px;
+		height: 100%;
+		min-width: 350px;
+		max-width: 350px;
 		padding: 0;
+		padding-left: 20px;
 	}
 }
-/*** CR-MAIN-HEADER ***/
-.crMainHeader {
+/*** CR CONTENT HEADER ***/
+.crHeader {
 	display: flex;
 	align-items: center;
 }
-@media (max-width: 1400px) {
-	.crMainHeader {
-		align-items: flex-start;
+@media (min-width: 1024px) {
+	.crHeader {
+		align-items: center;
 		flex-direction: row;
 	}
 }
+
+/* CR ID IMAGE */
+.crIdImage {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 1000px;
+	max-height: 600px;
+}
+
+@media (min-width: 1024px) {
+	.crIdImage {
+		align-items: center;
+		flex-direction: row;
+	}
+}
+
 /*** CR-TEXT ***/
 .crText {
 	font-size: 1.65em;
@@ -175,7 +231,7 @@
 /** CR-CREATOR **/
 .crCreator {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	font-size: 1.4em;
 	flex: 1;

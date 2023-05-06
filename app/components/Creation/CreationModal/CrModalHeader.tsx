@@ -29,17 +29,19 @@ interface CreationHeaderProps {
 const CrModalHeader: FC<CreationHeaderProps> = ({
 	layout,
 	creation,
-	isMobile,
 	appWidth,
 	reactionCountList,
 	displayAddress,
 }) => {
 	const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt))
 
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
 	const crProfileActionsFlex = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return 'row'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return 'row'
 		} else {
 			return 'column'
@@ -74,10 +76,7 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 					creation={creation}
 					creationId={creation._id}
 					reactionCountList={reactionCountList}
-					isMobile={isMobile}
-					isCrModal={true}
 					appWidth={appWidth}
-					isCrIdPage={false}
 				/>
 			</Row>
 		</section>

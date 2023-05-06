@@ -51,6 +51,9 @@
 .crLink {
 	display: flex;
 	color: black;
+	position: absolute;
+	top: 0;
+	width: 100%;
 	/* background: rgba(0, 0, 0, 0.1); */
 	justify-content: space-between;
 }
@@ -158,8 +161,15 @@
 	bottom: 0;
 	z-index: 150;
 }
+
+/*  HOVER SOCIAL WRAPPER */
+.crContentHoverSocialWrapper {
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
 .crPromptMainWrapper {
-	padding: 20px;
 	z-index: 10;
 }
 /* CREATION CARD MOBILE */
@@ -187,15 +197,12 @@
 .crContentMainMobile .crDate {
 	color: gray;
 }
-.crContentMainMobile .crContentHoverBgWrapper,
-.crContentMainMobile .crLink {
-	margin-left: 48px;
-}
 
 .promptWrapper {
 	background: rgba(0, 0, 0, 0.5);
 	padding: 10px;
 	border-radius: 10px;
+	margin: 20px;
 	/* mask-image: linear-gradient(transparent, transparent 50%); */
 }
 .crDate {

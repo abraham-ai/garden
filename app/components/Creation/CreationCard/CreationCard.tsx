@@ -73,7 +73,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	const [width, setWidth] = useState<number>(0)
 	const [height, setHeight] = useState<number>(0)
 
-	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(false)
+	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(true)
 
 	const [status, setStatus] = useState<string>('')
 
@@ -232,8 +232,9 @@ const CreationCard: FC<CreationCardProps> = ({
 		typeof creationsData[currentCreationIndex] === 'undefined' ||
 		typeof creationsData[currentCreationIndex]._id === 'undefined'
 
-	// console.log({ prompt })
+	console.log({ prompt })
 	// console.log({ crColor })
+	console.log({ index })
 
 	const aspectRatio =
 		creation?.task?.config?.height / creation?.task?.config?.width
@@ -256,6 +257,7 @@ const CreationCard: FC<CreationCardProps> = ({
 							<img src={creation.thumbnail} />
 						</ColorExtractor>
 					</span>
+
 					<div className={styles.crTopWrapper}>
 						<div className={styles.crImageWrapper}>
 							<Skeleton loading={typeof creation === 'undefined'} active>
@@ -273,33 +275,28 @@ const CreationCard: FC<CreationCardProps> = ({
 													<CrCardMobile
 														currentTheme={currentTheme}
 														creation={creation}
-														isMobile={isMobile}
 														GeneratorName={GeneratorName}
-														user={user}
 														displayAddress={displayAddress}
 														timeAgoCreatedAt={timeAgoCreatedAt}
 														prompt={prompt}
 														creator={creator}
+														appWidth={appWidth}
 													/>
 												) : (
 													<CrCardDesktop
 														currentTheme={currentTheme}
 														creation={creation}
-														isMobile={isMobile}
 														GeneratorName={GeneratorName}
-														user={user}
 														prompt={prompt}
 														displayAddress={displayAddress}
 														timeAgoCreatedAt={timeAgoCreatedAt}
 														creator={creator}
+														appWidth={appWidth}
 													/>
 												)}
 											</div>
 
-											<div
-												className={styles.crContentHoverBgWrapper}
-												style={{ marginLeft: isMobile ? 60 : 0 }}
-											/>
+											<div className={styles.crContentHoverBgWrapper} />
 										</>
 									) : null}
 
@@ -307,25 +304,30 @@ const CreationCard: FC<CreationCardProps> = ({
 										className={styles.crImageLinkWrapper}
 										style={{
 											'--aspect-ratio': aspectRatio,
-											// background: crColor[0],
+											background: crColor[0],
 										}}
 									>
 										{!isCrImageLinkLoading && (
 											<CrImageLink
 												creation={creation}
-												isMobile={isMobile}
 												appWidth={appWidth}
 												isCreationHovering={isCreationHovering}
 												showModal={showModal}
 												crBgColor={crColor[0]}
+												creationIndex={index}
 											/>
 										)}
 									</section>
 
 									{isCreationHovering || isMobile ? (
-										<>
+										<div
+											className={
+												isMobile
+													? styles.crContentMainMobile
+													: styles.crContentHoverSocialWrapper
+											}
+										>
 											<CreationSocial
-												isMobile={isMobile}
 												creation={creation}
 												creationId={creation._id}
 												reactionCountList={{
@@ -335,11 +337,9 @@ const CreationCard: FC<CreationCardProps> = ({
 													burns: reactionState[creation._id]?.burns ?? 0,
 													burned: reactionState[creation._id]?.burned ?? false,
 												}}
-												isCrModal={false}
-												isCrIdPage={false}
 												appWidth={appWidth}
 											/>
-										</>
+										</div>
 									) : null}
 								</section>
 							</Skeleton>
@@ -357,7 +357,6 @@ const CreationCard: FC<CreationCardProps> = ({
 				setModalOpen={setModalOpen}
 				modalOpen={modalOpen}
 				creationIndex={index}
-				isMobile={isMobile}
 				appWidth={appWidth}
 				reactionCountList={{
 					praises: reactionState[creation._id]?.praises ?? 0,

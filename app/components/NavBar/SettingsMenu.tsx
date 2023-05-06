@@ -27,7 +27,7 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
 	authToken,
 	isMounted,
 }) => {
-	const isMobile = appWidth <= 768
+	const isMobile = appWidth < 768
 
 	let displayAuthToken = ''
 	if (typeof authToken === 'string') {

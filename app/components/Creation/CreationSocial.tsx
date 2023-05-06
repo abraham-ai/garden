@@ -1,27 +1,32 @@
 import type { FC, CSSProperties } from 'react'
 import type CreationSocialProps from '../../../interfaces/CreationSocial'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useReaction } from '../../../context/ReactionContext'
+
+import styles from '../../../styles/CreationSocial.module.css'
 
 import SaveButton from '../CreationActions/SaveButton'
 import BurnButton from '../CreationActions/BurnButton'
 import PraiseButton from '../CreationActions/PraiseButton'
 import ShareButton from '../CreationActions/ShareButton'
 
-import { Row } from 'antd'
+import { Row, Typography } from 'antd'
+const { Text } = Typography
 
 const CreationSocial: FC<CreationSocialProps> = ({
+	layout = 'relative',
+	page = 'creationId',
 	creationId,
 	creation,
 	reactionCountList,
-	isMobile,
 	appWidth,
-	isCrModal,
-	isCrIdPage,
 }) => {
-	const [isBookmarked, setIsBookmarked] = useState(false)
+	const [isBookmarked, setIsBookmarked] = useState<boolean>(false)
 	const { reactionState, updateReactionState } = useReaction()
+
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	const {
 		praises,
@@ -49,55 +54,50 @@ const CreationSocial: FC<CreationSocialProps> = ({
 	// console.log({ creation })
 	// console.log('CreationSocial: CreationId: ' + creationId)
 
-	const styleContext = isMobile || isCrModal || isCrIdPage
+	const isCrIdPage = page === 'creationId'
+	const isCrModalLayout = layout === 'modal'
 
-	const handleCrWrapSocialPos = (): CSSProperties['position'] => {
+	const styleContext = isMobile || isCrModalLayout || isCrIdPage
+
+	const crWrapSocialPos = useMemo((): CSSProperties['position'] => {
 		if (styleContext) {
 			return 'relative'
 		} else {
 			return 'absolute'
 		}
+	}, [isMobile, isTablet, isCrIdPage])
+
+	// console.log({ isCrIdPage })
+	// console.log({ isMobile })
+
+	const praiseBurnStyles: CSSProperties = {
+		display: 'flex',
+		alignItems: 'flex-start',
+		position: crWrapSocialPos,
+		zIndex: 150,
+		margin: isMobile ? '20px 0 0 0' : '20px 0 0 20px',
 	}
 
-	const handleCrWrapSocialAbsPos = (): string => {
-		if (isCrIdPage && !isMobile) {
-			return '20px 0'
-		} else if (isMobile && isCrIdPage) {
-			return '10px 0 0 60px'
-		}
-		return '0'
+	const saveShareStyles: CSSProperties = {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'flex-start',
+		justifyContent: 'flex-start',
+		position: crWrapSocialPos,
+		flex: isMobile ? 1 : 0,
+		zIndex: 150,
+		margin: isMobile ? '20px 0 0 0' : '20px 20px 0 0',
 	}
 
-	const handleCrSocialPos = (): number => {
-		if (styleContext) {
-			return 0
-		} else {
-			return 20
-		}
-	}
-
-	const crWrapSocialPos = handleCrWrapSocialPos()
-	const crWrapSocialAbsPos = handleCrWrapSocialAbsPos()
-	const crSocialPos = handleCrSocialPos()
-
+	const socialMobile = isMobile ? styles.crSocialMobile : null
 	return (
 		<Row
-			style={{
-				display: 'flex',
-				margin: crWrapSocialAbsPos,
-				justifyContent: isMobile ? 'space-between' : 'unset',
-			}}
+			className={`
+				${styles.crSocial} ${String(socialMobile)}
+			`}
 		>
 			<article
-				style={{
-					display: 'flex',
-					alignItems: 'flex-start',
-					position: crWrapSocialPos,
-					top: crSocialPos,
-					left: crSocialPos,
-					zIndex: 150,
-					paddingRight: 10,
-				}}
+				className={isMobile ? styles.crPraiseBurnMobile : styles.crPraiseBurn}
 			>
 				<BurnButton
 					creationId={creationId}
@@ -105,36 +105,34 @@ const CreationSocial: FC<CreationSocialProps> = ({
 					isBurned={isBurned}
 					setIsBurned={handleBurnUpdate}
 					isMobile={isMobile}
+					appWidth={appWidth}
+					page={page}
 				/>
 				<PraiseButton
 					creationId={creationId}
 					praises={Number(praises)}
 					isPraised={isPraised}
 					setIsPraised={handlePraiseUpdate}
-					isMobile={isMobile}
+					appWidth={appWidth}
+					page={page}
 				/>
 			</article>
 
-			<article
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'flex-start',
-					justifyContent: 'flex-start',
-					position: crWrapSocialPos,
-					right: crSocialPos,
-					top: crSocialPos,
-					flex: isMobile ? 1 : 0,
-					zIndex: 150,
-				}}
-			>
+			<article style={saveShareStyles}>
 				<SaveButton
 					isBookmarked={isBookmarked}
 					setIsBookmarked={setIsBookmarked}
 					creation={creation}
-					isMobile={isMobile}
+					appWidth={appWidth}
+					page={page}
+					layout={layout}
 				/>
-				<ShareButton creationId={creationId} isMobile={isMobile} />
+				<ShareButton
+					creationId={creationId}
+					appWidth={appWidth}
+					page={page}
+					layout={layout}
+				/>
 			</article>
 		</Row>
 	)

@@ -27,7 +27,6 @@ interface CreationModalProps {
 	setModalOpen: (open: boolean) => void
 	creation: Creation
 	creationIndex: number
-	isMobile: boolean
 	appWidth: number
 	reactionCountList: ReactionCountList
 }
@@ -37,12 +36,18 @@ const CreationModal: FC<CreationModalProps> = ({
 	setModalOpen,
 	creation,
 	creationIndex,
-	isMobile,
 	appWidth,
 	reactionCountList,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
+	const setCurrentCreationIndex = context.setCurrentCreationIndex ?? (() => {})
+
+	const currentCreationModalCreation =
+		context.currentCreationModalCreation ?? {}
+	const setCurrentCreationModalCreation =
+		context.setCurrentCreationModalCreation ?? (() => {})
+
 	const currentTheme = context?.currentTheme ?? 'light'
 
 	const creations = context?.creations != null || []
@@ -51,6 +56,8 @@ const CreationModal: FC<CreationModalProps> = ({
 
 	const router = useRouter()
 
+	console.log({ currentCreationIndex })
+	console.log({ currentCreationModalCreation })
 	// console.log(currentCreationIndex)
 	// console.log(creation)
 
@@ -71,12 +78,17 @@ const CreationModal: FC<CreationModalProps> = ({
 	const handleModalCancel = (): void => {
 		router.push('/', undefined, { scroll: false })
 		setModalOpen(false)
+		setCurrentCreationIndex(0)
+		setCurrentCreationModalCreation({})
 	}
 
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
 	const handleDirection = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return 'column'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return 'column'
 		} else {
 			return 'row'
@@ -84,9 +96,9 @@ const CreationModal: FC<CreationModalProps> = ({
 	}, [appWidth])
 
 	const handleModalMaxWidth = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return 600
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return 1000
 		} else {
 			return 1800
@@ -94,12 +106,12 @@ const CreationModal: FC<CreationModalProps> = ({
 	}, [appWidth])
 
 	const handleModalWidth = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return '100vw'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return '90vw'
 		} else {
-			return '90vw'
+			return '1200px'
 		}
 	}, [appWidth])
 
@@ -176,7 +188,6 @@ const CreationModal: FC<CreationModalProps> = ({
 								layout='modal'
 								creation={creation}
 								appWidth={appWidth}
-								isMobile={isMobile}
 								displayAddress={displayAddress}
 								reactionCountList={reactionCountList}
 							/>

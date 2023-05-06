@@ -3,15 +3,7 @@ import type CreatorProfile from '../interfaces/CreatorProfile'
 
 import axios from 'axios'
 
-const emptyCreatorProfile: CreatorProfile = {
-	creatorProfile: {
-		user: {
-			username: '',
-			userId: '',
-			_id: '',
-		},
-	},
-}
+import emptyCreatorProfile from '../constants/emptyCreatorProfile'
 
 const useGetProfile = (creatorId: string): CreatorProfile => {
 	const [creator, setCreator] = useState<CreatorProfile>(emptyCreatorProfile)

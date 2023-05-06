@@ -1,12 +1,11 @@
+import type CreatorProfile from './CreatorProfile'
+import type Creation from './Creation'
+
 export default interface CollectionResponse {
 	collection?: {
-		user?: any
-		name?: string
+		user: string
+		name: string
 	}
-	profile?: {
-		user: {
-			userId: string
-		}
-	}
-	creations?: any[]
+	creations: Creation[]
+	creator: CreatorProfile
 }

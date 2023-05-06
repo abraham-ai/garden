@@ -3,6 +3,8 @@ import type { ExtendedApiRequest } from '../../util/withSession'
 import { withSessionRoute } from '../../util/withSession'
 import { EdenClient } from 'eden-sdk'
 
+import emptyCreatorProfile from '../../constants/emptyCreatorProfile'
+
 const eden = new EdenClient()
 
 const handler = async (
@@ -15,13 +17,17 @@ const handler = async (
 
 	try {
 		const creation = await eden.getCreation(creationIdBody)
-		const creatorResult = await eden.getCreator(creation.user)
-		const creator = await creatorResult.getProfile()
+		console.log(creation)
+		console.log(creation.user)
 
-		console.log(creator)
+		// const creatorResult = await eden.getCreator(creation.user)
+		// console.log(creatorResult)
+
+		// const creator = await creatorResult.getProfile()
+		// console.log(creator)
 		// console.log(creation)
 
-		res.status(200).json({ creation, creator })
+		res.status(200).json({ creation, creator: emptyCreatorProfile })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

@@ -34,7 +34,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	// console.log({ isOverlay })
 	// console.log({ isModal })
 
-	const isMobile = appWidth <= 768
+	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	// console.log({ isMobile })
@@ -66,23 +66,24 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	const handlePromptColor = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return isThemeLight ? 'white' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			} else if (isModal) {
-				return isThemeLight ? 'white' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			} else {
-				return isThemeLight ? 'black' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			}
 		} else if (isTablet) {
-			return isThemeLight ? 'white' : 'white'
+			return isThemeLight ? styles.crPrompt : styles.crPrompt
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? 'white' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			} else if (isModal) {
-				return isThemeLight ? 'black' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			}
 		}
 	}, [appWidth])
 
+	console.log({ handlePromptColor })
 	// console.log({ prompt })
 
 	return (
@@ -100,11 +101,10 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 				}}
 			>{`/${String(GeneratorName)} `}</Text>
 			<Text
-				className={styles.crPrompt}
+				className={handlePromptColor}
 				style={{
 					fontSize: handlePromptSize,
 					fontWeight: isMobile ? 'bold' : 'regular',
-					color: handlePromptColor,
 				}}
 			>
 				{prompt}

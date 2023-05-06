@@ -178,11 +178,7 @@ const CreationsGrid: FC = () => {
 				/>
 			) : null}
 
-			<CreationsMasonry
-				creations={allCreationsData}
-				isMobile={isMobile}
-				appWidth={width}
-			/>
+			<CreationsMasonry creations={allCreationsData} appWidth={width} />
 
 			<Row
 				ref={lastElementRef}

@@ -9,19 +9,19 @@ interface CrModalImageProps {
 	creationIndex: number
 	currentCreationIndex: number
 	appWidth: number
-	isMobile: boolean
 }
 const CrModalImage: FC<CrModalImageProps> = ({
 	creation,
 	creationIndex,
 	currentCreationIndex,
 	appWidth,
-	isMobile,
 }) => {
+	const isMobile = appWidth < 768
+
 	return (
 		<Col
 			style={{
-				flex: isMobile ? 1 : '1 0 1000px',
+				flex: isMobile ? 1 : '1 0 700px',
 				justifyContent: 'center',
 				maxWidth: '100%',
 				background: 'rgb(0, 0, 0)',

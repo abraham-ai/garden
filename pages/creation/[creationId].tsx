@@ -1,12 +1,16 @@
 'use client'
 
 import type { FC, CSSProperties } from 'react'
+import type { Property } from 'csstype'
+
 import type CreationTypes from '../../interfaces/Creation'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext, useMemo } from 'react'
+import AppContext from '../../context/AppContext'
 import { useRouter } from 'next/router'
 
 import emptyCreation from '../../constants/emptyCreation'
+import emptyCreatorProfile from '../../constants/emptyCreatorProfile'
 
 import styles from '../../styles/CreationId.module.css'
 
@@ -40,15 +44,21 @@ const Creation: FC<CreationPageProps> = ({
 	size = 'regular',
 }) => {
 	const router = useRouter()
+	const context = useContext(AppContext)
 
-	const [isMounted, setIsMounted] = useState<boolean>(false)
+	const currentTheme = context?.currentTheme ?? 'light'
+
+	// const [isMounted, setIsMounted] = useState<boolean>(false)
 
 	const isCrIdPage = true
 	// const [isMounted, setIsMounted] = useState(false)
 
-	useEffect(() => {
-		setIsMounted(true)
-	}, [])
+	// useEffect(() => {
+	// 	setIsMounted(true)
+	// 	return () => {
+	// 		setIsMounted(false)
+	// 	}
+	// }, [])
 
 	const queryCreationId = Array.isArray(router.query.creationId)
 		? router.query.creationId[0]
@@ -58,7 +68,7 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log(router.query)
 
 	const creationData = useGetCreation(queryCreationId)
-	// console.log({ creationData })
+	console.log({ creationData })
 
 	const { width: appWidth } = useWindowDimensions()
 
@@ -66,18 +76,21 @@ const Creation: FC<CreationPageProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 
 	const isMobile: boolean = appWidth < 768
+	const isTablet: boolean = appWidth >= 768 && appWidth < 1024
 
 	const isCreationData =
 		typeof creationData !== 'undefined' &&
 		creationData !== null &&
-		typeof creationData._id !== 'undefined'
+		typeof creationData.creation._id !== 'undefined'
 
 	const isReactionStateNotInitialized =
 		creationData != null &&
-		(reactionState[creationData._id]?.praises === undefined ||
-			reactionState[creationData._id]?.praised === undefined ||
-			reactionState[creationData._id]?.burns === undefined ||
-			reactionState[creationData._id]?.burned === undefined)
+		(reactionState[creationData.creation._id]?.praises === undefined ||
+			reactionState[creationData.creation._id]?.praised === undefined ||
+			reactionState[creationData.creation._id]?.burns === undefined ||
+			reactionState[creationData.creation._id]?.burned === undefined)
+
+	// console.log({ isReactionStateNotInitialized })
 
 	useEffect(() => {
 		if (isCreationData && isReactionStateNotInitialized) {
@@ -86,7 +99,7 @@ const Creation: FC<CreationPageProps> = ({
 			const burnsData = reactionCountList?.burns ?? 0
 			const burnedData = reactionCountList?.burned ?? false
 
-			updateReactionState(creation._id, {
+			updateReactionState(creationData?.creation?._id, {
 				praises: praisesData,
 				praised: praisedData,
 				burns: burnsData,
@@ -100,81 +113,77 @@ const Creation: FC<CreationPageProps> = ({
 		isReactionStateNotInitialized,
 	])
 
-	const isCreationDataTaskConfig =
+	const isCrDataCreation =
 		typeof creationData !== 'undefined' &&
-		creationData !== null &&
-		creation?._id !== undefined &&
-		!(creationData._id in reactionState) &&
-		typeof creationData?.task?.config?.text_input !== 'undefined'
+		typeof creationData?.creation !== 'undefined'
 
-	// console.log({ isCreationDataTaskConfig })
+	const isCrDataCreationId = typeof creationData?.creation?._id !== 'undefined'
+
+	const isCrDataCreationIdReactionState =
+		isCrDataCreationId && !(creationData.creation._id in reactionState)
+
+	const isCrDataCreationTask = creationData.creation.task
+
+	const isCrDataCreationTaskConfig = creationData.creation.task.config
+
+	const isCrDataCreationTaskConfigTextInput =
+		typeof creationData.creation.task.config.text_input !== 'undefined'
+
+	// console.log({ isCrDataCreation })
+	// console.log({ isCrDataCreationId })
+	// console.log({ isCrDataCreationIdReactionState })
+	// console.log({ isCrDataCreationTask })
+	// console.log({ isCrDataCreationTaskConfig })
+	// console.log({ isCrDataCreationTaskConfigTextInput })
+	// console.log({ creationData })
 
 	let timeAgoCreatedAt = '0'
-	if (isCreationDataTaskConfig) {
+	if (isCrDataCreation) {
 		// console.log(creationData)
 		// console.log(creationData.task.config.text_input)
 		// console.log(creationData.createdAt)
-		timeAgoCreatedAt = timeAgo(creationData.createdAt)
+		timeAgoCreatedAt = timeAgo(creationData?.creation?.createdAt)
 
 		// console.log(timeAgoCreatedAt)
 	}
 
 	// console.log('[creationId]: CreationId: ' + queryCreationId)
 
-	const styleContext: boolean = isMobile
-
-	const handleCrWrapSocialFlex = (
-		styleContext
-	): CSSProperties['flexDirection'] => {
-		if (styleContext === true) {
+	const crSocialFlex: Property.FlexDirection = () => {
+		if (isMobile) {
 			return 'column'
 		} else {
-			return 'row'
+			return 'column'
 		}
 	}
 
-	const handleCrPromptSize = (): string => {
-		if (isCrIdPage && !isMobile) {
-			return '1.5rem'
-		} else if (isMobile && isCrIdPage) {
-			return '1.3rem'
+	const socialWrapperPosition: Property.Position = () => {
+		if (isMobile) {
+			return 'relative'
+		} else {
+			return 'relative'
 		}
-		return '1rem'
 	}
-	// const crPromptSize = handleCrPromptSize()
-
-	const crWrapSocialFlex = handleCrWrapSocialFlex(styleContext)
-
-	// console.log(handleCrWrapSocialFlex)
 
 	const crIdWrapperStyles: CSSProperties = {
-		flexDirection: isMounted ? crWrapSocialFlex : undefined,
-		margin: isMobile ? '80px 10px' : '150px 50px 0 50px;',
-		justifyContent: isMobile ? 'center' : 'center',
-		width: '100%',
-		maxWidth: 1000,
-	}
-
-	const crCreatorSocialWrapperStyles: CSSProperties = {
 		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
 	}
 
-	const crSocialWrapperStyles: CSSProperties = {
-		position: 'relative',
-		display: 'block',
-		height: 'auto',
-		padding: 0,
-		margin: '10px 0 0 0',
-	}
-
-	console.log({ creationData })
+	const crCreatorSocialWrapperStyles: CSSProperties = useMemo(() => {
+		return {
+			display: 'flex',
+			flexDirection: crSocialFlex(),
+			justifyContent: 'space-between',
+			margin: '0 0 20px 0',
+		}
+	}, [crSocialFlex, isMobile])
 
 	let displayAddress
 	if (isCreationData) {
-		console.log(creationData)
-		displayAddress = creationData?.creator?.user?.userId ?? ''
+		// console.log(creationData)
+		// displayAddress = creationData?.creator?.user?.userId ?? ''
+		displayAddress = creationData?.creation?.user ?? ''
 	}
 
 	return (
@@ -183,64 +192,55 @@ const Creation: FC<CreationPageProps> = ({
 
 			<CreationSaveModal />
 
-			<section style={{ display: 'flex', justifyContent: 'center' }}>
-				<Col className={styles.creationIdWrapper} style={crIdWrapperStyles}>
-					{isCreationData ? (
-						<>
-							<CreationIdImage creationData={creationData} size={size} />
+			<section style={crIdWrapperStyles}>
+				{isCreationData ? (
+					<Col className={styles.crId}>
+						<CreationIdImage creationData={creationData} appWidth={appWidth} />
 
-							<article className={styles.creationText}>
-								<div
-									className={styles.crPostText}
-									style={{ maxWidth: isMobile ? 'unset' : 'unset' }}
-								>
-									<section className={styles.crMain}>
-										<Row style={crCreatorSocialWrapperStyles}>
-											<article className={styles.crMainHeader}>
-												<CreationCreator
-													creationData={creationData}
-													layout='modal'
-													displayAddress={displayAddress}
-													timeAgoCreatedAt={timeAgoCreatedAt}
-													appWidth={appWidth}
-												/>
-											</article>
+						<section className={styles.crContent}>
+							<Row style={crCreatorSocialWrapperStyles}>
+								<article className={styles.crHeader}>
+									<CreationCreator
+										creationData={creationData.creation}
+										creator={creationData?.creator ?? emptyCreatorProfile}
+										layout='relative'
+										page='creationId'
+										displayAddress={displayAddress}
+										timeAgoCreatedAt={timeAgoCreatedAt}
+										appWidth={appWidth}
+										currentTheme={currentTheme}
+									/>
+								</article>
 
-											<Row style={crSocialWrapperStyles}>
-												<CreationSocial
-													creation={creationData}
-													creationId={queryCreationId}
-													reactionCountList={{
-														praises:
-															reactionState[queryCreationId]?.praises ?? 0,
-														praised:
-															reactionState[queryCreationId]?.praised ?? false,
-														burns: reactionState[queryCreationId]?.burns ?? 0,
-														burned:
-															reactionState[queryCreationId]?.burned ?? false,
-													}}
-													appWidth={appWidth}
-													isMobile={isMobile}
-													isCrModal={false}
-													isCrIdPage={true}
-												/>
-											</Row>
-										</Row>
+								<Row style={styles.crIdSocialWrapper}>
+									<CreationSocial
+										layout='relative'
+										creation={creationData}
+										creationId={queryCreationId}
+										reactionCountList={{
+											praises: reactionState[queryCreationId]?.praises ?? 0,
+											praised: reactionState[queryCreationId]?.praised ?? false,
+											burns: reactionState[queryCreationId]?.burns ?? 0,
+											burned: reactionState[queryCreationId]?.burned ?? false,
+										}}
+										appWidth={appWidth}
+									/>
+								</Row>
+							</Row>
 
-										<CreationProperties
-											creationData={creationData}
-											timeAgoCreatedAt={timeAgoCreatedAt}
-										/>
-									</section>
-								</div>
-							</article>
-						</>
-					) : (
-						<Row style={{ display: 'flex', justifyContent: 'center' }}>
-							<Spin indicator={antIcon} />
-						</Row>
-					)}
-				</Col>
+							<Col className={styles.crPromptProperties}>
+								<CreationProperties
+									creationData={creationData}
+									timeAgoCreatedAt={timeAgoCreatedAt}
+								/>
+							</Col>
+						</section>
+					</Col>
+				) : (
+					<Row style={{ display: 'flex', justifyContent: 'center' }}>
+						<Spin indicator={antIcon} />
+					</Row>
+				)}
 			</section>
 		</>
 	)

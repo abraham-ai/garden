@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useMemo } from 'react'
 import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
@@ -12,7 +12,9 @@ interface PraiseButtonProps {
 	praises: number
 	isPraised: boolean
 	setIsPraised: (value: boolean, updatedPraises: number) => void
-	isMobile: boolean
+	appWidth: number
+	layout: string
+	page: string
 }
 
 const PraiseButton: FC<PraiseButtonProps> = ({
@@ -20,7 +22,9 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 	praises,
 	isPraised,
 	setIsPraised,
-	isMobile,
+	appWidth,
+	layout = 'relative',
+	page = 'creationId',
 }) => {
 	const context = useContext(AppContext)
 	const isSignedIn = context?.isSignedIn ?? false
@@ -32,6 +36,9 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 
 	const { openConnectModal } = useConnectModal()
 
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
 	const handlePraise = async (): Promise<void> => {
 		if (!isSignedIn && isWalletConnected) {
 			setIsSignInModalOpen(true)
@@ -40,6 +47,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			openConnectModal?.() ?? (() => null)()
 			await Promise.resolve()
 		} else if (isSignedIn && !isWalletConnected) {
+			openConnectModal?.() ?? (() => null)()
 			await Promise.resolve()
 		} else {
 			const newIsPraised = !isPraised
@@ -60,11 +68,51 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		}
 	}
 
+	const textSize = useMemo(() => {
+		if (isMobile) {
+			return '1rem'
+		} else if (page === 'creationId' && layout === 'relative') {
+			return '1rem'
+		} else {
+			return '1.8rem'
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonSize = useMemo(() => {
+		if (isMobile) {
+			return 'small'
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 'small'
+		} else {
+			return 'large'
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonWidth = useMemo(() => {
+		if (isMobile) {
+			return 60
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 60
+		} else {
+			return 100
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonHeight = useMemo(() => {
+		if (isMobile) {
+			return 30
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 30
+		} else {
+			return 50
+		}
+	}, [isMobile, isTablet, layout, page])
+
 	const praiseGray = (
 		<span
 			style={{
 				filter: 'grayscale(1)',
-				fontSize: isMobile ? '1rem' : '1.8rem',
+				fontSize: textSize,
 				marginBottom: 6,
 			}}
 		>
@@ -73,9 +121,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 	)
 
 	const praiseFilled = (
-		<span style={{ fontSize: isMobile ? '1rem' : '1.8rem', marginBottom: 6 }}>
-			{'🙌'}
-		</span>
+		<span style={{ fontSize: textSize, marginBottom: 6 }}>{'🙌'}</span>
 	)
 
 	const handleMouseOver = (): void => {
@@ -101,13 +147,14 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			<Button
 				className={isPraised ? 'crPraise isActive' : 'crPraise'}
 				shape='round'
+				size={buttonSize}
 				style={{
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
 					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
-					width: isMobile ? 60 : 100,
-					height: isMobile ? 30 : 50,
+					width: buttonWidth,
+					height: buttonHeight,
 					border: 'none',
 					transition: '1s',
 				}}

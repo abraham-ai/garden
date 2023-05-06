@@ -1,10 +1,16 @@
-import { useState, useEffect, useCallback } from 'react'
+import type CreationCreator from '../interfaces/CreationCreator'
 import type Creation from '../interfaces/Creation'
+import type CreatorProfile from '../interfaces/CreatorProfile'
 
+import emptyCreatorProfile from '../constants/emptyCreatorProfile'
+import emptyCreation from '../constants/emptyCreation'
+
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 
-const useGetCreation = (creationId: string): Creation | null => {
-	const [creation, setCreation] = useState<Creation | null>(null)
+const useGetCreation = (creationId: string): CreationCreator => {
+	const [creation, setCreation] = useState<Creation>(emptyCreation)
+	const [creator, setCreator] = useState<CreatorProfile>(emptyCreatorProfile)
 
 	const isCreationId =
 		typeof creationId !== 'undefined' &&
@@ -17,11 +23,13 @@ const useGetCreation = (creationId: string): Creation | null => {
 			creationId,
 		})
 
-		const { creation } = response.data
-		// console.log(response.data);
+		const { creation, creator } = response.data
+		console.log(response.data)
+
 		console.log('useGetCreation: response.data:')
-		console.log(creation)
+
 		setCreation(creation)
+		setCreator(creator)
 	}, [])
 
 	useEffect(() => {
@@ -34,7 +42,13 @@ const useGetCreation = (creationId: string): Creation | null => {
 
 	// console.log(creation);
 
-	return typeof creation !== 'undefined' ? creation : null
+	const isCreationCreator =
+		typeof creation !== 'undefined' && typeof creation !== 'undefined'
+	console.log({ isCreationCreator })
+
+	return isCreationCreator
+		? { creation, creator }
+		: { creation: emptyCreation, creator: emptyCreatorProfile }
 }
 
 export default useGetCreation

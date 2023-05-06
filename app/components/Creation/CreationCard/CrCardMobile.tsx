@@ -1,22 +1,17 @@
-import type { FC } from 'react'
+import type { FC, CSSProperties } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
 import React from 'react'
-import Link from 'next/link'
-
-import Blockies from 'react-blockies'
 
 import CreationCreator from '../CreationCreator'
 import CreationPrompt from '../CreationPrompt'
-import styles from '../../../../styles/CreationCard.module.css'
 
 interface CrCardMobileProps {
 	creation: Creation
-	isMobile: boolean
+	creator: CreatorProfile
 	displayAddress: string
 	timeAgoCreatedAt: string
 	currentTheme: string
-	user: string
 	GeneratorName: string
 	prompt: string
 	appWidth: number
@@ -24,16 +19,15 @@ interface CrCardMobileProps {
 
 const CrCardMobile: FC<CrCardMobileProps> = ({
 	creation,
-	isMobile,
+	creator,
 	displayAddress,
 	timeAgoCreatedAt,
 	currentTheme,
-	user,
 	GeneratorName,
 	prompt,
 	appWidth,
 }) => {
-	const crCreatorPromptWrapperStyles = {
+	const crCreatorPromptWrapperStyles: CSSProperties = {
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -43,15 +37,14 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 		<div className={crCreatorPromptWrapperStyles}>
 			<CreationCreator
 				creationData={creation}
-				isMobile={isMobile}
+				appWidth={appWidth}
 				displayAddress={displayAddress}
 				timeAgoCreatedAt={timeAgoCreatedAt}
-				user={user}
+				creator={creator}
 				currentTheme={currentTheme}
 			/>
 			<CreationPrompt
 				creation={creation}
-				isMobile={isMobile}
 				appWidth={appWidth}
 				prompt={prompt}
 				GeneratorName={GeneratorName}
