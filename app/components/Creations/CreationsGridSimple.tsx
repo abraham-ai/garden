@@ -2,7 +2,7 @@
 
 import type { FC } from 'react'
 import type Creation from '../../../interfaces/Creation'
-import type CreatorProfile from '../../../interfaces/Creator'
+import type CreatorProfile from '../../../interfaces/CreatorProfile'
 
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
@@ -55,11 +55,11 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 						return (
 							<CreationCard
 								creation={creation}
+								creator={creator}
 								key={creation._id}
 								index={i}
 								appWidth={appWidth}
 								currentTheme={currentTheme}
-								creator={creator}
 							/>
 						)
 					}

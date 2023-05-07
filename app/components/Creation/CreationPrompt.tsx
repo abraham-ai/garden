@@ -13,7 +13,6 @@ interface CreationPromptProps {
 	creation: Creation
 	prompt: string
 	GeneratorName: string
-	isMobile: boolean
 	appWidth: number
 	currentTheme: string
 }

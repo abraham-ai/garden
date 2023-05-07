@@ -1,13 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
 import type CreatorCreations from '../interfaces/CreatorCreations'
-import emptyCreatorProfile from '../constants/emptyCreatorProfile'
 
+import { useState, useEffect, useCallback } from 'react'
+import emptyCreatorCreations from '../constants/emptyCreatorCreations'
 import axios from 'axios'
-
-const emptyCreatorCreations = {
-	creations: [],
-	creator: emptyCreatorProfile,
-}
 
 const useGetCreatorCreations = (creatorId: string): CreatorCreations => {
 	const [creatorCreations, setCreatorCreations] = useState<CreatorCreations>(

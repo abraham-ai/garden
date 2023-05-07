@@ -1,5 +1,6 @@
 import type { FC, CSSProperties } from 'react'
 import type Creation from '../../../../interfaces/Creation'
+import type CreatorProfile from '../../../../interfaces/CreatorProfile'
 
 import React from 'react'
 
@@ -20,7 +21,6 @@ interface CrCardMobileProps {
 const CrCardMobile: FC<CrCardMobileProps> = ({
 	creation,
 	creator,
-	displayAddress,
 	timeAgoCreatedAt,
 	currentTheme,
 	GeneratorName,
@@ -34,7 +34,7 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 		alignItems: 'center',
 	}
 	return (
-		<div className={crCreatorPromptWrapperStyles}>
+		<div style={crCreatorPromptWrapperStyles}>
 			<CreationCreator
 				creationData={creation}
 				appWidth={appWidth}

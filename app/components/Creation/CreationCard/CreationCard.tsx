@@ -303,7 +303,8 @@ const CreationCard: FC<CreationCardProps> = ({
 									<section
 										className={styles.crImageLinkWrapper}
 										style={{
-											'--aspect-ratio': aspectRatio,
+											paddingTop: `${aspectRatio * 100}%`,
+											// '--aspect-ratio': aspectRatio,
 											background: crColor[0],
 										}}
 									>
@@ -328,6 +329,7 @@ const CreationCard: FC<CreationCardProps> = ({
 											}
 										>
 											<CreationSocial
+												layout='relative'
 												creation={creation}
 												creationId={creation._id}
 												reactionCountList={{

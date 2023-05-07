@@ -11,6 +11,7 @@ import CreationPrompt from '../CreationPrompt'
 // import CrModalDebug from './CrModalDebug'
 // import TransitionCreationModalButton from './TransitionCreationModalButton'
 
+import emptyCreation from '../../../../constants/emptyCreation'
 import abbreviateText from '../../../../util/abbreviateText'
 import abbreviateAddress from '../../../../util/abbreviateAddress'
 import { Modal, Col } from 'antd'
@@ -41,12 +42,12 @@ const CreationModal: FC<CreationModalProps> = ({
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
-	const setCurrentCreationIndex = context.setCurrentCreationIndex ?? (() => {})
+	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 
 	const currentCreationModalCreation =
-		context.currentCreationModalCreation ?? {}
+		context?.currentCreationModalCreation ?? {}
 	const setCurrentCreationModalCreation =
-		context.setCurrentCreationModalCreation ?? (() => {})
+		context?.setCurrentCreationModalCreation ?? (() => {})
 
 	const currentTheme = context?.currentTheme ?? 'light'
 
@@ -79,7 +80,7 @@ const CreationModal: FC<CreationModalProps> = ({
 		router.push('/', undefined, { scroll: false })
 		setModalOpen(false)
 		setCurrentCreationIndex(0)
-		setCurrentCreationModalCreation({})
+		setCurrentCreationModalCreation(emptyCreation)
 	}
 
 	const isMobile = appWidth < 768
@@ -180,7 +181,6 @@ const CreationModal: FC<CreationModalProps> = ({
 							creation={creation}
 							creationIndex={creationIndex}
 							currentCreationIndex={currentCreationIndex}
-							isMobile={isMobile}
 						/>
 
 						<Col style={headerPromptWrapperStyles}>
@@ -196,7 +196,6 @@ const CreationModal: FC<CreationModalProps> = ({
 								layout='modal'
 								creationData={creation}
 								appWidth={appWidth}
-								isMobile={isMobile}
 								prompt={prompt}
 								GeneratorName={GeneratorName}
 								currentTheme={currentTheme}

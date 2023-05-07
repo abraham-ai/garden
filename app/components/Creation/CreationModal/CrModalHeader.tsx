@@ -21,7 +21,6 @@ interface CreationHeaderProps {
 	layout: string
 	creation: Creation
 	appWidth: number
-	isMobile: boolean
 	reactionCountList: ReactionCountList
 	displayAddress: string
 }
@@ -73,6 +72,7 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 			/>
 			<Row style={socialWrapperStyles}>
 				<CreationSocial
+					layout='relative'
 					creation={creation}
 					creationId={creation._id}
 					reactionCountList={reactionCountList}

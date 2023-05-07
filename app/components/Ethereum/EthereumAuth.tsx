@@ -11,10 +11,10 @@ import axios from 'axios'
 import EthereumAccount from './EthereumAccount'
 
 interface EthereumAuthProps {
-	isMobile: boolean
+	appWidth: number
 }
 
-const EthereumAuth: FC<EthereumAuthProps> = ({ isMobile }) => {
+const EthereumAuth: FC<EthereumAuthProps> = ({ appWidth }) => {
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected ?? false
@@ -173,7 +173,7 @@ const EthereumAuth: FC<EthereumAuthProps> = ({ isMobile }) => {
 		<EthereumAccount
 			state={state}
 			handleSiwe={handleSiwe}
-			isMobile={isMobile}
+			appWidth={appWidth}
 		/>
 	)
 }

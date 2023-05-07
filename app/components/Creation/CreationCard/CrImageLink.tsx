@@ -14,7 +14,6 @@ interface CrImageLinkProps {
 	creation: Creation
 	crBgColor: string
 	appWidth: number
-	isMobile: boolean
 	isCreationHovering: boolean
 	showModal: () => void
 	creationIndex: number
@@ -30,8 +29,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 }) => {
 	const context = useContext(AppContext)
 
-	const currentCreationIndex = context.currentCreationIndex ?? 0
-	const setCurrentCreationIndex = context.setCurrentCreationIndex ?? (() => {})
+	const currentCreationIndex = context?.currentCreationIndex ?? 0
+	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const currentCreationModalCreation =
 		context.currentCreationModalCreation ?? {}
 	const setCurrentCreationModalCreation =

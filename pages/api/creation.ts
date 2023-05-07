@@ -18,7 +18,7 @@ const handler = async (
 	try {
 		const creation = await eden.getCreation(creationIdBody)
 		console.log(creation)
-		console.log(creation.user)
+		// console.log(creation)
 
 		// const creatorResult = await eden.getCreator(creation.user)
 		// console.log(creatorResult)

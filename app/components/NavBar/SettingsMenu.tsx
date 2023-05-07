@@ -60,7 +60,7 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
 						isSignedIn={isSignedIn}
 						authToken={authToken}
 						displayAuthToken={displayAuthToken}
-						isMobile={isMobile}
+						appWidth={appWidth}
 					/>
 				}
 				trigger='click'

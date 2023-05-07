@@ -7,17 +7,17 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { Button, Typography } from 'antd'
 const { Text } = Typography
 
-interface BurnButtonTypes {
+interface BurnButtonProps {
 	creationId: string
 	burns: number
 	isBurned: boolean
 	setIsBurned: (isBurned: boolean, updatedBurns: number) => void
-	layout?: string
-	appWidth?: number
+	layout: string
+	appWidth: number
 	page: string
 }
 
-const BurnButton: FC<BurnButtonTypes> = ({
+const BurnButton: FC<BurnButtonProps> = ({
 	creationId,
 	burns,
 	isBurned,

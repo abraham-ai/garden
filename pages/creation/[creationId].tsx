@@ -143,27 +143,10 @@ const Creation: FC<CreationPageProps> = ({
 		// console.log(creationData.task.config.text_input)
 		// console.log(creationData.createdAt)
 		timeAgoCreatedAt = timeAgo(creationData?.creation?.createdAt)
-
 		// console.log(timeAgoCreatedAt)
 	}
 
 	// console.log('[creationId]: CreationId: ' + queryCreationId)
-
-	const crSocialFlex: Property.FlexDirection = () => {
-		if (isMobile) {
-			return 'column'
-		} else {
-			return 'column'
-		}
-	}
-
-	const socialWrapperPosition: Property.Position = () => {
-		if (isMobile) {
-			return 'relative'
-		} else {
-			return 'relative'
-		}
-	}
 
 	const crIdWrapperStyles: CSSProperties = {
 		display: 'flex',
@@ -173,11 +156,11 @@ const Creation: FC<CreationPageProps> = ({
 	const crCreatorSocialWrapperStyles: CSSProperties = useMemo(() => {
 		return {
 			display: 'flex',
-			flexDirection: crSocialFlex(),
+			flexDirection: isMobile ? 'column' : 'column',
 			justifyContent: 'space-between',
 			margin: '0 0 20px 0',
 		}
-	}, [crSocialFlex, isMobile])
+	}, [isMobile])
 
 	let displayAddress
 	if (isCreationData) {
@@ -212,7 +195,7 @@ const Creation: FC<CreationPageProps> = ({
 									/>
 								</article>
 
-								<Row style={styles.crIdSocialWrapper}>
+								<Row className={styles.crIdSocialWrapper}>
 									<CreationSocial
 										layout='relative'
 										creation={creationData}

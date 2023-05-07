@@ -1,3 +1,5 @@
+import type CreatorProfile from '../interfaces/CreatorProfile'
+
 const emptyCreatorProfile: CreatorProfile = {
 	creatorProfile: {
 		user: {

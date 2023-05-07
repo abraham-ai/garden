@@ -1,6 +1,7 @@
 import type { FC } from 'react'
-import React, { useState } from 'react'
+import type CreationResponse from '../../interfaces/CreationResponse'
 
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/CreationId.module.css'
@@ -9,6 +10,7 @@ import stylesCreationsGrid from '../../styles/CreationsGrid.module.css'
 
 // import abbreviateAddress from '../../util/abbreviateAddress'
 
+import emptyCreatorCreations from '../../constants/emptyCreatorCreations'
 import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 
 // import Blockies from 'react-blockies'
@@ -17,8 +19,6 @@ import CreationsGridSimple from '../../app/components/Creations/CreationsGridSim
 import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
-
-import type CreationResponse from '../../interfaces/CreationResponse'
 
 import { Row, Typography, Spin, Button } from 'antd'
 
@@ -95,7 +95,9 @@ const Creator: FC<CreatorPageProps> = () => {
 							<Header />
 						</main>
 						<CreatorHeader
-							creator={creatorCreationsData?.creator ?? null}
+							creator={
+								creatorCreationsData?.creator ?? emptyCreatorCreations.creator
+							}
 							creatorRoute={'creations'}
 						/>
 
@@ -106,7 +108,9 @@ const Creator: FC<CreatorPageProps> = () => {
 								<CreationsGridSimple
 									creations={creatorCreationsData?.creations ?? []}
 									appWidth={width}
-									creator={creatorCreationsData?.creator ?? null}
+									creator={
+										creatorCreationsData?.creator ?? emptyCreatorCreations
+									}
 								/>
 							</section>
 						) : (

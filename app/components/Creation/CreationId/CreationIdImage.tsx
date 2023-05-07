@@ -8,7 +8,6 @@ import styles from '../../../../styles/CreationId.module.css'
 
 interface CreationIdImageProps {
 	creationData: CreationTypes
-	size: string
 	appWidth: number
 }
 

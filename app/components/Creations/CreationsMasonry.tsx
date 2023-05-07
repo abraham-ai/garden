@@ -54,6 +54,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 							return (
 								<CreationCard
 									creation={creation}
+									creator={creator}
 									key={creation._id}
 									index={i}
 									appWidth={appWidth}
