@@ -38,7 +38,6 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 			<CreationCreator
 				creationData={creation}
 				appWidth={appWidth}
-				displayAddress={displayAddress}
 				timeAgoCreatedAt={timeAgoCreatedAt}
 				creator={creator}
 				currentTheme={currentTheme}

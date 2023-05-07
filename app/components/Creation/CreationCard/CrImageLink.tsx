@@ -32,9 +32,9 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const currentCreationModalCreation =
-		context.currentCreationModalCreation ?? {}
+		context?.currentCreationModalCreation ?? {}
 	const setCurrentCreationModalCreation =
-		context.setCurrentCreationModalCreation ?? (() => {})
+		context?.setCurrentCreationModalCreation ?? (() => {})
 
 	const isMobile = appWidth < 768
 

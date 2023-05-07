@@ -20,8 +20,6 @@ interface CreationCreatorProps {
 	layout: string
 	page: string
 	creationData: Creation
-	displayAddress: string
-	timeAgoCreatedAt: string
 	appWidth: number
 	currentTheme: string
 	creator: CreatorProfile
@@ -31,14 +29,14 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	layout,
 	page,
 	creationData,
-	displayAddress,
 	appWidth,
-	timeAgoCreatedAt,
 	currentTheme,
 	creator,
 }) => {
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const [isHovering, setIsHovering] = useState<boolean>(true)
+
+	const timeAgoCreatedAt = timeAgo(Date.parse(creationData?.createdAt))
 
 	const handleMouseOver = (): void => {
 		setIsHovering(true)

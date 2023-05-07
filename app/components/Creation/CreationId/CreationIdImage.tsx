@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import type Creation from '../../../../interfaces/Creation'
 
 import React from 'react'
 import Image from 'next/image'
@@ -7,7 +8,9 @@ import { Col, Row } from 'antd'
 import styles from '../../../../styles/CreationId.module.css'
 
 interface CreationIdImageProps {
-	creationData: CreationTypes
+	creationData: {
+		creation: Creation
+	}
 	appWidth: number
 }
 

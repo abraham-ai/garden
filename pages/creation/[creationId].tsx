@@ -1,9 +1,8 @@
 'use client'
 
 import type { FC, CSSProperties } from 'react'
-import type { Property } from 'csstype'
 
-import type CreationTypes from '../../interfaces/Creation'
+import Creation from '../../interfaces/Creation'
 
 import React, { useEffect, useState, useContext, useMemo } from 'react'
 import AppContext from '../../context/AppContext'
@@ -34,7 +33,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 interface CreationPageProps {
 	params: { id: string }
-	creation: CreationTypes
+	creation: Creation
 	size?: string
 }
 

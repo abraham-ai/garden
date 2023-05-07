@@ -30,10 +30,7 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 	creation,
 	appWidth,
 	reactionCountList,
-	displayAddress,
 }) => {
-	const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt))
-
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
@@ -65,10 +62,8 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 		<section style={headerSocialWrapperStyles}>
 			<CreationCreator
 				layout={layout}
-				displayAddress={displayAddress}
 				creationData={creation}
 				appWidth={appWidth}
-				timeAgoCreatedAt={timeAgoCreatedAt}
 			/>
 			<Row style={socialWrapperStyles}>
 				<CreationSocial
