@@ -2,14 +2,15 @@ import type { FC } from 'react'
 import type CreatorProfile from '../../../interfaces/CreatorProfile'
 
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import styles from '../../../styles/CreatorHeader.module.css'
 
-import { Avatar, Typography, Col, Row, Skeleton } from 'antd'
+import { Avatar, Typography, Col, Skeleton, Button, Row } from 'antd'
 
 import Blockies from 'react-blockies'
-import abbreviateAddress from '../../../util/abbreviateAddress'
+import { AiFillEdit } from 'react-icons/ai'
 
 const { Title } = Typography
 
@@ -24,8 +25,11 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	creator,
 	creatorRoute = 'creations',
 }) => {
+	const router = useRouter()
+
 	const [userAddress, setUserAddress] = useState<string>('')
 	const [userName, setUserName] = useState<string>('')
+	const [isHovering, setIsHovering] = useState<boolean>(false)
 
 	const isCreator = typeof creator !== 'undefined' && creator !== null
 	const isCreatorUser =
@@ -63,6 +67,18 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	// console.log({ userName })
 	// console.log({ displayAddress })
 
+	const handleMouse = (type: 'mouseover' | 'mouseout') => (): void => {
+		if (type === 'mouseover') {
+			setIsHovering(true)
+		} else if (type === 'mouseout') {
+			setIsHovering(false)
+		}
+	}
+
+	const handleEditClick = (): void => {
+		router.push('/editprofile')
+	}
+
 	return (
 		<article className={styles.creatorHeaderWrapperStyles}>
 			<span className={styles.creatorProfileStyles}>
@@ -90,11 +106,38 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 							textAlign: 'center',
 						}}
 					>
-						<Link href={`/creator/${String(userName)}`}>
-							<Title level={3} className={styles.profileName}>
-								{displayAddress}
-							</Title>
-						</Link>
+						<Row
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								paddingLeft: 30,
+							}}
+							onMouseOver={handleMouse('mouseover')}
+							onMouseOut={handleMouse('mouseout')}
+						>
+							<Link href={`/creator/${String(userName)}`}>
+								<Title level={3} className={styles.profileName}>
+									{displayAddress}
+								</Title>
+							</Link>
+							<Button
+								style={{
+									fontSize: '1.4rem',
+									opacity: isHovering ? 1 : 0,
+									width: 30,
+									marginTop: 10,
+									marginLeft: 10,
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}
+								type='text'
+								icon={<AiFillEdit />}
+								onClick={() => {
+									handleEditClick()
+								}}
+							/>
+						</Row>
 					</Skeleton>
 				</Col>
 			</span>

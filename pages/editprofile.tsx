@@ -366,7 +366,6 @@ export default EditProfile
 		<Upload
 			action='/upload.do'
 			listType='picture-card'
-			style={{ background: 'red' }}
 		>
 			<div>
 				<PlusOutlined />
@@ -418,7 +417,6 @@ export default EditProfile
 		<Upload
 			action='/upload.do'
 			listType='picture-card'
-			style={{ background: 'red' }}
 		>
 			<div>
 				<PlusOutlined />

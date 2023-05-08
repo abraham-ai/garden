@@ -28,16 +28,18 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	const isThemeLight = currentTheme === 'light'
 
 	const isOverlay = layout === 'overlay'
-	const isModal = layout === 'modal'
+	const isRelative = layout === 'relative'
+	const isCrIdPage = page === 'creationId'
 
 	// console.log({ isOverlay })
-	// console.log({ isModal })
+	// console.log({ isRelative })
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	// console.log({ isMobile })
 	// console.log({ isTablet })
+	console.log({ isCrIdPage })
 
 	const GeneratorName = creation?.task?.generator?.generatorName
 
@@ -60,51 +62,60 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}
 
-	const handlePromptSize = useMemo(() => {
+	const promptSize = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return '12px'
-			} else if (isModal) {
-				return '1rem'
+				return styles.crPromptSizeSm
+			} else if (isRelative) {
+				return styles.crPromptSizeMd
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
-				return '.9rem'
-			} else if (isModal) {
-				return '.9rem'
+				return styles.crPromptSizeSm
+			} else if (isRelative) {
+				return styles.crPromptSizeSm
 			}
 		} else {
 			if (isOverlay) {
-				return '1rem'
-			} else if (isModal) {
-				return '1.5rem'
+				return styles.crPromptSizeMd
+			} else if (isRelative) {
+				return styles.crPromptSizeLg
 			}
 		}
 		return '12px'
 	}, [appWidth])
 
-	const handlePromptColor = useMemo(() => {
+	const promptColor = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
-			} else if (isModal) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
+				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
+			} else if (isRelative) {
+				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
 			} else {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
+				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
 			}
 		} else if (isTablet) {
-			return isThemeLight ? styles.crPrompt : styles.crPrompt
+			if (isOverlay) {
+				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
+			} else if (isRelative) {
+				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+			} else {
+				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+			}
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
-			} else if (isModal) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
+				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
+			} else if (isRelative) {
+				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+			} else {
+				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
 			}
 		}
 	}, [appWidth])
 
-	// console.log({ handlePromptColor })
+	// console.log({ promptColor })
 	// console.log({ prompt })
+	console.log({ layout })
 
 	return (
 		<Col
@@ -114,20 +125,18 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 			}}
 		>
 			<Text
-				className={styles.crPromptCommand}
+				className={`${styles.crPromptCommand} ${promptSize}`}
 				style={{
-					fontSize: handlePromptSize,
 					fontWeight: isMobile ? 'bold' : 'regular',
 				}}
 			>{`/${String(GeneratorName)} `}</Text>
 			<Text
-				className={handlePromptColor}
+				className={`${promptColor} ${promptSize}`}
 				style={{
-					fontSize: handlePromptSize,
 					fontWeight: isMobile ? 'bold' : 'regular',
 				}}
 			>
-				{prompt}
+				{isRelative ? creationTextInput : prompt}
 			</Text>
 		</Col>
 	)

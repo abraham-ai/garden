@@ -4,7 +4,7 @@ import type { FC } from 'react'
 import type Creation from '../../../interfaces/Creation'
 import type CreatorProfile from '../../../interfaces/CreatorProfile'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 
 import Blockies from 'react-blockies'
@@ -34,7 +34,6 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	currentTheme,
 	creator,
 }) => {
-	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const [isHovering, setIsHovering] = useState<boolean>(true)
 
 	const timeAgoCreatedAt = timeAgo(Date.parse(creation?.createdAt))
@@ -53,7 +52,6 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const isThemeLight = currentTheme === 'light'
 
 	const isOverlay = layout === 'overlay'
-	const isModal = layout === 'modal'
 	const isRelative = layout === 'relative'
 	const isCrIdPage = page === 'creationId'
 
@@ -63,94 +61,88 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	// console.log({ isMobile })
 	// console.log({ isTablet })
 	// console.log({ isOverlay })
-	// console.log({ isModal })
+	// console.log({ isRelative })
 
 	// console.log({ isRelative })
 	// console.log({ isCrIdPage })
 	// console.log({ isThemeLight })
 
-	useEffect(() => {
-		setIsMounted(true)
-		return () => {
-			setIsMounted(false)
-		}
-	}, [])
-
-	const usernameColor = useMemo(() => {
-		if (isMounted) {
-			if (isMobile) {
-				if (isOverlay) {
-					return isThemeLight ? 'black' : 'white'
-				} else if (isModal) {
-					return isThemeLight ? 'black' : 'white'
-				} else if (isCrIdPage) {
-					return isThemeLight ? 'black' : 'white'
-				} else {
-					return isThemeLight ? 'black' : 'black'
-				}
-			} else if (isTablet) {
-				if (isOverlay) {
-					return isThemeLight ? 'black' : 'white'
-				} else if (isModal) {
-					return isThemeLight ? 'black' : 'white'
-				} else if (isCrIdPage) {
-					return isThemeLight ? 'black' : 'white'
-				} else {
-					return isThemeLight ? 'black' : 'white'
-				}
+	const creatorColorStyles = useMemo(() => {
+		if (isMobile) {
+			if (isOverlay) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+			} else if (isRelative) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else if (isCrIdPage) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 			} else {
-				if (isOverlay) {
-					return isThemeLight ? 'black' : 'white'
-				} else if (isModal) {
-					return isThemeLight ? 'black' : 'black'
-				} else if (isCrIdPage) {
-					return isThemeLight ? 'black' : 'black'
-				} else {
-					return isThemeLight ? 'black' : 'white'
-				}
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else if (isRelative) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else if (isCrIdPage) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			}
+		} else {
+			if (isOverlay) {
+				console.log('isOverlay')
+				return isThemeLight ? styles.crCreatorWhite : styles.crCreatorWhite
+			} else if (isRelative) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
+			} else if (isCrIdPage) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
+			} else {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 			}
 		}
 	}, [appWidth])
 
-	// console.log({ usernameColor })
-
-	const usernameSize = useMemo(() => {
+	const creatorSizeStyles = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return '1rem'
-			} else if (isModal) {
-				return '1rem'
+				return styles.crCreatorSizeDefault
+			} else if (isRelative) {
+				return styles.crCreatorSizeDefault
 			} else {
-				return '1rem'
+				return styles.crCreatorSizeDefault
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
-				return '1rem'
-			} else if (isModal) {
-				return '1rem'
+				return styles.crCreatorSizeDefault
+			} else if (isRelative) {
+				return styles.crCreatorSizeDefault
 			} else {
-				return '1rem'
+				return styles.crCreatorSizeDefault
 			}
 		} else {
 			if (isOverlay) {
-				return '1rem'
-			} else if (isModal) {
-				return '1rem'
+				return styles.crCreatorSizeDefault
+			} else if (isRelative) {
+				return styles.crCreatorSizeDefault
 			} else {
-				return '1rem'
+				return styles.crCreatorSizeDefault
 			}
 		}
 	}, [appWidth])
 
 	// console.log({ creation })
 	// console.log(creation?.user)
-	// console.log({ handleUsernameColor })
+
+	const isCreator =
+		typeof creator?.user.username !== 'undefined' &&
+		creator?.user.username !== null &&
+		creator?.user.username !== ''
 
 	const handleCreatorDisplay = (): string => {
 		if (isCreator) {
 			return creator?.user?.username
 		} else {
-			return abbreviateAddress(creation.user ?? '')
+			return abbreviateAddress(creation?.user ?? '')
 		}
 	}
 
@@ -162,11 +154,18 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		}
 	}
 
-	const isCreator =
-		typeof creator?.user !== 'undefined' && creator?.user !== null
-
 	const creatorDisplay = handleCreatorDisplay()
 	const creatorAddress = handleCreatorAddress()
+
+	// console.log('Creation User', creation?.user)
+	// console.log({ isCreator })
+	// console.log({ creation })
+	// console.log({ creator })
+	// console.log({ creatorDisplay })
+	// console.log({ creatorAddress })
+	// console.log({ creatorColorStyles })
+	// console.log({ creatorSizeStyles })
+	// console.log({ layout })
 
 	return (
 		<>
@@ -175,7 +174,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					pathname: `/creator/${String(creation?.user)}`,
 					// query: { user: creation?.user },
 				}}
-				className={styles.crCreator}
+				// as={`/creator/${String(creation?._id)}`}
+				className={styles.crCreatorLink}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 				style={{
@@ -189,12 +189,10 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					onMouseOut={handleMouseOut}
 				>
 					<Text
+						className={`${creatorColorStyles} ${creatorSizeStyles}`}
 						style={{
 							textDecoration: isHovering ? 'underline' : 'unset',
-							fontSize: usernameSize,
-							color: usernameColor,
 							fontWeight: isMobile ? 'bold' : 'regular',
-							margin: 0,
 						}}
 					>
 						{creatorDisplay}

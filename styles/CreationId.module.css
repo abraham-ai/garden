@@ -29,7 +29,6 @@
 }
 
 .crIdSocialWrapper {
-	position: absolute;
 	display: block;
 	height: auto;
 	padding: 0;
@@ -45,7 +44,6 @@
 @media (min-width: 1024px) {
 	.crPrompProperties {
 		display: flex;
-		background: red;
 	}
 }
 
@@ -228,21 +226,46 @@
 	display: flex;
 	align-items: flex-end;
 }
+/* CR-CREATOR LINK */
+.crCreatorLink {
+	display: flex;
+}
 /** CR-CREATOR **/
-.crCreator {
+.crCreatorWhite {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	font-size: 1.4em;
 	flex: 1;
+	color: white;
+}
+.crCreatorBlack {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex: 1;
+	color: black;
 }
 @media (max-width: 930px) {
-	.crCreator {
+	.crCreatorWhite {
 		flex: 1;
 		align-items: center;
 		justify-content: flex-start;
+		color: white;
+	}
+	.crCreatorBlack {
+		flex: 1;
+		align-items: center;
+		justify-content: flex-start;
+		color: black;
 	}
 }
+.crCreatorSizeDefault {
+	font-size: 1rem;
+}
+.crCreatorSizeLg {
+	font-size: 1.4rem;
+}
+
 /*** CR-CREATOR PROFILE ***/
 .crCreatorProfile {
 	margin: 0 10px 0 0;

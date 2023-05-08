@@ -214,11 +214,19 @@
 	color: #8c7cf0;
 	font-family: courier;
 }
-.crPrompt {
+/* PROMPT */
+.crPromptWhite {
 	color: white;
 	font-size: 1.3em;
 	line-height: 1.3;
 }
+.crPromptBlack {
+	font-size: 2em;
+	line-height: 1.3;
+	color: black;
+}
+
+/* SOCIAL WRAPPER */
 .crSocialWrapper {
 	display: flex;
 	justify-content: space-between;

@@ -13,6 +13,7 @@ interface CrCardMobileProps {
 	currentTheme: string
 	appWidth: number
 	page: string
+	layout: string
 }
 
 const CrCardMobile: FC<CrCardMobileProps> = ({
@@ -21,6 +22,7 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 	currentTheme,
 	appWidth,
 	page,
+	layout,
 }) => {
 	const crCreatorPromptWrapperStyles: CSSProperties = {
 		display: 'flex',
@@ -34,14 +36,14 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 				creation={creation}
 				creator={creator}
 				appWidth={appWidth}
-				layout={'relative'}
+				layout={layout}
 				currentTheme={currentTheme}
 				page={page}
 			/>
 			<CreationPrompt
 				creation={creation}
 				appWidth={appWidth}
-				layout={'relative'}
+				layout={layout}
 				currentTheme={currentTheme}
 				page={page}
 			/>
