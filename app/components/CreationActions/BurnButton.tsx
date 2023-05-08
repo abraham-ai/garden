@@ -220,7 +220,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return 50
 				} else if (isRelative) {
 					return 30
 				}
@@ -228,13 +228,13 @@ const BurnButton: FC<BurnButtonProps> = ({
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return 50
 				} else if (isRelative) {
 					return 30
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return 50
 				} else if (isRelative) {
 					return 30
 				}
@@ -248,22 +248,21 @@ const BurnButton: FC<BurnButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
-					return 50
+					return 80
 				} else if (isRelative) {
-					return 50
+					return 80
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return 80
 				} else if (isRelative) {
-					return 50
+					return 80
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return 80
 				} else if (isRelative) {
-					return 50
+					return 80
 				}
 			}
 		}

@@ -109,6 +109,28 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		}
 	}, [isMobile, isTablet])
 
+	const saveShareLayout = useMemo((): string => {
+		if (isMobile) {
+			if (isOverlay) {
+				return styles.crSaveShareOverlay
+			} else if (isRelative) {
+				return styles.crSaveShareMobile
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return styles.crSaveShareOverlay
+			} else if (isRelative) {
+				return styles.crSaveShare
+			}
+		} else {
+			if (isOverlay) {
+				return styles.crSaveShareOverlay
+			} else if (isRelative) {
+				return styles.crSaveShare
+			}
+		}
+	}, [isMobile, isTablet])
+
 	// console.log({ creation })
 	// console.log('CreationSocial: CreationId: ' + creationId)
 	// console.log({ isCrIdPage })
@@ -141,7 +163,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 				/>
 			</article>
 
-			<article style={saveShareStyles}>
+			<article className={saveShareLayout}>
 				<SaveButton
 					isBookmarked={isBookmarked}
 					setIsBookmarked={setIsBookmarked}

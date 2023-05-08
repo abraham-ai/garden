@@ -118,21 +118,21 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			if (isCrIdPage) {
 				if (isOverlay) {
 					console.log('save button overlay')
-					return '.8rem'
+					return '1.4rem'
 				} else if (isRelative) {
-					return '1rem'
+					return '1.4rem'
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return '1.4rem'
 				} else if (isRelative) {
-					return '1rem'
+					return '1.4rem'
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return '1.4rem'
 				} else if (isRelative) {
-					return '1rem'
+					return '1.4rem'
 				}
 			}
 		}
@@ -247,13 +247,13 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 50
+					return 80
 				} else if (isRelative) {
 					return 80
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return 80
 				} else if (isRelative) {
 					return 80
 				}
