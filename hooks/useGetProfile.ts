@@ -15,9 +15,9 @@ const useGetProfile = (creatorId: string): CreatorProfile => {
 				creatorId,
 			})
 
-			console.log(response.data)
+			console.log(response.data.creatorProfile)
 
-			setCreator(response.data)
+			setCreator(response.data.creatorProfile)
 		} catch (error) {
 			console.error('Error fetching creator:', error)
 		}

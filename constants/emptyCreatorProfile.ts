@@ -1,12 +1,10 @@
 import type CreatorProfile from '../interfaces/CreatorProfile'
 
 const emptyCreatorProfile: CreatorProfile = {
-	creatorProfile: {
-		user: {
-			username: '',
-			userId: '',
-			_id: '',
-		},
+	user: {
+		username: '',
+		userId: '',
+		_id: '',
 	},
 }
 

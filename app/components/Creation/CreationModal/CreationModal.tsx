@@ -57,8 +57,8 @@ const CreationModal: FC<CreationModalProps> = ({
 
 	const router = useRouter()
 
-	console.log({ currentCreationIndex })
-	console.log({ currentCreationModalCreation })
+	// console.log({ currentCreationIndex })
+	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationIndex)
 	// console.log(creation)
 

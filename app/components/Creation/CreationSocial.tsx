@@ -104,7 +104,6 @@ const CreationSocial: FC<CreationSocialProps> = ({
 					burns={Number(burns)}
 					isBurned={isBurned}
 					setIsBurned={handleBurnUpdate}
-					isMobile={isMobile}
 					appWidth={appWidth}
 					page={page}
 				/>

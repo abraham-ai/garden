@@ -10,7 +10,7 @@ import CreationsGridSimple from '../app/components/Creations/CreationsGridSimple
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 // import EditCollectionModal from '../app/components/Collection/EditCollectionModal'
 
-import useGetMyCreations from '../hooks/useGetMyCreations'
+import useGetMyProfile from '../hooks/useGetMyProfile'
 import useWindowDimensions from '../hooks/useWindowDimensions'
 
 import { Row, Spin } from 'antd'
@@ -27,14 +27,14 @@ const MyCreations: FC = () => {
 	const userId = context?.userId ?? ''
 	const userAddress = context?.userAddress ?? ''
 
-	const myCreationsData = useGetMyCreations(userId)
+	const myProfileData = useGetMyProfile(userId)
 
 	const creator = useGetProfile(userId)
 
 	const { width: appWidth } = useWindowDimensions()
 
-	const isMyCreationsData =
-		myCreationsData !== null && typeof myCreationsData !== 'undefined'
+	const isMyProfileData =
+		myProfileData !== null && typeof myProfileData !== 'undefined'
 
 	return (
 		<>
@@ -45,10 +45,10 @@ const MyCreations: FC = () => {
 			{/* <EditCollectionModal /> */}
 
 			<CreatorHeader creator={creator} creatorRoute='creations' />
-			{isMyCreationsData ? (
+			{isMyProfileData ? (
 				<CreationsGridSimple
-					creations={myCreationsData.creations}
-					creator={myCreationsData.creator}
+					creations={myProfileData.creations}
+					creator={myProfileData.creator}
 					appWidth={appWidth}
 				/>
 			) : (

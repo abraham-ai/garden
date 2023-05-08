@@ -3,9 +3,7 @@ import type CreatorProfile from './CreatorProfile'
 
 interface CreatorCreations {
 	creations: Creation[]
-	creator: {
-		creatorProfile: CreatorProfile
-	}
+	creator: CreatorProfile
 }
 
 export default CreatorCreations

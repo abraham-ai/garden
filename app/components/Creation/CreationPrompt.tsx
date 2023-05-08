@@ -82,7 +82,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth])
 
-	console.log({ handlePromptColor })
+	// console.log({ handlePromptColor })
 	// console.log({ prompt })
 
 	return (

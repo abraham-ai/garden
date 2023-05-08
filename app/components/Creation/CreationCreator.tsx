@@ -7,6 +7,8 @@ import type CreatorProfile from '../../interfaces/CreatorProfile'
 import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 
+import timeAgo from '../../../util/timeAgo'
+
 import Blockies from 'react-blockies'
 import CreationDate from './CreationDate'
 import abbreviateAddress from '../../../util/abbreviateAddress'

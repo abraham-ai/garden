@@ -232,9 +232,9 @@ const CreationCard: FC<CreationCardProps> = ({
 		typeof creationsData[currentCreationIndex] === 'undefined' ||
 		typeof creationsData[currentCreationIndex]._id === 'undefined'
 
-	console.log({ prompt })
+	// console.log({ prompt })
 	// console.log({ crColor })
-	console.log({ index })
+	// console.log({ index })
 
 	const aspectRatio =
 		creation?.task?.config?.height / creation?.task?.config?.width

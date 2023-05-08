@@ -38,8 +38,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 
 	const isMobile = appWidth < 768
 
-	console.log({ currentCreationIndex })
-	console.log({ currentCreationModalCreation })
+	// console.log({ currentCreationIndex })
+	// console.log({ currentCreationModalCreation })
 
 	return (
 		<Link

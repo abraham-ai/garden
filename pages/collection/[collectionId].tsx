@@ -60,8 +60,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 
 	const isCollectionData = collectionData !== null
 	console.log({ isCollectionData })
-	const isUser =
-		collectionData?.creator?.creatorProfile?.user?.userId !== undefined
+	const isUser = collectionData?.creator?.user?.userId !== undefined
 	console.log('isUser', isUser)
 
 	const isCollectionArray = Array.isArray(collectionData?.creations)
