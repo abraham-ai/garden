@@ -87,7 +87,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 
 	const socialMobile = isMobile ? styles.crSocialMobile : null
 
-	const praiseBurnLayout = useMemo((): string => {
+	const praiseBurnLayout = useMemo((): string | undefined => {
 		if (isMobile) {
 			if (isOverlay) {
 				return styles.crPraiseBurnOverlay
@@ -109,7 +109,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		}
 	}, [isMobile, isTablet])
 
-	const saveShareLayout = useMemo((): string => {
+	const saveShareLayout = useMemo((): string | undefined => {
 		if (isMobile) {
 			if (isOverlay) {
 				return styles.crSaveShareOverlay

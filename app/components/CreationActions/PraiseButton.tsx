@@ -142,62 +142,62 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return 'small'
 				} else if (isRelative) {
-					return '1rem'
+					return 'small'
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return 'small'
 				} else if (isRelative) {
-					return '1rem'
+					return 'small'
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return 'small'
 				} else if (isRelative) {
-					return '1rem'
+					return 'small'
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return 'default'
 				} else if (isRelative) {
-					return '1rem'
+					return 'default'
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return 'default'
 				} else if (isRelative) {
-					return '1rem'
+					return 'default'
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return 'default'
 				} else if (isRelative) {
-					return '1rem'
+					return 'default'
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
 					console.log('save button overlay')
-					return '.8rem'
+					return 'large'
 				} else if (isRelative) {
-					return '1rem'
+					return 'large'
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return 'large'
 				} else if (isRelative) {
-					return '1rem'
+					return 'large'
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return 'large'
 				} else if (isRelative) {
-					return '1rem'
+					return 'large'
 				}
 			}
 		}
@@ -434,7 +434,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			<Button
 				className={isPraised ? 'crPraise isActive' : 'crPraise'}
 				shape='round'
-				size={buttonSize}
+				size={'large'}
 				style={{
 					display: 'flex',
 					alignItems: 'center',
