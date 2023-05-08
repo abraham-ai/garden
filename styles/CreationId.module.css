@@ -235,12 +235,28 @@
 	align-items: center;
 	font-size: 1.4em;
 	flex: 1;
+	color: white;
+}
+.crCreatorDark {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 1.4em;
+	flex: 1;
+	color: black;
 }
 @media (max-width: 930px) {
 	.crCreator {
 		flex: 1;
 		align-items: center;
 		justify-content: flex-start;
+		color: white;
+	}
+	.crCreatorDark {
+		flex: 1;
+		align-items: center;
+		justify-content: flex-start;
+		color: black;
 	}
 }
 /*** CR-CREATOR PROFILE ***/

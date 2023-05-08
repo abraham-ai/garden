@@ -13,6 +13,7 @@ interface CrCardDesktopProps {
 	appWidth: number
 	creator: CreatorProfile
 	page: string
+	layout: string
 }
 
 const CrCardDesktop: FC<CrCardDesktopProps> = ({
@@ -21,6 +22,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 	currentTheme,
 	creator,
 	page,
+	layout,
 }) => {
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
@@ -30,7 +32,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 			<article className={styles.promptWrapper}>
 				<CreationPrompt
 					creation={creation}
-					layout='overlay'
+					layout={layout}
 					page={page}
 					appWidth={appWidth}
 					currentTheme={currentTheme}
@@ -39,7 +41,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 				<CreationCreator
 					creation={creation}
 					creator={creator}
-					layout='overlay'
+					layout={layout}
 					page={page}
 					appWidth={appWidth}
 					currentTheme={currentTheme}

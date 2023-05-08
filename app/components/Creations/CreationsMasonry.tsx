@@ -35,47 +35,51 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 
 	console.log({ creations })
 
+	const isMobile = appWidth < 768
+
 	return (
 		<>
-			{isCreations ? (
-				<Masonry
-					breakpointCols={breakpointColumnsObj}
-					className={styles.crGridMasonry}
-					columnClassName={styles.crGridMasonryColumn}
-				>
-					{creations?.map((creation: Creation, i: number) => {
-						const generatorName = creation.task.generator.generatorName
-						// console.log({ creation })
-						if (
-							generatorName === 'tts' ||
-							generatorName === 'complete' ||
-							generatorName === 'interrogate' ||
-							generatorName === 'wav2lip' ||
-							generatorName === 'interpolate' ||
-							generatorName === 'real2real' ||
-							generatorName === 'remix'
-						) {
-							return null
-						} else {
-							return (
-								<CreationCard
-									creation={creation}
-									creator={emptyCreatorProfile}
-									key={creation._id}
-									index={i}
-									appWidth={appWidth}
-									currentTheme={currentTheme}
-									page='creations'
-								/>
-							)
-						}
-					})}
-				</Masonry>
-			) : (
-				<Row style={{ display: 'flex', justifyContent: 'center' }}>
-					<Spin indicator={antIcon} />
-				</Row>
-			)}
+			{
+				isCreations ? (
+					<Masonry
+						breakpointCols={breakpointColumnsObj}
+						className={styles.crGridMasonry}
+						columnClassName={styles.crGridMasonryColumn}
+					>
+						{creations?.map((creation: Creation, i: number) => {
+							console.log({ creation })
+							const generatorName = creation?.task?.generator?.generatorName
+							if (
+								generatorName === 'tts' ||
+								generatorName === 'complete' ||
+								generatorName === 'interrogate' ||
+								generatorName === 'wav2lip' ||
+								generatorName === 'interpolate' ||
+								generatorName === 'real2real' ||
+								generatorName === 'remix'
+							) {
+								return null
+							} else {
+								return (
+									<CreationCard
+										layout={isMobile ? 'relative' : 'overlay'}
+										creation={creation}
+										creator={emptyCreatorProfile}
+										key={creation._id}
+										index={i}
+										appWidth={appWidth}
+										currentTheme={currentTheme}
+										page='creations'
+									/>
+								)
+							}
+						})}
+					</Masonry>
+				) : null
+				// <Row style={{ display: 'flex', justifyContent: 'center' }}>
+				// 	<Spin indicator={antIcon} />
+				// </Row>
+			}
 		</>
 	)
 }

@@ -32,6 +32,7 @@ interface CreationModalProps {
 	appWidth: number
 	reactionCountList: ReactionCountList
 	page: string
+	layout: string
 }
 
 const CreationModal: FC<CreationModalProps> = ({
@@ -42,19 +43,20 @@ const CreationModal: FC<CreationModalProps> = ({
 	appWidth,
 	reactionCountList,
 	page,
+	layout,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 
-	const currentCreationModalCreation =
-		context?.currentCreationModalCreation ?? {}
+	// const currentCreationModalCreation =
+	// 	context?.currentCreationModalCreation ?? {}
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
 	const currentTheme = context?.currentTheme ?? 'light'
 
-	const creations = context?.creations != null || []
+	// const creations = context?.creations != null || []
 
 	const router = useRouter()
 
@@ -62,14 +64,6 @@ const CreationModal: FC<CreationModalProps> = ({
 	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationIndex)
 	// console.log(creation)
-
-	let prompt = ''
-	// console.log({ textInput })
-	const creationTextInput = creation.task.config.text_input
-	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
-		prompt = abbreviateText(creationTextInput, 200) // 100
-	}
-
 	// console.log({ praises, praised, burns, burned })
 
 	const handleModalCancel = (): void => {
@@ -181,7 +175,7 @@ const CreationModal: FC<CreationModalProps> = ({
 
 						<Col style={headerPromptWrapperStyles}>
 							<CrModalHeader
-								layout='modal'
+								layout={layout}
 								creation={creation}
 								appWidth={appWidth}
 								reactionCountList={reactionCountList}
@@ -191,7 +185,7 @@ const CreationModal: FC<CreationModalProps> = ({
 							/>
 
 							<CreationPrompt
-								layout='modal'
+								layout={layout}
 								creation={creation}
 								appWidth={appWidth}
 								currentTheme={currentTheme}

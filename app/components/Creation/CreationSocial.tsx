@@ -55,9 +55,9 @@ const CreationSocial: FC<CreationSocialProps> = ({
 	// console.log('CreationSocial: CreationId: ' + creationId)
 
 	const isCrIdPage = page === 'creationId'
-	const isCrModalLayout = layout === 'modal'
+	const isCrRelative = layout === 'relative'
 
-	const styleContext = isMobile || isCrModalLayout || isCrIdPage
+	const styleContext = isMobile || isCrRelative || isCrIdPage
 
 	const crWrapSocialPos = useMemo((): CSSProperties['position'] => {
 		if (styleContext) {

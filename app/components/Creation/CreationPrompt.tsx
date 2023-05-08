@@ -28,10 +28,10 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	const isThemeLight = currentTheme === 'light'
 
 	const isOverlay = layout === 'overlay'
-	const isModal = layout === 'modal'
+	const isRelative = layout === 'relative'
 
 	// console.log({ isOverlay })
-	// console.log({ isModal })
+	// console.log({ isRelative })
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
@@ -64,19 +64,19 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		if (isMobile) {
 			if (isOverlay) {
 				return '12px'
-			} else if (isModal) {
+			} else if (isRelative) {
 				return '1rem'
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
 				return '.9rem'
-			} else if (isModal) {
+			} else if (isRelative) {
 				return '.9rem'
 			}
 		} else {
 			if (isOverlay) {
 				return '1rem'
-			} else if (isModal) {
+			} else if (isRelative) {
 				return '1.5rem'
 			}
 		}
@@ -86,24 +86,24 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	const handlePromptColor = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
-			} else if (isModal) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
+				return isThemeLight ? styles.crPrompt : styles.crPromptDark
+			} else if (isRelative) {
+				return isThemeLight ? styles.crPrompt : styles.crPromptDark
 			} else {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
+				return isThemeLight ? styles.crPrompt : styles.crPromptDark
 			}
 		} else if (isTablet) {
-			return isThemeLight ? styles.crPrompt : styles.crPrompt
+			return isThemeLight ? styles.crPrompt : styles.crPromptDark
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
-			} else if (isModal) {
-				return isThemeLight ? styles.crPrompt : styles.crPrompt
+				return isThemeLight ? styles.crPrompt : styles.crPromptDark
+			} else if (isRelative) {
+				return isThemeLight ? styles.crPrompt : styles.crPromptDark
 			}
 		}
 	}, [appWidth])
 
-	// console.log({ handlePromptColor })
+	console.log({ handlePromptColor })
 	// console.log({ prompt })
 
 	return (

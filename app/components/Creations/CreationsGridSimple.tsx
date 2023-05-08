@@ -30,6 +30,8 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 	console.log('CREATIONS GRID SIMPLE')
 	console.log(creations)
 
+	const isMobile = appWidth < 768
+
 	return (
 		<>
 			<Masonry
@@ -54,6 +56,7 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 					} else {
 						return (
 							<CreationCard
+								layout={isMobile ? 'relative' : 'overlay'}
 								creation={creation}
 								creator={creator}
 								key={creation._id}

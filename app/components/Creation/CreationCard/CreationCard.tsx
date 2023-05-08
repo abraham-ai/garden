@@ -28,22 +28,22 @@ import styles from '../../../../styles/CreationCard.module.css'
 import { Skeleton } from 'antd'
 
 interface CreationCardProps {
-	creation: Creation
-	layout?: string
 	index: number
+	creation: Creation
+	creator: CreatorProfile
+	layout: string
 	appWidth: number
 	currentTheme: string
-	creator: CreatorProfile
 	page: string
 }
 
 const CreationCard: FC<CreationCardProps> = ({
-	layout = 'overlay',
-	creation,
 	index,
+	creation,
+	creator,
+	layout = 'overlay',
 	appWidth,
 	currentTheme,
-	creator,
 	page,
 }) => {
 	const context = useContext(AppContext)
@@ -154,14 +154,6 @@ const CreationCard: FC<CreationCardProps> = ({
 		currentCreationIndex,
 	])
 
-	const isCrThumbnail = typeof creation?.thumbnail === 'undefined'
-
-	// useEffect(() => {
-	// 	if (isCrThumbnail) {
-	// 		;
-	// 	}
-	// }, [creation.thumbnail])
-
 	const handleMouseOver = (): void => {
 		setIsCreationHovering(true)
 		if (
@@ -249,6 +241,7 @@ const CreationCard: FC<CreationCardProps> = ({
 														appWidth={appWidth}
 														currentTheme={currentTheme}
 														page={page}
+														layout={layout}
 													/>
 												) : (
 													<CrCardDesktop
@@ -257,6 +250,7 @@ const CreationCard: FC<CreationCardProps> = ({
 														appWidth={appWidth}
 														currentTheme={currentTheme}
 														page={page}
+														layout={layout}
 													/>
 												)}
 											</div>
@@ -294,7 +288,7 @@ const CreationCard: FC<CreationCardProps> = ({
 											}
 										>
 											<CreationSocial
-												layout='relative'
+												layout={layout}
 												creation={creation}
 												creationId={creation._id}
 												reactionCountList={{
@@ -332,6 +326,7 @@ const CreationCard: FC<CreationCardProps> = ({
 					burned: reactionState[creation._id]?.burned ?? false,
 				}}
 				page={page}
+				layout={layout}
 			/>
 		</>
 	)

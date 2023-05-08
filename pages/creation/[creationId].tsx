@@ -176,9 +176,9 @@ const Creation: FC<CreationPageProps> = ({
 
 								<Row className={styles.crIdSocialWrapper}>
 									<CreationSocial
-										layout='relative'
 										creation={creationData.creation}
 										creationId={queryCreationId}
+										layout='relative'
 										reactionCountList={{
 											praises: reactionState[queryCreationId]?.praises ?? 0,
 											praised: reactionState[queryCreationId]?.praised ?? false,
