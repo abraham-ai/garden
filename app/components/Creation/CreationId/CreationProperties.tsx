@@ -2,6 +2,7 @@
 
 import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
+import type CreatorProfile from '../../../../interfaces/CreatorProfile'
 
 import React from 'react'
 import styles from '../../../../styles/CreationId.module.css'
@@ -14,7 +15,10 @@ import { TbPrompt } from 'react-icons/tb'
 const { Text } = Typography
 
 interface CreationPropertiesProps {
-	creationData: Creation
+	creationData: {
+		creation: Creation
+		creator: CreatorProfile
+	}
 	timeAgoCreatedAt: string
 }
 const CreationProperties: FC<CreationPropertiesProps> = ({
