@@ -29,6 +29,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 
 	const isOverlay = layout === 'overlay'
 	const isRelative = layout === 'relative'
+	const isCrIdPage = page === 'creationId'
 
 	// console.log({ isOverlay })
 	// console.log({ isRelative })
@@ -38,6 +39,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 
 	// console.log({ isMobile })
 	// console.log({ isTablet })
+	console.log({ isCrIdPage })
 
 	const GeneratorName = creation?.task?.generator?.generatorName
 
@@ -113,6 +115,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 
 	// console.log({ promptColor })
 	// console.log({ prompt })
+	console.log({ layout })
 
 	return (
 		<Col
@@ -133,7 +136,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 					fontWeight: isMobile ? 'bold' : 'regular',
 				}}
 			>
-				{prompt}
+				{isRelative ? creationTextInput : prompt}
 			</Text>
 		</Col>
 	)
