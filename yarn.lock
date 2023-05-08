@@ -80,8 +80,8 @@ __metadata:
   linkType: hard
 
 "@coinbase/wallet-sdk@npm:^3.5.4":
-  version: 3.6.6
-  resolution: "@coinbase/wallet-sdk@npm:3.6.6"
+  version: 3.7.1
+  resolution: "@coinbase/wallet-sdk@npm:3.7.1"
   dependencies:
     "@metamask/safe-event-emitter": 2.0.0
     "@solana/web3.js": ^1.70.1
@@ -100,7 +100,7 @@ __metadata:
     sha.js: ^2.4.11
     stream-browserify: ^3.0.0
     util: ^0.12.4
-  checksum: 1d480e49aa6fc90bd612ea6b84c34040d688b66448e43d04d61f82aa40cedf5d0323d86082130e9bcfcdb14c2295fff1c3b8a0edacb95a22df9ee8d5d18e66cd
+  checksum: e88c656d08c06d42dcd03006c62162705a7c7dc27171ee721910f76c15c995f0482a314057a582af6e9548e6f49e4a1aff22f33685a33535c9b2550a615efbaf
   languageName: node
   linkType: hard
 
@@ -2082,9 +2082,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 20.1.0
-  resolution: "@types/node@npm:20.1.0"
-  checksum: c6d9afa9aa78b4b4348c69ece94975be70346b144c278f1395694a10ef919d7db300018101b6f9245e6bdd76674a5327d2d14829092f3d5295e858cff5f22a66
+  version: 20.1.1
+  resolution: "@types/node@npm:20.1.1"
+  checksum: 47961ee23f873c14c3f6045422ff3059f3bfb10231ef3080a7a72d7215cc8c2623fa8cedb7b246305962fa9c1e0c9e381e04b12eb3e9ec5d076025c6231ac8da
   languageName: node
   linkType: hard
 
@@ -2110,9 +2110,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:^16.0.0":
-  version: 16.18.26
-  resolution: "@types/node@npm:16.18.26"
-  checksum: 2a746b3f9e97e00aa5d1d8cce36c5b75d5504df15e82647ad1fadbc3435ea4491203d044bbaa595edc2ab25a9ab820793f9d38dba753ad150929335fa21e24d4
+  version: 16.18.27
+  resolution: "@types/node@npm:16.18.27"
+  checksum: 23a89da6c648fcf0033e1618c9585c5aaba7bd536b4473591d92f63b993f7aa7bf00e72b0af4438a096ab9856a02040a2877fbe00bd7e223b361f78642d0be77
   languageName: node
   linkType: hard
 
@@ -4862,7 +4862,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-eslint-config-next@latest:
+"eslint-config-next@npm:latest":
   version: 13.4.1
   resolution: "eslint-config-next@npm:13.4.1"
   dependencies:
@@ -4896,7 +4896,7 @@ eslint-config-next@latest:
   languageName: node
   linkType: hard
 
-eslint-config-standard-with-typescript@latest:
+"eslint-config-standard-with-typescript@npm:latest":
   version: 34.0.1
   resolution: "eslint-config-standard-with-typescript@npm:34.0.1"
   dependencies:
@@ -5081,7 +5081,7 @@ eslint-config-standard-with-typescript@latest:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@latest, eslint-plugin-react@npm:^7.31.7":
+"eslint-plugin-react@npm:^7.31.7, eslint-plugin-react@npm:latest":
   version: 7.32.2
   resolution: "eslint-plugin-react@npm:7.32.2"
   dependencies:
@@ -6489,7 +6489,7 @@ eslint-config-standard-with-typescript@latest:
   languageName: node
   linkType: hard
 
-iron-session@latest:
+"iron-session@npm:latest":
   version: 6.3.1
   resolution: "iron-session@npm:6.3.1"
   dependencies:
@@ -6603,7 +6603,7 @@ iron-session@latest:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.11.0, is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
+"is-core-module@npm:^2.11.0, is-core-module@npm:^2.12.0, is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
   version: 2.12.0
   resolution: "is-core-module@npm:2.12.0"
   dependencies:
@@ -9768,7 +9768,7 @@ iron-session@latest:
   languageName: node
   linkType: hard
 
-react-dom@latest:
+"react-dom@npm:latest":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
   dependencies:
@@ -9857,7 +9857,7 @@ react-dom@latest:
   languageName: node
   linkType: hard
 
-react@latest:
+"react@npm:latest":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
@@ -10041,15 +10041,15 @@ react@latest:
   linkType: hard
 
 "resolve@npm:^1.22.1":
-  version: 1.22.2
-  resolution: "resolve@npm:1.22.2"
+  version: 1.22.3
+  resolution: "resolve@npm:1.22.3"
   dependencies:
-    is-core-module: ^2.11.0
+    is-core-module: ^2.12.0
     path-parse: ^1.0.7
     supports-preserve-symlinks-flag: ^1.0.0
   bin:
     resolve: bin/resolve
-  checksum: 7e5df75796ebd429445d102d5824482ee7e567f0070b2b45897b29bb4f613dcbc262e0257b8aeedb3089330ccaea0d6a0464df1a77b2992cf331dcda0f4cb549
+  checksum: fb834b81348428cb545ff1b828a72ea28feb5a97c026a1cf40aa1008352c72811ff4d4e71f2035273dc536dcfcae20c13604ba6283c612d70fa0b6e44519c374
   languageName: node
   linkType: hard
 
@@ -10067,15 +10067,15 @@ react@latest:
   linkType: hard
 
 "resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
-  version: 1.22.2
-  resolution: "resolve@patch:resolve@npm%3A1.22.2#~builtin<compat/resolve>::version=1.22.2&hash=c3c19d"
+  version: 1.22.3
+  resolution: "resolve@patch:resolve@npm%3A1.22.3#~builtin<compat/resolve>::version=1.22.3&hash=c3c19d"
   dependencies:
-    is-core-module: ^2.11.0
+    is-core-module: ^2.12.0
     path-parse: ^1.0.7
     supports-preserve-symlinks-flag: ^1.0.0
   bin:
     resolve: bin/resolve
-  checksum: 66cc788f13b8398de18eb4abb3aed90435c84bb8935953feafcf7231ba4cd191b2c10b4a87b1e9681afc34fb138c705f91f7330ff90bfa36f457e5584076a2b8
+  checksum: ad59734723b596d0891321c951592ed9015a77ce84907f89c9d9307dd0c06e11a67906a3e628c4cae143d3e44898603478af0ddeb2bba3f229a9373efe342665
   languageName: node
   linkType: hard
 
@@ -11691,7 +11691,7 @@ react@latest:
   languageName: node
   linkType: hard
 
-xstate@latest:
+"xstate@npm:latest":
   version: 4.37.2
   resolution: "xstate@npm:4.37.2"
   checksum: 79380fa82b32048033689813532c2f88949a613c6c0764c5e3dc5d318839abbaf887fcf99bc4cd66531d4a8249d9045fc00acab08b94483d4ca84407a3b74f23
