@@ -229,36 +229,41 @@
 	align-items: flex-end;
 }
 /** CR-CREATOR **/
-.crCreator {
+.crCreatorWhite {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	font-size: 1.4em;
 	flex: 1;
 	color: white;
 }
-.crCreatorDark {
+.crCreatorBlack {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	font-size: 1.4em;
 	flex: 1;
 	color: black;
 }
 @media (max-width: 930px) {
-	.crCreator {
+	.crCreatorWhite {
 		flex: 1;
 		align-items: center;
 		justify-content: flex-start;
 		color: white;
 	}
-	.crCreatorDark {
+	.crCreatorBlack {
 		flex: 1;
 		align-items: center;
 		justify-content: flex-start;
 		color: black;
 	}
 }
+.crCreatorSizeDefault {
+	font-size: 1rem;
+}
+.crCreatorSizeLg {
+	font-size: 1.4rem;
+}
+
 /*** CR-CREATOR PROFILE ***/
 .crCreatorProfile {
 	margin: 0 10px 0 0;

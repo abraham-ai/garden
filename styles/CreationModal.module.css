@@ -26,11 +26,9 @@
 
 /* MODAL */
 .crModal {
-	background: red;
 }
 
 @media (max-width: 768px) {
 	.crModal {
-		background: 'red';
 	}
 }

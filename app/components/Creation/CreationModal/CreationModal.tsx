@@ -175,7 +175,7 @@ const CreationModal: FC<CreationModalProps> = ({
 
 						<Col style={headerPromptWrapperStyles}>
 							<CrModalHeader
-								layout={layout}
+								layout={isMobile ? layout : 'relative'}
 								creation={creation}
 								appWidth={appWidth}
 								reactionCountList={reactionCountList}
@@ -185,7 +185,7 @@ const CreationModal: FC<CreationModalProps> = ({
 							/>
 
 							<CreationPrompt
-								layout={layout}
+								layout={isMobile ? layout : 'relative'}
 								creation={creation}
 								appWidth={appWidth}
 								currentTheme={currentTheme}

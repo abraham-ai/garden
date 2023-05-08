@@ -62,6 +62,8 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 		margin: '20px 0 20px 0',
 	}
 
+	console.log({ layout })
+
 	return (
 		<section style={headerSocialWrapperStyles}>
 			<CreationCreator

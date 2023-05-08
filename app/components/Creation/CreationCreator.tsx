@@ -4,7 +4,7 @@ import type { FC } from 'react'
 import type Creation from '../../../interfaces/Creation'
 import type CreatorProfile from '../../../interfaces/CreatorProfile'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 
 import Blockies from 'react-blockies'
@@ -67,86 +67,64 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	// console.log({ isCrIdPage })
 	// console.log({ isThemeLight })
 
-	const handleCreatorColorStyles = useMemo(() => {
+	const creatorColorStyles = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return isThemeLight ? styles.crCreator : styles.crCreatorDark
+				return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
 			} else if (isRelative) {
-				return isThemeLight ? styles.crCreator : styles.crCreatorDark
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else if (isCrIdPage) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 			} else {
-				return isThemeLight ? styles.crCreator : styles.crCreatorDark
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
 			}
 		} else if (isTablet) {
-			return isThemeLight ? styles.crCreator : styles.crCreatorDark
+			if (isOverlay) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else if (isRelative) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else if (isCrIdPage) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			} else {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			}
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? styles.crCreator : styles.crCreatorDark
+				return isThemeLight ? styles.crcrCreatorBlack : styles.crCreatorWhite
 			} else if (isRelative) {
-				return isThemeLight ? styles.crCreator : styles.crCreatorDark
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
+			} else if (isCrIdPage) {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
+			} else {
+				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 			}
 		}
 	}, [appWidth])
 
-	const usernameColor = useMemo(() => {
+	const creatorSizeStyles = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return isThemeLight ? 'black' : 'white'
+				return styles.creatorDefaultSize
 			} else if (isRelative) {
-				return isThemeLight ? 'black' : 'white'
-			} else if (isCrIdPage) {
-				return isThemeLight ? 'black' : 'white'
+				return styles.creatorDefaultSize
 			} else {
-				return isThemeLight ? 'black' : 'black'
+				return styles.creatorDefaultSize
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
-				return isThemeLight ? 'black' : 'white'
+				return styles.creatorDefaultSize
 			} else if (isRelative) {
-				return isThemeLight ? 'black' : 'white'
-			} else if (isCrIdPage) {
-				return isThemeLight ? 'black' : 'white'
+				return styles.creatorDefaultSize
 			} else {
-				return isThemeLight ? 'black' : 'white'
+				return styles.creatorDefaultSize
 			}
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? 'white' : 'white'
+				return styles.creatorDefaultSize
 			} else if (isRelative) {
-				return isThemeLight ? 'black' : 'black'
-			} else if (isCrIdPage) {
-				return isThemeLight ? 'black' : 'black'
+				return styles.creatorDefaultSize
 			} else {
-				return isThemeLight ? 'black' : 'white'
-			}
-		}
-	}, [appWidth])
-
-	// console.log({ usernameColor })
-
-	const usernameSize = useMemo(() => {
-		if (isMobile) {
-			if (isOverlay) {
-				return '1rem'
-			} else if (isRelative) {
-				return '1rem'
-			} else {
-				return '1rem'
-			}
-		} else if (isTablet) {
-			if (isOverlay) {
-				return '1rem'
-			} else if (isRelative) {
-				return '1rem'
-			} else {
-				return '1rem'
-			}
-		} else {
-			if (isOverlay) {
-				return '1rem'
-			} else if (isRelative) {
-				return '1rem'
-			} else {
-				return '1rem'
+				return styles.creatorDefaultSize
 			}
 		}
 	}, [appWidth])
@@ -179,13 +157,14 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const creatorDisplay = handleCreatorDisplay()
 	const creatorAddress = handleCreatorAddress()
 
-	console.log('Creation User', creation?.user)
-	console.log({ isCreator })
-	console.log({ creation })
-	console.log({ creator })
-	console.log({ creatorDisplay })
-	console.log({ creatorAddress })
-	console.log({ usernameColor })
+	// console.log('Creation User', creation?.user)
+	// console.log({ isCreator })
+	// console.log({ creation })
+	// console.log({ creator })
+	// console.log({ creatorDisplay })
+	// console.log({ creatorAddress })
+	console.log({ creatorColorStyles })
+	console.log({ creatorSizeStyles })
 	console.log({ layout })
 
 	return (
@@ -210,13 +189,10 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					onMouseOut={handleMouseOut}
 				>
 					<Text
-						className={handleCreatorColorStyles}
+						className={(creatorColorStyles, creatorSizeStyles)}
 						style={{
 							textDecoration: isHovering ? 'underline' : 'unset',
-							fontSize: usernameSize,
-							color: usernameColor,
 							fontWeight: isMobile ? 'bold' : 'regular',
-							margin: 0,
 						}}
 					>
 						{creatorDisplay}
