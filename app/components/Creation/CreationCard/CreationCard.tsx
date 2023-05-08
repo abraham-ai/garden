@@ -264,7 +264,7 @@ const CreationCard: FC<CreationCardProps> = ({
 										style={{
 											paddingTop: `${aspectRatio * 100}%`,
 											// '--aspect-ratio': aspectRatio,
-											background: crColor[0],
+											// background: crColor[0],
 										}}
 									>
 										{!isCrImageLinkLoading && (

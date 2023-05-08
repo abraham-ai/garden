@@ -39,6 +39,11 @@ const BurnButton: FC<BurnButtonProps> = ({
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
+	const isCrIdPage = page === 'creationId'
+	const isCreationsPage = page === 'creations'
+	const isRelative = layout === 'relative'
+	const isOverlay = layout === 'overlay'
+
 	// console.log('Burn Button: CreationId: ' + creationId)
 
 	const handleBurn = async (): Promise<void> => {
@@ -71,41 +76,326 @@ const BurnButton: FC<BurnButtonProps> = ({
 
 	const textSize = useMemo(() => {
 		if (isMobile) {
-			return '1rem'
-		} else if (page === 'creationId' && layout === 'relative') {
-			return '1rem'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			}
 		} else {
-			return '1.8rem'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					console.log('save button overlay')
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			}
 		}
 	}, [isMobile, isTablet, layout, page])
 
 	const buttonSize = useMemo(() => {
 		if (isMobile) {
-			return 'small'
-		} else if (page === 'creationId' && layout === 'relative') {
-			return 'small'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			}
 		} else {
-			return 'large'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					console.log('save button overlay')
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			} else {
+				if (isOverlay) {
+					return '.8rem'
+				} else if (isRelative) {
+					return '1rem'
+				}
+			}
 		}
 	}, [isMobile, isTablet, layout, page])
 
 	const buttonWidth = useMemo(() => {
 		if (isMobile) {
-			return 60
-		} else if (page === 'creationId' && layout === 'relative') {
-			return 60
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			}
 		} else {
-			return 100
+			if (isCrIdPage) {
+				if (isOverlay) {
+					console.log('save button overlay')
+					return 50
+				} else if (isRelative) {
+					return 50
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 50
+				} else if (isRelative) {
+					return 50
+				}
+			} else {
+				if (isOverlay) {
+					return 50
+				} else if (isRelative) {
+					return 50
+				}
+			}
 		}
 	}, [isMobile, isTablet, layout, page])
 
 	const buttonHeight = useMemo(() => {
 		if (isMobile) {
-			return 30
-		} else if (page === 'creationId' && layout === 'relative') {
-			return 30
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			} else {
+				if (isOverlay) {
+					return 30
+				} else if (isRelative) {
+					return 30
+				}
+			}
 		} else {
-			return 50
+			if (isCrIdPage) {
+				if (isOverlay) {
+					console.log('save button overlay')
+					return 50
+				} else if (isRelative) {
+					return 50
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 50
+				} else if (isRelative) {
+					return 50
+				}
+			} else {
+				if (isOverlay) {
+					return 50
+				} else if (isRelative) {
+					return 50
+				}
+			}
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const iconSize = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return 15
+				} else if (isRelative) {
+					return 15
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 15
+				} else if (isRelative) {
+					return 15
+				}
+			} else {
+				if (isOverlay) {
+					return 15
+				} else if (isRelative) {
+					return 15
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return 18
+				} else if (isRelative) {
+					return 18
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 18
+				} else if (isRelative) {
+					return 18
+				}
+			} else {
+				if (isOverlay) {
+					return 18
+				} else if (isRelative) {
+					return 18
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					console.log('save button overlay')
+					return 25
+				} else if (isRelative) {
+					return 25
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return 25
+				} else if (isRelative) {
+					return 25
+				}
+			} else {
+				if (isOverlay) {
+					return 25
+				} else if (isRelative) {
+					return 25
+				}
+			}
 		}
 	}, [isMobile, isTablet, layout, page])
 

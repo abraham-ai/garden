@@ -242,22 +242,21 @@ const ShareButton: FC<ShareButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 50
 				} else if (isRelative) {
-					return '1rem'
+					return 50
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
 					return 50
 				} else if (isRelative) {
-					return '1rem'
+					return 50
 				}
 			} else {
 				if (isOverlay) {
 					return 50
 				} else if (isRelative) {
-					return '1rem'
+					return 50
 				}
 			}
 		}

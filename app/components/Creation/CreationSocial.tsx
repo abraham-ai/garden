@@ -37,6 +37,13 @@ const CreationSocial: FC<CreationSocialProps> = ({
 
 	// console.log({ reactionState })
 
+	const isOverlay = layout === 'overlay'
+	const isRelative = layout === 'relative'
+	const isCrIdPage = page === 'creationId'
+	const isCreationsPage = page === 'creations'
+
+	const styleContext = isMobile || isRelative || isCrIdPage
+
 	const handlePraiseUpdate = (
 		isPraised: boolean,
 		updatedPraises: number
@@ -51,14 +58,6 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		updateReactionState(creationId, { burned: isBurned, burns: updatedBurns })
 	}
 
-	// console.log({ creation })
-	// console.log('CreationSocial: CreationId: ' + creationId)
-
-	const isCrIdPage = page === 'creationId'
-	const isCrRelative = layout === 'relative'
-
-	const styleContext = isMobile || isCrRelative || isCrIdPage
-
 	const crWrapSocialPos = useMemo((): CSSProperties['position'] => {
 		if (styleContext) {
 			return 'relative'
@@ -66,9 +65,6 @@ const CreationSocial: FC<CreationSocialProps> = ({
 			return 'absolute'
 		}
 	}, [isMobile, isTablet, isCrIdPage])
-
-	// console.log({ isCrIdPage })
-	// console.log({ isMobile })
 
 	const praiseBurnStyles: CSSProperties = {
 		display: 'flex',
@@ -90,15 +86,41 @@ const CreationSocial: FC<CreationSocialProps> = ({
 	}
 
 	const socialMobile = isMobile ? styles.crSocialMobile : null
+
+	const praiseBurnLayout = useMemo((): string => {
+		if (isMobile) {
+			if (isOverlay) {
+				return styles.crPraiseBurnOverlay
+			} else if (isRelative) {
+				return styles.crPraiseBurnMobile
+			}
+		} else if (isTablet) {
+			if (isOverlay) {
+				return styles.crPraiseBurnOverlay
+			} else if (isRelative) {
+				return styles.crPraiseBurn
+			}
+		} else {
+			if (isOverlay) {
+				return styles.crPraiseBurnOverlay
+			} else if (isRelative) {
+				return styles.crPraiseBurn
+			}
+		}
+	}, [isMobile, isTablet])
+
+	// console.log({ creation })
+	// console.log('CreationSocial: CreationId: ' + creationId)
+	// console.log({ isCrIdPage })
+	// console.log({ isMobile })
+
 	return (
 		<Row
 			className={`
 				${styles.crSocial} ${String(socialMobile)}
 			`}
 		>
-			<article
-				className={isMobile ? styles.crPraiseBurnMobile : styles.crPraiseBurn}
-			>
+			<article className={praiseBurnLayout}>
 				<BurnButton
 					creationId={creationId}
 					burns={Number(burns)}

@@ -24,6 +24,15 @@
 	position: relative;
 	flex: 1;
 	z-index: 150;
+}
+.crPraiseBurnOverlay {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: flex-start;
+	position: relative;
+	flex: 1;
+	z-index: 150;
 	margin: 20px 0 0 20px;
 }
 .crPraiseBurnMobile {
@@ -45,7 +54,16 @@
 	justify-content: flex-start;
 	position: relative;
 	flex: 1;
-	zindex: 150;
+	z-index: 150;
+}
+.crSaveShareOverlay {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: flex-start;
+	position: relative;
+	flex: 1;
+	z-index: 150;
 	margin: 20px 0 0 0;
 }
 .crSaveShareMobile {

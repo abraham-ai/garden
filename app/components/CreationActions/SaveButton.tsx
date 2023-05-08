@@ -268,19 +268,19 @@ const SaveButton: FC<SaveButtonTypes> = ({
 					console.log('save button overlay')
 					return 50
 				} else if (isRelative) {
-					return '1rem'
+					return 50
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
 					return 50
 				} else if (isRelative) {
-					return '1rem'
+					return 50
 				}
 			} else {
 				if (isOverlay) {
 					return 50
 				} else if (isRelative) {
-					return '1rem'
+					return 50
 				}
 			}
 		}
@@ -423,6 +423,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		: 'rgba(0, 0, 0, 0.5)'
 
 	const isMobileThemeLight = isMobile && currentTheme === 'light'
+
+	console.log({ buttonWidth, buttonHeight, iconSize })
 
 	return (
 		<>
