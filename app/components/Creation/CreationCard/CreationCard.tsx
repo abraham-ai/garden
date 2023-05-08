@@ -12,8 +12,6 @@ import React, {
 import AppContext from '../../../../context/AppContext'
 
 import { ColorExtractor } from 'react-color-extractor'
-import timeAgo from '../../../../util/timeAgo'
-import abbreviateAddress from '../../../../util/abbreviateAddress'
 
 import useGetReactionCount from '../../../../hooks/useGetReactionCount'
 import { useReaction } from '../../../../context/ReactionContext'

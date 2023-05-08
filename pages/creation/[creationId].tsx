@@ -19,7 +19,6 @@ import CreationSaveModal from '../../app/components/Creation/CreationSaveModal/C
 import CreationCreator from '../../app/components/Creation/CreationCreator'
 import CreationIdImage from '../../app/components/Creation/CreationId/CreationIdImage'
 import CreationProperties from '../../app/components/Creation/CreationId/CreationProperties'
-import timeAgo from '../../util/timeAgo'
 
 import useGetCreation from '../../hooks/useGetCreation'
 import useGetReactionCount from '../../hooks/useGetReactionCount'
@@ -75,7 +74,7 @@ const Creation: FC<CreationPageProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 
 	const isMobile: boolean = appWidth < 768
-	const isTablet: boolean = appWidth >= 768 && appWidth < 1024
+	// const isTablet: boolean = appWidth >= 768 && appWidth < 1024
 
 	const isCreationData =
 		typeof creationData !== 'undefined' &&
@@ -112,21 +111,21 @@ const Creation: FC<CreationPageProps> = ({
 		isReactionStateNotInitialized,
 	])
 
-	const isCrDataCreation =
-		typeof creationData !== 'undefined' &&
-		typeof creationData?.creation !== 'undefined'
+	// const isCrDataCreation =
+	// 	typeof creationData !== 'undefined' &&
+	// 	typeof creationData?.creation !== 'undefined'
 
-	const isCrDataCreationId = typeof creationData?.creation?._id !== 'undefined'
+	// const isCrDataCreationId = typeof creationData?.creation?._id !== 'undefined'
 
-	const isCrDataCreationIdReactionState =
-		isCrDataCreationId && !(creationData.creation._id in reactionState)
+	// const isCrDataCreationIdReactionState =
+	// 	isCrDataCreationId && !(creationData.creation._id in reactionState)
 
-	const isCrDataCreationTask = creationData.creation.task
+	// const isCrDataCreationTask = creationData.creation.task
 
-	const isCrDataCreationTaskConfig = creationData.creation.task.config
+	// const isCrDataCreationTaskConfig = creationData.creation.task.config
 
-	const isCrDataCreationTaskConfigTextInput =
-		typeof creationData.creation.task.config.text_input !== 'undefined'
+	// const isCrDataCreationTaskConfigTextInput =
+	// 	typeof creationData.creation.task.config.text_input !== 'undefined'
 
 	// console.log({ isCrDataCreation })
 	// console.log({ isCrDataCreationId })
@@ -135,16 +134,6 @@ const Creation: FC<CreationPageProps> = ({
 	// console.log({ isCrDataCreationTaskConfig })
 	// console.log({ isCrDataCreationTaskConfigTextInput })
 	// console.log({ creationData })
-
-	let timeAgoCreatedAt = '0'
-	if (isCrDataCreation) {
-		// console.log(creationData)
-		// console.log(creationData.task.config.text_input)
-		// console.log(creationData.createdAt)
-		timeAgoCreatedAt = timeAgo(creationData?.creation?.createdAt)
-		// console.log(timeAgoCreatedAt)
-	}
-
 	// console.log('[creationId]: CreationId: ' + queryCreationId)
 
 	const crIdWrapperStyles: CSSProperties = {

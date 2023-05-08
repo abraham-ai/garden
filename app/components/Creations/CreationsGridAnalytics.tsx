@@ -1,7 +1,5 @@
 import React from 'react'
 
-import timeAgo from '../../../util/timeAgo'
-
 import styles from '../../../styles/CreationsGrid.module.css'
 import { Button } from 'antd'
 
