@@ -45,7 +45,6 @@
 @media (min-width: 1024px) {
 	.crPrompProperties {
 		display: flex;
-		background: red;
 	}
 }
 

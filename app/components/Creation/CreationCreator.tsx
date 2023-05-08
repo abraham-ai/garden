@@ -163,9 +163,9 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	// console.log({ creator })
 	// console.log({ creatorDisplay })
 	// console.log({ creatorAddress })
-	console.log({ creatorColorStyles })
-	console.log({ creatorSizeStyles })
-	console.log({ layout })
+	// console.log({ creatorColorStyles })
+	// console.log({ creatorSizeStyles })
+	// console.log({ layout })
 
 	return (
 		<>

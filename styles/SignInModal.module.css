@@ -36,7 +36,6 @@
 	flex-direction: column;
 }
 .signInSignatureWrapper {
-	background: red;
 }
 .signInAuthTokenHeader {
 	font-weight: 600;

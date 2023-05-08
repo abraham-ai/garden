@@ -28,26 +28,26 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	return (
-		<div className={styles.crPromptMainWrapper}>
-			<article className={styles.promptWrapper}>
-				<CreationPrompt
-					creation={creation}
-					layout={layout}
-					page={page}
-					appWidth={appWidth}
-					currentTheme={currentTheme}
-				/>
+		// <div className={styles.crPromptMainWrapper}>
+		<article className={styles.promptWrapper}>
+			<CreationPrompt
+				creation={creation}
+				layout={layout}
+				page={page}
+				appWidth={appWidth}
+				currentTheme={currentTheme}
+			/>
 
-				<CreationCreator
-					creation={creation}
-					creator={creator}
-					layout={layout}
-					page={page}
-					appWidth={appWidth}
-					currentTheme={currentTheme}
-				/>
-			</article>
-		</div>
+			<CreationCreator
+				creation={creation}
+				creator={creator}
+				layout={layout}
+				page={page}
+				appWidth={appWidth}
+				currentTheme={currentTheme}
+			/>
+		</article>
+		// </div>
 	)
 }
 
