@@ -90,7 +90,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 			}
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? styles.crcrCreatorBlack : styles.crCreatorWhite
+				console.log('isOverlay')
+				return isThemeLight ? styles.crCreatorWhite : styles.crCreatorWhite
 			} else if (isRelative) {
 				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
 			} else if (isCrIdPage) {
@@ -104,34 +105,33 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const creatorSizeStyles = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			} else if (isRelative) {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			} else {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			} else if (isRelative) {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			} else {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			}
 		} else {
 			if (isOverlay) {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			} else if (isRelative) {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			} else {
-				return styles.creatorDefaultSize
+				return styles.crCreatorSizeDefault
 			}
 		}
 	}, [appWidth])
 
 	// console.log({ creation })
 	// console.log(creation?.user)
-	// console.log({ handleUsernameColor })
 
 	const isCreator =
 		typeof creator?.user.username !== 'undefined' &&
@@ -174,8 +174,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					pathname: `/creator/${String(creation?.user)}`,
 					// query: { user: creation?.user },
 				}}
-				as={`/creation/${String(creation?._id)}`}
-				className={styles.crCreator}
+				// as={`/creator/${String(creation?._id)}`}
+				className={styles.crCreatorLink}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 				style={{
@@ -189,7 +189,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					onMouseOut={handleMouseOut}
 				>
 					<Text
-						className={(creatorColorStyles, creatorSizeStyles)}
+						className={`${creatorColorStyles} ${creatorSizeStyles}`}
 						style={{
 							textDecoration: isHovering ? 'underline' : 'unset',
 							fontWeight: isMobile ? 'bold' : 'regular',

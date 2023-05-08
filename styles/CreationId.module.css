@@ -228,6 +228,10 @@
 	display: flex;
 	align-items: flex-end;
 }
+/* CR-CREATOR LINK */
+.crCreatorLink {
+	display: flex;
+}
 /** CR-CREATOR **/
 .crCreatorWhite {
 	display: flex;

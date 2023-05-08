@@ -13,15 +13,25 @@
 }
 
 /* MODAL PROMPT */
-.crPrompt {
-	font-size: 2em;
+.crPromptWhite {
 	line-height: 1.3;
 	color: white;
 }
-.crPromptDark {
-	font-size: 2em;
+.crPromptBlack {
 	line-height: 1.3;
 	color: black;
+}
+
+.crPromptSizeSm {
+	font-size: 12px;
+}
+
+.crPromptSizeMd {
+	font-size: 1rem;
+}
+
+.crPromptSizeLg {
+	font-size: 2rem;
 }
 
 /* MODAL */
