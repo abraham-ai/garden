@@ -22,7 +22,7 @@ import stylesHeader from '../styles/Header.module.css'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const MyCreations: FC = () => {
+const MyProfile: FC = () => {
 	const context = useContext(AppContext)
 	const userId = context?.userId ?? ''
 	// const userAddress = context?.userAddress ?? ''
@@ -60,4 +60,4 @@ const MyCreations: FC = () => {
 	)
 }
 
-export default MyCreations
+export default MyProfile
