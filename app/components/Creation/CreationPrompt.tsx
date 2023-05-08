@@ -4,27 +4,26 @@ import type Creation from '../../../interfaces/Creation'
 import React, { useMemo } from 'react'
 import { Typography, Col } from 'antd'
 
+import abbreviateText from '../../../util/abbreviateText'
+
 import styles from '../../../styles/CreationModal.module.css'
 
 const { Text } = Typography
 
 interface CreationPromptProps {
-	layout: string
 	creation: Creation
-	prompt: string
-	GeneratorName: string
-	isMobile: boolean
+	layout: string
 	appWidth: number
 	currentTheme: string
+	page: string
 }
 
 const CreationPrompt: FC<CreationPromptProps> = ({
-	layout,
 	creation,
-	prompt,
-	GeneratorName,
+	layout,
 	appWidth,
 	currentTheme,
+	page,
 }) => {
 	const isThemeLight = currentTheme === 'light'
 
@@ -34,11 +33,32 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	// console.log({ isOverlay })
 	// console.log({ isModal })
 
-	const isMobile = appWidth <= 768
+	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	// console.log({ isMobile })
 	// console.log({ isTablet })
+
+	const GeneratorName = creation?.task?.generator?.generatorName
+
+	let prompt = ''
+
+	const creationTextInput = creation?.task?.config?.text_input
+	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
+		if (isMobile) {
+			prompt = abbreviateText(creationTextInput, 100)
+		} else if (creation.task.config.height > 550) {
+			prompt = abbreviateText(creationTextInput, 80) // 100
+		} else if (creation.task.config.height > 500) {
+			prompt = abbreviateText(creationTextInput, 40) // 100
+		} else if (creation.task.config.height > 450) {
+			prompt = abbreviateText(creationTextInput, 30) // 100
+		} else if (creation.task.config.height > 400) {
+			prompt = abbreviateText(creationTextInput, 25) // 100
+		} else {
+			prompt = abbreviateText(creationTextInput, 20) // 100
+		}
+	}
 
 	const handlePromptSize = useMemo(() => {
 		if (isMobile) {
@@ -66,23 +86,24 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	const handlePromptColor = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return isThemeLight ? 'white' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			} else if (isModal) {
-				return isThemeLight ? 'white' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			} else {
-				return isThemeLight ? 'black' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			}
 		} else if (isTablet) {
-			return isThemeLight ? 'white' : 'white'
+			return isThemeLight ? styles.crPrompt : styles.crPrompt
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? 'white' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			} else if (isModal) {
-				return isThemeLight ? 'black' : 'white'
+				return isThemeLight ? styles.crPrompt : styles.crPrompt
 			}
 		}
 	}, [appWidth])
 
+	// console.log({ handlePromptColor })
 	// console.log({ prompt })
 
 	return (
@@ -100,11 +121,10 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 				}}
 			>{`/${String(GeneratorName)} `}</Text>
 			<Text
-				className={styles.crPrompt}
+				className={handlePromptColor}
 				style={{
 					fontSize: handlePromptSize,
 					fontWeight: isMobile ? 'bold' : 'regular',
-					color: handlePromptColor,
 				}}
 			>
 				{prompt}

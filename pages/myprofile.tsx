@@ -10,7 +10,7 @@ import CreationsGridSimple from '../app/components/Creations/CreationsGridSimple
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 // import EditCollectionModal from '../app/components/Collection/EditCollectionModal'
 
-import useGetMyCreations from '../hooks/useGetMyCreations'
+import useGetMyProfile from '../hooks/useGetMyProfile'
 import useWindowDimensions from '../hooks/useWindowDimensions'
 
 import { Row, Spin } from 'antd'
@@ -18,23 +18,23 @@ import { Row, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
 import stylesHeader from '../styles/Header.module.css'
-import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
+// import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const MyCreations: FC = () => {
 	const context = useContext(AppContext)
 	const userId = context?.userId ?? ''
-	const userAddress = context?.userAddress ?? ''
+	// const userAddress = context?.userAddress ?? ''
 
-	const myCreationsData = useGetMyCreations(userId)
+	const myProfileData = useGetMyProfile(userId)
 
 	const creator = useGetProfile(userId)
 
 	const { width: appWidth } = useWindowDimensions()
 
-	const isMyCreationsData =
-		myCreationsData !== null && typeof myCreationsData !== 'undefined'
+	const isMyProfileData =
+		myProfileData !== null && typeof myProfileData !== 'undefined'
 
 	return (
 		<>
@@ -45,10 +45,10 @@ const MyCreations: FC = () => {
 			{/* <EditCollectionModal /> */}
 
 			<CreatorHeader creator={creator} creatorRoute='creations' />
-			{isMyCreationsData ? (
+			{isMyProfileData ? (
 				<CreationsGridSimple
-					creations={myCreationsData.creations}
-					creator={myCreationsData.creator}
+					creations={myProfileData.creations}
+					creator={myProfileData.creator}
 					appWidth={appWidth}
 				/>
 			) : (

@@ -144,7 +144,7 @@ const Header: FC = () => {
 		if (isSignedIn) {
 			return [
 				{ value: 'garden', label: 'Garden' },
-				{ value: 'mycreations', label: 'My Creations' },
+				{ value: 'myprofile', label: 'My Profile' },
 				{ value: 'mycollections', label: 'My Collections' },
 				{ value: 'editprofile', label: 'Edit Profile' },
 			]
@@ -159,6 +159,9 @@ const Header: FC = () => {
 	// console.log({ isThemeLight })
 
 	console.log({ firstSignInRequest })
+	console.log({ userId })
+
+	const isUserId = typeof userId !== 'undefined' && userId !== ''
 
 	return (
 		<header className={styles.headerWrapper}>
@@ -170,10 +173,10 @@ const Header: FC = () => {
 						{/* <ActiveLink href='/'>
 							<Text>{'Garden'}</Text>
 						</ActiveLink> */}
-						{userId !== 'undefined' ? (
+						{isUserId ? (
 							<>
-								<ActiveLink href='/mycreations'>
-									<Text style={textThemeColor}>{'My Creations'}</Text>
+								<ActiveLink href='/myprofile'>
+									<Text style={textThemeColor}>{'My Profile'}</Text>
 								</ActiveLink>
 								<ActiveLink href='/mycollections'>
 									<Text style={textThemeColor}>{'My Collections'}</Text>

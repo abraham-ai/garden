@@ -15,6 +15,8 @@ const CreatorDashboard: FC<CreatorDashboardProps> = ({ profileAddress }) => {
 	// 	setIsFollowing(!isFollowing)
 	// }
 
+	const isCreator = false
+
 	return (
 		<Row
 			style={{

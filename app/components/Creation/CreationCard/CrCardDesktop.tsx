@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
+import type CreatorProfile from '../../../../interfaces/CreatorProfile'
 
 import React from 'react'
 import CreationCreator from '../CreationCreator'
@@ -8,51 +9,40 @@ import styles from '../../../../styles/CreationCard.module.css'
 
 interface CrCardDesktopProps {
 	creation: Creation
-	isMobile: boolean
-	GeneratorName: string
 	currentTheme: string
-	user: string
-	displayAddress: string
-	timeAgoCreatedAt: string
-	prompt: string
-	creator?: CreatorProfile
+	appWidth: number
+	creator: CreatorProfile
+	page: string
 }
 
 const CrCardDesktop: FC<CrCardDesktopProps> = ({
 	creation,
-	isMobile,
-	GeneratorName,
+	appWidth,
 	currentTheme,
-	user,
-	displayAddress,
-	timeAgoCreatedAt,
-	prompt,
 	creator,
+	page,
 }) => {
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
 	return (
 		<div className={styles.crPromptMainWrapper}>
 			<article className={styles.promptWrapper}>
 				<CreationPrompt
-					layout='overlay'
 					creation={creation}
-					isMobile={isMobile}
-					displayAddress={displayAddress}
-					timeAgoCreatedAt={timeAgoCreatedAt}
-					user={user}
+					layout='overlay'
+					page={page}
+					appWidth={appWidth}
 					currentTheme={currentTheme}
-					GeneratorName={GeneratorName}
-					prompt={prompt}
 				/>
 
 				<CreationCreator
-					layout='overlay'
-					creationData={creation}
-					isMobile={isMobile}
-					displayAddress={displayAddress}
-					timeAgoCreatedAt={timeAgoCreatedAt}
-					user={user}
-					currentTheme={currentTheme}
+					creation={creation}
 					creator={creator}
+					layout='overlay'
+					page={page}
+					appWidth={appWidth}
+					currentTheme={currentTheme}
 				/>
 			</article>
 		</div>

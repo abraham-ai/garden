@@ -14,11 +14,11 @@ const { Text } = Typography
 
 interface ConnectButtonCustomProps {
 	isMounted: boolean
-	isMobile: boolean
+	appWidth: number
 }
 
 export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
-	isMobile,
+	appWidth,
 	isMounted,
 }) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -36,6 +36,8 @@ export const ConnectButtonCustom: FC<ConnectButtonCustomProps> = ({
 	displayAddress = isWalletAddress
 		? `${String(displayAddress)}...${String(walletAddress.slice(-4))}`
 		: walletAddress
+
+	const isMobile = appWidth < 768
 
 	const isMobileMounted = isMobile && isMounted
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useMemo } from 'react'
 import type { FC } from 'react'
 
 import AppContext from '../../../context/AppContext'
@@ -21,20 +21,26 @@ interface SaveButtonTypes {
 	setIsBookmarked: (value: boolean) => void
 	creation: Creation
 	layout?: string
-	isMobile: boolean
+	page?: string
+	appWidth: number
 }
 
 const SaveButton: FC<SaveButtonTypes> = ({
 	isBookmarked,
 	setIsBookmarked,
 	creation,
-	isMobile,
+	appWidth,
+	layout = 'relative',
+	page = 'creationId',
 }) => {
 	const [isSaveHovering, setIsSaveHovering] = useState(false)
 
 	const context = useContext(AppContext)
 
 	const { openConnectModal } = useConnectModal()
+
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
@@ -58,6 +64,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 			openConnectModal?.() ?? (() => null)()
 		} else if (!isSignedIn && isWalletConnected) {
 			setIsSignInModalOpen(true)
+		} else if (isSignedIn && !isWalletConnected) {
+			openConnectModal?.() ?? (() => null)()
 		} else if (isSignedIn && isWalletConnected) {
 			console.log('handle SAVE 🔖!')
 			setIsBookmarked(!isBookmarked)
@@ -77,6 +85,58 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		// console.log('handleMouseOut')
 		setIsSaveHovering(false)
 	}
+
+	const textSize = useMemo(() => {
+		if (isMobile) {
+			return '1rem'
+		} else if (page === 'creationId' && layout === 'relative') {
+			return '.8rem'
+		} else {
+			return '1.8rem'
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonSize = useMemo(() => {
+		if (isMobile) {
+			return 'small'
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 'small'
+		} else {
+			return 'large'
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonWidth = useMemo(() => {
+		if (isMobile) {
+			return 30
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 30
+		} else {
+			return 100
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonHeight = useMemo(() => {
+		if (isMobile) {
+			return 30
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 30
+		} else {
+			return 100
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const iconSize = useMemo(() => {
+		if (isMobile) {
+			return 15
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 18
+		} else {
+			return 25
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	// console.log({ iconSize })
 
 	const bgHoverStyles = isSaveHovering
 		? 'rgb(26, 115, 232, 0.4)'
@@ -100,6 +160,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 				<Button
 					className='btn'
 					shape={'circle'}
+					size={buttonSize}
 					type='link'
 					onClick={() => {
 						handleSave()
@@ -109,8 +170,8 @@ const SaveButton: FC<SaveButtonTypes> = ({
 						alignItems: 'center',
 						justifyContent: 'center',
 						background: isMobileThemeLight ? 'transparent' : bgHoverStyles,
-						width: isMobile ? 30 : 50,
-						height: isMobile ? 30 : 50,
+						width: buttonWidth,
+						height: buttonHeight,
 						border: 'none',
 						transition: '300ms',
 					}}
@@ -119,9 +180,9 @@ const SaveButton: FC<SaveButtonTypes> = ({
 						<RiBookmarkFill
 							className={styles.crSocialIcon}
 							style={{
-								fontSize: '1rem',
-								minWidth: isMobile ? 15 : 25,
-								minHeight: isMobile ? 15 : 25,
+								fontSize: textSize,
+								minWidth: iconSize,
+								minHeight: iconSize,
 								color: '#1a73e8',
 							}}
 						/>
@@ -129,9 +190,9 @@ const SaveButton: FC<SaveButtonTypes> = ({
 						<RiBookmarkLine
 							className={styles.crSocialIcon}
 							style={{
-								fontSize: '1rem',
-								minWidth: isMobile ? 15 : 25,
-								minHeight: isMobile ? 15 : 25,
+								fontSize: textSize,
+								minWidth: iconSize,
+								minHeight: iconSize,
 								color: isMobileThemeLight ? 'black' : 'white',
 							}}
 						/>

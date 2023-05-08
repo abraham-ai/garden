@@ -1,7 +1,8 @@
 import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
-import React from 'react'
+import React, { useContext } from 'react'
+import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -13,19 +14,33 @@ interface CrImageLinkProps {
 	creation: Creation
 	crBgColor: string
 	appWidth: number
-	isMobile: boolean
 	isCreationHovering: boolean
 	showModal: () => void
+	creationIndex: number
 }
 
 const CrImageLink: FC<CrImageLinkProps> = ({
 	creation,
 	crBgColor,
 	appWidth,
-	isMobile,
 	isCreationHovering,
 	showModal,
+	creationIndex,
 }) => {
+	const context = useContext(AppContext)
+
+	const currentCreationIndex = context?.currentCreationIndex ?? 0
+	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
+	const currentCreationModalCreation =
+		context?.currentCreationModalCreation ?? {}
+	const setCurrentCreationModalCreation =
+		context?.setCurrentCreationModalCreation ?? (() => {})
+
+	const isMobile = appWidth < 768
+
+	// console.log({ currentCreationIndex })
+	// console.log({ currentCreationModalCreation })
+
 	return (
 		<Link
 			className={styles.crLink}
@@ -37,15 +52,14 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				flexDirection: 'column',
 				// background: crBgColor,
 				border: 20,
-				marginLeft: isMobile ? 60 : 0,
-				position: isMobile ? 'relative' : 'absolute',
+				marginLeft: 0,
 				borderRadius: isMobile ? 10 : 'unset',
 				overflow: 'hidden',
-				top: isMobile ? 'unset' : 0,
-				width: isMobile ? 'unset' : '100%',
 			}}
 			onClick={() => {
 				showModal()
+				setCurrentCreationModalCreation(creation)
+				setCurrentCreationIndex(creationIndex)
 			}}
 		>
 			<div

@@ -17,13 +17,13 @@ interface EthereumAccountProps {
 		loading?: boolean
 		authToken?: string
 	}
-	isMobile: boolean
+	appWidth: number
 }
 
 const EthereumAccount: FC<EthereumAccountProps> = ({
 	handleSiwe,
 	state,
-	isMobile,
+	appWidth,
 }) => {
 	const context = useContext(AppContext)
 
@@ -37,6 +37,8 @@ const EthereumAccount: FC<EthereumAccountProps> = ({
 	const userId = context?.userId ?? ''
 
 	const isSignedIn = context?.isSignedIn ?? false
+
+	const isMobile = appWidth < 768
 
 	const setIsSignedIn = useMemo(() => {
 		return context?.setIsSignedIn != null ? context.setIsSignedIn : () => {}

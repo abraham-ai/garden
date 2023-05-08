@@ -18,11 +18,11 @@ const handler = async (
 	const userId = session?.userId ?? ''
 	const authToken = session?.token ?? ''
 
-	console.log('---MY-CREATIONS---')
+	console.log('---MY-PROFILE---')
 	console.log('REQ userId: ', userId)
 
 	try {
-		console.log('My Creations')
+		console.log('My Profile')
 		if (typeof authToken === 'string') {
 			eden.setAuthToken(authToken)
 		}

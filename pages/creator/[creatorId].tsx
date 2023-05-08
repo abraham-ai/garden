@@ -1,6 +1,7 @@
 import type { FC } from 'react'
-import React, { useState } from 'react'
+import type CreationResponse from '../../interfaces/CreationResponse'
 
+import React from 'react'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/CreationId.module.css'
@@ -9,18 +10,17 @@ import stylesCreationsGrid from '../../styles/CreationsGrid.module.css'
 
 // import abbreviateAddress from '../../util/abbreviateAddress'
 
+import emptyCreatorCreations from '../../constants/emptyCreatorCreations'
 import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
-import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
+// import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 
-import type CreationResponse from '../../interfaces/CreationResponse'
-
-import { Row, Typography, Spin, Button } from 'antd'
+import { Row, Typography, Spin } from 'antd' // Button
 
 import { LoadingOutlined } from '@ant-design/icons'
 
@@ -37,7 +37,7 @@ interface CreatorPageProps {
 const Creator: FC<CreatorPageProps> = () => {
 	const router = useRouter()
 
-	const [isFollowing, setIsFollowing] = useState(false)
+	// const [isFollowing, setIsFollowing] = useState(false)
 
 	// const queryCreatorId = router.query.creatorId
 
@@ -77,9 +77,9 @@ const Creator: FC<CreatorPageProps> = () => {
 		console.log(creatorCreationsData)
 	}
 
-	const handleFollow = (): void => {
-		setIsFollowing(!isFollowing)
-	}
+	// const handleFollow = (): void => {
+	// 	setIsFollowing(!isFollowing)
+	// }
 
 	const isCreatorCreationsData =
 		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null
@@ -95,7 +95,9 @@ const Creator: FC<CreatorPageProps> = () => {
 							<Header />
 						</main>
 						<CreatorHeader
-							creator={creatorCreationsData?.creator ?? null}
+							creator={
+								creatorCreationsData?.creator ?? emptyCreatorCreations.creator
+							}
 							creatorRoute={'creations'}
 						/>
 
@@ -106,7 +108,9 @@ const Creator: FC<CreatorPageProps> = () => {
 								<CreationsGridSimple
 									creations={creatorCreationsData?.creations ?? []}
 									appWidth={width}
-									creator={creatorCreationsData?.creator ?? null}
+									creator={
+										creatorCreationsData?.creator ?? emptyCreatorCreations
+									}
 								/>
 							</section>
 						) : (

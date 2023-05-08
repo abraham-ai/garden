@@ -1,5 +1,6 @@
 import type { FC, CSSProperties } from 'react'
 import type Creation from '../../../../interfaces/Creation'
+import type CreatorProfile from '../../../../interfaces/CreatorProfile'
 
 import React, { useMemo } from 'react'
 
@@ -8,8 +9,6 @@ import { Row } from 'antd'
 import CreationSocial from '../CreationSocial'
 import CreationCreator from '../CreationCreator'
 
-import timeAgo from '../../../../util/timeAgo'
-
 interface ReactionCountList {
 	praises: number
 	praised: boolean
@@ -17,29 +16,32 @@ interface ReactionCountList {
 	burned: boolean
 }
 
-interface CreationHeaderProps {
+interface CrModalHeaderProps {
 	layout: string
 	creation: Creation
 	appWidth: number
-	isMobile: boolean
 	reactionCountList: ReactionCountList
-	displayAddress: string
+	page: string
+	currentTheme: string
+	creator: CreatorProfile
 }
 
-const CrModalHeader: FC<CreationHeaderProps> = ({
+const CrModalHeader: FC<CrModalHeaderProps> = ({
 	layout,
 	creation,
-	isMobile,
 	appWidth,
 	reactionCountList,
-	displayAddress,
+	page,
+	currentTheme,
+	creator,
 }) => {
-	const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt))
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	const crProfileActionsFlex = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return 'row'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return 'row'
 		} else {
 			return 'column'
@@ -64,20 +66,19 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 		<section style={headerSocialWrapperStyles}>
 			<CreationCreator
 				layout={layout}
-				displayAddress={displayAddress}
-				creationData={creation}
+				creation={creation}
 				appWidth={appWidth}
-				timeAgoCreatedAt={timeAgoCreatedAt}
+				page={page}
+				currentTheme={currentTheme}
+				creator={creator}
 			/>
 			<Row style={socialWrapperStyles}>
 				<CreationSocial
+					layout={layout}
 					creation={creation}
 					creationId={creation._id}
 					reactionCountList={reactionCountList}
-					isMobile={isMobile}
-					isCrModal={true}
 					appWidth={appWidth}
-					isCrIdPage={false}
 				/>
 			</Row>
 		</section>

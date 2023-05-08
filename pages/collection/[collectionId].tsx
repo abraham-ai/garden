@@ -56,14 +56,11 @@ const Collection: FC<CollectionPageTypes> = () => {
 
 	if (collectionData != null) {
 		console.log({ collectionData })
-		// console.log(collectionData.creation.task.config.text_input)
-		// timeAgoCreatedAt = timeAgo(parseInt(collectionData.creation.createdAt))
-		// console.log(timeAgoCreatedAt)
 	}
 
 	const isCollectionData = collectionData !== null
 	console.log({ isCollectionData })
-	const isUser = collectionData?.profile?.user !== undefined
+	const isUser = collectionData?.creator?.user?.userId !== undefined
 	console.log('isUser', isUser)
 
 	const isCollectionArray = Array.isArray(collectionData?.creations)
@@ -85,10 +82,9 @@ const Collection: FC<CollectionPageTypes> = () => {
 			: []
 
 	console.log('isCollectionCreations:', isCollectionCreations)
-	const isCollectionId =
-		typeof queryCollectionId === 'string' ? queryCollectionId : undefined
 
-	const isMobile = width < 768
+	// const isCollectionId =
+	// 	typeof queryCollectionId === 'string' ? queryCollectionId : undefined
 
 	return (
 		<>
@@ -100,22 +96,21 @@ const Collection: FC<CollectionPageTypes> = () => {
 						{isUser ? (
 							<>
 								<CreatorHeader
-									creator={collectionData?.profile}
+									creator={collectionData?.creator}
 									creatorRoute='collections'
 								/>
 								<Col style={collectionStyles.col}>
 									<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>
 										{collectionData?.collection?.name}
 									</Text>
-									{/* <pre>{JSON.stringify(collectionData, null, 2)}</pre> */}
 								</Col>
 							</>
 						) : null}
-						{isCollectionCreations ? (
+						{isCollectionCreations === true ? (
 							<CreationsGridSimple
 								creations={collectionCreations}
 								appWidth={width}
-								creator={collectionData?.profile}
+								creator={collectionData?.creator}
 							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

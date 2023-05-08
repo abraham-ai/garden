@@ -1,17 +1,22 @@
+import type { FC } from 'react'
 import React from 'react'
 import { Button, Popover, Typography } from 'antd'
 
-import CreatorProfileAddress from './Creator/CreatorProfileAddress'
+import CreatorProfileAddress from '../Creator/CreatorProfileAddress'
 const { Text } = Typography
 
-const ProfilePopOver = ({ profileAddress }: { profileAddress: string }) => {
+interface ProfilePopOverProps {
+	profileAddress: string
+}
+
+const ProfilePopOver: FC<ProfilePopOverProps> = ({ profileAddress }) => {
 	return (
 		<>
-			<Button>Avatar</Button>
+			<Button>{'Avatar'}</Button>
 			<CreatorProfileAddress profileAddress={profileAddress} />
 
 			<Popover>
-				<Text>profileAddress</Text>
+				<Text>{'Profile Address'}</Text>
 			</Popover>
 		</>
 	)

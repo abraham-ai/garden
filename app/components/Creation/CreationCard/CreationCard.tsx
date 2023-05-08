@@ -12,9 +12,6 @@ import React, {
 import AppContext from '../../../../context/AppContext'
 
 import { ColorExtractor } from 'react-color-extractor'
-import timeAgo from '../../../../util/timeAgo'
-import abbreviateText from '../../../../util/abbreviateText'
-import abbreviateAddress from '../../../../util/abbreviateAddress'
 
 import useGetReactionCount from '../../../../hooks/useGetReactionCount'
 import { useReaction } from '../../../../context/ReactionContext'
@@ -37,6 +34,7 @@ interface CreationCardProps {
 	appWidth: number
 	currentTheme: string
 	creator: CreatorProfile
+	page: string
 }
 
 const CreationCard: FC<CreationCardProps> = ({
@@ -46,6 +44,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	appWidth,
 	currentTheme,
 	creator,
+	page,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
@@ -73,15 +72,13 @@ const CreationCard: FC<CreationCardProps> = ({
 	const [width, setWidth] = useState<number>(0)
 	const [height, setHeight] = useState<number>(0)
 
-	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(false)
+	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(true)
 
 	const [status, setStatus] = useState<string>('')
 
 	const reactionCountList = useGetReactionCount(creation._id)
 	const { reactionState, updateReactionState } = useReaction()
 	// console.log(reactionCountList)
-
-	const timeAgoCreatedAt = timeAgo(Date.parse(creation?.createdAt))
 
 	const isReactionCountListState =
 		reactionCountList != null &&
@@ -191,35 +188,9 @@ const CreationCard: FC<CreationCardProps> = ({
 		setIsCreationHovering(false)
 	}
 
-	let displayAddress = ''
-	if (typeof user === 'string') {
-		displayAddress = abbreviateAddress(creation.user)
-	}
-
-	let prompt = ''
-
-	const creationTextInput = creation?.task?.config?.text_input
-	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
-		if (isMobile) {
-			prompt = abbreviateText(creationTextInput, 100)
-		} else if (creation.task.config.height > 550) {
-			prompt = abbreviateText(creationTextInput, 80) // 100
-		} else if (creation.task.config.height > 500) {
-			prompt = abbreviateText(creationTextInput, 40) // 100
-		} else if (creation.task.config.height > 450) {
-			prompt = abbreviateText(creationTextInput, 30) // 100
-		} else if (creation.task.config.height > 400) {
-			prompt = abbreviateText(creationTextInput, 25) // 100
-		} else {
-			prompt = abbreviateText(creationTextInput, 20) // 100
-		}
-	}
-
 	const hoverStyles = isCreationHovering
 		? styles.crCardHoverWrapper
 		: styles.crCardWrapper
-
-	const GeneratorName = creation?.task?.generator?.generatorName
 
 	const getColors = (colors): void => {
 		setCrColor(colors)
@@ -234,6 +205,7 @@ const CreationCard: FC<CreationCardProps> = ({
 
 	// console.log({ prompt })
 	// console.log({ crColor })
+	// console.log({ index })
 
 	const aspectRatio =
 		creation?.task?.config?.height / creation?.task?.config?.width
@@ -256,6 +228,7 @@ const CreationCard: FC<CreationCardProps> = ({
 							<img src={creation.thumbnail} />
 						</ColorExtractor>
 					</span>
+
 					<div className={styles.crTopWrapper}>
 						<div className={styles.crImageWrapper}>
 							<Skeleton loading={typeof creation === 'undefined'} active>
@@ -271,61 +244,57 @@ const CreationCard: FC<CreationCardProps> = ({
 											>
 												{isMobile ? (
 													<CrCardMobile
-														currentTheme={currentTheme}
 														creation={creation}
-														isMobile={isMobile}
-														GeneratorName={GeneratorName}
-														user={user}
-														displayAddress={displayAddress}
-														timeAgoCreatedAt={timeAgoCreatedAt}
-														prompt={prompt}
 														creator={creator}
+														appWidth={appWidth}
+														currentTheme={currentTheme}
+														page={page}
 													/>
 												) : (
 													<CrCardDesktop
-														currentTheme={currentTheme}
 														creation={creation}
-														isMobile={isMobile}
-														GeneratorName={GeneratorName}
-														user={user}
-														prompt={prompt}
-														displayAddress={displayAddress}
-														timeAgoCreatedAt={timeAgoCreatedAt}
 														creator={creator}
+														appWidth={appWidth}
+														currentTheme={currentTheme}
+														page={page}
 													/>
 												)}
 											</div>
 
-											<div
-												className={styles.crContentHoverBgWrapper}
-												style={{ marginLeft: isMobile ? 60 : 0 }}
-											/>
+											<div className={styles.crContentHoverBgWrapper} />
 										</>
 									) : null}
 
 									<section
 										className={styles.crImageLinkWrapper}
 										style={{
-											'--aspect-ratio': aspectRatio,
-											// background: crColor[0],
+											paddingTop: `${aspectRatio * 100}%`,
+											// '--aspect-ratio': aspectRatio,
+											background: crColor[0],
 										}}
 									>
 										{!isCrImageLinkLoading && (
 											<CrImageLink
 												creation={creation}
-												isMobile={isMobile}
 												appWidth={appWidth}
 												isCreationHovering={isCreationHovering}
 												showModal={showModal}
 												crBgColor={crColor[0]}
+												creationIndex={index}
 											/>
 										)}
 									</section>
 
 									{isCreationHovering || isMobile ? (
-										<>
+										<div
+											className={
+												isMobile
+													? styles.crContentMainMobile
+													: styles.crContentHoverSocialWrapper
+											}
+										>
 											<CreationSocial
-												isMobile={isMobile}
+												layout='relative'
 												creation={creation}
 												creationId={creation._id}
 												reactionCountList={{
@@ -335,11 +304,9 @@ const CreationCard: FC<CreationCardProps> = ({
 													burns: reactionState[creation._id]?.burns ?? 0,
 													burned: reactionState[creation._id]?.burned ?? false,
 												}}
-												isCrModal={false}
-												isCrIdPage={false}
 												appWidth={appWidth}
 											/>
-										</>
+										</div>
 									) : null}
 								</section>
 							</Skeleton>
@@ -357,7 +324,6 @@ const CreationCard: FC<CreationCardProps> = ({
 				setModalOpen={setModalOpen}
 				modalOpen={modalOpen}
 				creationIndex={index}
-				isMobile={isMobile}
 				appWidth={appWidth}
 				reactionCountList={{
 					praises: reactionState[creation._id]?.praises ?? 0,
@@ -365,6 +331,7 @@ const CreationCard: FC<CreationCardProps> = ({
 					burns: reactionState[creation._id]?.burns ?? 0,
 					burned: reactionState[creation._id]?.burned ?? false,
 				}}
+				page={page}
 			/>
 		</>
 	)

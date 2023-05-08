@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useMemo } from 'react'
 import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
@@ -7,22 +7,24 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { Button, Typography } from 'antd'
 const { Text } = Typography
 
-interface BurnButtonTypes {
+interface BurnButtonProps {
 	creationId: string
 	burns: number
 	isBurned: boolean
 	setIsBurned: (isBurned: boolean, updatedBurns: number) => void
-	layout?: string
-	isMobile?: boolean
+	layout: string
+	appWidth: number
+	page: string
 }
 
-const BurnButton: FC<BurnButtonTypes> = ({
+const BurnButton: FC<BurnButtonProps> = ({
 	creationId,
 	burns,
 	isBurned,
 	setIsBurned,
-	layout = 'default',
-	isMobile,
+	layout = 'relative',
+	appWidth,
+	page = 'creationId',
 }) => {
 	const context = useContext(AppContext)
 	const isSignedIn = context?.isSignedIn ?? false
@@ -33,6 +35,9 @@ const BurnButton: FC<BurnButtonTypes> = ({
 	const { openConnectModal } = useConnectModal()
 
 	const [isBurnHovering, setIsBurnHovering] = useState<boolean>(false)
+
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
 
 	// console.log('Burn Button: CreationId: ' + creationId)
 
@@ -55,6 +60,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
 				setIsBurned(!newIsBurned, burns)
 				console.error('Error updating praise:', error)
 			}
+		} else if (isSignedIn && !isWalletConnected) {
+			openConnectModal?.() ?? (() => null)()
 		} else if (!isSignedIn && !isWalletConnected) {
 			openConnectModal?.() ?? (() => null)()
 		} else if (!isSignedIn && isWalletConnected) {
@@ -62,20 +69,61 @@ const BurnButton: FC<BurnButtonTypes> = ({
 		}
 	}
 
+	const textSize = useMemo(() => {
+		if (isMobile) {
+			return '1rem'
+		} else if (page === 'creationId' && layout === 'relative') {
+			return '1rem'
+		} else {
+			return '1.8rem'
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonSize = useMemo(() => {
+		if (isMobile) {
+			return 'small'
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 'small'
+		} else {
+			return 'large'
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonWidth = useMemo(() => {
+		if (isMobile) {
+			return 60
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 60
+		} else {
+			return 100
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonHeight = useMemo(() => {
+		if (isMobile) {
+			return 30
+		} else if (page === 'creationId' && layout === 'relative') {
+			return 30
+		} else {
+			return 50
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	// console.log({ isMobile })
+	// console.log({ buttonSize })
+
 	const burnGray = (
 		<span
 			style={{
 				filter: 'grayscale(1)',
-				fontSize: isMobile ? '1rem' : '1.8rem',
+				fontSize: textSize,
 			}}
 		>
 			{'🔥'}
 		</span>
 	)
 
-	const burnFilled = (
-		<span style={{ fontSize: isMobile ? '1rem' : '1.8rem' }}>{'🔥'}</span>
-	)
+	const burnFilled = <span style={{ fontSize: textSize }}>{'🔥'}</span>
 
 	const handleMouseOver = (): void => {
 		console.log('handleMouseOver')
@@ -102,7 +150,7 @@ const BurnButton: FC<BurnButtonTypes> = ({
 		>
 			<Button
 				className={isBurned ? 'crBurn isActive' : 'crBurn'}
-				size='large'
+				size={buttonSize}
 				type='text'
 				shape='round'
 				style={{
@@ -110,8 +158,8 @@ const BurnButton: FC<BurnButtonTypes> = ({
 					alignItems: 'center',
 					justifyContent: isMobile ? 'flex-start' : 'center',
 					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
-					width: isMobile ? 60 : 100,
-					height: isMobile ? 30 : 50,
+					width: buttonWidth,
+					height: buttonHeight,
 					padding: isMobile ? '10px 0' : 10,
 					border: 'none',
 					transition: '1s',

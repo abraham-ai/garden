@@ -10,9 +10,7 @@ interface CreationSocialProps {
 	creation: Creation
 	creationId: string
 	layout?: string
-	isMobile: boolean
-	isCrModal: boolean
-	isCrIdPage: boolean
+	page?: string
 	appWidth: number
 }
 

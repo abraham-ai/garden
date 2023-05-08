@@ -5,14 +5,16 @@ import React, { useContext, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 
+import emptyCreatorProfile from '../../../../constants/emptyCreatorProfile'
+
 import CrModalImage from './CrModalImage'
 import CrModalHeader from './CrModalHeader'
 import CreationPrompt from '../CreationPrompt'
 // import CrModalDebug from './CrModalDebug'
 // import TransitionCreationModalButton from './TransitionCreationModalButton'
 
+import emptyCreation from '../../../../constants/emptyCreation'
 import abbreviateText from '../../../../util/abbreviateText'
-import abbreviateAddress from '../../../../util/abbreviateAddress'
 import { Modal, Col } from 'antd'
 
 interface ReactionCountList {
@@ -27,9 +29,9 @@ interface CreationModalProps {
 	setModalOpen: (open: boolean) => void
 	creation: Creation
 	creationIndex: number
-	isMobile: boolean
 	appWidth: number
 	reactionCountList: ReactionCountList
+	page: string
 }
 
 const CreationModal: FC<CreationModalProps> = ({
@@ -37,27 +39,29 @@ const CreationModal: FC<CreationModalProps> = ({
 	setModalOpen,
 	creation,
 	creationIndex,
-	isMobile,
 	appWidth,
 	reactionCountList,
+	page,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
+	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
+
+	const currentCreationModalCreation =
+		context?.currentCreationModalCreation ?? {}
+	const setCurrentCreationModalCreation =
+		context?.setCurrentCreationModalCreation ?? (() => {})
+
 	const currentTheme = context?.currentTheme ?? 'light'
 
 	const creations = context?.creations != null || []
 
-	const GeneratorName = creation?.task?.generator?.generatorName
-
 	const router = useRouter()
 
+	// console.log({ currentCreationIndex })
+	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationIndex)
 	// console.log(creation)
-
-	let displayAddress = ''
-	if (typeof creation.user === 'string') {
-		displayAddress = abbreviateAddress(creation.user)
-	}
 
 	let prompt = ''
 	// console.log({ textInput })
@@ -71,12 +75,17 @@ const CreationModal: FC<CreationModalProps> = ({
 	const handleModalCancel = (): void => {
 		router.push('/', undefined, { scroll: false })
 		setModalOpen(false)
+		setCurrentCreationIndex(0)
+		setCurrentCreationModalCreation(emptyCreation)
 	}
 
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
 	const handleDirection = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return 'column'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return 'column'
 		} else {
 			return 'row'
@@ -84,9 +93,9 @@ const CreationModal: FC<CreationModalProps> = ({
 	}, [appWidth])
 
 	const handleModalMaxWidth = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return 600
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return 1000
 		} else {
 			return 1800
@@ -94,12 +103,12 @@ const CreationModal: FC<CreationModalProps> = ({
 	}, [appWidth])
 
 	const handleModalWidth = useMemo(() => {
-		if (appWidth <= 768) {
+		if (isMobile) {
 			return '100vw'
-		} else if (appWidth >= 768 && appWidth <= 1024) {
+		} else if (isTablet) {
 			return '90vw'
 		} else {
-			return '90vw'
+			return '1200px'
 		}
 	}, [appWidth])
 
@@ -168,7 +177,6 @@ const CreationModal: FC<CreationModalProps> = ({
 							creation={creation}
 							creationIndex={creationIndex}
 							currentCreationIndex={currentCreationIndex}
-							isMobile={isMobile}
 						/>
 
 						<Col style={headerPromptWrapperStyles}>
@@ -176,19 +184,18 @@ const CreationModal: FC<CreationModalProps> = ({
 								layout='modal'
 								creation={creation}
 								appWidth={appWidth}
-								isMobile={isMobile}
-								displayAddress={displayAddress}
 								reactionCountList={reactionCountList}
+								page={page}
+								currentTheme={currentTheme}
+								creator={emptyCreatorProfile}
 							/>
 
 							<CreationPrompt
 								layout='modal'
-								creationData={creation}
+								creation={creation}
 								appWidth={appWidth}
-								isMobile={isMobile}
-								prompt={prompt}
-								GeneratorName={GeneratorName}
 								currentTheme={currentTheme}
+								page={page}
 							/>
 
 							{/* <CrModalDebug

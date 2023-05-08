@@ -16,12 +16,11 @@ import styles from '../../../styles/SignInModal.module.css'
 const { Title } = Typography
 
 interface SignInModalProps {
-	isMobile: boolean
 	isMounted: boolean
 	appWidth: number
 }
 
-const SignInModal: FC<SignInModalProps> = ({ isMobile, isMounted }) => {
+const SignInModal: FC<SignInModalProps> = ({ appWidth, isMounted }) => {
 	const { address } = useAccount()
 
 	const context = useContext(AppContext)
@@ -74,7 +73,7 @@ const SignInModal: FC<SignInModalProps> = ({ isMobile, isMounted }) => {
 				</Title>
 
 				<div>
-					<EthereumAuth isMobile={isMobile} />
+					<EthereumAuth appWidth={appWidth} />
 				</div>
 
 				{isSuccess && (

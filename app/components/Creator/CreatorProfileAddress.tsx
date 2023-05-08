@@ -1,14 +1,20 @@
+import type { FC } from 'react'
 import React from 'react'
 
 import { Skeleton, Typography } from 'antd'
 
-// import styled from 'styled-components'
 import Blockies from 'react-blockies'
 
 import { useAccount } from 'wagmi'
 const { Text } = Typography
 
-export default function CreatorProfileAddress({ profileAddress }) {
+interface CreatorProfileAddressProps {
+	profileAddress: string
+}
+
+const CreatorProfileAddress: FC<CreatorProfileAddressProps> = ({
+	profileAddress,
+}) => {
 	const { address } = useAccount()
 	const currentAddress = address === profileAddress ? address : profileAddress
 
@@ -32,3 +38,5 @@ export default function CreatorProfileAddress({ profileAddress }) {
 		</span>
 	)
 }
+
+export default CreatorProfileAddress

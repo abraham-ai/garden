@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import type Creation from '../../../../interfaces/Creation'
 
 import React from 'react'
 import Image from 'next/image'
@@ -7,24 +8,34 @@ import { Col, Row } from 'antd'
 import styles from '../../../../styles/CreationId.module.css'
 
 interface CreationIdImageProps {
-	creationData: CreationTypes
-	size: string
+	creationData: {
+		creation: Creation
+	}
+	appWidth: number
 }
 
-const CreationIdImage: FC<CreationIdImageProps> = ({ size, creationData }) => {
+const CreationIdImage: FC<CreationIdImageProps> = ({
+	creationData,
+	appWidth,
+}) => {
+	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth <= 1024
+
+	// console.log({ crStyles })
+
 	return (
-		<Col className={styles.creation}>
+		<Col className={styles.crIdImage}>
 			<Row className={styles.crPost}>
-				<section className={`${styles.crCard} ${size}`}>
+				<section className={styles.crCard}>
 					<article className={styles.crImgWrapper}>
 						<div className={styles.crImgWrapperMain}>
 							<Image
 								className={styles.crImg}
 								style={{ width: '100%' }}
-								width={creationData?.task?.config?.width ?? 0}
-								height={creationData?.task?.config?.height ?? 0}
-								alt={creationData?.task?.config?.text_input ?? ''}
-								src={creationData?.thumbnail ?? ''}
+								width={creationData?.creation?.task?.config?.width ?? 0}
+								height={creationData?.creation?.task?.config?.height ?? 0}
+								alt={creationData?.creation?.task?.config?.text_input ?? ''}
+								src={creationData?.creation?.thumbnail ?? ''}
 							/>
 						</div>
 
@@ -32,10 +43,10 @@ const CreationIdImage: FC<CreationIdImageProps> = ({ size, creationData }) => {
 							<Image
 								className={styles.crImg}
 								style={{ width: '100%' }}
-								width={creationData?.task?.config?.width ?? 0}
-								height={creationData?.task?.config?.height ?? 0}
-								alt={creationData?.task?.config?.text_input ?? ''}
-								src={creationData?.thumbnail ?? ''}
+								width={creationData?.creation?.task?.config?.width ?? 0}
+								height={creationData?.creation?.task?.config?.height ?? 0}
+								alt={creationData?.creation?.task?.config?.text_input ?? ''}
+								src={creationData?.creation?.thumbnail ?? ''}
 							/>
 						</div>
 					</article>
