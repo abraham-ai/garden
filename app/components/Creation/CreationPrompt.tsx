@@ -4,26 +4,26 @@ import type Creation from '../../../interfaces/Creation'
 import React, { useMemo } from 'react'
 import { Typography, Col } from 'antd'
 
+import abbreviateText from '../../../util/abbreviateText'
+
 import styles from '../../../styles/CreationModal.module.css'
 
 const { Text } = Typography
 
 interface CreationPromptProps {
-	layout: string
 	creation: Creation
-	prompt: string
-	GeneratorName: string
+	layout: string
 	appWidth: number
 	currentTheme: string
+	page: string
 }
 
 const CreationPrompt: FC<CreationPromptProps> = ({
-	layout,
 	creation,
-	prompt,
-	GeneratorName,
+	layout,
 	appWidth,
 	currentTheme,
+	page,
 }) => {
 	const isThemeLight = currentTheme === 'light'
 
@@ -38,6 +38,27 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 
 	// console.log({ isMobile })
 	// console.log({ isTablet })
+
+	const GeneratorName = creation?.task?.generator?.generatorName
+
+	let prompt = ''
+
+	const creationTextInput = creation?.task?.config?.text_input
+	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
+		if (isMobile) {
+			prompt = abbreviateText(creationTextInput, 100)
+		} else if (creation.task.config.height > 550) {
+			prompt = abbreviateText(creationTextInput, 80) // 100
+		} else if (creation.task.config.height > 500) {
+			prompt = abbreviateText(creationTextInput, 40) // 100
+		} else if (creation.task.config.height > 450) {
+			prompt = abbreviateText(creationTextInput, 30) // 100
+		} else if (creation.task.config.height > 400) {
+			prompt = abbreviateText(creationTextInput, 25) // 100
+		} else {
+			prompt = abbreviateText(creationTextInput, 20) // 100
+		}
+	}
 
 	const handlePromptSize = useMemo(() => {
 		if (isMobile) {

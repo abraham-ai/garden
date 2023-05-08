@@ -60,6 +60,7 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 								index={i}
 								appWidth={appWidth}
 								currentTheme={currentTheme}
+								page='creations'
 							/>
 						)
 					}

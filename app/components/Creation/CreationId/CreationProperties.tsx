@@ -5,6 +5,7 @@ import type Creation from '../../../../interfaces/Creation'
 import type CreatorProfile from '../../../../interfaces/CreatorProfile'
 
 import React from 'react'
+import timeAgo from '../../../../util/timeAgo'
 import styles from '../../../../styles/CreationId.module.css'
 import { Typography } from 'antd'
 
@@ -19,13 +20,11 @@ interface CreationPropertiesProps {
 		creation: Creation
 		creator: CreatorProfile
 	}
-	timeAgoCreatedAt: string
 }
-const CreationProperties: FC<CreationPropertiesProps> = ({
-	creationData,
-	timeAgoCreatedAt,
-}) => {
+const CreationProperties: FC<CreationPropertiesProps> = ({ creationData }) => {
 	// console.log({ timeAgoCreatedAt })
+
+	const timeAgoCreatedAt = timeAgo(Date.parse(creationData?.creation.createdAt))
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column' }}>

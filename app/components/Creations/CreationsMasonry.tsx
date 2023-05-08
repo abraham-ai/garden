@@ -3,17 +3,23 @@ import type { FC } from 'react'
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 
+import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
+
 import Masonry from 'react-masonry-css'
 import breakpointColumnsObj from '../../../constants/breakpointColumns'
 
 import CreationCard from '../Creation/CreationCard/CreationCard'
 
 import styles from '../../../styles/CreationsGrid.module.css'
+import { LoadingOutlined } from '@ant-design/icons'
+import { Spin, Row } from 'antd'
 
 interface CreationsMasonryProps {
 	creations: Creation[]
 	appWidth: number
 }
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	creations,
@@ -54,18 +60,21 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 							return (
 								<CreationCard
 									creation={creation}
-									creator={undefined}
+									creator={emptyCreatorProfile}
 									key={creation._id}
 									index={i}
 									appWidth={appWidth}
 									currentTheme={currentTheme}
+									page='creations'
 								/>
 							)
 						}
 					})}
 				</Masonry>
 			) : (
-				<span>{'Loading...'}</span>
+				<Row style={{ display: 'flex', justifyContent: 'center' }}>
+					<Spin indicator={antIcon} />
+				</Row>
 			)}
 		</>
 	)

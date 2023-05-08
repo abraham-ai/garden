@@ -5,6 +5,8 @@ import React, { useContext, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 
+import emptyCreatorProfile from '../../../../constants/emptyCreatorProfile'
+
 import CrModalImage from './CrModalImage'
 import CrModalHeader from './CrModalHeader'
 import CreationPrompt from '../CreationPrompt'
@@ -13,7 +15,6 @@ import CreationPrompt from '../CreationPrompt'
 
 import emptyCreation from '../../../../constants/emptyCreation'
 import abbreviateText from '../../../../util/abbreviateText'
-import abbreviateAddress from '../../../../util/abbreviateAddress'
 import { Modal, Col } from 'antd'
 
 interface ReactionCountList {
@@ -30,6 +31,7 @@ interface CreationModalProps {
 	creationIndex: number
 	appWidth: number
 	reactionCountList: ReactionCountList
+	page: string
 }
 
 const CreationModal: FC<CreationModalProps> = ({
@@ -39,6 +41,7 @@ const CreationModal: FC<CreationModalProps> = ({
 	creationIndex,
 	appWidth,
 	reactionCountList,
+	page,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
@@ -53,19 +56,12 @@ const CreationModal: FC<CreationModalProps> = ({
 
 	const creations = context?.creations != null || []
 
-	const GeneratorName = creation?.task?.generator?.generatorName
-
 	const router = useRouter()
 
 	// console.log({ currentCreationIndex })
 	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationIndex)
 	// console.log(creation)
-
-	let displayAddress = ''
-	if (typeof creation.user === 'string') {
-		displayAddress = abbreviateAddress(creation.user)
-	}
 
 	let prompt = ''
 	// console.log({ textInput })
@@ -188,17 +184,18 @@ const CreationModal: FC<CreationModalProps> = ({
 								layout='modal'
 								creation={creation}
 								appWidth={appWidth}
-								displayAddress={displayAddress}
 								reactionCountList={reactionCountList}
+								page={page}
+								currentTheme={currentTheme}
+								creator={emptyCreatorProfile}
 							/>
 
 							<CreationPrompt
 								layout='modal'
-								creationData={creation}
+								creation={creation}
 								appWidth={appWidth}
-								prompt={prompt}
-								GeneratorName={GeneratorName}
 								currentTheme={currentTheme}
+								page={page}
 							/>
 
 							{/* <CrModalDebug

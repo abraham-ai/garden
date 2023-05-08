@@ -1,5 +1,6 @@
 import type { FC, CSSProperties } from 'react'
 import type Creation from '../../../../interfaces/Creation'
+import type CreatorProfile from '../../../../interfaces/CreatorProfile'
 
 import React, { useMemo } from 'react'
 
@@ -8,8 +9,6 @@ import { Row } from 'antd'
 import CreationSocial from '../CreationSocial'
 import CreationCreator from '../CreationCreator'
 
-import timeAgo from '../../../../util/timeAgo'
-
 interface ReactionCountList {
 	praises: number
 	praised: boolean
@@ -17,19 +16,24 @@ interface ReactionCountList {
 	burned: boolean
 }
 
-interface CreationHeaderProps {
+interface CrModalHeaderProps {
 	layout: string
 	creation: Creation
 	appWidth: number
 	reactionCountList: ReactionCountList
-	displayAddress: string
+	page: string
+	currentTheme: string
+	creator: CreatorProfile
 }
 
-const CrModalHeader: FC<CreationHeaderProps> = ({
+const CrModalHeader: FC<CrModalHeaderProps> = ({
 	layout,
 	creation,
 	appWidth,
 	reactionCountList,
+	page,
+	currentTheme,
+	creator,
 }) => {
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
@@ -62,12 +66,15 @@ const CrModalHeader: FC<CreationHeaderProps> = ({
 		<section style={headerSocialWrapperStyles}>
 			<CreationCreator
 				layout={layout}
-				creationData={creation}
+				creation={creation}
 				appWidth={appWidth}
+				page={page}
+				currentTheme={currentTheme}
+				creator={creator}
 			/>
 			<Row style={socialWrapperStyles}>
 				<CreationSocial
-					layout='relative'
+					layout={layout}
 					creation={creation}
 					creationId={creation._id}
 					reactionCountList={reactionCountList}

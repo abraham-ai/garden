@@ -13,7 +13,6 @@ import AppContext from '../../../../context/AppContext'
 
 import { ColorExtractor } from 'react-color-extractor'
 import timeAgo from '../../../../util/timeAgo'
-import abbreviateText from '../../../../util/abbreviateText'
 import abbreviateAddress from '../../../../util/abbreviateAddress'
 
 import useGetReactionCount from '../../../../hooks/useGetReactionCount'
@@ -37,6 +36,7 @@ interface CreationCardProps {
 	appWidth: number
 	currentTheme: string
 	creator: CreatorProfile
+	page: string
 }
 
 const CreationCard: FC<CreationCardProps> = ({
@@ -46,6 +46,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	appWidth,
 	currentTheme,
 	creator,
+	page,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
@@ -196,30 +197,9 @@ const CreationCard: FC<CreationCardProps> = ({
 		displayAddress = abbreviateAddress(creation.user)
 	}
 
-	let prompt = ''
-
-	const creationTextInput = creation?.task?.config?.text_input
-	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
-		if (isMobile) {
-			prompt = abbreviateText(creationTextInput, 100)
-		} else if (creation.task.config.height > 550) {
-			prompt = abbreviateText(creationTextInput, 80) // 100
-		} else if (creation.task.config.height > 500) {
-			prompt = abbreviateText(creationTextInput, 40) // 100
-		} else if (creation.task.config.height > 450) {
-			prompt = abbreviateText(creationTextInput, 30) // 100
-		} else if (creation.task.config.height > 400) {
-			prompt = abbreviateText(creationTextInput, 25) // 100
-		} else {
-			prompt = abbreviateText(creationTextInput, 20) // 100
-		}
-	}
-
 	const hoverStyles = isCreationHovering
 		? styles.crCardHoverWrapper
 		: styles.crCardWrapper
-
-	const GeneratorName = creation?.task?.generator?.generatorName
 
 	const getColors = (colors): void => {
 		setCrColor(colors)
@@ -273,25 +253,19 @@ const CreationCard: FC<CreationCardProps> = ({
 											>
 												{isMobile ? (
 													<CrCardMobile
-														currentTheme={currentTheme}
 														creation={creation}
-														GeneratorName={GeneratorName}
-														displayAddress={displayAddress}
-														timeAgoCreatedAt={timeAgoCreatedAt}
-														prompt={prompt}
 														creator={creator}
 														appWidth={appWidth}
+														currentTheme={currentTheme}
+														page={page}
 													/>
 												) : (
 													<CrCardDesktop
-														currentTheme={currentTheme}
 														creation={creation}
-														GeneratorName={GeneratorName}
-														prompt={prompt}
-														displayAddress={displayAddress}
-														timeAgoCreatedAt={timeAgoCreatedAt}
 														creator={creator}
 														appWidth={appWidth}
+														currentTheme={currentTheme}
+														page={page}
 													/>
 												)}
 											</div>
@@ -366,6 +340,7 @@ const CreationCard: FC<CreationCardProps> = ({
 					burns: reactionState[creation._id]?.burns ?? 0,
 					burned: reactionState[creation._id]?.burned ?? false,
 				}}
+				page={page}
 			/>
 		</>
 	)

@@ -9,24 +9,18 @@ import styles from '../../../../styles/CreationCard.module.css'
 
 interface CrCardDesktopProps {
 	creation: Creation
-	GeneratorName: string
 	currentTheme: string
-	displayAddress: string
-	timeAgoCreatedAt: string
-	prompt: string
 	appWidth: number
-	creator?: CreatorProfile
+	creator: CreatorProfile
+	page: string
 }
 
 const CrCardDesktop: FC<CrCardDesktopProps> = ({
 	creation,
 	appWidth,
-	GeneratorName,
 	currentTheme,
-	displayAddress,
-	timeAgoCreatedAt,
-	prompt,
 	creator,
+	page,
 }) => {
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
@@ -35,22 +29,20 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 		<div className={styles.crPromptMainWrapper}>
 			<article className={styles.promptWrapper}>
 				<CreationPrompt
-					layout='overlay'
 					creation={creation}
+					layout='overlay'
+					page={page}
 					appWidth={appWidth}
-					timeAgoCreatedAt={timeAgoCreatedAt}
 					currentTheme={currentTheme}
-					GeneratorName={GeneratorName}
-					prompt={prompt}
 				/>
 
 				<CreationCreator
-					layout='overlay'
-					creationData={creation}
-					appWidth={appWidth}
-					timeAgoCreatedAt={timeAgoCreatedAt}
-					currentTheme={currentTheme}
+					creation={creation}
 					creator={creator}
+					layout='overlay'
+					page={page}
+					appWidth={appWidth}
+					currentTheme={currentTheme}
 				/>
 			</article>
 		</div>

@@ -1,16 +1,15 @@
 'use client'
 
 import type { FC } from 'react'
-import type Creation from '../../interfaces/Creation'
-import type CreatorProfile from '../../interfaces/CreatorProfile'
+import type Creation from '../../../interfaces/Creation'
+import type CreatorProfile from '../../../interfaces/CreatorProfile'
 
 import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 
-import timeAgo from '../../../util/timeAgo'
-
 import Blockies from 'react-blockies'
 import CreationDate from './CreationDate'
+import timeAgo from '../../../util/timeAgo'
 import abbreviateAddress from '../../../util/abbreviateAddress'
 
 import styles from '../../../styles/CreationId.module.css'
@@ -21,7 +20,7 @@ const { Text } = Typography
 interface CreationCreatorProps {
 	layout: string
 	page: string
-	creationData: Creation
+	creation: Creation
 	appWidth: number
 	currentTheme: string
 	creator: CreatorProfile
@@ -30,7 +29,7 @@ interface CreationCreatorProps {
 const CreationCreator: FC<CreationCreatorProps> = ({
 	layout,
 	page,
-	creationData,
+	creation,
 	appWidth,
 	currentTheme,
 	creator,
@@ -38,7 +37,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const [isHovering, setIsHovering] = useState<boolean>(true)
 
-	const timeAgoCreatedAt = timeAgo(Date.parse(creationData?.createdAt))
+	const timeAgoCreatedAt = timeAgo(Date.parse(creation?.createdAt))
 
 	const handleMouseOver = (): void => {
 		setIsHovering(true)
@@ -143,15 +142,15 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		}
 	}, [appWidth])
 
-	// console.log({ creationData })
-	// console.log(creationData?.user)
+	// console.log({ creation })
+	// console.log(creation?.user)
 	// console.log({ handleUsernameColor })
 
 	const handleCreatorDisplay = (): string => {
 		if (isCreator) {
 			return creator?.user?.username
 		} else {
-			return abbreviateAddress(creationData?.user ?? '')
+			return abbreviateAddress(creation.user ?? '')
 		}
 	}
 
@@ -159,7 +158,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		if (isCreator) {
 			return creator?.user?.userId
 		} else {
-			return creationData?.user ?? ''
+			return creation?.user ?? ''
 		}
 	}
 
@@ -173,8 +172,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		<>
 			<Link
 				href={{
-					pathname: `/creator/${String(creationData?.creation?.user)}`,
-					// query: { user: creationData?.user },
+					pathname: `/creator/${String(creation?.user)}`,
+					// query: { user: creation?.user },
 				}}
 				className={styles.crCreator}
 				onMouseOver={handleMouseOver}

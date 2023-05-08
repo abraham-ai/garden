@@ -10,22 +10,17 @@ import CreationPrompt from '../CreationPrompt'
 interface CrCardMobileProps {
 	creation: Creation
 	creator: CreatorProfile
-	displayAddress: string
-	timeAgoCreatedAt: string
 	currentTheme: string
-	GeneratorName: string
-	prompt: string
 	appWidth: number
+	page: string
 }
 
 const CrCardMobile: FC<CrCardMobileProps> = ({
 	creation,
 	creator,
-	timeAgoCreatedAt,
 	currentTheme,
-	GeneratorName,
-	prompt,
 	appWidth,
+	page,
 }) => {
 	const crCreatorPromptWrapperStyles: CSSProperties = {
 		display: 'flex',
@@ -36,17 +31,19 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 	return (
 		<div style={crCreatorPromptWrapperStyles}>
 			<CreationCreator
-				creationData={creation}
-				appWidth={appWidth}
-				timeAgoCreatedAt={timeAgoCreatedAt}
+				creation={creation}
 				creator={creator}
+				appWidth={appWidth}
+				layout={'relative'}
 				currentTheme={currentTheme}
+				page={page}
 			/>
 			<CreationPrompt
 				creation={creation}
 				appWidth={appWidth}
-				prompt={prompt}
-				GeneratorName={GeneratorName}
+				layout={'relative'}
+				currentTheme={currentTheme}
+				page={page}
 			/>
 		</div>
 	)

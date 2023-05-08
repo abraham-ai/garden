@@ -106,6 +106,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 					setIsBurned={handleBurnUpdate}
 					appWidth={appWidth}
 					page={page}
+					layout={layout}
 				/>
 				<PraiseButton
 					creationId={creationId}
@@ -114,6 +115,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 					setIsPraised={handlePraiseUpdate}
 					appWidth={appWidth}
 					page={page}
+					layout={layout}
 				/>
 			</article>
 

@@ -183,12 +183,10 @@ const Creation: FC<CreationPageProps> = ({
 							<Row style={crCreatorSocialWrapperStyles}>
 								<article className={styles.crHeader}>
 									<CreationCreator
-										creationData={creationData.creation}
+										creation={creationData.creation}
 										creator={creationData?.creator ?? emptyCreatorProfile}
 										layout='relative'
 										page='creationId'
-										displayAddress={displayAddress}
-										timeAgoCreatedAt={timeAgoCreatedAt}
 										appWidth={appWidth}
 										currentTheme={currentTheme}
 									/>
@@ -197,7 +195,7 @@ const Creation: FC<CreationPageProps> = ({
 								<Row className={styles.crIdSocialWrapper}>
 									<CreationSocial
 										layout='relative'
-										creation={creationData}
+										creation={creationData.creation}
 										creationId={queryCreationId}
 										reactionCountList={{
 											praises: reactionState[queryCreationId]?.praises ?? 0,
@@ -211,10 +209,7 @@ const Creation: FC<CreationPageProps> = ({
 							</Row>
 
 							<Col className={styles.crPromptProperties}>
-								<CreationProperties
-									creationData={creationData}
-									timeAgoCreatedAt={timeAgoCreatedAt}
-								/>
+								<CreationProperties creationData={creationData} />
 							</Col>
 						</section>
 					</Col>
