@@ -139,7 +139,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const buttonSize = useMemo((): SizeType | undefined => {
+	const buttonSize = useMemo((): string | undefined => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
