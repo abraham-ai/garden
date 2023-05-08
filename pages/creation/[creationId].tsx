@@ -2,9 +2,9 @@
 
 import type { FC, CSSProperties } from 'react'
 
-import Creation from '../../interfaces/Creation'
+import type CreationType from '../../interfaces/Creation'
 
-import React, { useEffect, useState, useContext, useMemo } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import AppContext from '../../context/AppContext'
 import { useRouter } from 'next/router'
 
@@ -33,7 +33,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 interface CreationPageProps {
 	params: { id: string }
-	creation: Creation
+	creation: CreationType
 	size?: string
 }
 
@@ -49,7 +49,7 @@ const Creation: FC<CreationPageProps> = ({
 
 	// const [isMounted, setIsMounted] = useState<boolean>(false)
 
-	const isCrIdPage = true
+	// const isCrIdPage = true
 	// const [isMounted, setIsMounted] = useState(false)
 
 	// useEffect(() => {
@@ -160,13 +160,6 @@ const Creation: FC<CreationPageProps> = ({
 			margin: '0 0 20px 0',
 		}
 	}, [isMobile])
-
-	let displayAddress
-	if (isCreationData) {
-		// console.log(creationData)
-		// displayAddress = creationData?.creator?.user?.userId ?? ''
-		displayAddress = creationData?.creation?.user ?? ''
-	}
 
 	return (
 		<>

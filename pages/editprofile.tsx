@@ -55,7 +55,7 @@ const EditProfile: FC = () => {
 	})
 
 	const userId = context?.userId ?? ''
-	const userAddress = context?.userAddress ?? ''
+	// const userAddress = context?.userAddress ?? ''
 
 	const creator = useGetProfile(userId)
 

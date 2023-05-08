@@ -82,8 +82,9 @@ const Collection: FC<CollectionPageTypes> = () => {
 			: []
 
 	console.log('isCollectionCreations:', isCollectionCreations)
-	const isCollectionId =
-		typeof queryCollectionId === 'string' ? queryCollectionId : undefined
+
+	// const isCollectionId =
+	// 	typeof queryCollectionId === 'string' ? queryCollectionId : undefined
 
 	return (
 		<>

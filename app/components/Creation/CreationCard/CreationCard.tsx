@@ -82,8 +82,6 @@ const CreationCard: FC<CreationCardProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 	// console.log(reactionCountList)
 
-	const timeAgoCreatedAt = timeAgo(Date.parse(creation?.createdAt))
-
 	const isReactionCountListState =
 		reactionCountList != null &&
 		typeof reactionState[creation._id] === 'undefined'
@@ -190,11 +188,6 @@ const CreationCard: FC<CreationCardProps> = ({
 
 	const handleMouseOut = (): void => {
 		setIsCreationHovering(false)
-	}
-
-	let displayAddress = ''
-	if (typeof user === 'string') {
-		displayAddress = abbreviateAddress(creation.user)
 	}
 
 	const hoverStyles = isCreationHovering

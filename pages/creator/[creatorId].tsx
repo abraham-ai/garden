@@ -16,11 +16,11 @@ import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
-import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
+// import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 
-import { Row, Typography, Spin, Button } from 'antd'
+import { Row, Typography, Spin } from 'antd' // Button
 
 import { LoadingOutlined } from '@ant-design/icons'
 
@@ -37,7 +37,7 @@ interface CreatorPageProps {
 const Creator: FC<CreatorPageProps> = () => {
 	const router = useRouter()
 
-	const [isFollowing, setIsFollowing] = useState(false)
+	// const [isFollowing, setIsFollowing] = useState(false)
 
 	// const queryCreatorId = router.query.creatorId
 
@@ -77,9 +77,9 @@ const Creator: FC<CreatorPageProps> = () => {
 		console.log(creatorCreationsData)
 	}
 
-	const handleFollow = (): void => {
-		setIsFollowing(!isFollowing)
-	}
+	// const handleFollow = (): void => {
+	// 	setIsFollowing(!isFollowing)
+	// }
 
 	const isCreatorCreationsData =
 		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null

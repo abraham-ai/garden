@@ -18,14 +18,14 @@ import { Row, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
 import stylesHeader from '../styles/Header.module.css'
-import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
+// import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const MyCreations: FC = () => {
 	const context = useContext(AppContext)
 	const userId = context?.userId ?? ''
-	const userAddress = context?.userAddress ?? ''
+	// const userAddress = context?.userAddress ?? ''
 
 	const myProfileData = useGetMyProfile(userId)
 
