@@ -40,16 +40,16 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	const handleCrLinkClick = (e): void => {
 		e.preventDefault()
 		showModal()
-		showModal()
 		setCurrentCreationModalCreation(creation)
 		setCurrentCreationIndex(creationIndex)
-		router
-			.push(`/creation/${String(creation._id)}`, undefined, {
-				shallow: true,
-			})
-			.catch((err) => {
-				console.error('Error while updateing URL: ', err)
-			})
+		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)
+		// router
+		// 	.push(`/creation/${String(creation._id)}`, undefined, {
+		// 		shallow: true,
+		// 	})
+		// 	.catch((err) => {
+		// 		console.error('Error while updateing URL: ', err)
+		// 	})
 	}
 
 	console.log({ currentCreationIndex })
@@ -57,11 +57,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	// console.log(currentCreationModalCreation.task.config.text_input)
 
 	return (
-		<div
+		<section
 			className={styles.crLink}
-			// href={`/?creationId=${String(creation._id)}`}
-			// as={`/creation/${String(creation._id)}`}
-			// scroll={false}
 			style={{
 				color: 'black',
 				flexDirection: 'column',
@@ -100,7 +97,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				alt={creation?.task?.config?.text_input}
 				// style={{ background: crBgColor }}
 			/>
-		</div>
+		</section>
 	)
 }
 

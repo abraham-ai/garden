@@ -1,6 +1,6 @@
 'use client'
 
-import type { FC, MouseEvent } from 'react'
+import type { FC, MouseEvent, ReactNode } from 'react'
 
 import React, { useState, useEffect, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
@@ -26,7 +26,7 @@ import { Typography, Button, Select, Space, Row } from 'antd'
 const { Text } = Typography
 
 interface ActiveLinkProps {
-	children: React.ReactNode
+	children: ReactNode
 	href: string
 }
 

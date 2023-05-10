@@ -530,8 +530,6 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 					alignItems: 'center',
 					justifyContent: 'center',
 					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
-					width: buttonWidth,
-					height: buttonHeight,
 					border: 'none',
 					transition: '1s',
 				}}
