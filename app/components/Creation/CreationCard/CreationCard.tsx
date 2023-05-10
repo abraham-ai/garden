@@ -35,7 +35,7 @@ interface CreationCardProps {
 	appWidth: number
 	currentTheme: string
 	page: string
-	onCreationClick: (creation: Creation) => void
+	onCreationClick: (creation: Creation, index: number) => void
 }
 
 const CreationCard: FC<CreationCardProps> = ({

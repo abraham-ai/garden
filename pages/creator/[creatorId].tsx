@@ -111,6 +111,7 @@ const Creator: FC<CreatorPageProps> = () => {
 									creator={
 										creatorCreationsData?.creator ?? emptyCreatorCreations
 									}
+									onCreationClick={() => {}}
 								/>
 							</section>
 						) : (

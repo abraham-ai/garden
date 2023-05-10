@@ -376,7 +376,6 @@ const BurnButton: FC<BurnButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 25
 				} else if (isRelative) {
 					return 25
@@ -449,10 +448,10 @@ const BurnButton: FC<BurnButtonProps> = ({
 
 	const bgHoverStyles = isBurnHovering ? '#f8a4b080' : 'rgba(0, 0, 0, 0.5)'
 
-	console.log({ buttonWidth })
-	console.log({ buttonHeight })
-	console.log({ buttonFlexJustify })
-	console.log({ countColor })
+	// console.log({ buttonWidth })
+	// console.log({ buttonHeight })
+	// console.log({ buttonFlexJustify })
+	// console.log({ countColor })
 
 	return (
 		<div

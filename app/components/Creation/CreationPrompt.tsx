@@ -138,15 +138,15 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth])
 
-	console.log({ isThemeLight })
-	console.log({ isMobile, isTablet })
-	console.log({ isRelative })
-	console.log({ promptColor })
-	console.log({ prompt })
-	console.log({ creationTextInput })
-	console.log({ layout })
-	console.log({ creation })
-	console.log(styles.crPromptText)
+	// console.log({ isThemeLight })
+	// console.log({ isMobile, isTablet })
+	// console.log({ isRelative })
+	// console.log({ promptColor })
+	// console.log({ prompt })
+	// console.log({ creationTextInput })
+	// console.log({ layout })
+	// console.log({ creation })
+	// console.log(styles.crPromptText)
 
 	return (
 		<Col

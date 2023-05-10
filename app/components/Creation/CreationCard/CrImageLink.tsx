@@ -15,7 +15,7 @@ interface CrImageLinkProps {
 	isCreationHovering: boolean
 	showModal: () => void
 	creationIndex: number
-	onCreationClick: (creation: Creation) => void
+	onCreationClick: (creation: Creation, index: number) => void
 }
 
 const CrImageLink: FC<CrImageLinkProps> = ({
@@ -42,7 +42,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	const handleCrLinkClick = (e): void => {
 		e.preventDefault()
 		showModal()
-		onCreationClick(creation)
+		onCreationClick(creation, creationIndex)
 		setCurrentCreationModalCreation(creation)
 		setCurrentCreationIndex(creationIndex)
 		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)

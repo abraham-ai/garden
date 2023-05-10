@@ -111,6 +111,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 								creations={collectionCreations}
 								appWidth={width}
 								creator={collectionData?.creator}
+								onCreationClick={(creation) => null}
 							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

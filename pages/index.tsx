@@ -3,6 +3,7 @@ import type { FC } from 'react'
 
 import Head from 'next/head'
 
+import emptyCreatorProfile from '../constants/emptyCreatorProfile'
 import Header from '../app/components/NavBar/Header'
 import CreationsGrid from '../app/components/Creations/CreationsGrid'
 import CreationSaveModal from '../app/components/Creation/CreationSaveModal/CreationSaveModal'
@@ -11,6 +12,23 @@ import stylesHeader from '../styles/Header.module.css'
 import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
 
 const Index: FC = () => {
+	const createGardenCreationsUrl = (
+		limit,
+		pageIndex,
+		username,
+		generators,
+		earliestTime,
+		latestTime
+	): string => {
+		return `/api/creations?limit=${String(limit)}&page=${String(
+			pageIndex
+		)}&username=${String(username)}&generators=${String(
+			generators
+		)}&earliestTime=${String(earliestTime)}&latestTime=${String(latestTime)}`
+	}
+
+	console.log({ createGardenCreationsUrl })
+
 	return (
 		<>
 			<Head>
@@ -40,7 +58,10 @@ const Index: FC = () => {
 				<CreationSaveModal />
 
 				<section className={stylesCreationsGrid.creationsWrapper}>
-					<CreationsGrid />
+					<CreationsGrid
+						createUrl={createGardenCreationsUrl}
+						creator={emptyCreatorProfile}
+					/>
 				</section>
 			</>
 		</>

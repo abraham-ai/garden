@@ -2,6 +2,7 @@
 
 import type { FC } from 'react'
 import type Creation from '../../../interfaces/Creation'
+import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import React, {
 	useState,
 	useEffect,
@@ -18,6 +19,7 @@ import useGetCreationsFetcher from '../../../hooks/useGetCreationsFetcher'
 import addSecondsToDate from '../../../util/addSecondsToDate'
 import useCreationsGridParams from '../../../hooks/useCreationsGridParams'
 
+import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './CreationsGridAnalytics'
 
@@ -28,7 +30,19 @@ import styles from '../../../styles/CreationsGrid.module.css'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
-const CreationsGrid: FC = () => {
+interface CreationsGridProps {
+	createUrl: (
+		limit: number,
+		pageIndex: number,
+		username: string,
+		generators: string,
+		earliestTime: string | number,
+		latestTime: string
+	) => string
+	creator: CreatorProfile
+}
+
+const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
 	const { username, generators, earliestTime, limit } = useCreationsGridParams()
@@ -63,19 +77,20 @@ const CreationsGrid: FC = () => {
 		if (pageIndex === 0) {
 			adjustedLatestCreationTime = ''
 		} else {
-			// Use the last creation's createdAt value from previousPageData if available
 			const lastCreationTime =
 				previousPageData?.[previousPageData.length - 1]?.createdAt ||
 				latestCreationTime
 			adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
 		}
 
-		const url = `/api/creations?limit=${limit}&page=${
-			pageIndex + 1
-		}&username=${username}&generators=${generators}&earliestTime=${earliestTime}&latestTime=${adjustedLatestCreationTime}`
-
-		// console.log('getKey URL:', url)
-		return url
+		return createUrl(
+			limit,
+			pageIndex + 1,
+			username,
+			generators,
+			earliestTime,
+			adjustedLatestCreationTime
+		)
 	}
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
@@ -113,9 +128,9 @@ const CreationsGrid: FC = () => {
 		[isLoadingMore, isReachingEnd]
 	)
 
-	const handleCreationClick = (index: number) => {
+	const handleCreationClick = (creation: Creation, index: number): void => {
 		setCurrentCreationIndex(index)
-		setCurrentCreationModalCreation(allCreationsData[index])
+		setCurrentCreationModalCreation(creation)
 	}
 
 	// console.log({ allCreationsData })
@@ -148,6 +163,12 @@ const CreationsGrid: FC = () => {
 	}, [data, creationsData, size])
 
 	// lastCreationEarliestTime !== ''
+
+	const isCreator =
+		typeof creator !== 'undefined' && creator?.user?.username !== ''
+
+	console.log({ creator })
+
 	return (
 		<>
 			{isScrollAnalytics ? (
@@ -168,6 +189,7 @@ const CreationsGrid: FC = () => {
 				creations={allCreationsData}
 				appWidth={appWidth}
 				onCreationClick={handleCreationClick}
+				creator={isCreator ? creator : emptyCreatorProfile}
 			/>
 
 			<Row

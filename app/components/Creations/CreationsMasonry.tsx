@@ -1,4 +1,5 @@
 import type Creation from '../../../interfaces/Creation'
+import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import type { FC } from 'react'
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
@@ -17,7 +18,8 @@ import { Spin, Row } from 'antd'
 interface CreationsMasonryProps {
 	creations: Creation[]
 	appWidth: number
-	onCreationClick: (creationId: string) => void
+	onCreationClick: (creation: Creation, index: number) => void
+	creator: CreatorProfile
 }
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
@@ -26,6 +28,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	creations,
 	appWidth,
 	onCreationClick,
+	creator,
 }) => {
 	const context = useContext(AppContext)
 	const currentTheme = context?.currentTheme ?? 'light'
@@ -38,6 +41,8 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	console.log({ creations })
 
 	const isMobile = appWidth < 768
+
+	console.log({ creator })
 
 	return (
 		<>
@@ -66,7 +71,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 									<CreationCard
 										layout={isMobile ? 'relative' : 'overlay'}
 										creation={creation}
-										creator={emptyCreatorProfile}
+										creator={creator}
 										key={creation._id}
 										index={i}
 										appWidth={appWidth}

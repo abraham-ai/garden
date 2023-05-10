@@ -119,7 +119,6 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return '1.4rem'
 				} else if (isRelative) {
 					return '1.4rem'
@@ -184,7 +183,6 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 'large'
 				} else if (isRelative) {
 					return 'large'
