@@ -29,7 +29,7 @@
 	align-items: flex-start;
 	justify-content: flex-start;
 	position: relative;
-	flex: 1;
+	flex: 0;
 	z-index: 150;
 	margin: 20px 0 0 20px;
 }

@@ -2,13 +2,11 @@ import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
 import React, { useContext } from 'react'
+import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import styles from '../../../../styles/CreationCard.module.css'
-
-import { Skeleton } from 'antd'
 
 interface CrImageLinkProps {
 	creation: Creation
@@ -28,6 +26,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	creationIndex,
 }) => {
 	const context = useContext(AppContext)
+	const router = useRouter()
 
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
@@ -38,15 +37,31 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 
 	const isMobile = appWidth < 768
 
-	// console.log({ currentCreationIndex })
-	// console.log({ currentCreationModalCreation })
+	const handleCrLinkClick = (e): void => {
+		e.preventDefault()
+		showModal()
+		showModal()
+		setCurrentCreationModalCreation(creation)
+		setCurrentCreationIndex(creationIndex)
+		router
+			.push(`/creation/${String(creation._id)}`, undefined, {
+				shallow: true,
+			})
+			.catch((err) => {
+				console.error('Error while updateing URL: ', err)
+			})
+	}
+
+	console.log({ currentCreationIndex })
+	console.log({ currentCreationModalCreation })
+	console.log(currentCreationModalCreation.task.config.text_input)
 
 	return (
-		<Link
+		<div
 			className={styles.crLink}
-			href={`/?creationId=${String(creation._id)}`}
-			as={`/creation/${String(creation._id)}`}
-			scroll={false}
+			// href={`/?creationId=${String(creation._id)}`}
+			// as={`/creation/${String(creation._id)}`}
+			// scroll={false}
 			style={{
 				color: 'black',
 				flexDirection: 'column',
@@ -56,10 +71,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				borderRadius: isMobile ? 10 : 'unset',
 				overflow: 'hidden',
 			}}
-			onClick={() => {
-				showModal()
-				setCurrentCreationModalCreation(creation)
-				setCurrentCreationIndex(creationIndex)
+			onClick={(e) => {
+				handleCrLinkClick(e)
 			}}
 		>
 			<div
@@ -87,7 +100,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				alt={creation?.task?.config?.text_input}
 				// style={{ background: crBgColor }}
 			/>
-		</Link>
+		</div>
 	)
 }
 
