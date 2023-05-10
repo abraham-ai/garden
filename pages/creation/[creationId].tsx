@@ -18,6 +18,7 @@ import CreationSocial from '../../app/components/Creation/CreationSocial'
 import CreationSaveModal from '../../app/components/Creation/CreationSaveModal/CreationSaveModal'
 import CreationCreator from '../../app/components/Creation/CreationCreator'
 import CreationIdImage from '../../app/components/Creation/CreationId/CreationIdImage'
+import CreationPrompt from '../../app/components/Creation/CreationPrompt'
 import CreationProperties from '../../app/components/Creation/CreationId/CreationProperties'
 
 import useGetCreation from '../../hooks/useGetCreation'
@@ -46,18 +47,6 @@ const Creation: FC<CreationPageProps> = ({
 
 	const currentTheme = context?.currentTheme ?? 'light'
 
-	// const [isMounted, setIsMounted] = useState<boolean>(false)
-
-	// const isCrIdPage = true
-	// const [isMounted, setIsMounted] = useState(false)
-
-	// useEffect(() => {
-	// 	setIsMounted(true)
-	// 	return () => {
-	// 		setIsMounted(false)
-	// 	}
-	// }, [])
-
 	const queryCreationId = Array.isArray(router.query.creationId)
 		? router.query.creationId[0]
 		: router.query.creationId ?? ''
@@ -74,7 +63,6 @@ const Creation: FC<CreationPageProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 
 	const isMobile: boolean = appWidth < 768
-	// const isTablet: boolean = appWidth >= 768 && appWidth < 1024
 
 	const isCreationData =
 		typeof creationData !== 'undefined' &&
@@ -190,8 +178,19 @@ const Creation: FC<CreationPageProps> = ({
 								</Row>
 							</Row>
 
+							<CreationPrompt
+								creation={creationData.creation}
+								layout={'relative'}
+								page={'creationId'}
+								appWidth={appWidth}
+								currentTheme={currentTheme}
+							/>
+
 							<Col className={styles.crPromptProperties}>
-								<CreationProperties creationData={creationData} />
+								<CreationProperties
+									creationData={creationData}
+									appWidth={appWidth}
+								/>
 							</Col>
 						</section>
 					</Col>

@@ -221,6 +221,11 @@
 	font-family: courier;
 }
 /* PROMPT */
+.crPromptText {
+	max-height: 30vh;
+	overflow: hidden;
+	overflow-y: scroll;
+}
 .crPromptWhite {
 	color: white;
 	font-size: 1.3em;

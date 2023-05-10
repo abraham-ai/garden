@@ -41,7 +41,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	// console.log({ isTablet })
 	console.log({ isCrIdPage })
 
-	const GeneratorName = creation?.task?.generator?.generatorName
+	const GeneratorName = creation?.task?.generator?.generatorName ?? 'create'
 
 	let prompt = ''
 
@@ -49,16 +49,24 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	if (creationTextInput !== '' && typeof creationTextInput !== 'undefined') {
 		if (isMobile) {
 			prompt = abbreviateText(creationTextInput, 100)
-		} else if (creation.task.config.height > 550) {
-			prompt = abbreviateText(creationTextInput, 80) // 100
-		} else if (creation.task.config.height > 500) {
-			prompt = abbreviateText(creationTextInput, 40) // 100
-		} else if (creation.task.config.height > 450) {
-			prompt = abbreviateText(creationTextInput, 30) // 100
-		} else if (creation.task.config.height > 400) {
-			prompt = abbreviateText(creationTextInput, 25) // 100
+		} else if (isTablet) {
+			prompt = abbreviateText(creationTextInput, 100)
 		} else {
-			prompt = abbreviateText(creationTextInput, 20) // 100
+			if (isCrIdPage) {
+				prompt = creationTextInput
+			} else {
+				if (creation.task.config.height > 550) {
+					prompt = abbreviateText(creationTextInput, 80) // 100
+				} else if (creation.task.config.height > 500) {
+					prompt = abbreviateText(creationTextInput, 40) // 100
+				} else if (creation.task.config.height > 450) {
+					prompt = abbreviateText(creationTextInput, 30) // 100
+				} else if (creation.task.config.height > 400) {
+					prompt = abbreviateText(creationTextInput, 25) // 100
+				} else {
+					prompt = abbreviateText(creationTextInput, 20) // 100
+				}
+			}
 		}
 	}
 
@@ -106,22 +114,45 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 			if (isOverlay) {
 				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
 			} else if (isRelative) {
+				console.log('isRelative:', isThemeLight)
 				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
 			} else {
 				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
 			}
 		}
+	}, [appWidth, currentTheme])
+
+	const promptWrapper = useMemo(() => {
+		if (isCrIdPage) {
+			return styles.crPromptText
+		} else {
+			return styles.crPromptWrapper
+		}
 	}, [appWidth])
 
-	// console.log({ promptColor })
-	// console.log({ prompt })
+	const promptWeight = useMemo(() => {
+		if (isCrIdPage) {
+			return styles.crPromptReg
+		} else {
+			return styles.crPromptBold
+		}
+	}, [appWidth])
+
+	console.log({ isThemeLight })
+	console.log({ isMobile, isTablet })
+	console.log({ isRelative })
+	console.log({ promptColor })
+	console.log({ prompt })
+	console.log({ creationTextInput })
 	console.log({ layout })
+	console.log({ creation })
+	console.log(styles.crPromptText)
 
 	return (
 		<Col
-			className={styles.promptWrapper}
+			className={promptWrapper}
 			style={{
-				order: isMobile ? 2 : 'unset',
+				order: isMobile ? 2 : 2,
 			}}
 		>
 			<Text
@@ -131,12 +162,12 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 				}}
 			>{`/${String(GeneratorName)} `}</Text>
 			<Text
-				className={`${promptColor} ${promptSize}`}
+				className={`${promptColor} ${promptSize} ${promptWeight}`}
 				style={{
 					fontWeight: isMobile ? 'bold' : 'regular',
 				}}
 			>
-				{isRelative ? creationTextInput : prompt}
+				{prompt}
 			</Text>
 		</Col>
 	)
