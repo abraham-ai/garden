@@ -3,7 +3,6 @@
 }
 
 .crBurn {
-	color: #fff;
 	font-size: 1.8rem;
 	font-weight: bold;
 	display: flex;
@@ -16,8 +15,7 @@
 	pointer-events: none;
 }
 
-.crBurn.isActive {
-	color: #ff2d2d;
+.isActive {
 	text-shadow: 0px 0px 10px #ff2d2d;
 	animation: shake 0.4s;
 	animation-iteration-count: infinite;

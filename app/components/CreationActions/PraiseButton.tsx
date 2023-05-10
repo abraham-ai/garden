@@ -209,61 +209,61 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
 					return 30
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			}
 		}
@@ -273,61 +273,125 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
+				}
+			}
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonFlexJustify = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
 				}
 			}
 		}
@@ -421,7 +485,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		setIsPraiseHovering(false)
 	}
 
-	const praiseColor = useMemo(() => {
+	const countColor = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				return isThemeLight ? styles.textWhite : styles.textBlack
@@ -441,7 +505,10 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 				return isThemeLight ? styles.textWhite : styles.textBlack
 			}
 		}
-	}, [appWidth, page, layout])
+	}, [appWidth, page, layout, currentTheme])
+
+	console.log({ countColor })
+
 	return (
 		<div
 			className='socialButtonWrapper'
@@ -453,7 +520,9 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			}}
 		>
 			<Button
-				className={isPraised ? 'crPraise isActive' : 'crPraise'}
+				className={`${String(buttonWidth)} ${String(buttonHeight)} ${String(
+					buttonFlexJustify
+				)}`}
 				shape='round'
 				size={'large'}
 				style={{
@@ -479,8 +548,8 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 					{isPraised || isPraiseHovering ? praiseFilled : praiseGray}
 				</span>
 				<Text
+					className={`${countColor}`}
 					style={{
-						color: praiseColor,
 						filter:
 							isMobile && isThemeLight
 								? 'transparent'
