@@ -35,6 +35,7 @@ interface CreationCardProps {
 	appWidth: number
 	currentTheme: string
 	page: string
+	onCreationClick: (creation: Creation, index: number) => void
 }
 
 const CreationCard: FC<CreationCardProps> = ({
@@ -45,6 +46,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	appWidth,
 	currentTheme,
 	page,
+	onCreationClick,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
@@ -72,7 +74,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	const [width, setWidth] = useState<number>(0)
 	const [height, setHeight] = useState<number>(0)
 
-	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(false)
+	const [isCreationHovering, setIsCreationHovering] = useState<boolean>(true)
 
 	const [status, setStatus] = useState<string>('')
 
@@ -275,6 +277,7 @@ const CreationCard: FC<CreationCardProps> = ({
 												showModal={showModal}
 												crBgColor={crColor[0]}
 												creationIndex={index}
+												onCreationClick={onCreationClick}
 											/>
 										)}
 									</section>

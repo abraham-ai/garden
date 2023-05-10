@@ -2,13 +2,11 @@ import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
 import React, { useContext } from 'react'
+import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import styles from '../../../../styles/CreationCard.module.css'
-
-import { Skeleton } from 'antd'
 
 interface CrImageLinkProps {
 	creation: Creation
@@ -17,6 +15,7 @@ interface CrImageLinkProps {
 	isCreationHovering: boolean
 	showModal: () => void
 	creationIndex: number
+	onCreationClick: (creation: Creation, index: number) => void
 }
 
 const CrImageLink: FC<CrImageLinkProps> = ({
@@ -26,8 +25,10 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	isCreationHovering,
 	showModal,
 	creationIndex,
+	onCreationClick,
 }) => {
 	const context = useContext(AppContext)
+	const router = useRouter()
 
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
@@ -38,15 +39,22 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 
 	const isMobile = appWidth < 768
 
-	// console.log({ currentCreationIndex })
-	// console.log({ currentCreationModalCreation })
+	const handleCrLinkClick = (e): void => {
+		e.preventDefault()
+		showModal()
+		onCreationClick(creation, creationIndex)
+		setCurrentCreationModalCreation(creation)
+		setCurrentCreationIndex(creationIndex)
+		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)
+	}
+
+	console.log({ currentCreationIndex })
+	console.log({ currentCreationModalCreation })
+	// console.log(currentCreationModalCreation.task.config.text_input)
 
 	return (
-		<Link
+		<section
 			className={styles.crLink}
-			href={`/?creationId=${String(creation._id)}`}
-			as={`/creation/${String(creation._id)}`}
-			scroll={false}
 			style={{
 				color: 'black',
 				flexDirection: 'column',
@@ -56,10 +64,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				borderRadius: isMobile ? 10 : 'unset',
 				overflow: 'hidden',
 			}}
-			onClick={() => {
-				showModal()
-				setCurrentCreationModalCreation(creation)
-				setCurrentCreationIndex(creationIndex)
+			onClick={(e) => {
+				handleCrLinkClick(e)
 			}}
 		>
 			<div
@@ -87,7 +93,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				alt={creation?.task?.config?.text_input}
 				// style={{ background: crBgColor }}
 			/>
-		</Link>
+		</section>
 	)
 }
 

@@ -112,7 +112,6 @@ const ShareButton: FC<ShareButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return '.8rem'
 				} else if (isRelative) {
 					return '1rem'
@@ -177,7 +176,6 @@ const ShareButton: FC<ShareButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 'large'
 				} else if (isRelative) {
 					return 'large'
@@ -306,7 +304,6 @@ const ShareButton: FC<ShareButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 50
 				} else if (isRelative) {
 					return 50
@@ -371,7 +368,6 @@ const ShareButton: FC<ShareButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 25
 				} else if (isRelative) {
 					return 25

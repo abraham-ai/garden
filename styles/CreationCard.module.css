@@ -48,15 +48,21 @@
 	flex-direction: column;
 	animation: fadeIn 0.5s;
 }
+
+/* CR LINK */
 .crLink {
 	display: flex;
 	color: black;
 	position: absolute;
 	top: 0;
 	width: 100%;
-	/* background: rgba(0, 0, 0, 0.1); */
 	justify-content: space-between;
 }
+.crLink:hover {
+	cursor: pointer;
+}
+
+/* CR IMAGE WRAPPER */
 .crImageWrapper {
 	position: relative;
 	height: 100%;
@@ -160,6 +166,7 @@
 	z-index: 100;
 	bottom: 0;
 	z-index: 150;
+	margin: 20px;
 }
 
 /*  HOVER SOCIAL WRAPPER */
@@ -202,7 +209,6 @@
 	background: rgba(0, 0, 0, 0.5);
 	padding: 10px;
 	border-radius: 10px;
-	margin: 20px;
 	/* mask-image: linear-gradient(transparent, transparent 50%); */
 }
 .crDate {
@@ -215,6 +221,11 @@
 	font-family: courier;
 }
 /* PROMPT */
+.crPromptText {
+	max-height: 30vh;
+	overflow: hidden;
+	overflow-y: scroll;
+}
 .crPromptWhite {
 	color: white;
 	font-size: 1.3em;

@@ -17,12 +17,14 @@ interface CreationsGridProps {
 	creations: Creation[]
 	creator: CreatorProfile
 	appWidth: number
+	onCreationClick: (creation: Creation, index: number) => void
 }
 
 const CreationsGridSimple: FC<CreationsGridProps> = ({
 	creations,
 	creator,
 	appWidth,
+	onCreationClick,
 }) => {
 	const context = useContext(AppContext)
 	const currentTheme = context?.currentTheme ?? 'light'
@@ -63,6 +65,7 @@ const CreationsGridSimple: FC<CreationsGridProps> = ({
 								index={i}
 								appWidth={appWidth}
 								currentTheme={currentTheme}
+								onCreationClick={onCreationClick}
 								page='creations'
 							/>
 						)

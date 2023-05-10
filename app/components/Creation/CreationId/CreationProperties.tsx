@@ -20,19 +20,26 @@ interface CreationPropertiesProps {
 		creation: Creation
 		creator: CreatorProfile
 	}
+	appWidth: number
 }
-const CreationProperties: FC<CreationPropertiesProps> = ({ creationData }) => {
+const CreationProperties: FC<CreationPropertiesProps> = ({
+	creationData,
+	appWidth,
+}) => {
 	// console.log({ timeAgoCreatedAt })
+
+	const isMobile = appWidth < 768
 
 	const timeAgoCreatedAt = timeAgo(Date.parse(creationData?.creation.createdAt))
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column' }}>
-			<Text style={{ color: 'purple', fontWeight: 600 }}>{'/dream'}</Text>
-			<Text style={{ fontSize: '1.1rem', lineHeight: 1.3 }}>
-				{creationData?.creation?.task?.config?.text_input ?? 'No text'}
-			</Text>
-
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+			}}
+		>
 			<ul className={styles.crPropertiesWrapper}>
 				<li className={styles.crProperty}>
 					<span className={styles.crPropertyType}>

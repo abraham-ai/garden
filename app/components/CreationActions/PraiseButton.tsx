@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import styles from '../../../styles/CreationSocial.module.css'
 
 import { Button, Typography } from 'antd'
 const { Text } = Typography
@@ -38,6 +39,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
+	const isThemeLight = currentTheme === 'light'
 
 	const isCrIdPage = page === 'creationId'
 	const isCreationsPage = page === 'creations'
@@ -117,7 +119,6 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return '1.4rem'
 				} else if (isRelative) {
 					return '1.4rem'
@@ -182,7 +183,6 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 'large'
 				} else if (isRelative) {
 					return 'large'
@@ -207,61 +207,61 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
 					return 30
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			}
 		}
@@ -271,61 +271,125 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
+				}
+			}
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonFlexJustify = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
 				}
 			}
 		}
@@ -419,7 +483,29 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		setIsPraiseHovering(false)
 	}
 
-	const isMobileThemeLight = isMobile && currentTheme === 'light'
+	const countColor = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		} else {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		}
+	}, [appWidth, page, layout, currentTheme])
+
+	console.log({ countColor })
 
 	return (
 		<div
@@ -432,7 +518,9 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			}}
 		>
 			<Button
-				className={isPraised ? 'crPraise isActive' : 'crPraise'}
+				className={`${String(buttonWidth)} ${String(buttonHeight)} ${String(
+					buttonFlexJustify
+				)}`}
 				shape='round'
 				size={'large'}
 				style={{
@@ -440,8 +528,6 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 					alignItems: 'center',
 					justifyContent: 'center',
 					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
-					width: buttonWidth,
-					height: buttonHeight,
 					border: 'none',
 					transition: '1s',
 				}}
@@ -458,13 +544,14 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 					{isPraised || isPraiseHovering ? praiseFilled : praiseGray}
 				</span>
 				<Text
+					className={`${countColor}`}
 					style={{
-						color: isMobileThemeLight ? 'black' : 'white',
-						filter: isMobileThemeLight
-							? 'transparent'
-							: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
+						filter:
+							isMobile && isThemeLight
+								? 'transparent'
+								: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,
-						fontWeight: isMobileThemeLight ? 'regular' : 'bold',
+						fontWeight: isMobile && isThemeLight ? 'regular' : 'bold',
 					}}
 				>
 					{isNaN(praises) ? 0 : praises}

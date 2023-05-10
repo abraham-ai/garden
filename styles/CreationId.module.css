@@ -36,9 +36,10 @@
 }
 
 /* CR PROMPT PROPERTIES WRAPPER */
-.crPrompProperties {
-	max-width: 500px;
+.crPromptProperties {
+	flex: 1;
 	display: flex;
+	order: 3;
 }
 
 @media (min-width: 1024px) {
@@ -65,10 +66,6 @@
 	width: 100%;
 	height: 100%;
 	flex-direction: row;
-}
-/*** CR-POST-TEXT ***/
-.crPostText {
-	max-width: 380px;
 }
 @media (max-width: 930px) {
 	.crPost {

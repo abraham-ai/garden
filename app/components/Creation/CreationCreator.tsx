@@ -130,13 +130,10 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		}
 	}, [appWidth])
 
-	// console.log({ creation })
-	// console.log(creation?.user)
-
 	const isCreator =
 		typeof creator?.user.username !== 'undefined' &&
-		creator?.user.username !== null &&
-		creator?.user.username !== ''
+		creator?.user?.username !== null &&
+		creator?.user?.username !== ''
 
 	const handleCreatorDisplay = (): string => {
 		if (isCreator) {
@@ -154,15 +151,16 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		}
 	}
 
+	const creatorUsername = creator?.user?.username ?? ''
 	const creatorDisplay = handleCreatorDisplay()
 	const creatorAddress = handleCreatorAddress()
 
 	// console.log('Creation User', creation?.user)
-	// console.log({ isCreator })
-	// console.log({ creation })
-	// console.log({ creator })
-	// console.log({ creatorDisplay })
-	// console.log({ creatorAddress })
+	console.log({ isCreator })
+	console.log({ creation })
+	console.log({ creator })
+	console.log({ creatorDisplay })
+	console.log({ creatorAddress })
 	// console.log({ creatorColorStyles })
 	// console.log({ creatorSizeStyles })
 	// console.log({ layout })
@@ -195,7 +193,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 							fontWeight: isMobile ? 'bold' : 'regular',
 						}}
 					>
-						{creatorDisplay}
+						{isCreator ? creatorUsername : creatorDisplay}
 					</Text>
 				</div>
 			</Link>

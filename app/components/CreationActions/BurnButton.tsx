@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import styles from '../../../styles/CreationSocial.module.css'
 
 import { Button, Typography } from 'antd'
 const { Text } = Typography
@@ -38,6 +39,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
+	const isThemeLight = currentTheme === 'light'
 
 	const isCrIdPage = page === 'creationId'
 	const isCreationsPage = page === 'creations'
@@ -118,7 +120,6 @@ const BurnButton: FC<BurnButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return '.8rem'
 				} else if (isRelative) {
 					return '1rem'
@@ -134,70 +135,6 @@ const BurnButton: FC<BurnButtonProps> = ({
 					return '.8rem'
 				} else if (isRelative) {
 					return '1rem'
-				}
-			}
-		}
-	}, [isMobile, isTablet, layout, page])
-
-	const buttonSize = useMemo((): string | undefined => {
-		if (isMobile) {
-			if (isCrIdPage) {
-				if (isOverlay) {
-					return 'small'
-				} else if (isRelative) {
-					return 'small'
-				}
-			} else if (isCreationsPage) {
-				if (isOverlay) {
-					return 'small'
-				} else if (isRelative) {
-					return 'small'
-				}
-			} else {
-				if (isOverlay) {
-					return 'small'
-				} else if (isRelative) {
-					return 'small'
-				}
-			}
-		} else if (isTablet) {
-			if (isCrIdPage) {
-				if (isOverlay) {
-					return 'default'
-				} else if (isRelative) {
-					return 'default'
-				}
-			} else if (isCreationsPage) {
-				if (isOverlay) {
-					return 'default'
-				} else if (isRelative) {
-					return 'default'
-				}
-			} else {
-				if (isOverlay) {
-					return 'default'
-				} else if (isRelative) {
-					return 'default'
-				}
-			}
-		} else {
-			if (isCrIdPage) {
-				if (isOverlay) {
-					return 'large'
-				} else if (isRelative) {
-					return 'large'
-				}
-			} else if (isCreationsPage) {
-				if (isOverlay) {
-					return 'large'
-				} else if (isRelative) {
-					return 'large'
-				}
-			} else {
-				if (isOverlay) {
-					return 'large'
-				} else if (isRelative) {
-					return 'large'
 				}
 			}
 		}
@@ -207,61 +144,61 @@ const BurnButton: FC<BurnButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
 					return 30
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 80
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 80
+					return styles.relativeBtnWidth
 				}
 			}
 		}
@@ -271,62 +208,125 @@ const BurnButton: FC<BurnButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnHeight
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnHeight
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnHeight
+				}
+			}
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonFlexJustify = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.justifyCenterBtn
+				} else if (isRelative) {
+					return styles.justifyStartBtn
 				}
 			}
 		}
@@ -376,7 +376,6 @@ const BurnButton: FC<BurnButtonProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					console.log('save button overlay')
 					return 25
 				} else if (isRelative) {
 					return 25
@@ -425,7 +424,34 @@ const BurnButton: FC<BurnButtonProps> = ({
 
 	// console.log(isBurned)
 
-	const isMobileThemeLight = isMobile && currentTheme === 'light'
+	const countColor = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		} else {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		}
+	}, [appWidth, page, layout, currentTheme])
+
+	const bgHoverStyles = isBurnHovering ? '#f8a4b080' : 'rgba(0, 0, 0, 0.5)'
+
+	// console.log({ buttonWidth })
+	// console.log({ buttonHeight })
+	// console.log({ buttonFlexJustify })
+	// console.log({ countColor })
 
 	return (
 		<div
@@ -437,17 +463,16 @@ const BurnButton: FC<BurnButtonProps> = ({
 			}}
 		>
 			<Button
-				className={isBurned ? 'crBurn isActive' : 'crBurn'}
+				className={`${String(buttonWidth)} ${String(buttonHeight)} ${String(
+					buttonFlexJustify
+				)}`}
 				size={'large'}
 				type='text'
 				shape='round'
 				style={{
 					display: 'flex',
 					alignItems: 'center',
-					justifyContent: isMobile ? 'flex-start' : 'center',
-					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
-					width: buttonWidth,
-					height: buttonHeight,
+					background: isMobile && isThemeLight ? 'transparent' : bgHoverStyles,
 					padding: isMobile ? '10px 0' : 10,
 					border: 'none',
 					transition: '1s',
@@ -465,13 +490,14 @@ const BurnButton: FC<BurnButtonProps> = ({
 					{isBurned || isBurnHovering ? burnFilled : burnGray}
 				</span>
 				<Text
+					className={`${countColor}`}
 					style={{
-						color: isMobileThemeLight ? 'black' : 'white',
-						filter: isMobileThemeLight
-							? 'transparent'
-							: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
+						filter:
+							isMobile && isThemeLight
+								? 'transparent'
+								: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,
-						fontWeight: isMobileThemeLight ? 'regular' : 'bold',
+						fontWeight: isMobile && isThemeLight ? 'regular' : 'bold',
 					}}
 				>
 					{isNaN(burns) ? 0 : burns}

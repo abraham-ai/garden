@@ -13,6 +13,11 @@
 }
 
 /* MODAL PROMPT */
+.crPromptText {
+	max-height: 30vh;
+	overflow: hidden;
+	overflow-y: scroll;
+}
 .crPromptWhite {
 	line-height: 1.3;
 	color: white;
@@ -32,6 +37,14 @@
 
 .crPromptSizeLg {
 	font-size: 1.4rem;
+}
+
+.crPromptReg {
+	font-weight: normal;
+}
+
+.crPromptBold {
+	font-weight: bold;
 }
 
 /* MODAL */

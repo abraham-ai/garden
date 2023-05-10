@@ -67,7 +67,7 @@ const CreationModal: FC<CreationModalProps> = ({
 	// console.log({ praises, praised, burns, burned })
 
 	const handleModalCancel = (): void => {
-		router.push('/', undefined, { scroll: false })
+		window.history.replaceState(null, '', `/`)
 		setModalOpen(false)
 		setCurrentCreationIndex(0)
 		setCurrentCreationModalCreation(emptyCreation)

@@ -13,6 +13,75 @@
 	margin: 0;
 }
 
+.textWhite {
+	color: white;
+}
+.textBlack {
+	color: black;
+}
+
+/* OVERLAY BUTTON  */
+.overlayBtnWidth {
+	width: 50px;
+}
+.overlayBtnHeight {
+	height: 70px;
+}
+@media (min-width: 768px) {
+	.overlayBtnHeight {
+		height: 50px;
+	}
+	.overlayBtnWidth {
+		width: 80px;
+	}
+}
+@media (min-width: 1024px) {
+	.overlayBtnHeight {
+		height: 50px !important;
+	}
+	.overlayBtnWidth {
+		width: 80px !important;
+	}
+}
+
+/* RELATIVE BUTTON */
+.relativeBtnWidth {
+	width: 70px;
+}
+.relativeBtnHeight {
+	height: 70px;
+}
+@media (min-width: 768px) {
+	.relativeBtnHeight {
+		width: 70px;
+	}
+	.relativeBtnWidth {
+		width: 70px;
+	}
+}
+@media (min-width: 1024px) {
+	.relativeBtnHeight {
+		height: 50px !important;
+	}
+	.relativeBtnWidth {
+		width: 80px !important;
+	}
+}
+
+/* JUSTIFY BUTTON */
+
+.justifyCenterBtn {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.justifyStartBtn {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
 /* PRAISE BURN */
 .crPraiseBurn {
 	display: flex;
@@ -29,7 +98,7 @@
 	align-items: flex-start;
 	justify-content: flex-start;
 	position: relative;
-	flex: 1;
+	flex: 0;
 	z-index: 150;
 	margin: 20px 0 0 20px;
 }
