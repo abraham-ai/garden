@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import AppContext from '../../../context/AppContext'
 import axios from 'axios'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import styles from '../../../styles/CreationSocial.module.css'
 
 import { Button, Typography } from 'antd'
 const { Text } = Typography
@@ -38,6 +39,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
+	const isThemeLight = currentTheme === 'light'
 
 	const isCrIdPage = page === 'creationId'
 	const isCreationsPage = page === 'creations'
@@ -419,8 +421,27 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		setIsPraiseHovering(false)
 	}
 
-	const isMobileThemeLight = isMobile && currentTheme === 'light'
-
+	const praiseColor = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		} else {
+			if (isCrIdPage) {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			} else {
+				return isThemeLight ? styles.textWhite : styles.textBlack
+			}
+		}
+	}, [appWidth, page, layout])
 	return (
 		<div
 			className='socialButtonWrapper'
@@ -459,12 +480,13 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 				</span>
 				<Text
 					style={{
-						color: isMobileThemeLight ? 'black' : 'white',
-						filter: isMobileThemeLight
-							? 'transparent'
-							: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
+						color: praiseColor,
+						filter:
+							isMobile && isThemeLight
+								? 'transparent'
+								: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,
-						fontWeight: isMobileThemeLight ? 'regular' : 'bold',
+						fontWeight: isMobile && isThemeLight ? 'regular' : 'bold',
 					}}
 				>
 					{isNaN(praises) ? 0 : praises}

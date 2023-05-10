@@ -54,7 +54,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 
 	console.log({ currentCreationIndex })
 	console.log({ currentCreationModalCreation })
-	console.log(currentCreationModalCreation.task.config.text_input)
+	// console.log(currentCreationModalCreation.task.config.text_input)
 
 	return (
 		<div
