@@ -2,38 +2,26 @@
 
 import type { FC, MouseEvent } from 'react'
 
-import React, { useState, useEffect, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
-import abbreviateAddress from '../../../util/abbreviateAddress'
-import abbreviateText from '../../../util/abbreviateText'
 
-// import { ConnectButton } frsom '@rainbow-me/rainbowkit'
 import ConnectButtonCustom from './ConnectButtonCustom'
 
 import styles from '../../../styles/Header.module.css'
 
 // import SettingsMenuPopOver from './SettingsMenuPopOver'
 import SignInModal from './SignInModal'
-import SettingsMenu from './SettingsMenu'
+// import SettingsMenu from './SettingsMenu'
 import EthereumVerify from '../Ethereum/EthereumVerify'
 // import EthereumAuth from '../Ethereum/EthereumAuth'
 
-import {
-	// Tooltip,
-	Typography,
-	Popover,
-	Button,
-	Select,
-	Space,
-	Badge,
-	Row,
-} from 'antd'
-import { BsGear } from 'react-icons/bs'
+import { Typography, Button, Select, Space, Row } from 'antd'
+// import { BsGear } from 'react-icons/bs'
 
 const { Text } = Typography
 
@@ -129,8 +117,8 @@ const Header: FC = () => {
 			return 'garden'
 		} else if (asPath === '/editprofile') {
 			return 'editprofile'
-		} else if (asPath === '/mycreations') {
-			return 'mycreations'
+		} else if (asPath === '/myprofile') {
+			return 'myprofile'
 		} else if (asPath === '/mycollections') {
 			return 'mycollections'
 		} else if (asPath.includes('/collection')) {
@@ -170,9 +158,6 @@ const Header: FC = () => {
 
 				{isMounted && appWidth > 1280 ? (
 					<>
-						{/* <ActiveLink href='/'>
-							<Text>{'Garden'}</Text>
-						</ActiveLink> */}
 						{isUserId ? (
 							<>
 								<ActiveLink href='/myprofile'>
@@ -181,9 +166,6 @@ const Header: FC = () => {
 								<ActiveLink href='/mycollections'>
 									<Text style={textThemeColor}>{'My Collections'}</Text>
 								</ActiveLink>
-								{/* <ActiveLink href='/profile'>
-									<Text>{'Edit Profile'}</Text>
-								</ActiveLink> */}
 							</>
 						) : null}
 					</>
@@ -217,8 +199,6 @@ const Header: FC = () => {
 				</Link>
 
 				<Row className={styles.popoverConnectWrapper}>
-					{/* <SettingsMenu appWidth={appWidth} /> */}
-					{/* <ConnectButton /> */}
 					<ConnectButtonCustom appWidth={appWidth} isMounted={isMounted} />
 				</Row>
 			</section>
