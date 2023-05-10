@@ -35,6 +35,7 @@ interface CreationCardProps {
 	appWidth: number
 	currentTheme: string
 	page: string
+	onCreationClick: (creation: Creation) => void
 }
 
 const CreationCard: FC<CreationCardProps> = ({
@@ -45,6 +46,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	appWidth,
 	currentTheme,
 	page,
+	onCreationClick,
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
@@ -275,6 +277,7 @@ const CreationCard: FC<CreationCardProps> = ({
 												showModal={showModal}
 												crBgColor={crColor[0]}
 												creationIndex={index}
+												onCreationClick={onCreationClick}
 											/>
 										)}
 									</section>

@@ -15,6 +15,7 @@ interface CrImageLinkProps {
 	isCreationHovering: boolean
 	showModal: () => void
 	creationIndex: number
+	onCreationClick: (creation: Creation) => void
 }
 
 const CrImageLink: FC<CrImageLinkProps> = ({
@@ -24,6 +25,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	isCreationHovering,
 	showModal,
 	creationIndex,
+	onCreationClick,
 }) => {
 	const context = useContext(AppContext)
 	const router = useRouter()
@@ -40,16 +42,10 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	const handleCrLinkClick = (e): void => {
 		e.preventDefault()
 		showModal()
+		onCreationClick(creation)
 		setCurrentCreationModalCreation(creation)
 		setCurrentCreationIndex(creationIndex)
 		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)
-		// router
-		// 	.push(`/creation/${String(creation._id)}`, undefined, {
-		// 		shallow: true,
-		// 	})
-		// 	.catch((err) => {
-		// 		console.error('Error while updateing URL: ', err)
-		// 	})
 	}
 
 	console.log({ currentCreationIndex })

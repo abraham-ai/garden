@@ -14,6 +14,9 @@ import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
+import useGetCreationsFetcher from '../../../hooks/useGetCreationsFetcher'
+import addSecondsToDate from '../../../util/addSecondsToDate'
+import useCreationsGridParams from '../../../hooks/useCreationsGridParams'
 
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './CreationsGridAnalytics'
@@ -28,15 +31,17 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const CreationsGrid: FC = () => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
-	const [username, setUsername] = useState<string | string>('')
-	const [generators, setGenerators] = useState<string | string>('')
-	const [earliestTime, setEarliestTime] = useState<number | string>('')
-	const [latestTime, setLatestTime] = useState<number | string>('')
-	const [limit, setLimit] = useState<number>(10)
+	const { username, generators, earliestTime, limit } = useCreationsGridParams()
 
-	const { width } = useWindowDimensions()
+	const context = useContext(AppContext)
 
-	const isMobile = width < 768
+	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
+	const setCurrentCreationModalCreation =
+		context?.setCurrentCreationModalCreation ?? (() => {})
+	const creationsData = context?.creationsData ?? []
+	const setCreationsData = context?.setCreationsData ?? (() => {})
+
+	const { width: appWidth } = useWindowDimensions()
 
 	const [latestCreationTime, setLatestCreationTime] = useState<number | string>(
 		() => {
@@ -47,24 +52,6 @@ const CreationsGrid: FC = () => {
 	)
 
 	const observer = useRef<IntersectionObserver | null>(null)
-
-	const context = useContext(AppContext)
-	const creationsData = useMemo<Creation[]>(
-		() => context?.creationsData ?? [],
-		[context?.creationsData]
-	)
-
-	const setCreationsData = useMemo(
-		() => context?.setCreationsData,
-		[context?.setCreationsData]
-	)
-
-	const fetcher = async (url: string) => {
-		const res = await fetch(url)
-		const data = await res.json()
-		// console.log('Fetched data:', data)
-		return data
-	}
 
 	const getKey = (pageIndex, previousPageData) => {
 		if (pageIndex !== 0 && previousPageData === null) {
@@ -92,7 +79,7 @@ const CreationsGrid: FC = () => {
 	}
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
-		useSWRInfinite(getKey, fetcher)
+		useSWRInfinite(getKey, useGetCreationsFetcher)
 
 	const isLoadingMore =
 		isLoading ||
@@ -101,12 +88,6 @@ const CreationsGrid: FC = () => {
 	const isReachingEnd =
 		isEmpty || (data != null && data[data.length - 1]?.length < limit)
 	const isRefreshing = isValidating && data != null && data.length === size
-
-	const addSecondsToDate = (date, seconds) => {
-		const newDateTime = new Date(date).getTime() - seconds
-		const newDate = new Date(newDateTime).toISOString()
-		return newDate
-	}
 
 	const allCreationsData = useMemo(() => {
 		if (data == null) return []
@@ -131,6 +112,11 @@ const CreationsGrid: FC = () => {
 		},
 		[isLoadingMore, isReachingEnd]
 	)
+
+	const handleCreationClick = (index: number) => {
+		setCurrentCreationIndex(index)
+		setCurrentCreationModalCreation(allCreationsData[index])
+	}
 
 	// console.log({ allCreationsData })
 	// console.log({ creationsData })
@@ -178,7 +164,11 @@ const CreationsGrid: FC = () => {
 				/>
 			) : null}
 
-			<CreationsMasonry creations={allCreationsData} appWidth={width} />
+			<CreationsMasonry
+				creations={allCreationsData}
+				appWidth={appWidth}
+				onCreationClick={handleCreationClick}
+			/>
 
 			<Row
 				ref={lastElementRef}

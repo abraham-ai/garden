@@ -266,8 +266,9 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	Router.events.on('routeChangeComplete', nProgress.done)
 
 	const currentThemeOnLoad = themeOnLoad()
-
 	// console.log({ currentThemeOnLoad })
+
+	const isThemeLight = currentTheme === 'light'
 
 	useEffect(() => {
 		setIsWalletConnected(isConnected)
@@ -306,8 +307,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 						<ReactionProvider>
 							<ConfigProvider
 								theme={{
-									algorithm:
-										currentTheme === 'light' ? defaultAlgorithm : darkAlgorithm,
+									algorithm: isThemeLight ? defaultAlgorithm : darkAlgorithm,
 								}}
 							>
 								<Component {...pageProps} />

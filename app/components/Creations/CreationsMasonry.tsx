@@ -17,6 +17,7 @@ import { Spin, Row } from 'antd'
 interface CreationsMasonryProps {
 	creations: Creation[]
 	appWidth: number
+	onCreationClick: (creationId: string) => void
 }
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
@@ -24,6 +25,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	creations,
 	appWidth,
+	onCreationClick,
 }) => {
 	const context = useContext(AppContext)
 	const currentTheme = context?.currentTheme ?? 'light'
@@ -70,6 +72,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 										appWidth={appWidth}
 										currentTheme={currentTheme}
 										page='creations'
+										onCreationClick={onCreationClick}
 									/>
 								)
 							}
