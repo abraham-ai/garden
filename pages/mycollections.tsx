@@ -62,8 +62,11 @@ const MyCollections: FC = () => {
 		typeof myCollectionsCreations !== 'undefined'
 
 	const isMyCollectionsCreationsData =
-		typeof myCollectionsCreationsData !== 'undefined' &&
-		myCollectionsCreationsData !== null
+		typeof myCollectionsCreationsData?.collections !== 'undefined' &&
+		myCollectionsCreationsData?.collections !== null &&
+		myCollectionsCreationsData?.collections.length > 0
+
+	console.log(myCollectionsCreationsData)
 
 	useEffect(() => {
 		if (isMyCollectionsCreationsData) {

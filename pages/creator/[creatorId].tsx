@@ -81,6 +81,10 @@ const Creator: FC<CreatorPageProps> = () => {
 	// 	setIsFollowing(!isFollowing)
 	// }
 
+	const handleCreationClick = (): void => {
+		console.log('handleCreationClick')
+	}
+
 	const isCreatorCreationsData =
 		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null
 
@@ -111,7 +115,7 @@ const Creator: FC<CreatorPageProps> = () => {
 									creator={
 										creatorCreationsData?.creator ?? emptyCreatorCreations
 									}
-									onCreationClick={() => {}}
+									onCreationClick={handleCreationClick}
 								/>
 							</section>
 						) : (

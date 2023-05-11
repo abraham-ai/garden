@@ -6,6 +6,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/router'
 
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
@@ -34,6 +35,13 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 	const router = useRouter()
 	const { asPath } = router
 
+	const context = useContext(AppContext)
+	const isSignedIn = context?.isSignedIn ?? false
+	const isWalletConnected = context?.isWalletConnected ?? false
+	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
+
+	const { openConnectModal } = useConnectModal()
+
 	const linkStyle = {
 		marginRight: 10,
 		color: asPath === href ? 'purple' : 'gray',
@@ -41,17 +49,33 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 	}
 
 	const handleClick = (e: MouseEvent<HTMLAnchorElement>): void => {
-		e.preventDefault()
-		router.push(href)
+		console.log('handle Nav Link 🔖!')
+
+		// console.log({ isSignedIn })
+		if (!isSignedIn && !isWalletConnected) {
+			openConnectModal?.() ?? (() => null)()
+		} else if (!isSignedIn && isWalletConnected) {
+			setIsSignInModalOpen(true)
+		} else if (isSignedIn && !isWalletConnected) {
+			openConnectModal?.() ?? (() => null)()
+		} else if (isSignedIn && isWalletConnected) {
+			console.log('handle Nav Link 🔖!')
+			router.push(href).then(() => {
+				window.scrollTo(0, 0)
+			})
+		}
 	}
+
+	console.log({ isSignedIn, isWalletConnected })
 
 	return (
 		<Button
 			type='text'
 			size='large'
 			shape='round'
-			href={href}
-			onClick={() => handleClick}
+			onClick={(e) => {
+				handleClick(e)
+			}}
 			style={linkStyle}
 		>
 			{children}
@@ -65,10 +89,10 @@ const Header: FC = () => {
 	const router = useRouter()
 
 	const context = useContext(AppContext)
+	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
 	const authToken = context?.authToken ?? ''
 	const userId = context?.userId ?? ''
-	const isSignedIn = context?.isSignedIn ?? false
 
 	const firstSignInRequest = context?.firstSignInRequest ?? false
 	const setFirstSignInRequest = context?.setFirstSignInRequest ?? (() => {})
