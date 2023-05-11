@@ -6,6 +6,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/router'
 
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
@@ -39,6 +40,8 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 	const isWalletConnected = context?.isWalletConnected ?? false
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
 
+	const { openConnectModal } = useConnectModal()
+
 	const linkStyle = {
 		marginRight: 10,
 		color: asPath === href ? 'purple' : 'gray',
@@ -70,8 +73,8 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 			type='text'
 			size='large'
 			shape='round'
-			onClick={() => {
-				handleClick()
+			onClick={(e) => {
+				handleClick(e)
 			}}
 			style={linkStyle}
 		>
