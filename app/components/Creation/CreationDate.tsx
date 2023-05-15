@@ -29,7 +29,7 @@ const CreationDate: FC<CreationDateProps> = ({
 
 	const isCrDate = isCrIdPage || isCreationsPage || isCrModal
 
-	const dateWeight: string = useMemo(() => {
+	const dateWeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -93,7 +93,7 @@ const CreationDate: FC<CreationDateProps> = ({
 		}
 	}, [appWidth])
 
-	const createdAtColor: string = useMemo(() => {
+	const createdAtColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {

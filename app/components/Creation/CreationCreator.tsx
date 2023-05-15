@@ -46,9 +46,6 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		setIsHovering(false)
 	}
 
-	// console.log({ currentTheme })
-	// console.log({ layout})
-
 	const isThemeLight = currentTheme === 'light'
 
 	const isOverlay = layout === 'overlay'
@@ -81,7 +78,6 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 			}
 		} else {
 			if (isOverlay) {
-				console.log('isOverlay')
 				return isThemeLight ? styles.crCreatorWhite : styles.crCreatorWhite
 			} else if (isRelative) {
 				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
@@ -146,6 +142,9 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const creatorDisplay = handleCreatorDisplay()
 	const creatorAddress = handleCreatorAddress()
 
+	// console.log({ currentTheme })
+	// console.log({ layout})
+
 	// console.log('Creation User', creation?.user)
 	// console.log({ isCreator })
 	// console.log({ creation })
@@ -163,7 +162,6 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	// console.log({ isRelative })
 	// console.log({ isCrIdPage })
 	// console.log({ isThemeLight })
-	// console.log({ layout })
 
 	return (
 		<section

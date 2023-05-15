@@ -1,3 +1,5 @@
+import type Config from '../interfaces/Config'
+
 const initialConfig: Config = {
 	height: 100,
 	width: 100,

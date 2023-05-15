@@ -50,7 +50,6 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 
 	const handleClick = (e: MouseEvent<HTMLAnchorElement>): void => {
 		console.log('handle Nav Link 🔖!')
-
 		// console.log({ isSignedIn })
 		if (!isSignedIn && !isWalletConnected) {
 			openConnectModal?.() ?? (() => null)()
@@ -66,7 +65,7 @@ const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
 		}
 	}
 
-	console.log({ isSignedIn, isWalletConnected })
+	// console.log({ isSignedIn, isWalletConnected })
 
 	return (
 		<Button
@@ -167,13 +166,11 @@ const Header: FC = () => {
 
 	const isThemeLight = currentTheme === 'light'
 	const textThemeColor = { color: isThemeLight ? 'black' : 'white' }
+	const isUserId = typeof userId !== 'undefined' && userId !== ''
 
 	// console.log({ isThemeLight })
-
-	console.log({ firstSignInRequest })
-	console.log({ userId })
-
-	const isUserId = typeof userId !== 'undefined' && userId !== ''
+	// console.log({ firstSignInRequest })
+	// console.log({ userId })
 
 	return (
 		<header className={styles.headerWrapper}>

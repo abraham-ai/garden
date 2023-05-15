@@ -66,7 +66,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}
 
-	const promptSize = useMemo(() => {
+	const promptSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
 				return styles.crPromptSizeSm
@@ -89,7 +89,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		return '12px'
 	}, [appWidth])
 
-	const promptColor = useMemo(() => {
+	const promptColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
 				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
@@ -117,7 +117,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth, currentTheme])
 
-	const promptWrapper = useMemo(() => {
+	const promptWrapper: string | undefined = useMemo(() => {
 		if (isCrIdPage) {
 			return styles.crPromptText
 		} else {
@@ -125,7 +125,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth])
 
-	const promptWeight: string = useMemo(() => {
+	const promptWeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {

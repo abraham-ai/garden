@@ -1,3 +1,5 @@
+import type Task from '../interfaces/Task'
+
 const initialTask: Task = {
 	_id: '',
 	taskId: '',

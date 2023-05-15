@@ -40,8 +40,6 @@ const CreationSocial: FC<CreationSocialProps> = ({
 	const isCrIdPage = page === 'creationId'
 	const isCreationsPage = page === 'creations'
 
-	const styleContext = isMobile || isRelative || isCrIdPage
-
 	const handlePraiseUpdate = (
 		isPraised: boolean,
 		updatedPraises: number
@@ -56,36 +54,9 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		updateReactionState(creationId, { burned: isBurned, burns: updatedBurns })
 	}
 
-	const crWrapSocialPos = useMemo((): CSSProperties['position'] => {
-		if (styleContext) {
-			return 'relative'
-		} else {
-			return 'absolute'
-		}
-	}, [isMobile, isTablet, isCrIdPage])
+	const socialMobile: string | null = isMobile ? styles.crSocialMobile : null
 
-	const praiseBurnStyles: CSSProperties = {
-		display: 'flex',
-		alignItems: 'flex-start',
-		position: crWrapSocialPos,
-		zIndex: 150,
-		margin: isMobile ? '20px 0 0 0' : '20px 0 0 20px',
-	}
-
-	const saveShareStyles: CSSProperties = {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'flex-start',
-		justifyContent: 'flex-start',
-		position: crWrapSocialPos,
-		flex: isMobile ? 1 : 0,
-		zIndex: 150,
-		margin: isMobile ? '20px 0 0 0' : '20px 20px 0 0',
-	}
-
-	const socialMobile: string = isMobile ? styles.crSocialMobile : null
-
-	const praiseBurnLayout = useMemo((): string | undefined => {
+	const praiseBurnLayout: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
 				return styles.crPraiseBurnOverlay
@@ -107,7 +78,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		}
 	}, [isMobile, isTablet])
 
-	const saveShareLayout = useMemo((): string | undefined => {
+	const saveShareLayout: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
 				return styles.crSaveShareOverlay
@@ -129,7 +100,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		}
 	}, [isMobile, isTablet])
 
-	const socialPadding: string = useMemo(() => {
+	const socialPadding: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
