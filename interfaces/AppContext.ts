@@ -27,6 +27,7 @@ interface AppContext {
 	setCreationsData: Dispatch<SetStateAction<Creation[]>>
 	creationsLoading: boolean
 	creationsMore: boolean
+	updateCreationsData: (data: Creation[]) => void
 	// creationsLoad: () => void
 
 	creations: Creation[]
@@ -35,6 +36,7 @@ interface AppContext {
 	currentCreationIndex: number
 	currentCreationModalCreation: Creation
 	setCurrentCreationModalCreation: Dispatch<SetStateAction<Creation>>
+	onCreationClick: (creation: Creation, index: number) => void
 
 	collections?: Collection[]
 	setCollections: Dispatch<SetStateAction<Collection[]>>

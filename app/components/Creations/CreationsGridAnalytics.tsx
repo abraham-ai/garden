@@ -1,13 +1,53 @@
-import React from 'react'
+import type { FC } from 'react'
+import type Creation from '../../../interfaces/Creation'
+
+import React, { useEffect, useContext } from 'react'
+import AppContext from '../../../context/AppContext'
+import emptyCreation from '../../../constants/emptyCreation'
 
 import styles from '../../../styles/CreationsGrid.module.css'
 import { Button } from 'antd'
 
-interface CreationsGridAnalyticsTypes {
+interface CurrentCreationIndexProps {
+	creationIndex: number
+}
+
+const CurrentCreationIndex: FC<CurrentCreationIndexProps> = ({
+	creationIndex,
+}) => {
+	return (
+		<span style={{ display: 'flex', justifyContent: 'space-between' }}>
+			<b>{'Current Creation Index'}</b>
+			<p>{creationIndex}</p>
+		</span>
+	)
+}
+
+interface CurrentCreationModalCreationProps {
+	creation: Creation
+}
+
+const CurrentCreationModalCreation: FC<CurrentCreationModalCreationProps> = ({
+	creation,
+}) => {
+	const currentCreationTextInput = creation?.task?.config?.text_input
+
+	const isCurrentCreationModal = currentCreationTextInput !== ''
+
+	console.log({ currentCreationTextInput })
+
+	return (
+		<span style={{ display: 'flex', justifyContent: 'space-between' }}>
+			<b>{'Current Creation Modal Creation'}</b>
+			{isCurrentCreationModal ? <p>{currentCreationTextInput}</p> : null}
+		</span>
+	)
+}
+
+interface CreationsGridAnalyticsProps {
 	size: number
 	setSize: (size: number) => void
 	mutate: () => void
-	creationsData: any[]
 	isLoadingMore: boolean
 	isReachingEnd: boolean
 	// handleLoadMore: () => void
@@ -15,24 +55,48 @@ interface CreationsGridAnalyticsTypes {
 	isEmpty: boolean
 }
 
-const CreationsGridAnalytics = ({
+const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 	size,
 	setSize,
 	mutate,
-	creationsData,
 	isLoadingMore,
 	isReachingEnd,
 	// handleLoadMore,
 	isRefreshing,
 	isEmpty,
-}: CreationsGridAnalyticsTypes): JSX.Element => {
+}) => {
+	const context = useContext(AppContext)
+	const creationsData = context?.creationsData ?? []
+	const currentCreationIndex = context?.currentCreationIndex ?? 0
+	const currentCreationModalCreation =
+		context?.currentCreationModalCreation ?? emptyCreation
+
+	console.log({ currentCreationIndex })
+	console.log({ currentCreationModalCreation })
+	console.log({ creationsData })
+
+	useEffect(() => {
+		console.log('creationsData changed:', creationsData)
+	}, [creationsData])
+
 	return (
-		<section className={styles.creationAnalytics} style={{ color: 'black' }}>
+		<section className={styles.creationAnalytics}>
 			<span>{`Page ${size}`}</span>
+
+			<CurrentCreationIndex creationIndex={currentCreationIndex} />
+
+			<CurrentCreationModalCreation creation={currentCreationModalCreation} />
+
 			{/* <span style={{ display: 'flex', justifyContent: 'space-between' }}>
 				<b>{'Last Creation Earliest Time'}</b>
 				<p>{timeAgo(lastCreationEarliestTime)}</p>
 			</span> */}
+
+			<span style={{ display: 'flex', justifyContent: 'space-between' }}>
+				<b>{'Creations Data Length'}</b>
+				<p>{creationsData.length}</p>
+			</span>
+
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
 				<span className={styles.loadingState}>
 					{`showing ${size} page(s) of 

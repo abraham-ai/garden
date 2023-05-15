@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react'
 import type { FC } from 'react'
+import type Creation from '../interfaces/Creation'
+import type Collection from '../interfaces/Collection'
+
+import React, { useState, useEffect, useCallback } from 'react'
 import AppContext from '../context/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
 
@@ -25,15 +28,14 @@ import '@rainbow-me/rainbowkit/styles.css'
 import Blockies from 'react-blockies'
 
 import themeOnLoad from '../util/themeOnLoad'
-import type Creation from '../interfaces/Creation'
-import type Collection from '../interfaces/Collection'
-import type Task from '../interfaces/Task'
-import type Config from '../interfaces/Config'
 
 import { ConfigProvider, theme } from 'antd'
 
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+
+import emptyCreation from '../constants/emptyCreation'
+import emptyCollection from '../constants/emptyCollection'
 
 const { chains, provider } = configureChains(
 	[mainnet],
@@ -54,75 +56,6 @@ const wagmiClient = createClient({
 	connectors,
 	provider,
 })
-
-const initialTask: Task = {
-	_id: '',
-	taskId: '',
-	config: {
-		height: 100,
-		width: 100,
-		guidance_scale: 1,
-		init_image_data: '',
-		init_image_strength: 1,
-		n_samples: 10,
-		sampler: '',
-		seed: 1,
-		steps: 10,
-		stream: true,
-		stream_every: 1,
-		text_input: '',
-		uc_text: true,
-		upscale_f: 1,
-	},
-	generator: {
-		_id: '',
-		generatorName: '',
-	},
-	status: '',
-	key: 0,
-	address: '',
-	uri: '',
-	timestamp: '',
-	prompt: '',
-	progress: 0,
-}
-
-const initialConfig: Config = {
-	height: 100,
-	width: 100,
-	guidance_scale: 1,
-	init_image_data: '',
-	init_image_strength: 1,
-	n_samples: 10,
-	sampler: '',
-	seed: 1,
-	steps: 10,
-	stream: true,
-	stream_every: 1,
-	text_input: '',
-	uc_text: true,
-	upscale_f: 1,
-}
-
-const emptyCreation = {
-	key: '',
-	_id: '',
-	task: initialTask,
-	config: initialConfig,
-	user: '',
-	createdAt: '',
-	address: '',
-	uri: '',
-	timestamp: '',
-	prompt: '',
-	status: '',
-	thumbnail: '',
-}
-
-const emptyCollection: Collection = {
-	_id: '',
-	name: '',
-}
 
 interface CustomAvatarProps {
 	address: string
@@ -169,6 +102,28 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	const [currentTheme, setCurrentTheme] = useState<string>('')
 
+	// creation context function
+	const onCreationClick = (creation, index) => {
+		setCurrentCreationModalCreation(creation)
+		setCurrentCreationIndex(index)
+	}
+
+	// creations context function
+	const updateCreationsData = (newData: Creation[]): void => {
+		const uniqueCreations = newData.filter((newCreation: Creation) => {
+			return !creationsData.some(
+				(prevCreation) => prevCreation._id === newCreation._id
+			)
+		})
+
+		if (uniqueCreations.length > 0) {
+			setCreationsData((prevCreations: Creation[]) => {
+				return [...prevCreations, ...uniqueCreations]
+			})
+		}
+	}
+
+	// collections context function
 	const handleCollectionAction = async (
 		actionType: 'create' | 'rename' | 'delete',
 		collectionId: string | null,
@@ -231,6 +186,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		creationsLoading,
 		creationsData,
 		setCreationsData,
+		updateCreationsData,
+		onCreationClick,
 		creationsMore,
 		currentCreationIndex,
 		setCurrentCreationIndex,
@@ -254,16 +211,39 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		setFirstSignInRequest,
 		isSignInModalOpen,
 		setIsSignInModalOpen,
-
+		creations: [] as unknown as [],
+		creationIndex: 0,
+		collections,
+		setCollections,
+		selectedCollection,
+		setSelectedCollection,
+		collectionModalView,
+		setCollectionModalView,
+		currentCreationModalCreation,
+		setCurrentCreationModalCreation,
+		isSaveCreationModalOpen,
+		setIsSaveCreationModalOpen,
+		firstSignInRequest,
+		setFirstSignInRequest,
+		isSignInModalOpen,
+		setIsSignInModalOpen,
 		handleCollectionAction,
 	}
 
 	const { defaultAlgorithm, darkAlgorithm } = theme
 
 	// routing progress bar
-	Router.events.on('routeChangeStart', nProgress.start)
-	Router.events.on('routeChangeError', nProgress.done)
-	Router.events.on('routeChangeComplete', nProgress.done)
+	useEffect(() => {
+		Router.events.on('routeChangeStart', nProgress.start)
+		Router.events.on('routeChangeError', nProgress.done)
+		Router.events.on('routeChangeComplete', nProgress.done)
+
+		return () => {
+			Router.events.off('routeChangeStart', nProgress.start)
+			Router.events.off('routeChangeError', nProgress.done)
+			Router.events.off('routeChangeComplete', nProgress.done)
+		}
+	}, [])
 
 	const currentThemeOnLoad = themeOnLoad()
 	// console.log({ currentThemeOnLoad })
@@ -281,27 +261,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	return (
 		<>
-			<AppContext.Provider
-				value={{
-					...contextValues,
-					creations: [] as unknown as [],
-					creationIndex: 0,
-					collections,
-					setCollections,
-					selectedCollection,
-					setSelectedCollection,
-					collectionModalView,
-					setCollectionModalView,
-					currentCreationModalCreation,
-					setCurrentCreationModalCreation,
-					isSaveCreationModalOpen,
-					setIsSaveCreationModalOpen,
-					firstSignInRequest,
-					setFirstSignInRequest,
-					isSignInModalOpen,
-					setIsSignInModalOpen,
-				}}
-			>
+			<AppContext.Provider value={contextValues}>
 				<WagmiConfig client={wagmiClient}>
 					<RainbowKitProvider avatar={CustomAvatar} chains={chains}>
 						<ReactionProvider>

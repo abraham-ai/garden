@@ -43,7 +43,7 @@ interface CreationsGridProps {
 }
 
 const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
-	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
+	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(true)
 
 	const { username, generators, earliestTime, limit } = useCreationsGridParams()
 
@@ -54,6 +54,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		context?.setCurrentCreationModalCreation ?? (() => {})
 	const creationsData = context?.creationsData ?? []
 	const setCreationsData = context?.setCreationsData ?? (() => {})
+	const updateCreationsData = context?.updateCreationsData ?? (() => {})
 
 	const { width: appWidth } = useWindowDimensions()
 
@@ -106,8 +107,10 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const allCreationsData = useMemo(() => {
 		if (data == null) return []
+		// Update the creationsData every time data changes
+		updateCreationsData(data.flat())
 		return data.flat()
-	}, [data])
+	}, [data, updateCreationsData])
 
 	const lastElementRef = useCallback(
 		(node) => {
@@ -128,9 +131,18 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		[isLoadingMore, isReachingEnd]
 	)
 
-	const handleCreationClick = (creation: Creation, index: number): void => {
-		setCurrentCreationIndex(index)
-		setCurrentCreationModalCreation(creation)
+	useEffect(() => {
+		if (data != null) {
+			updateCreationsData(data.flat())
+		}
+	}, [data, updateCreationsData])
+
+	const handleCreationClick = (creation: Creation): void => {
+		const index = allCreationsData.findIndex((c) => c._id === creation._id)
+		if (index !== -1) {
+			setCurrentCreationIndex(index)
+			setCurrentCreationModalCreation(creation)
+		}
 	}
 
 	// console.log({ allCreationsData })
@@ -175,7 +187,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 				<CreationsGridAnalytics
 					// lastCreationEarliestTime={lastCreationEarliestTime}
 					size={size}
-					creationsData={allCreationsData}
 					isLoadingMore={isLoadingMore}
 					isReachingEnd={isReachingEnd}
 					isRefreshing={isRefreshing}

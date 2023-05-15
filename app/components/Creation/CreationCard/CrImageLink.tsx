@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
@@ -37,14 +37,19 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
+	const [localCreation, setLocalCreation] = useState(
+		currentCreationModalCreation
+	)
+	const [localIndex, setLocalIndex] = useState(currentCreationIndex)
+
 	const isMobile = appWidth < 768
 
 	const handleCrLinkClick = (e): void => {
 		e.preventDefault()
 		showModal()
-		onCreationClick(creation, creationIndex)
-		setCurrentCreationModalCreation(creation)
-		setCurrentCreationIndex(creationIndex)
+		setLocalCreation(creation)
+		setLocalIndex(creationIndex)
+		onCreationClick(creation, creationIndex) // this should handle setting currentCreationModalCreation and currentCreationIndex in context
 		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)
 	}
 
