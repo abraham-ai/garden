@@ -27,8 +27,6 @@ const Index: FC = () => {
 		)}&earliestTime=${String(earliestTime)}&latestTime=${String(latestTime)}`
 	}
 
-	console.log({ createGardenCreationsUrl })
-
 	return (
 		<>
 			<Head>

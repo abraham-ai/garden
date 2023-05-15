@@ -88,13 +88,13 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			limit,
 			pageIndex + 1,
 			username,
-			generators,
+			'create',
 			earliestTime,
 			adjustedLatestCreationTime
 		)
 	}
 
-	console.log({ getKey })
+	console.log(getKey())
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSWRInfinite(getKey, useGetCreationsFetcher)
@@ -176,12 +176,10 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		}
 	}, [data, creationsData, size])
 
-	// lastCreationEarliestTime !== ''
-
 	const isCreator =
 		typeof creator !== 'undefined' && creator?.user?.username !== ''
 
-	console.log({ creator })
+	// console.log({ creator })
 
 	return (
 		<>
