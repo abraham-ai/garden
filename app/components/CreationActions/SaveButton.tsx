@@ -411,15 +411,14 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	console.log({ iconSize })
-
 	const bgHoverStyles = isSaveHovering
 		? 'rgb(26, 115, 232, 0.4)'
 		: 'rgba(0, 0, 0, 0.5)'
 
 	const isMobileThemeLight = isMobile && currentTheme === 'light'
 
-	console.log({ buttonWidth, buttonHeight, iconSize })
+	// console.log({ iconSize })
+	// console.log({ buttonWidth, buttonHeight, iconSize })
 
 	return (
 		<>

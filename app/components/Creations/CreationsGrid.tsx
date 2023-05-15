@@ -94,6 +94,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		)
 	}
 
+	console.log({ getKey })
+
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSWRInfinite(getKey, useGetCreationsFetcher)
 

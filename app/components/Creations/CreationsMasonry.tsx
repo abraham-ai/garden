@@ -38,11 +38,11 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 		creations != null &&
 		creations.length > 0
 
-	console.log({ creations })
+	// console.log({ creations })
 
 	const isMobile = appWidth < 768
 
-	console.log({ creator })
+	// console.log({ creator })
 
 	return (
 		<>
@@ -54,7 +54,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 						columnClassName={styles.crGridMasonryColumn}
 					>
 						{creations?.map((creation: Creation, i: number) => {
-							console.log({ creation })
+							// console.log({ creation })
 							const generatorName = creation?.task?.generator?.generatorName
 							if (
 								generatorName === 'tts' ||

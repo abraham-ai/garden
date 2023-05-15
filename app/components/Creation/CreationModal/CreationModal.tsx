@@ -209,6 +209,8 @@ const CreationModal: FC<CreationModalProps> = ({
 							className={`${crTextDataWrapperPadding}`}
 							style={headerPromptWrapperStyles}
 						>
+							<span>{`Creation Index: ${creationIndex}`}</span>
+
 							<CrModalHeader
 								layout={isMobile ? layout : 'relative'}
 								creation={creation}

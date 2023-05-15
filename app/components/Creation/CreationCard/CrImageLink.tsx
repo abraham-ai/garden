@@ -53,8 +53,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)
 	}
 
-	console.log({ currentCreationIndex })
-	console.log({ currentCreationModalCreation })
+	// console.log({ currentCreationIndex })
+	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationModalCreation.task.config.text_input)
 
 	return (
@@ -98,6 +98,16 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				alt={creation?.task?.config?.text_input}
 				// style={{ background: crBgColor }}
 			/>
+
+			<span
+				style={{
+					color: 'white',
+					position: 'absolute',
+					top: 0,
+					zIndex: 100,
+					fontWeight: 'bold',
+				}}
+			>{`Creation Index: ${creationIndex}`}</span>
 		</section>
 	)
 }
