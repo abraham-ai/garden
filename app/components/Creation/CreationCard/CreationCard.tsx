@@ -82,11 +82,16 @@ const CreationCard: FC<CreationCardProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 	// console.log(reactionCountList)
 
+	const isCurrentCreation =
+		typeof currentCreation !== 'undefined' && currentCreation != null
+
 	const isReactionCountListState =
 		reactionCountList != null &&
 		typeof reactionState[creation._id] === 'undefined'
 
 	const isMobile = appWidth < 768
+
+	const isCreationsPage = page === 'creations'
 
 	const showModal = (): void => {
 		setModalOpen(true)
@@ -112,10 +117,7 @@ const CreationCard: FC<CreationCardProps> = ({
 
 	const handleCreationUpdate = useCallback(
 		(currentCreation, currentCreationIndex) => {
-			if (
-				typeof currentCreation !== 'undefined' &&
-				currentCreationIndex !== 0
-			) {
+			if (isCurrentCreation) {
 				setUri(currentCreation.uri)
 				setCreatedAt(currentCreation.createdAt)
 				setGeneratorName(currentCreation.task.generator.generatorName)
@@ -128,33 +130,15 @@ const CreationCard: FC<CreationCardProps> = ({
 				setStatus(currentCreation.task.status)
 			}
 		},
-		[
-			setCurrentCreation,
-			setId,
-			setUser,
-			setTextInput,
-			setThumbnail,
-			setUri,
-			setCreatedAt,
-			setGeneratorName,
-			setWidth,
-			setHeight,
-		]
+		[]
 	)
 
 	useEffect(() => {
-		setCurrentCreation(creation)
 		handleCreationUpdate(
 			creationsData[currentCreationIndex],
 			currentCreationIndex
 		)
-	}, [
-		creation,
-		creationsData,
-		handleCreationUpdate,
-		currentCreation,
-		currentCreationIndex,
-	])
+	}, [creation, handleCreationUpdate])
 
 	const handleMouseOver = (): void => {
 		setIsCreationHovering(true)
@@ -328,8 +312,8 @@ const CreationCard: FC<CreationCardProps> = ({
 					burns: reactionState[creation._id]?.burns ?? 0,
 					burned: reactionState[creation._id]?.burned ?? false,
 				}}
-				page={page}
-				layout={layout}
+				page={isCreationsPage ? 'modal' : page}
+				layout={isMobile ? layout : 'relative'}
 			/>
 		</>
 	)

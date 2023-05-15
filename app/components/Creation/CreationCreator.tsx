@@ -58,15 +58,6 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
-	// console.log({ isMobile })
-	// console.log({ isTablet })
-	// console.log({ isOverlay })
-	// console.log({ isRelative })
-
-	// console.log({ isRelative })
-	// console.log({ isCrIdPage })
-	// console.log({ isThemeLight })
-
 	const creatorColorStyles = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
@@ -80,7 +71,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				return isThemeLight ? styles.crCreatorWhite : styles.crCreatorWhite
 			} else if (isRelative) {
 				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 			} else if (isCrIdPage) {
@@ -156,17 +147,32 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const creatorAddress = handleCreatorAddress()
 
 	// console.log('Creation User', creation?.user)
-	console.log({ isCreator })
-	console.log({ creation })
-	console.log({ creator })
-	console.log({ creatorDisplay })
-	console.log({ creatorAddress })
+	// console.log({ isCreator })
+	// console.log({ creation })
+	// console.log({ creator })
+	// console.log({ creatorDisplay })
+	// console.log({ creatorAddress })
 	// console.log({ creatorColorStyles })
+
 	// console.log({ creatorSizeStyles })
+	// console.log({ isMobile })
+	// console.log({ isTablet })
+	// console.log({ isOverlay })
+	// console.log({ isRelative })
+
+	// console.log({ isRelative })
+	// console.log({ isCrIdPage })
+	// console.log({ isThemeLight })
 	// console.log({ layout })
 
 	return (
-		<>
+		<section
+			style={{
+				display: 'flex',
+				flexDirection: 'row',
+				justifyContent: 'space-between',
+			}}
+		>
 			<Link
 				href={{
 					pathname: `/creator/${String(creation?.user)}`,
@@ -197,13 +203,14 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					</Text>
 				</div>
 			</Link>
+
 			<CreationDate
 				timeAgoCreatedAt={timeAgoCreatedAt}
 				appWidth={appWidth}
 				page={page}
 				layout={layout}
 			/>
-		</>
+		</section>
 	)
 }
 

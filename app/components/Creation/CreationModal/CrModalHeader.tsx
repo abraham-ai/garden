@@ -52,6 +52,7 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 		display: 'flex',
 		flexDirection: crProfileActionsFlex,
 		justifyContent: 'space-between',
+		margin: '20px 0 20px 0',
 	}
 
 	const socialWrapperStyles: CSSProperties = {
@@ -59,7 +60,6 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 		display: 'block',
 		height: 'auto',
 		padding: 0,
-		margin: '20px 0 20px 0',
 	}
 
 	console.log({ layout })
@@ -77,6 +77,7 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 			<Row style={socialWrapperStyles}>
 				<CreationSocial
 					layout={layout}
+					page={'modal'}
 					creation={creation}
 					creationId={creation._id}
 					reactionCountList={reactionCountList}

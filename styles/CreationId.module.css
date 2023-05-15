@@ -82,11 +82,7 @@
 	position: relative;
 	border-radius: 16px;
 	overflow: hidden;
-	/* margin: 20px; */
 	height: 100%;
-	/* margin-right: 20px; */
-	/* max-height: 700px; */
-	/* border: 1px solid #dbdbdb; */
 }
 .crCard .ant-card-body {
 	padding: 0;
@@ -106,9 +102,6 @@
 }
 /*** CR-IMG WRAPPER MAIN***/
 .crImgWrapperMain {
-	/* height: 0; */
-	/* padding-bottom: 100%; */
-	/* min-height: 240px; */
 	position: relative;
 	z-index: 70;
 	height: 100%;
@@ -117,11 +110,6 @@
 	height: 100%;
 }
 .crImgWrapper > span {
-	/*   display: block;
-  top: 0;
-  width: 100%;
-  position: absolute;
-  height: 100%; */
 }
 /*** CR-IMG WRAPPER BACKGROUND ***/
 .crImgWrapperBackground {
@@ -334,18 +322,11 @@
 }
 /*** CR-SOCIALS ***/
 .crSocials {
-	/* max-width: 40px;
-  min-width: 40px; */
-	/* position: absolute; */
-	/* right: 0;
-  bottom: 0; */
 	display: flex;
 	justify-content: space-between;
 	flex: 1;
 	width: 100%;
 	align-items: center;
-	/* flex-direction: column; */
-	/* margin: 0 20px; */
 	z-index: 70;
 }
 .crSocials .crSocial {
@@ -559,12 +540,6 @@ button.crParent.ant-btn-link.ant-btn img {
 }
 
 @media only screen and (max-width: 560px) {
-	padding-top: 10px;
-	border: none;
-	margin-bottom: 15px;
-	flex: 1;
-	max-width: unset;
-
 	.crText {
 		padding: 16px 16px 0 16px;
 		font-size: 18px;

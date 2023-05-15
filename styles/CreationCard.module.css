@@ -211,10 +211,6 @@
 	border-radius: 10px;
 	/* mask-image: linear-gradient(transparent, transparent 50%); */
 }
-.crDate {
-	color: white;
-	padding-left: 10px;
-}
 .crPromptCommand {
 	font-weight: bold;
 	color: #8c7cf0;

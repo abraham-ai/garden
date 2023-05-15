@@ -5,6 +5,8 @@ import React, { useContext, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 
+import styles from '../../../../styles/CreationModal.module.css'
+
 import emptyCreatorProfile from '../../../../constants/emptyCreatorProfile'
 
 import CrModalImage from './CrModalImage'
@@ -45,6 +47,8 @@ const CreationModal: FC<CreationModalProps> = ({
 	page,
 	layout,
 }) => {
+	const router = useRouter()
+
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
@@ -56,15 +60,13 @@ const CreationModal: FC<CreationModalProps> = ({
 
 	const currentTheme = context?.currentTheme ?? 'light'
 
+	const isCreationsPage = page === 'creations'
+	const isCrIdPage = page === 'creationId'
+	const isCrModal = page === 'modal'
+	const isOverlay = layout === 'overlay'
+	const isRelative = layout === 'relative'
+
 	// const creations = context?.creations != null || []
-
-	const router = useRouter()
-
-	// console.log({ currentCreationIndex })
-	// console.log({ currentCreationModalCreation })
-	// console.log(currentCreationIndex)
-	// console.log(creation)
-	// console.log({ praises, praised, burns, burned })
 
 	const handleModalCancel = (): void => {
 		window.history.replaceState(null, '', `/`)
@@ -138,10 +140,31 @@ const CreationModal: FC<CreationModalProps> = ({
 		height: isMobile ? '100%' : 'auto',
 	}
 
+	const crTextDataWrapperPadding: string = useMemo(() => {
+		if (isCrIdPage) {
+			if (isOverlay) {
+				return styles.overlayPadding
+			} else if (isRelative) {
+				return styles.relativePadding
+			}
+		} else if (isCrModal) {
+			if (isOverlay) {
+				return styles.overlayPadding
+			} else if (isRelative) {
+				return styles.relativePaddingMobile
+			}
+		} else if (isCreationsPage) {
+			if (isOverlay) {
+				return styles.overlayPadding
+			} else if (isRelative) {
+				return styles.relativePadding
+			}
+		}
+	}, [appWidth])
+
 	const headerPromptWrapperStyles: CSSProperties = {
 		display: 'flex',
 		flexDirection: 'column',
-		padding: isMobile ? 20 : 40,
 		justifyContent: 'center',
 		position: isMobile ? 'absolute' : 'relative',
 		bottom: isMobile ? 0 : 'unset',
@@ -149,6 +172,15 @@ const CreationModal: FC<CreationModalProps> = ({
 	}
 
 	const footerStyles = { margin: 0 }
+
+	// console.log({ layout })
+	// console.log({ page })
+	// console.log(crTextDataWrapperPadding)
+	// console.log({ currentCreationIndex })
+	// console.log({ currentCreationModalCreation })
+	// console.log(currentCreationIndex)
+	// console.log(creation)
+	// console.log({ praises, praised, burns, burned })
 
 	return (
 		<Modal
@@ -173,7 +205,10 @@ const CreationModal: FC<CreationModalProps> = ({
 							currentCreationIndex={currentCreationIndex}
 						/>
 
-						<Col style={headerPromptWrapperStyles}>
+						<Col
+							className={`${crTextDataWrapperPadding}`}
+							style={headerPromptWrapperStyles}
+						>
 							<CrModalHeader
 								layout={isMobile ? layout : 'relative'}
 								creation={creation}

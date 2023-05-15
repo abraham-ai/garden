@@ -1,0 +1,19 @@
+.crDateWrapper {
+	display: flex;
+	align-items: center;
+}
+.crDate {
+	text-decoration: unset;
+}
+.textWhite {
+	color: #fff;
+}
+.textBlack {
+	color: #000;
+}
+.weightRegular {
+	font-weight: 400;
+}
+.weightBold {
+	font-weight: 800;
+}

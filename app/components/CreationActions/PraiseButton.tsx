@@ -505,7 +505,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		}
 	}, [appWidth, page, layout, currentTheme])
 
-	console.log({ countColor })
+	// console.log({ countColor })
 
 	return (
 		<div

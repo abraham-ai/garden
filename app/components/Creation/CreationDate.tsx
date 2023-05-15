@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import React, { useMemo } from 'react'
 import { Row, Typography } from 'antd'
-import styles from '../../../styles/Header.module.css'
+import styles from '../../../styles/CreationDate.module.css'
 const { Text } = Typography
 
 interface CreationDateProps {
@@ -20,73 +20,155 @@ const CreationDate: FC<CreationDateProps> = ({
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
-	const isCrPageId = page === 'crPageId'
-	const isCrModal = layout === 'crModal'
+	const isOverlay = layout === 'overlay'
+	const isRelative = layout === 'relative'
 
-	const fontWeight = useMemo(() => {
+	const isCrModal = page === 'modal'
+	const isCrIdPage = page === 'creationId'
+	const isCreationsPage = page === 'creations'
+
+	const isCrDate = isCrIdPage || isCreationsPage || isCrModal
+
+	const dateWeight: string = useMemo(() => {
 		if (isMobile) {
-			if (isCrPageId) {
-				return 'regular'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.weightRegular
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
 			} else if (isCrModal) {
-				return 'regular'
+				if (isOverlay) {
+					return styles.weightRegular
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.weigthBold
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
 			}
 		} else if (isTablet) {
-			if (isCrPageId) {
-				return 'regular'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.weightRegular
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
 			} else if (isCrModal) {
-				return 'regular'
+				if (isOverlay) {
+					return styles.weightRegular
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.weightBold
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
 			}
 		} else {
-			if (isCrPageId) {
-				return 'regular'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.weightRegular
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
 			} else if (isCrModal) {
-				return 'regular'
+				if (isOverlay) {
+					return styles.weightRegular
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.weightRegular
+				} else if (isRelative) {
+					return styles.weightRegular
+				}
 			}
 		}
 	}, [appWidth])
 
-	const createdAtColor = useMemo(() => {
+	const createdAtColor: string = useMemo(() => {
 		if (isMobile) {
-			if (isCrPageId) {
-				return 'black'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
 			} else if (isCrModal) {
-				return 'white'
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
 			}
 		} else if (isTablet) {
-			if (isCrPageId) {
-				return 'white'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
 			} else if (isCrModal) {
-				return 'white'
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
 			}
 		} else {
-			if (isCrPageId) {
-				return 'white'
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
 			} else if (isCrModal) {
-				return 'white'
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.textWhite
+				} else if (isRelative) {
+					return styles.textBlack
+				}
 			}
 		}
 	}, [appWidth])
 
-	const crDateWrapperStyles = {
-		display: 'flex',
-		alignItems: 'center',
-	}
-
+	// console.log({ layout })
+	// console.log({ page })
+	// console.log(dateWeight)
 	// console.log({ isMobile })
 	// console.log({ timeAgoCreatedAt })
+	// console.log({ isCrDate })
 
 	return (
 		<>
-			{isCrPageId ? (
-				<Row style={crDateWrapperStyles}>
-					<Text
-						className={styles.crDate}
-						style={{
-							color: createdAtColor,
-							fontWeight,
-							textDecoration: 'unset',
-						}}
-					>
+			{isCrDate ? (
+				<Row id='crDate' className={`${styles.crDateWrapper}`}>
+					<Text className={`${styles.crDate} ${createdAtColor} ${dateWeight}`}>
 						{timeAgoCreatedAt}
 					</Text>
 				</Row>

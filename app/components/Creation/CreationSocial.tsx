@@ -1,7 +1,7 @@
 import type { FC, CSSProperties } from 'react'
 import type CreationSocialProps from '../../../interfaces/CreationSocial'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useReaction } from '../../../context/ReactionContext'
 
 import styles from '../../../styles/CreationSocial.module.css'
@@ -11,8 +11,7 @@ import BurnButton from '../CreationActions/BurnButton'
 import PraiseButton from '../CreationActions/PraiseButton'
 import ShareButton from '../CreationActions/ShareButton'
 
-import { Row, Typography } from 'antd'
-const { Text } = Typography
+import { Row } from 'antd'
 
 const CreationSocial: FC<CreationSocialProps> = ({
 	layout = 'relative',
@@ -35,10 +34,9 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		burned: isBurned,
 	} = reactionState[creationId] ?? {}
 
-	// console.log({ reactionState })
-
 	const isOverlay = layout === 'overlay'
 	const isRelative = layout === 'relative'
+	const isCrModal = page === 'modal'
 	const isCrIdPage = page === 'creationId'
 	const isCreationsPage = page === 'creations'
 
@@ -85,7 +83,7 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		margin: isMobile ? '20px 0 0 0' : '20px 20px 0 0',
 	}
 
-	const socialMobile = isMobile ? styles.crSocialMobile : null
+	const socialMobile: string = isMobile ? styles.crSocialMobile : null
 
 	const praiseBurnLayout = useMemo((): string | undefined => {
 		if (isMobile) {
@@ -131,15 +129,84 @@ const CreationSocial: FC<CreationSocialProps> = ({
 		}
 	}, [isMobile, isTablet])
 
-	// console.log({ creation })
+	const socialPadding: string = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			} else if (isCrModal) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			} else if (isCrModal) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			} else if (isCrModal) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					console.log('padding relative modal!!')
+					return styles.socialPaddingRelativeModal
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.socialPaddingOverlay
+				} else if (isRelative) {
+					return styles.socialPaddingRelative
+				}
+			}
+		}
+	}, [appWidth])
+
+	// console.log(socialPadding)
+	// console.log({ layout })
+	// console.log({ page })
 	// console.log('CreationSocial: CreationId: ' + creationId)
 	// console.log({ isCrIdPage })
 	// console.log({ isMobile })
+	// console.log({ reactionState })
+	// console.log({ creation })
 
 	return (
 		<Row
 			className={`
-				${styles.crSocial} ${String(socialMobile)}
+				${styles.crSocial} ${socialMobile} ${socialPadding}
 			`}
 		>
 			<article className={praiseBurnLayout}>

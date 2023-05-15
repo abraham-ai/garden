@@ -3,6 +3,16 @@
 	font-weight: bold;
 	font-family: 'Courier New', Courier, monospace;
 }
+/* PROMPT TEXT DATA WRAPPER */
+.overlayPadding {
+	padding: 40px 0;
+}
+.relativePadding {
+	padding: 20px 0;
+}
+.relativePaddingMobile {
+	padding: 20px 0 20px 20px;
+}
 
 /* PROMPT COMMAND */
 .crPromptCommand {
