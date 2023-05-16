@@ -1,7 +1,7 @@
 .creationAnalytics {
 	color: black;
 	position: fixed;
-	z-index: 300;
+	z-index: 9999;
 	top: 100px;
 	margin-top: 25px;
 }

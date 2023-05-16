@@ -3,6 +3,7 @@ import type Creation from '../../../interfaces/Creation'
 
 import React, { useEffect, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
+import Image from 'next/image'
 import emptyCreation from '../../../constants/emptyCreation'
 import timeAgo from '../../../util/timeAgo'
 
@@ -58,7 +59,7 @@ const CurrentCreationIndex: FC<CurrentCreationIndexProps> = ({
 }) => {
 	return (
 		<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
-			<Text>{'Current Creation Index'}</Text>
+			<Text strong>{'Current Creation Index'}</Text>
 			<Text>{creationIndex}</Text>
 		</Col>
 	)
@@ -71,16 +72,24 @@ interface CurrentCreationModalCreationProps {
 const CurrentCreationModalCreation: FC<CurrentCreationModalCreationProps> = ({
 	creation,
 }) => {
-	const currentCreationTextInput = creation?.task?.config?.text_input
+	const textInput = creation?.task?.config?.text_input
 
-	const isCurrentCreationModal = currentCreationTextInput !== ''
+	const isCurrentCreationModal = textInput !== ''
 
-	console.log({ currentCreationTextInput })
+	console.log({ textInput })
 
 	return (
 		<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
-			<Text>{'Current Creation Modal Creation'}</Text>
-			{isCurrentCreationModal ? <Text>{currentCreationTextInput}</Text> : null}
+			{isCurrentCreationModal ? (
+				<Image
+					alt={textInput}
+					src={creation.thumbnail}
+					width={50}
+					height={50}
+				/>
+			) : null}
+			<Text strong>{'Current Creation Modal Creation'}</Text>
+			{isCurrentCreationModal ? <Text>{textInput}</Text> : null}
 		</Col>
 	)
 }
@@ -135,7 +144,7 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 			</span> */}
 
 				<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
-					<Text>{'Creations Data Length'}</Text>
+					<Text strong>{'Creations Data Length'}</Text>
 					<Text>{creationsData.length}</Text>
 				</Col>
 

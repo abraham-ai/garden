@@ -297,11 +297,7 @@ const CreationCard: FC<CreationCardProps> = ({
 			</section>
 
 			<CreationModal
-				creation={
-					isCreationDataCreationIndex
-						? creation
-						: creationsData[currentCreationIndex]
-				}
+				creation={creation}
 				setModalOpen={setModalOpen}
 				modalOpen={modalOpen}
 				creationIndex={index}
