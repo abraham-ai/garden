@@ -7,6 +7,7 @@ import AppContext from '../../../../context/AppContext'
 
 import styles from '../../../../styles/CreationModal.module.css'
 
+import emptyCreation from '../../../../constants/emptyCreation'
 import emptyCreatorProfile from '../../../../constants/emptyCreatorProfile'
 
 import CrModalImage from './CrModalImage'
@@ -15,7 +16,6 @@ import CreationPrompt from '../CreationPrompt'
 import TransitionCreationModalButton from './TransitionCreationModalButton'
 // import CrModalDebug from './CrModalDebug'
 
-import emptyCreation from '../../../../constants/emptyCreation'
 import abbreviateText from '../../../../util/abbreviateText'
 import { Modal, Col } from 'antd'
 
@@ -55,6 +55,9 @@ const CreationModal: FC<CreationModalProps> = ({
 
 	// const currentCreationModalCreation =
 	// 	context?.currentCreationModalCreation ?? {}
+	const creationsData = context?.creationsData ?? []
+	const currentCreationModalCreation =
+		context?.currentCreationModalCreation ?? emptyCreation
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
@@ -215,8 +218,10 @@ const CreationModal: FC<CreationModalProps> = ({
 							className={`${crTextDataWrapperPadding}`}
 							style={headerPromptWrapperStyles}
 						>
+							<span>{`Creations Data Length: ${creationsData.length}`}</span>
 							<span>{`Creation Index: ${creationIndex}`}</span>
-							<span>{`Creation ID: ${creation._id}`}</span>
+							<span>{`Creation ID: ${creation?._id}`}</span>
+							<span>{`Creation Prompt: ${creation?.task.config.text_input}`}</span>
 
 							<CrModalHeader
 								layout={isMobile ? layout : 'relative'}

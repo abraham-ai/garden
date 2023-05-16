@@ -54,6 +54,8 @@ const CreationCard: FC<CreationCardProps> = ({
 		() => context?.creationsData ?? [],
 		[context?.creationsData]
 	)
+	const currentCreationModalCreation =
+		context?.currentCreationModalCreation ?? emptyCreation
 
 	const [modalOpen, setModalOpen] = useState<boolean>(false)
 	const [currentCreation, setCurrentCreation] = useState<Creation>(
@@ -297,7 +299,7 @@ const CreationCard: FC<CreationCardProps> = ({
 			</section>
 
 			<CreationModal
-				creation={creation}
+				creation={currentCreationModalCreation}
 				setModalOpen={setModalOpen}
 				modalOpen={modalOpen}
 				creationIndex={index}

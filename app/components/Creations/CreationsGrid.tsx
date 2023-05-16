@@ -48,6 +48,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
+	const [latestCreationDataTime, setLatestCreationDataTime] = useState(null)
+
 	const context = useContext(AppContext)
 
 	const earliestCreationTime = context?.earliestCreationTime ?? ''
@@ -88,6 +90,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
 		}
 
+		console.log({ latestCreationTime })
+		console.log({ adjustedLatestCreationTime })
+
 		const url = `/api/creations?limit=${limit}&page=${
 			pageIndex + 1
 		}&username=${username}&generators=${generators}&earliestTime=${earliestCreationTime}&latestTime=${adjustedLatestCreationTime}`
@@ -101,6 +106,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			setCurrentCreationIndex(creationIndex)
 			setCurrentCreationModalCreation(creation)
 		}
+
+		// creationsData[currentCreationIndex]
 	}
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
@@ -162,17 +169,17 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			const lastCreationsDataTime =
 				creationsData[creationsData.length - 1]?.createdAt
 
-			// If the two createdAt values are not equal, update the creationsData state
+			// Update the creationsData state if the two createdAt values are not equal
 			if (lastCreationTime !== lastCreationsDataTime) {
 				if (setCreationsData != null) {
 					setCreationsData((prevCreations: Creation[]) => {
 						return [...prevCreations, ...uniqueCreations]
 					})
 				}
-
-				// Update the latest creation time state
-				setLatestCreationTime(lastCreationTime)
 			}
+
+			// Update the latest creation time state, regardless of whether the two createdAt values are equal
+			setLatestCreationTime(lastCreationTime)
 		}
 	}, [data, size])
 

@@ -4,6 +4,7 @@
 	z-index: 9999;
 	top: 100px;
 	margin-top: 25px;
+	max-width: 400px;
 }
 .loadingState {
 	color: black;
