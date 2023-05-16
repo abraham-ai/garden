@@ -93,7 +93,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		number | string
 	>('')
 	const [latestCreationTime, setLatestCreationTime] = useState<number | string>(
-		initialLatestTime
+		''
 	)
 
 	const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)

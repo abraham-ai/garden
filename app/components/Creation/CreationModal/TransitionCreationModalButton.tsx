@@ -45,8 +45,8 @@ const TransitionCreationModalButton: FC<TransitionCreationModalButtonProps> = ({
 			shape='circle'
 			style={{
 				position: 'absolute',
-				right: isPrev ? 'unset' : -60,
-				left: isPrev ? -30 : 'unset',
+				right: isPrev ? 'unset' : -50,
+				left: isPrev ? -10 : 'unset',
 				transform: isPrev ? 'translateX(-45px)' : 'translateX(45)',
 			}}
 			onClick={() => {

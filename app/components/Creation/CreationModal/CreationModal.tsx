@@ -17,7 +17,7 @@ import TransitionCreationModalButton from './TransitionCreationModalButton'
 // import CrModalDebug from './CrModalDebug'
 
 import abbreviateText from '../../../../util/abbreviateText'
-import { Modal, Col } from 'antd'
+import { Modal, Col, Row } from 'antd'
 
 interface ReactionCountList {
 	praises: number
@@ -105,9 +105,9 @@ const CreationModal: FC<CreationModalProps> = ({
 		if (isMobile) {
 			return '100vw'
 		} else if (isTablet) {
-			return '90vw'
+			return '85vw'
 		} else {
-			return '1200px'
+			return '85vw'
 		}
 	}, [appWidth])
 
@@ -119,8 +119,8 @@ const CreationModal: FC<CreationModalProps> = ({
 		alignItems: 'center',
 		justifyContent: 'center',
 		maxWidth: handleModalMaxWidth,
-		height: '100vh',
-		padding: isMobile ? 0 : 20,
+		height: '90vh',
+		// padding: isMobile ? 0 : 20,
 	}
 
 	const modalWrapperStyles: CSSProperties = {
@@ -201,57 +201,59 @@ const CreationModal: FC<CreationModalProps> = ({
 				handleModalCancel()
 			}}
 		>
-			<TransitionCreationModalButton direction='prev' />
+			<Row style={modalStyles}>
+				<TransitionCreationModalButton direction='prev' />
 
-			<section style={modalWrapperStyles}>
-				<article style={innerModalWrapperStyles}>
-					<div style={imageHeaderPromptWrapperStyles}>
-						<CrModalImage
-							appWidth={appWidth}
-							creation={creation}
-							creationIndex={creationIndex}
-							currentCreationIndex={currentCreationIndex}
-						/>
-
-						<Col
-							className={`${crTextDataWrapperPadding}`}
-							style={headerPromptWrapperStyles}
-						>
-							<span>{`Creations Data Length: ${creationsData.length}`}</span>
-							<span>{`Creation Index: ${creationIndex}`}</span>
-							<span>{`Creation ID: ${creation?._id}`}</span>
-							<span>{`Creation Prompt: ${creation?.task.config.text_input}`}</span>
-
-							<CrModalHeader
-								layout={isMobile ? layout : 'relative'}
-								creation={creation}
+				<section style={modalWrapperStyles}>
+					<article style={innerModalWrapperStyles}>
+						<div style={imageHeaderPromptWrapperStyles}>
+							<CrModalImage
 								appWidth={appWidth}
-								reactionCountList={reactionCountList}
-								page={page}
-								currentTheme={currentTheme}
-								creator={emptyCreatorProfile}
+								creation={creation}
+								creationIndex={creationIndex}
+								currentCreationIndex={currentCreationIndex}
 							/>
 
-							<CreationPrompt
-								layout={isMobile ? layout : 'relative'}
-								creation={creation}
-								appWidth={appWidth}
-								currentTheme={currentTheme}
-								page={page}
-							/>
+							<Col
+								className={`${crTextDataWrapperPadding}`}
+								style={headerPromptWrapperStyles}
+							>
+								<span>{`Creations Data Length: ${creationsData.length}`}</span>
+								<span>{`Creation Index: ${creationIndex}`}</span>
+								<span>{`Creation ID: ${creation?._id}`}</span>
+								<span>{`Creation Prompt: ${creation?.task.config.text_input}`}</span>
 
-							{/* <CrModalDebug
+								<CrModalHeader
+									layout={isMobile ? layout : 'relative'}
+									creation={creation}
+									appWidth={appWidth}
+									reactionCountList={reactionCountList}
+									page={page}
+									currentTheme={currentTheme}
+									creator={emptyCreatorProfile}
+								/>
+
+								<CreationPrompt
+									layout={isMobile ? layout : 'relative'}
+									creation={creation}
+									appWidth={appWidth}
+									currentTheme={currentTheme}
+									page={page}
+								/>
+
+								{/* <CrModalDebug
 								creation={creation}
 								creationIndex={creationIndex}
 								currentCreationIndex={currentCreationIndex}
 							/> */}
-						</Col>
-					</div>
-				</article>
-			</section>
+							</Col>
+						</div>
+					</article>
+				</section>
 
-			<TransitionCreationModalButton direction='next' />
-			{/* <CrModalDebug /> */}
+				<TransitionCreationModalButton direction='next' />
+				{/* <CrModalDebug /> */}
+			</Row>
 		</Modal>
 	)
 }

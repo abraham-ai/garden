@@ -11,6 +11,7 @@ const handler = async (
 ): Promise<void> => {
 	const { limit, username, generators, earliestTime, latestTime } = req.query
 
+	console.log(req.query)
 	console.log({ generators })
 
 	console.log({ generators: [generators] })
@@ -29,6 +30,8 @@ const handler = async (
 		console.log({ filter })
 
 		const creations = await eden.getCreations(filter)
+
+		console.log(creations.length)
 
 		res.status(200).json(creations)
 		return

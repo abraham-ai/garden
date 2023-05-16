@@ -3,6 +3,7 @@
 	position: fixed;
 	z-index: 9999;
 	top: 100px;
+	left: 100px;
 	margin-top: 25px;
 	max-width: 400px;
 }

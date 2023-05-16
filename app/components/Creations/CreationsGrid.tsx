@@ -48,12 +48,11 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
-	const [latestCreationDataTime, setLatestCreationDataTime] = useState(null)
-
 	const context = useContext(AppContext)
 
 	const earliestCreationTime = context?.earliestCreationTime ?? ''
 	const latestCreationTime = context?.latestCreationTime ?? ''
+	const setEarliestCreationTime = context?.setEarliestCreationTime ?? (() => {})
 	const setLatestCreationTime = context?.setLatestCreationTime ?? (() => {})
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const setCurrentCreationModalCreation =
@@ -84,10 +83,18 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			adjustedLatestCreationTime = ''
 		} else {
 			// Use the last creation's createdAt value from previousPageData if available
-			const lastCreationTime =
-				previousPageData?.[previousPageData.length - 1]?.createdAt ||
-				latestCreationTime
-			adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
+
+			// const prevPageCreatedAt =
+			// 	previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
+			// 	typeof previousPageData?.[previousPageData.length - 1]?.createdAt !==
+			// 		'undefined' ?? ''
+
+			// const lastCreationTime = isPrevPageCreatedAt || latestCreationTime
+			adjustedLatestCreationTime = addSecondsToDate(
+				previousPageData?.[previousPageData.length - 1]?.createdAt,
+				1
+			)
+			setEarliestCreationTime(adjustedLatestCreationTime)
 		}
 
 		console.log({ latestCreationTime })
@@ -95,7 +102,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 		const url = `/api/creations?limit=${limit}&page=${
 			pageIndex + 1
-		}&username=${username}&generators=${generators}&earliestTime=${earliestCreationTime}&latestTime=${adjustedLatestCreationTime}`
+		}&username=${username}&generators=${generators}&earliestTime=${adjustedLatestCreationTime}&latestTime=${''}`
 
 		return url
 	}
@@ -106,8 +113,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			setCurrentCreationIndex(creationIndex)
 			setCurrentCreationModalCreation(creation)
 		}
-
-		// creationsData[currentCreationIndex]
 	}
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
@@ -129,10 +134,38 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		return newDate
 	}
 
-	const allCreationsData = useMemo(() => {
-		if (data == null) return []
-		return data.flat()
-	}, [data])
+	// Update the useEffect hook to set the latest creation time
+	useEffect(() => {
+		if (data == null) return
+
+		const newData = data.flat()
+		const uniqueCreations = getUniqueCreations(newData)
+
+		if (uniqueCreations.length > 0) {
+			// Create a new set of IDs from the existing creationsData state
+			const existingCreationsIds = new Set(
+				creationsData.map((creation) => creation._id)
+			)
+
+			// Filter out the creations that are already present in the creationsData state
+			const newCreations = uniqueCreations.filter(
+				(creation) => !existingCreationsIds.has(creation._id)
+			)
+
+			if (newCreations.length > 0) {
+				// If there are new creations, update the creationsData state
+				if (setCreationsData != null) {
+					setCreationsData((prevCreations: Creation[]) => {
+						return [...prevCreations, ...newCreations]
+					})
+				}
+
+				// Update the latest creation time state
+				const lastCreationTime = newCreations[newCreations.length - 1].createdAt
+				setEarliestCreationTime(lastCreationTime)
+			}
+		}
+	}, [data, size])
 
 	const lastElementRef = useCallback(
 		(node) => {
@@ -153,36 +186,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		[isLoadingMore, isReachingEnd]
 	)
 
-	// Update the useEffect hook to set the latest creation time
-	useEffect(() => {
-		if (data == null) return
-
-		const newData = data.flat()
-		const uniqueCreations = getUniqueCreations(newData)
-
-		if (uniqueCreations.length > 0) {
-			// Get the createdAt value of the last creation in the uniqueCreations array
-			const lastCreationTime =
-				uniqueCreations[uniqueCreations.length - 1].createdAt
-
-			// Get the createdAt value of the last creation in the creationsData state
-			const lastCreationsDataTime =
-				creationsData[creationsData.length - 1]?.createdAt
-
-			// Update the creationsData state if the two createdAt values are not equal
-			if (lastCreationTime !== lastCreationsDataTime) {
-				if (setCreationsData != null) {
-					setCreationsData((prevCreations: Creation[]) => {
-						return [...prevCreations, ...uniqueCreations]
-					})
-				}
-			}
-
-			// Update the latest creation time state, regardless of whether the two createdAt values are equal
-			setLatestCreationTime(lastCreationTime)
-		}
-	}, [data, size])
-
 	return (
 		<>
 			{isScrollAnalytics ? (
@@ -198,7 +201,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			) : null}
 
 			<CreationsMasonry
-				creations={allCreationsData}
+				creations={creationsData}
 				appWidth={width}
 				onCreationClick={handleCreationClick}
 			/>
