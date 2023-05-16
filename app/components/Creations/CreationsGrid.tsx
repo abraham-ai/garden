@@ -55,45 +55,48 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		context?.setCurrentCreationModalCreation ?? (() => {})
 	const creationsData = context?.creationsData ?? []
 	const setCreationsData = context?.setCreationsData ?? (() => {})
+	const latestCreationTime = context?.latestCreationTime ?? ''
+	const setLatestCreationTime =
+		context?.setLatestCreationTime ??
+		(() => {
+			const now = new Date()
+			now.setMinutes(now.getMinutes() - 1)
+			return String(now.toISOString())
+		})
 	const updateCreationsData = context?.updateCreationsData ?? (() => {})
 
 	const { width: appWidth } = useWindowDimensions()
 
-	const [latestCreationTime, setLatestCreationTime] = useState<number | string>(
-		() => {
-			const now = new Date()
-			now.setMinutes(now.getMinutes() - 1)
-			return now.toISOString()
-		}
-	)
-
 	const observer = useRef<IntersectionObserver | null>(null)
 
-	const getKey = (pageIndex, previousPageData) => {
-		if (pageIndex !== 0 && previousPageData === null) {
-			return null
-		}
+	const getKey = useCallback(
+		(pageIndex, previousPageData): string => {
+			if (pageIndex !== 0 && previousPageData === null) {
+				return null
+			}
 
-		let adjustedLatestCreationTime = ''
+			let adjustedLatestCreationTime = ''
 
-		if (pageIndex === 0) {
-			adjustedLatestCreationTime = ''
-		} else {
-			const lastCreationTime =
-				previousPageData?.[previousPageData.length - 1]?.createdAt ||
-				latestCreationTime
-			adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
-		}
+			if (pageIndex === 0) {
+				adjustedLatestCreationTime = ''
+			} else {
+				const lastCreationTime =
+					previousPageData?.[previousPageData.length - 1]?.createdAt ||
+					latestCreationTime
+				adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
+			}
 
-		return createUrl(
-			limit,
-			pageIndex + 1,
-			username,
-			generators,
-			earliestTime,
-			adjustedLatestCreationTime
-		)
-	}
+			return createUrl(
+				limit,
+				pageIndex + 1,
+				username,
+				generators,
+				earliestTime,
+				adjustedLatestCreationTime
+			)
+		},
+		[latestCreationTime]
+	)
 
 	const { data, size, setSize, isValidating, error, mutate } = useSWRInfinite(
 		getKey,
@@ -129,20 +132,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		typeof allCreationsData !== 'undefined' &&
 		allCreationsData != null &&
 		allCreationsData.length > 0
-
-	useEffect(() => {
-		if (isAllCreationsData) {
-			const uniqueCreations = getUniqueCreations(allCreationsData)
-			updateCreationsData(uniqueCreations)
-		}
-	}, [allCreationsData, updateCreationsData])
-
-	useEffect(() => {
-		if (data != null) {
-			const uniqueCreations = getUniqueCreations(data.flat())
-			updateCreationsData(uniqueCreations)
-		}
-	}, [data, updateCreationsData])
 
 	const lastElementRef = useCallback(
 		(node) => {
@@ -189,33 +178,26 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	useEffect(() => {
 		if (data == null) return
 
-		// console.log('Data changed:', data)
-
 		const newData = data.flat()
-		const uniqueCreations = newData.filter((newCreation: Creation) => {
-			return !creationsData.some(
-				(prevCreation) => prevCreation._id === newCreation._id
-			)
-		})
+		const uniqueCreations = getUniqueCreations(newData)
 
 		if (uniqueCreations.length > 0) {
-			if (setCreationsData != null) {
-				setCreationsData((prevCreations: Creation[]) => {
-					return [...prevCreations, ...uniqueCreations]
-				})
-			}
+			setCreationsData((prevCreations: Creation[]) => {
+				return [...prevCreations, ...uniqueCreations]
+			})
 
 			// Update the latest creation time state
 			const lastCreation = uniqueCreations[uniqueCreations.length - 1]
 			setLatestCreationTime(lastCreation.createdAt)
 		}
-	}, [data, creationsData, size])
+	}, [data, setCreationsData, setLatestCreationTime])
 
 	const isCreator =
 		typeof creator !== 'undefined' && creator?.user?.username !== ''
 
 	// console.log({ creator })
 	// console.log(lastElementRef)
+	console.log({ latestCreationTime })
 	console.log({ allCreationsData })
 	console.log({ creationsData })
 	console.log(`CreationsGrid - Creations Data Length: ${creationsData.length}`)

@@ -19,6 +19,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const MyProfile: FC = () => {
 	const context = useContext(AppContext)
 	const userId = context?.userId ?? ''
+	const latestCreationTime = context?.latestCreationTime ?? ''
 	// const userAddress = context?.userAddress ?? ''
 
 	const myProfileData = useGetMyProfile(userId)
