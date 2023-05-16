@@ -200,7 +200,6 @@ const CreationModal: FC<CreationModalProps> = ({
 			onCancel={() => {
 				handleModalCancel()
 			}}
-			style={modalStyles}
 		>
 			<TransitionCreationModalButton direction='prev' />
 

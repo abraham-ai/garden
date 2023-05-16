@@ -38,13 +38,16 @@ const TransitionCreationModalButton: FC<TransitionCreationModalButtonProps> = ({
 		}
 	}
 
+	const isPrev = direction === 'prev'
+
 	return (
 		<Button
 			shape='circle'
 			style={{
 				position: 'absolute',
-				transform:
-					direction === 'prev' ? 'translateX(-45px)' : 'translateX(45)',
+				right: isPrev ? 'unset' : -60,
+				left: isPrev ? -30 : 'unset',
+				transform: isPrev ? 'translateX(-45px)' : 'translateX(45)',
 			}}
 			onClick={() => {
 				handleModalTransition(direction)

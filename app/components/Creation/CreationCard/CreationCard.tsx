@@ -16,6 +16,7 @@ import { ColorExtractor } from 'react-color-extractor'
 import useGetReactionCount from '../../../../hooks/useGetReactionCount'
 import { useReaction } from '../../../../context/ReactionContext'
 
+import emptyCreation from '../../../../constants/emptyCreation'
 import CreationModal from '../CreationModal/CreationModal'
 import CreationSocial from '../CreationSocial'
 
