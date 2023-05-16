@@ -12,8 +12,8 @@ import emptyCreatorProfile from '../../../../constants/emptyCreatorProfile'
 import CrModalImage from './CrModalImage'
 import CrModalHeader from './CrModalHeader'
 import CreationPrompt from '../CreationPrompt'
+import TransitionCreationModalButton from './TransitionCreationModalButton'
 // import CrModalDebug from './CrModalDebug'
-// import TransitionCreationModalButton from './TransitionCreationModalButton'
 
 import emptyCreation from '../../../../constants/emptyCreation'
 import abbreviateText from '../../../../util/abbreviateText'
@@ -199,7 +199,7 @@ const CreationModal: FC<CreationModalProps> = ({
 			}}
 			style={modalStyles}
 		>
-			{/* <TransitionCreationModalButton direction='prev' /> */}
+			<TransitionCreationModalButton direction='prev' />
 
 			<section style={modalWrapperStyles}>
 				<article style={innerModalWrapperStyles}>
@@ -246,7 +246,7 @@ const CreationModal: FC<CreationModalProps> = ({
 				</article>
 			</section>
 
-			{/* <TransitionCreationModalButton direction='next' /> */}
+			<TransitionCreationModalButton direction='next' />
 			{/* <CrModalDebug /> */}
 		</Modal>
 	)

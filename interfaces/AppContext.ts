@@ -27,6 +27,8 @@ interface AppContext {
 	setCreationsData: Dispatch<SetStateAction<Creation[]>>
 	creationsLoading: boolean
 	creationsMore: boolean
+	earliestCreationTime: number
+	setEarliestCreationTime: Dispatch<SetStateAction<number>>
 	latestCreationTime: number
 	setLatestCreationTime: Dispatch<SetStateAction<number>>
 	updateCreationsData: (data: Creation[]) => void

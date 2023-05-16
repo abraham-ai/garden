@@ -2,7 +2,6 @@
 
 import type { FC } from 'react'
 import type Creation from '../../../interfaces/Creation'
-import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import React, {
 	useState,
 	useEffect,
@@ -14,13 +13,8 @@ import React, {
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
-import getUniqueCreations from '../../../util/getUniqueCreations'
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
-import useGetCreationsFetcher from '../../../hooks/useGetCreationsFetcher'
-import addSecondsToDate from '../../../util/addSecondsToDate'
-import useCreationsGridParams from '../../../hooks/useCreationsGridParams'
-
-import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
+import getUniqueCreations from '../../../util/getUniqueCreations'
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 
@@ -46,125 +40,60 @@ interface CreationsGridProps {
 const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(true)
 
-	const { username, generators, earliestTime, limit } = useCreationsGridParams()
+	const [username, setUsername] = useState<string | string>('')
+	const [generators, setGenerators] = useState<string | string>('create')
+	const [limit, setLimit] = useState<number>(10)
 
-	const context = useContext(AppContext)
-
-	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
-	const setCurrentCreationModalCreation =
-		context?.setCurrentCreationModalCreation ?? (() => {})
-	const creationsData = context?.creationsData ?? []
-	const setCreationsData = context?.setCreationsData ?? (() => {})
-	const latestCreationTime = context?.latestCreationTime ?? ''
-	const setLatestCreationTime =
-		context?.setLatestCreationTime ??
-		(() => {
-			const now = new Date()
-			now.setMinutes(now.getMinutes() - 1)
-			return String(now.toISOString())
-		})
-	const updateCreationsData = context?.updateCreationsData ?? (() => {})
-
-	const { width: appWidth } = useWindowDimensions()
+	const { width } = useWindowDimensions()
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
-	const getKey = useCallback(
-		(pageIndex, previousPageData): string => {
-			if (pageIndex !== 0 && previousPageData === null) {
-				return null
-			}
+	const context = useContext(AppContext)
 
-			let adjustedLatestCreationTime = ''
+	const earliestCreationTime = context?.earliestCreationTime ?? ''
+	const latestCreationTime = context?.latestCreationTime ?? ''
+	const setLatestCreationTime = context?.setLatestCreationTime ?? (() => {})
+	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
+	const setCurrentCreationModalCreation =
+		context?.setCurrentCreationModalCreation ?? (() => {})
 
-			if (pageIndex === 0) {
-				adjustedLatestCreationTime = ''
-			} else {
-				const lastCreationTime =
-					previousPageData?.[previousPageData.length - 1]?.createdAt ||
-					latestCreationTime
-				adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
-			}
+	const creationsData = context?.creationsData ?? []
+	const setCreationsData = context?.setCreationsData ?? (() => {})
 
-			return createUrl(
-				limit,
-				pageIndex + 1,
-				username,
-				generators,
-				earliestTime,
-				adjustedLatestCreationTime
-			)
-		},
-		[latestCreationTime]
-	)
+	console.log({ latestCreationTime })
+	console.log({ earliestCreationTime })
 
-	const { data, size, setSize, isValidating, error, mutate } = useSWRInfinite(
-		getKey,
-		useGetCreationsFetcher
-	)
+	const fetcher = async (url: string): Creation[] => {
+		console.log({ url })
+		const res = await fetch(url)
+		const data = await res.json()
+		console.log('Fetched data:', data)
+		return data
+	}
 
-	console.log({ error })
-	const dataArray = data?.[0] ?? []
-	const isDataArray =
-		dataArray != null &&
-		dataArray.length > 0 &&
-		typeof data[size - 1] === 'undefined'
-
-	const isLoadingMore = isValidating && size === data?.length
-	const isEmpty = data?.[0]?.length === 0
-	const isReachingEnd =
-		isEmpty || (data != null && data[data.length - 1]?.length < limit)
-	const isRefreshing = isValidating && isDataArray && data.length === size
-
-	console.log(dataArray)
-	console.log(`Data Length: ${String(dataArray.length ?? '')}`)
-
-	console.log({ isLoadingMore, isEmpty, isReachingEnd, isRefreshing })
-
-	const allCreationsData: Creation[] = useMemo(() => {
-		if (data != null) {
-			return data.flat()
+	const getKey = (pageIndex, previousPageData): string => {
+		if (pageIndex !== 0 && previousPageData === null) {
+			return null
 		}
-		return []
-	}, [data])
 
-	const isAllCreationsData =
-		typeof allCreationsData !== 'undefined' &&
-		allCreationsData != null &&
-		allCreationsData.length > 0
+		let adjustedLatestCreationTime = ''
 
-	const lastElementRef = useCallback(
-		(node) => {
-			console.log('Ref node: ', node)
-			if (isLoadingMore || isReachingEnd) return
-			if (observer.current != null) observer.current.disconnect()
-			observer.current = new IntersectionObserver((entries) => {
-				console.log('Intersection observer entries: ', entries)
-				if (entries[0].isIntersecting && !isReachingEnd) {
-					console.log('Intersection observed and not reaching end.')
-					setSize((prevSize) => {
-						console.log('Prev size: ', prevSize)
-						if (!isReachingEnd) {
-							const newSize = prevSize + 1
-							console.log('New size: ', newSize)
-							return newSize
-						}
-						return prevSize
-					})
-				}
-			})
-			if (node) observer.current.observe(node)
-		},
-		[isLoadingMore, isReachingEnd, setSize]
-	)
-
-	useEffect(() => {
-		return () => {
-			if (observer.current != null) {
-				observer.current.disconnect()
-			}
+		if (pageIndex === 0) {
+			adjustedLatestCreationTime = ''
+		} else {
+			// Use the last creation's createdAt value from previousPageData if available
+			const lastCreationTime =
+				previousPageData?.[previousPageData.length - 1]?.createdAt ||
+				latestCreationTime
+			adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
 		}
-	}, [])
+
+		const url = `/api/creations?limit=${limit}&page=${
+			pageIndex + 1
+		}&username=${username}&generators=${generators}&earliestTime=${earliestCreationTime}&latestTime=${adjustedLatestCreationTime}`
+
+		return url
+	}
 
 	const handleCreationClick = (creation: Creation, creationIndex): void => {
 		const index = dataArray.findIndex((c) => c._id === creation._id)
@@ -174,6 +103,49 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		}
 	}
 
+	const { data, mutate, size, setSize, isValidating, isLoading, error } =
+		useSWRInfinite(getKey, fetcher)
+
+	const dataArray = data?.[0] ?? []
+
+	const isLoadingMore =
+		isLoading ||
+		(size > 0 && data != null && typeof data[size - 1] === 'undefined')
+	const isEmpty = data?.[0]?.length === 0
+	const isReachingEnd =
+		isEmpty || (data != null && data[data.length - 1]?.length < limit)
+	const isRefreshing = isValidating && data != null && data.length === size
+
+	const addSecondsToDate = (date, seconds): string => {
+		const newDateTime = new Date(date).getTime() - seconds
+		const newDate = new Date(newDateTime).toISOString()
+		return newDate
+	}
+
+	const allCreationsData = useMemo(() => {
+		if (data == null) return []
+		return data.flat()
+	}, [data])
+
+	const lastElementRef = useCallback(
+		(node) => {
+			if (isLoadingMore || isReachingEnd) return
+			if (observer.current != null) observer.current.disconnect()
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && !isReachingEnd) {
+					setSize((prevSize) => {
+						if (!isReachingEnd) {
+							return prevSize + 1
+						}
+						return prevSize
+					})
+				}
+			})
+			if (node) observer.current.observe(node)
+		},
+		[isLoadingMore, isReachingEnd]
+	)
+
 	// Update the useEffect hook to set the latest creation time
 	useEffect(() => {
 		if (data == null) return
@@ -182,33 +154,32 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		const uniqueCreations = getUniqueCreations(newData)
 
 		if (uniqueCreations.length > 0) {
-			setCreationsData((prevCreations: Creation[]) => {
-				return [...prevCreations, ...uniqueCreations]
-			})
+			// Get the createdAt value of the last creation in the uniqueCreations array
+			const lastCreationTime =
+				uniqueCreations[uniqueCreations.length - 1].createdAt
 
-			// Update the latest creation time state
-			const lastCreation = uniqueCreations[uniqueCreations.length - 1]
-			setLatestCreationTime(lastCreation.createdAt)
+			// Get the createdAt value of the last creation in the creationsData state
+			const lastCreationsDataTime =
+				creationsData[creationsData.length - 1]?.createdAt
+
+			// If the two createdAt values are not equal, update the creationsData state
+			if (lastCreationTime !== lastCreationsDataTime) {
+				if (setCreationsData != null) {
+					setCreationsData((prevCreations: Creation[]) => {
+						return [...prevCreations, ...uniqueCreations]
+					})
+				}
+
+				// Update the latest creation time state
+				setLatestCreationTime(lastCreationTime)
+			}
 		}
-	}, [data, setCreationsData, setLatestCreationTime])
-
-	const isCreator =
-		typeof creator !== 'undefined' && creator?.user?.username !== ''
-
-	// console.log({ creator })
-	// console.log(lastElementRef)
-	console.log({ latestCreationTime })
-	console.log({ allCreationsData })
-	console.log({ creationsData })
-	console.log(`CreationsGrid - Creations Data Length: ${creationsData.length}`)
-	console.log(`All Creations Length: ${allCreationsData.length}`)
-	console.log(`Creations Data Length: ${creationsData.length}`)
+	}, [data, size])
 
 	return (
 		<>
 			{isScrollAnalytics ? (
 				<CreationsGridAnalytics
-					// lastCreationEarliestTime={lastCreationEarliestTime}
 					size={size}
 					isLoadingMore={isLoadingMore}
 					isReachingEnd={isReachingEnd}
@@ -221,9 +192,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 			<CreationsMasonry
 				creations={allCreationsData}
-				appWidth={appWidth}
+				appWidth={width}
 				onCreationClick={handleCreationClick}
-				creator={isCreator ? creator : emptyCreatorProfile}
 			/>
 
 			<Row

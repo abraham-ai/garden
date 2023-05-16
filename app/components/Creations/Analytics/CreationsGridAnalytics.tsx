@@ -4,6 +4,8 @@ import type Creation from '../../../../interfaces/Creation'
 import React, { useEffect, useContext } from 'react'
 import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
+
+import timeAgo from '../../../../util/timeAgo'
 import emptyCreation from '../../../../constants/emptyCreation'
 
 import CreationsTable from './CreationsTable'
@@ -40,7 +42,7 @@ const CurrentCreationModalCreation: FC<CurrentCreationModalCreationProps> = ({
 
 	const isCurrentCreationModal = textInput !== ''
 
-	console.log({ textInput })
+	console.log(isCurrentCreationModal ? { textInput } : 'Creation Modal Empty')
 
 	return (
 		<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -81,12 +83,20 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 }) => {
 	const context = useContext(AppContext)
 	const creationsData = context?.creationsData ?? []
+	const latestCreationTime = context?.latestCreationTime ?? 0
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const currentCreationModalCreation =
 		context?.currentCreationModalCreation ?? emptyCreation
 
+	const isCurrentCreationModalCreationEmpty =
+		currentCreationModalCreation._id === ''
+
 	console.log({ currentCreationIndex })
-	console.log({ currentCreationModalCreation })
+	console.log(
+		isCurrentCreationModalCreationEmpty
+			? 'Creation Modal Emtpy'
+			: { currentCreationModalCreation }
+	)
 	console.log({ creationsData })
 
 	useEffect(() => {
@@ -106,6 +116,11 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 				<b>{'Last Creation Earliest Time'}</b>
 				<p>{timeAgo(lastCreationEarliestTime)}</p>
 			</span> */}
+
+				<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
+					<Text strong>{'Latest Creation Date'}</Text>
+					<Text>{timeAgo(latestCreationTime)}</Text>
+				</Col>
 
 				<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
 					<Text strong>{'Creations Data Length'}</Text>

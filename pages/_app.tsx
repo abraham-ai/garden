@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import type Creation from '../interfaces/Creation'
 import type Collection from '../interfaces/Collection'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import AppContext from '../context/AppContext'
 import { ReactionProvider } from '../context/ReactionContext'
 
@@ -65,6 +65,10 @@ const CustomAvatar: FC<CustomAvatarProps> = ({ address }) => {
 	return <Blockies seed={address} />
 }
 
+const now = new Date()
+now.setMinutes(now.getMinutes() - 1)
+const initialLatestTime = String(now.toISOString())
+
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	// wagmi wallet hooks
 	const { isConnected, address } = useAccount()
@@ -84,7 +88,13 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [creationsData, setCreationsData] = useState<Creation[]>([])
 	const [creationsLoading] = useState<boolean>(false) // setCreationsLoading
 	const [creationsMore] = useState<boolean>(true) // setCreationsMore
-	const [latestCreationTime, setLatestCreationTime] = useState<string>('')
+
+	const [earliestCreationTime, setEarliestCreationTime] = useState<
+		number | string
+	>('')
+	const [latestCreationTime, setLatestCreationTime] = useState<number | string>(
+		initialLatestTime
+	)
 
 	const [isSaveCreationModalOpen, setIsSaveCreationModalOpen] = useState(false)
 	const [currentCreationModalCreation, setCurrentCreationModalCreation] =
@@ -190,6 +200,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		updateCreationsData,
 		onCreationClick,
 		creationsMore,
+		earliestCreationTime,
+		setEarliestCreationTime,
 		latestCreationTime,
 		setLatestCreationTime,
 		currentCreationIndex,

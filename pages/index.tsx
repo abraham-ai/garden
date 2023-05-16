@@ -20,6 +20,8 @@ const Index: FC = () => {
 		earliestTime,
 		latestTime
 	): string => {
+		console.log({ pageIndex })
+
 		return `/api/creations?limit=${String(limit)}&page=${String(
 			pageIndex
 		)}&username=${String(username)}&generators=${String(
