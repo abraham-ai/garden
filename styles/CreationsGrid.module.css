@@ -39,8 +39,10 @@
 	display: flex;
 	flex: 1;
 	justify-content: center;
-	margin: 50px;
+	padding: 100px;
+	height: 50px;
 	color: black;
+	background: yellow;
 	/* background: rgba(0, 0, 0, 0.5); */
 }
 

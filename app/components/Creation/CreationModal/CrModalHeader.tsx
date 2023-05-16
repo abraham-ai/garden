@@ -62,7 +62,7 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 		padding: 0,
 	}
 
-	console.log({ layout })
+	// console.log({ layout })
 
 	return (
 		<section style={headerSocialWrapperStyles}>

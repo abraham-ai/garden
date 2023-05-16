@@ -1,54 +1,18 @@
 import type { FC } from 'react'
-import type Creation from '../../../interfaces/Creation'
+import type Creation from '../../../../interfaces/Creation'
 
 import React, { useEffect, useContext } from 'react'
-import AppContext from '../../../context/AppContext'
+import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
-import emptyCreation from '../../../constants/emptyCreation'
-import timeAgo from '../../../util/timeAgo'
+import emptyCreation from '../../../../constants/emptyCreation'
 
-import styles from '../../../styles/CreationsGrid.module.css'
-import {
-	Button,
-	Row,
-	Col,
-	Tag,
-	Card,
-	Typography,
-	ConfigProvider,
-	theme,
-} from 'antd'
+import CreationsTable from './CreationsTable'
+import styles from '../../../../styles/CreationsGrid.module.css'
+import { Button, Col, Card, Typography, ConfigProvider, theme } from 'antd'
 const { Text } = Typography
 
 const themeDark = { algorithm: theme.darkAlgorithm }
 const themeDefault = { algorithm: theme.defaultAlgorithm }
-
-interface CreationsTableProps {
-	creations: Creation[]
-}
-
-const CreationsTable: FC<CreationsTableProps> = ({ creations }) => {
-	return (
-		<Col style={{ maxHeight: 300, overflowX: 'hidden', overflowY: 'scroll' }}>
-			{creations.map((creation, index) => {
-				const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt))
-
-				return (
-					<Col key={index}>
-						<Row>
-							<Text code>{index}</Text>
-
-							<Text>{timeAgoCreatedAt}</Text>
-							<Tag>
-								<p>{creation._id}</p>
-							</Tag>
-						</Row>
-					</Col>
-				)
-			})}
-		</Col>
-	)
-}
 
 interface CurrentCreationIndexProps {
 	creationIndex: number
@@ -148,8 +112,6 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 					<Text>{creationsData.length}</Text>
 				</Col>
 
-				<CreationsTable creations={creationsData} />
-
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					<span className={styles.loadingState}>
 						{`showing ${size} page(s) of 
@@ -189,6 +151,7 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 					</span>
 				</div>
 				{isEmpty ? <p>No creations found.</p> : null}
+				<CreationsTable creations={creationsData} />
 			</Card>
 		</ConfigProvider>
 	)

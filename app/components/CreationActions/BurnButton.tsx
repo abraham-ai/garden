@@ -413,12 +413,12 @@ const BurnButton: FC<BurnButtonProps> = ({
 	const burnFilled = <span style={{ fontSize: textSize }}>{'🔥'}</span>
 
 	const handleMouseOver = (): void => {
-		console.log('handleMouseOver')
+		// console.log('handleMouseOver')
 		setIsBurnHovering(true)
 	}
 
 	const handleMouseOut = (): void => {
-		console.log('handleMouseOut')
+		// console.log('handleMouseOut')
 		setIsBurnHovering(false)
 	}
 

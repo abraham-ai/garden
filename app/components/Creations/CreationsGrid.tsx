@@ -14,6 +14,7 @@ import React, {
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
+import getUniqueCreations from '../../../util/getUniqueCreations'
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
 import useGetCreationsFetcher from '../../../hooks/useGetCreationsFetcher'
 import addSecondsToDate from '../../../util/addSecondsToDate'
@@ -21,7 +22,7 @@ import useCreationsGridParams from '../../../hooks/useCreationsGridParams'
 
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
 import CreationsMasonry from './CreationsMasonry'
-import CreationsGridAnalytics from './CreationsGridAnalytics'
+import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin, Row } from 'antd'
@@ -94,28 +95,34 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		)
 	}
 
-	const { data, mutate, size, setSize, isValidating, isLoading, error } =
-		useSWRInfinite(getKey, useGetCreationsFetcher)
+	const { data, size, setSize, isValidating, error, mutate } = useSWRInfinite(
+		getKey,
+		useGetCreationsFetcher
+	)
 
+	console.log({ error })
 	const dataArray = data?.[0] ?? []
 	const isDataArray =
 		dataArray != null &&
 		dataArray.length > 0 &&
 		typeof data[size - 1] === 'undefined'
 
+	const isLoadingMore = isValidating && size === data?.length
+	const isEmpty = data?.[0]?.length === 0
+	const isReachingEnd =
+		isEmpty || (data != null && data[data.length - 1]?.length < limit)
+	const isRefreshing = isValidating && isDataArray && data.length === size
+
 	console.log(dataArray)
 	console.log(`Data Length: ${String(dataArray.length ?? '')}`)
 
-	const isLoadingMore =
-		isLoading ||
-		(size > 0 && data != null && typeof data[size - 1] === 'undefined')
-	const isEmpty = dataArray?.length === 0
-	const isReachingEnd =
-		isEmpty || (data != null && data[data.length - 1]?.length < limit)
-	const isRefreshing = isValidating && data != null && data.length === size
+	console.log({ isLoadingMore, isEmpty, isReachingEnd, isRefreshing })
 
-	const allCreationsData = useMemo(() => {
-		return isDataArray ? dataArray.flat() : []
+	const allCreationsData: Creation[] = useMemo(() => {
+		if (data != null) {
+			return data.flat()
+		}
+		return []
 	}, [data])
 
 	const isAllCreationsData =
@@ -125,25 +132,33 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	useEffect(() => {
 		if (isAllCreationsData) {
-			updateCreationsData(allCreationsData)
+			const uniqueCreations = getUniqueCreations(allCreationsData)
+			updateCreationsData(uniqueCreations)
 		}
 	}, [allCreationsData, updateCreationsData])
 
-	// useEffect(() => {
-	// 	if (data != null) {
-	// 		updateCreationsData(data.flat())
-	// 	}
-	// }, [data, updateCreationsData])
+	useEffect(() => {
+		if (data != null) {
+			const uniqueCreations = getUniqueCreations(data.flat())
+			updateCreationsData(uniqueCreations)
+		}
+	}, [data, updateCreationsData])
 
 	const lastElementRef = useCallback(
 		(node) => {
+			console.log('Ref node: ', node)
 			if (isLoadingMore || isReachingEnd) return
 			if (observer.current != null) observer.current.disconnect()
 			observer.current = new IntersectionObserver((entries) => {
+				console.log('Intersection observer entries: ', entries)
 				if (entries[0].isIntersecting && !isReachingEnd) {
+					console.log('Intersection observed and not reaching end.')
 					setSize((prevSize) => {
+						console.log('Prev size: ', prevSize)
 						if (!isReachingEnd) {
-							return prevSize + 1
+							const newSize = prevSize + 1
+							console.log('New size: ', newSize)
+							return newSize
 						}
 						return prevSize
 					})
@@ -151,8 +166,16 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			})
 			if (node) observer.current.observe(node)
 		},
-		[isLoadingMore, isReachingEnd]
+		[isLoadingMore, isReachingEnd, setSize]
 	)
+
+	useEffect(() => {
+		return () => {
+			if (observer.current != null) {
+				observer.current.disconnect()
+			}
+		}
+	}, [])
 
 	const handleCreationClick = (creation: Creation, creationIndex): void => {
 		const index = dataArray.findIndex((c) => c._id === creation._id)
@@ -161,12 +184,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			setCurrentCreationModalCreation(creation)
 		}
 	}
-
-	console.log({ allCreationsData })
-	console.log({ creationsData })
-	console.log(`CreationsGrid - Creations Data Length: ${creationsData.length}`)
-	console.log(`All Creations Length: ${allCreationsData.length}`)
-	console.log(`Creations Data Length: ${creationsData.length}`)
 
 	// Update the useEffect hook to set the latest creation time
 	useEffect(() => {
@@ -198,6 +215,12 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		typeof creator !== 'undefined' && creator?.user?.username !== ''
 
 	// console.log({ creator })
+	// console.log(lastElementRef)
+	console.log({ allCreationsData })
+	console.log({ creationsData })
+	console.log(`CreationsGrid - Creations Data Length: ${creationsData.length}`)
+	console.log(`All Creations Length: ${allCreationsData.length}`)
+	console.log(`Creations Data Length: ${creationsData.length}`)
 
 	return (
 		<>
@@ -215,7 +238,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			) : null}
 
 			<CreationsMasonry
-				creations={dataArray}
+				creations={allCreationsData}
 				appWidth={appWidth}
 				onCreationClick={handleCreationClick}
 				creator={isCreator ? creator : emptyCreatorProfile}
