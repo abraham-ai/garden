@@ -99,6 +99,14 @@
 	z-index: 100;
 	background: rgba(0, 0, 0, 1);
 }
+.crImagePortrait {
+	width: auto;
+	height: 100%;
+}
+.crImageLandscape {
+	width: 100%;
+	height: auto;
+}
 .crImageMain {
 	position: absolute;
 	width: 100%;

@@ -97,20 +97,43 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSWRInfinite(getKey, useGetCreationsFetcher)
 
+	const dataArray = data?.[0] ?? []
+	const isDataArray =
+		dataArray != null &&
+		dataArray.length > 0 &&
+		typeof data[size - 1] === 'undefined'
+
+	console.log(dataArray)
+	console.log(`Data Length: ${String(dataArray.length ?? '')}`)
+
 	const isLoadingMore =
 		isLoading ||
 		(size > 0 && data != null && typeof data[size - 1] === 'undefined')
-	const isEmpty = data?.[0]?.length === 0
+	const isEmpty = dataArray?.length === 0
 	const isReachingEnd =
 		isEmpty || (data != null && data[data.length - 1]?.length < limit)
 	const isRefreshing = isValidating && data != null && data.length === size
 
 	const allCreationsData = useMemo(() => {
-		if (data == null) return []
-		// Update the creationsData every time data changes
-		updateCreationsData(data.flat())
-		return data.flat()
-	}, [data, updateCreationsData])
+		return isDataArray ? dataArray.flat() : []
+	}, [data])
+
+	const isAllCreationsData =
+		typeof allCreationsData !== 'undefined' &&
+		allCreationsData != null &&
+		allCreationsData.length > 0
+
+	useEffect(() => {
+		if (isAllCreationsData) {
+			updateCreationsData(allCreationsData)
+		}
+	}, [allCreationsData, updateCreationsData])
+
+	// useEffect(() => {
+	// 	if (data != null) {
+	// 		updateCreationsData(data.flat())
+	// 	}
+	// }, [data, updateCreationsData])
 
 	const lastElementRef = useCallback(
 		(node) => {
@@ -131,22 +154,19 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		[isLoadingMore, isReachingEnd]
 	)
 
-	useEffect(() => {
-		if (data != null) {
-			updateCreationsData(data.flat())
-		}
-	}, [data, updateCreationsData])
-
-	const handleCreationClick = (creation: Creation): void => {
-		const index = allCreationsData.findIndex((c) => c._id === creation._id)
+	const handleCreationClick = (creation: Creation, creationIndex): void => {
+		const index = dataArray.findIndex((c) => c._id === creation._id)
 		if (index !== -1) {
-			setCurrentCreationIndex(index)
+			setCurrentCreationIndex(creationIndex)
 			setCurrentCreationModalCreation(creation)
 		}
 	}
 
-	// console.log({ allCreationsData })
-	// console.log({ creationsData })
+	console.log({ allCreationsData })
+	console.log({ creationsData })
+	console.log(`CreationsGrid - Creations Data Length: ${creationsData.length}`)
+	console.log(`All Creations Length: ${allCreationsData.length}`)
+	console.log(`Creations Data Length: ${creationsData.length}`)
 
 	// Update the useEffect hook to set the latest creation time
 	useEffect(() => {
@@ -195,7 +215,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			) : null}
 
 			<CreationsMasonry
-				creations={allCreationsData}
+				creations={dataArray}
 				appWidth={appWidth}
 				onCreationClick={handleCreationClick}
 				creator={isCreator ? creator : emptyCreatorProfile}

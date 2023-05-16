@@ -103,7 +103,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [currentTheme, setCurrentTheme] = useState<string>('')
 
 	// creation context function
-	const onCreationClick = (creation, index) => {
+	const onCreationClick = (creation, index): void => {
 		setCurrentCreationModalCreation(creation)
 		setCurrentCreationIndex(index)
 	}

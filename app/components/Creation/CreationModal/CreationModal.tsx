@@ -210,6 +210,7 @@ const CreationModal: FC<CreationModalProps> = ({
 							style={headerPromptWrapperStyles}
 						>
 							<span>{`Creation Index: ${creationIndex}`}</span>
+							<span>{`Creation ID: ${creation._id}`}</span>
 
 							<CrModalHeader
 								layout={isMobile ? layout : 'relative'}

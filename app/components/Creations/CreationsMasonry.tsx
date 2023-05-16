@@ -38,7 +38,8 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 		creations != null &&
 		creations.length > 0
 
-	// console.log({ creations })
+	console.log({ creations })
+	console.log(`CreationsMasonry - Creations Data Length: ${creations.length}`)
 
 	const isMobile = appWidth < 768
 

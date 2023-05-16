@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
@@ -53,6 +53,20 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)
 	}
 
+	const isLandscape =
+		creation?.task?.config?.width > creation?.task?.config?.height
+	const isPortrait =
+		creation?.task?.config?.width < creation?.task?.config?.height
+
+	const imageStyles = useMemo(() => {
+		if (isLandscape) {
+			return styles.crImageLandscape
+		} else if (isPortrait) {
+			return styles.crImagePortrait
+		}
+	}, [creation])
+
+	console.log(imageStyles)
 	// console.log({ currentCreationIndex })
 	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationModalCreation.task.config.text_input)
@@ -91,7 +105,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 			/>
 
 			<Image
-				className={styles.crImageMain}
+				className={imageStyles}
 				src={creation?.thumbnail}
 				height={creation?.task?.config?.height}
 				width={creation?.task?.config?.width}
@@ -99,15 +113,20 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				// style={{ background: crBgColor }}
 			/>
 
-			<span
+			<div
 				style={{
 					color: 'white',
 					position: 'absolute',
 					top: 0,
 					zIndex: 100,
 					fontWeight: 'bold',
+					display: 'flex',
+					flexDirection: 'column',
 				}}
-			>{`Creation Index: ${creationIndex}`}</span>
+			>
+				<span>{`Creation Index: ${creationIndex}`}</span>
+				<span>{`Creation ID: ${creation?._id}`}</span>
+			</div>
 		</section>
 	)
 }

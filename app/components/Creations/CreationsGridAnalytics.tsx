@@ -4,9 +4,50 @@ import type Creation from '../../../interfaces/Creation'
 import React, { useEffect, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import emptyCreation from '../../../constants/emptyCreation'
+import timeAgo from '../../../util/timeAgo'
 
 import styles from '../../../styles/CreationsGrid.module.css'
-import { Button } from 'antd'
+import {
+	Button,
+	Row,
+	Col,
+	Tag,
+	Card,
+	Typography,
+	ConfigProvider,
+	theme,
+} from 'antd'
+const { Text } = Typography
+
+const themeDark = { algorithm: theme.darkAlgorithm }
+const themeDefault = { algorithm: theme.defaultAlgorithm }
+
+interface CreationsTableProps {
+	creations: Creation[]
+}
+
+const CreationsTable: FC<CreationsTableProps> = ({ creations }) => {
+	return (
+		<Col style={{ maxHeight: 300, overflowX: 'hidden', overflowY: 'scroll' }}>
+			{creations.map((creation, index) => {
+				const timeAgoCreatedAt = timeAgo(Date.parse(creation.createdAt))
+
+				return (
+					<Col key={index}>
+						<Row>
+							<Text code>{index}</Text>
+
+							<Text>{timeAgoCreatedAt}</Text>
+							<Tag>
+								<p>{creation._id}</p>
+							</Tag>
+						</Row>
+					</Col>
+				)
+			})}
+		</Col>
+	)
+}
 
 interface CurrentCreationIndexProps {
 	creationIndex: number
@@ -16,10 +57,10 @@ const CurrentCreationIndex: FC<CurrentCreationIndexProps> = ({
 	creationIndex,
 }) => {
 	return (
-		<span style={{ display: 'flex', justifyContent: 'space-between' }}>
-			<b>{'Current Creation Index'}</b>
-			<p>{creationIndex}</p>
-		</span>
+		<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
+			<Text>{'Current Creation Index'}</Text>
+			<Text>{creationIndex}</Text>
+		</Col>
 	)
 }
 
@@ -37,10 +78,10 @@ const CurrentCreationModalCreation: FC<CurrentCreationModalCreationProps> = ({
 	console.log({ currentCreationTextInput })
 
 	return (
-		<span style={{ display: 'flex', justifyContent: 'space-between' }}>
-			<b>{'Current Creation Modal Creation'}</b>
-			{isCurrentCreationModal ? <p>{currentCreationTextInput}</p> : null}
-		</span>
+		<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
+			<Text>{'Current Creation Modal Creation'}</Text>
+			{isCurrentCreationModal ? <Text>{currentCreationTextInput}</Text> : null}
+		</Col>
 	)
 }
 
@@ -80,63 +121,67 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 	}, [creationsData])
 
 	return (
-		<section className={styles.creationAnalytics}>
-			<span>{`Page ${size}`}</span>
+		<ConfigProvider theme={themeDark}>
+			<Card className={styles.creationAnalytics}>
+				<Text>{`Page ${size}`}</Text>
 
-			<CurrentCreationIndex creationIndex={currentCreationIndex} />
+				<CurrentCreationIndex creationIndex={currentCreationIndex} />
 
-			<CurrentCreationModalCreation creation={currentCreationModalCreation} />
+				<CurrentCreationModalCreation creation={currentCreationModalCreation} />
 
-			{/* <span style={{ display: 'flex', justifyContent: 'space-between' }}>
+				{/* <span style={{ display: 'flex', justifyContent: 'space-between' }}>
 				<b>{'Last Creation Earliest Time'}</b>
 				<p>{timeAgo(lastCreationEarliestTime)}</p>
 			</span> */}
 
-			<span style={{ display: 'flex', justifyContent: 'space-between' }}>
-				<b>{'Creations Data Length'}</b>
-				<p>{creationsData.length}</p>
-			</span>
+				<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
+					<Text>{'Creations Data Length'}</Text>
+					<Text>{creationsData.length}</Text>
+				</Col>
 
-			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				<span className={styles.loadingState}>
-					{`showing ${size} page(s) of 
+				<CreationsTable creations={creationsData} />
+
+				<div style={{ display: 'flex', flexDirection: 'column' }}>
+					<span className={styles.loadingState}>
+						{`showing ${size} page(s) of 
             ${isLoadingMore ? '...' : creationsData.length}
             creation(s) `}
-				</span>
+					</span>
 
-				<span style={{ display: 'flex' }}>
-					<Button
-						disabled={isLoadingMore || isReachingEnd}
-						// onClick={() => {
-						//     handleLoadMore()
-						// }}
-					>
-						{isLoadingMore
-							? 'Loading...'
-							: isReachingEnd
-							? 'no more creations'
-							: 'load more'}
-					</Button>
-					<Button
-						disabled={isRefreshing}
-						onClick={() => {
-							mutate()
-						}}
-					>
-						{isRefreshing ? 'refreshing...' : 'refresh'}
-					</Button>
-					<Button
-						disabled={!size}
-						onClick={() => {
-							setSize(0)
-						}}
-					>
-						{'Clear'}
-					</Button>
-				</span>
-			</div>
-			{isEmpty ? <p>No creations found.</p> : null}
-		</section>
+					<span style={{ display: 'flex' }}>
+						<Button
+							disabled={isLoadingMore || isReachingEnd}
+							// onClick={() => {
+							//     handleLoadMore()
+							// }}
+						>
+							{isLoadingMore
+								? 'Loading...'
+								: isReachingEnd
+								? 'no more creations'
+								: 'load more'}
+						</Button>
+						<Button
+							disabled={isRefreshing}
+							onClick={() => {
+								mutate()
+							}}
+						>
+							{isRefreshing ? 'refreshing...' : 'refresh'}
+						</Button>
+						<Button
+							disabled={!size}
+							onClick={() => {
+								setSize(0)
+							}}
+						>
+							{'Clear'}
+						</Button>
+					</span>
+				</div>
+				{isEmpty ? <p>No creations found.</p> : null}
+			</Card>
+		</ConfigProvider>
 	)
 }
 
