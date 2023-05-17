@@ -63,6 +63,7 @@ const CurrentCreationModalCreation: FC<CurrentCreationModalCreationProps> = ({
 }
 
 interface CreationsGridAnalyticsProps {
+	creationsData: Creation[]
 	size: number
 	setSize: (size: number) => void
 	mutate: () => void
@@ -74,6 +75,7 @@ interface CreationsGridAnalyticsProps {
 }
 
 const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
+	creationsData,
 	size,
 	setSize,
 	mutate,
@@ -84,7 +86,6 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 	isEmpty,
 }) => {
 	const context = useContext(AppContext)
-	const creationsData = context?.creationsData ?? []
 	const latestCreationTime = context?.latestCreationTime ?? 0
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
 	const currentCreationModalCreation =

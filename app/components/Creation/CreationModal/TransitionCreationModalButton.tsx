@@ -7,34 +7,38 @@ import { Button } from 'antd'
 
 interface TransitionCreationModalButtonProps {
 	direction: string
+	creationsData: Creation[]
+	creationIndex: number
+	setCreationIndex: (index: number) => void
 }
 
 const TransitionCreationModalButton: FC<TransitionCreationModalButtonProps> = ({
 	direction,
+	creationsData,
+	creationIndex,
+	setCreationIndex,
 }) => {
 	const context = useContext(AppContext)
 
-	const currentCreationIndex = context?.currentCreationIndex ?? 0
-	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const currentCreationModalCreation =
 		context?.currentCreationModalCreation ?? {}
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
-	const creationsData = context?.creationsData ?? []
 
-	console.log({ currentCreationIndex })
+	console.log({ creationIndex })
 	console.log({ direction })
+	console.log(creationsData[creationIndex])
 
 	const handleModalTransition = (direction: string): void => {
 		console.log(`click ${direction}`)
-		console.log(currentCreationIndex)
+		console.log(creationIndex)
 
 		if (direction === 'next') {
-			setCurrentCreationIndex(currentCreationIndex + 1)
-			setCurrentCreationModalCreation(creationsData[currentCreationIndex + 1])
+			setCreationIndex(creationIndex + 1)
+			setCurrentCreationModalCreation(creationsData[creationIndex + 1])
 		} else if (direction === 'prev') {
-			setCurrentCreationIndex(currentCreationIndex - 1)
-			setCurrentCreationModalCreation(creationsData[currentCreationIndex - 1])
+			setCreationIndex(creationIndex - 1)
+			setCurrentCreationModalCreation(creationsData[creationIndex - 1])
 		}
 	}
 

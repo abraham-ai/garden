@@ -5824,7 +5824,7 @@ eslint-config-standard-with-typescript@latest:
     react-icons: ^4.8.0
     react-masonry-css: ^1.0.16
     siwe: ^1.1.6
-    swr: ^2.1.0
+    swr: ^2.1.5
     tslib: ^2.5.0
     typescript: "*"
     wagmi: 0.11.x
@@ -10794,7 +10794,7 @@ react@latest:
   languageName: node
   linkType: hard
 
-"swr@npm:^2.1.0":
+"swr@npm:^2.1.5":
   version: 2.1.5
   resolution: "swr@npm:2.1.5"
   dependencies:

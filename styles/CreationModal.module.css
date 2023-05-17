@@ -1,3 +1,39 @@
+/* IMAGE WRAPPER */
+.crModalImageWrapper {
+	justify-content: center;
+	background: rgb(0, 0, 0);
+	position: relative;
+	overflow: hidden;
+	align-items: center;
+	display: flex;
+}
+.crModalImageWrapperMobile {
+	flex: 1 0 500px;
+	max-width: 500px;
+	max-height: 500px;
+}
+.crModalImageWrapperTablet {
+	flex: 1 0 700px;
+	max-width: 700px;
+	max-height: 700px;
+}
+.crModalImageWrapperDesktop {
+	flex: 1 0 900px;
+	max-width: 900px;
+	max-height: 900px;
+}
+.crModalImageWrapperDesktopLg {
+	flex: 1 0 1000px;
+	max-width: 1000px;
+	max-height: 1000px;
+}
+.crModalImageWrapperLandscape {
+}
+.crModalImageWrapperPortrait {
+}
+.crModalImageWrapperSquare {
+}
+
 /* IMAGE */
 .crImagePortrait {
 	width: auto;

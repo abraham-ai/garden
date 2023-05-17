@@ -15,18 +15,19 @@ import styles from '../../../styles/CreationsGrid.module.css'
 import { LoadingOutlined } from '@ant-design/icons'
 
 interface CreationsMasonryProps {
+	creationsData: Creation[]
 	appWidth: number
 	onCreationClick: (creation: Creation, index: number) => void
 	creator: CreatorProfile
 }
 
 const CreationsMasonry: FC<CreationsMasonryProps> = ({
+	creationsData,
 	appWidth,
 	onCreationClick,
 	creator,
 }) => {
 	const context = useContext(AppContext)
-	const creationsData = context?.creationsData ?? []
 	const currentTheme = context?.currentTheme ?? 'light'
 
 	const isCreations = creationsData.length > 0
@@ -62,6 +63,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 						} else {
 							return (
 								<CreationCard
+									creationsData={creationsData}
 									layout={isMobile ? 'relative' : 'overlay'}
 									creation={creation}
 									creator={creator}

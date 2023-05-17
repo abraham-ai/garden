@@ -18,6 +18,9 @@ const CrModalImage: FC<CrModalImageProps> = ({
 	appWidth,
 }) => {
 	const isMobile = appWidth < 768
+	const isTablet = appWidth >= 768 && appWidth < 992
+	const isDesktop = appWidth >= 992 && appWidth < 1200
+	const DesktopLg = appWidth >= 1200
 
 	const isLandscape =
 		creation?.task?.config?.width > creation?.task?.config?.height
@@ -36,19 +39,26 @@ const CrModalImage: FC<CrModalImageProps> = ({
 		}
 	}, [creation])
 
+	const flexSizeStyles = useMemo(() => {
+		if (isMobile) {
+			return styles.crModalImageWrapperMobile
+		} else if (isTablet) {
+			return styles.crModalImageWrapperTablet
+		} else if (isDesktop) {
+			return styles.crModalImageWrapperDesktop
+		} else if (DesktopLg) {
+			return styles.crModalImageWrapperDesktopLg
+		} else {
+			return styles.crModalImageWrapperDesktopLg
+		}
+	}, [creation])
+
 	return (
 		<Col
+			id='crModalImageWrapper'
+			className={`${styles.crModalImageWrapper} ${flexSizeStyles}`}
 			style={{
-				flex: isMobile ? 1 : '1 0 700px',
-				justifyContent: 'center',
-				maxWidth: '100%',
 				background: 'rgb(0, 0, 0)',
-				position: 'relative',
-				overflow: 'hidden',
-				maxHeight: 800,
-				alignItems: 'center',
-				display: 'flex',
-				// padding: '0px 80px'
 			}}
 		>
 			<Image

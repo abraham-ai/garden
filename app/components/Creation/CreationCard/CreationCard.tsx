@@ -29,6 +29,7 @@ import styles from '../../../../styles/CreationCard.module.css'
 import { Skeleton } from 'antd'
 
 interface CreationCardProps {
+	creationsData: Creation[]
 	index: number
 	creation: Creation
 	creator: CreatorProfile
@@ -40,6 +41,7 @@ interface CreationCardProps {
 }
 
 const CreationCard: FC<CreationCardProps> = ({
+	creationsData,
 	index,
 	creation,
 	creator,
@@ -51,10 +53,6 @@ const CreationCard: FC<CreationCardProps> = ({
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
-	const creationsData = useMemo(
-		() => context?.creationsData ?? [],
-		[context?.creationsData]
-	)
 	const currentCreationModalCreation =
 		context?.currentCreationModalCreation ?? emptyCreation
 
@@ -300,6 +298,7 @@ const CreationCard: FC<CreationCardProps> = ({
 			</section>
 
 			<CreationModal
+				creationsData={creationsData}
 				creation={currentCreationModalCreation}
 				setModalOpen={setModalOpen}
 				modalOpen={modalOpen}

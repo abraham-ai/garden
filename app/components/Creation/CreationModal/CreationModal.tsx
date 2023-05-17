@@ -1,7 +1,7 @@
 import type { FC, CSSProperties } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
-import React, { useContext, useMemo } from 'react'
+import React, { useState, useContext, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 
@@ -27,6 +27,7 @@ interface ReactionCountList {
 }
 
 interface CreationModalProps {
+	creationsData: Creation[]
 	modalOpen: boolean
 	setModalOpen: (open: boolean) => void
 	creation: Creation
@@ -38,6 +39,7 @@ interface CreationModalProps {
 }
 
 const CreationModal: FC<CreationModalProps> = ({
+	creationsData,
 	modalOpen,
 	setModalOpen,
 	creation,
@@ -50,12 +52,12 @@ const CreationModal: FC<CreationModalProps> = ({
 	const router = useRouter()
 
 	const context = useContext(AppContext)
-	const currentCreationIndex = context?.currentCreationIndex ?? 0
-	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
+
+	const [currentCreationIndex, setCurrentCreationIndex] =
+		useState<number>(creationIndex)
 
 	// const currentCreationModalCreation =
 	// 	context?.currentCreationModalCreation ?? {}
-	const creationsData = context?.creationsData ?? []
 	const currentCreationModalCreation =
 		context?.currentCreationModalCreation ?? emptyCreation
 	const setCurrentCreationModalCreation =
@@ -80,6 +82,8 @@ const CreationModal: FC<CreationModalProps> = ({
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
+	const isDesktop = appWidth >= 1025 && appWidth <= 1440
+	const isDesktopLg = appWidth > 1440
 
 	const handleDirection = useMemo(() => {
 		if (isMobile) {
@@ -95,9 +99,11 @@ const CreationModal: FC<CreationModalProps> = ({
 		if (isMobile) {
 			return 600
 		} else if (isTablet) {
+			return 800
+		} else if (isDesktop) {
 			return 1000
-		} else {
-			return 1800
+		} else if (isDesktopLg) {
+			return 1400
 		}
 	}, [appWidth])
 
@@ -202,7 +208,12 @@ const CreationModal: FC<CreationModalProps> = ({
 			}}
 		>
 			<Row style={modalStyles}>
-				<TransitionCreationModalButton direction='prev' />
+				<TransitionCreationModalButton
+					direction='prev'
+					creationsData={creationsData}
+					creationIndex={currentCreationIndex}
+					setCreationIndex={setCurrentCreationIndex}
+				/>
 
 				<section style={modalWrapperStyles}>
 					<article style={innerModalWrapperStyles}>
@@ -210,16 +221,16 @@ const CreationModal: FC<CreationModalProps> = ({
 							<CrModalImage
 								appWidth={appWidth}
 								creation={creation}
-								creationIndex={creationIndex}
+								creationIndex={currentCreationIndex}
 								currentCreationIndex={currentCreationIndex}
 							/>
 
 							<Col
-								className={`${crTextDataWrapperPadding}`}
+								className={`${String(crTextDataWrapperPadding)}`}
 								style={headerPromptWrapperStyles}
 							>
 								<span>{`Creations Data Length: ${creationsData.length}`}</span>
-								<span>{`Creation Index: ${creationIndex}`}</span>
+								<span>{`Creation Index: ${currentCreationIndex}`}</span>
 								<span>{`Creation ID: ${creation?._id}`}</span>
 								<span>{`Creation Prompt: ${creation?.task.config.text_input}`}</span>
 
@@ -251,7 +262,12 @@ const CreationModal: FC<CreationModalProps> = ({
 					</article>
 				</section>
 
-				<TransitionCreationModalButton direction='next' />
+				<TransitionCreationModalButton
+					direction='next'
+					creationsData={creationsData}
+					creationIndex={currentCreationIndex}
+					setCreationIndex={setCurrentCreationIndex}
+				/>
 				{/* <CrModalDebug /> */}
 			</Row>
 		</Modal>

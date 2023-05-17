@@ -3,17 +3,9 @@
 import type { FC } from 'react'
 import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import type Creation from '../../../interfaces/Creation'
-import React, {
-	useState,
-	useEffect,
-	useRef,
-	useCallback,
-	useMemo,
-	useContext,
-} from 'react'
+import React, { useState, useRef, useCallback, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
-import getUniqueCreations from '../../../util/getUniqueCreations'
 
 import timeAgo from '../../../util/timeAgo'
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
@@ -45,8 +37,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const [username, setUsername] = useState<string | string>('')
 	const [generators, setGenerators] = useState<string | string>('create')
-	const [limit, setLimit] = useState<number>(10)
-	const [newCreations, setNewCreations] = useState<Creation[]>([])
+	const [limit, setLimit] = useState<number>(20)
 
 	const { width } = useWindowDimensions()
 
@@ -54,7 +45,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const context = useContext(AppContext)
 
-	const earliestCreationTime = context?.earliestCreationTime ?? ''
 	const latestCreationTime = context?.latestCreationTime ?? ''
 	// const setEarliestCreationTime = context?.setEarliestCreationTime ?? (() => {})
 	const setLatestCreationTime = context?.setLatestCreationTime ?? (() => {})
@@ -62,67 +52,77 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
-	const creationsData = context?.creationsData ?? []
-	const setCreationsData = context?.setCreationsData ?? (() => {})
-
 	const fetcher = async (url: string): Promise<Creation[]> => {
 		console.log({ url })
 		const res = await fetch(url)
 		const data = await res.json()
+		console.log({ data })
 		return data
 	}
 
-	const getKey = (pageIndex, previousPageData): string | null => {
-		if (pageIndex !== 0 && previousPageData === null) {
-			return null
-		}
+	const getKey = useCallback(
+		(pageIndex, previousPageData): string | null => {
+			console.log('getKey')
 
-		let adjustedLatestCreationTime = ''
-		let timeAgoLatestTime = ''
+			let adjustedLatestCreationTime = ''
+			let timeAgoLatestTime = ''
 
-		if (pageIndex !== 0) {
-			// Use the last creation's createdAt value from previousPageData if available
+			if (previousPageData != null && !previousPageData.length > 0) return null
 
-			// const prevPageCreatedAt =
-			// 	previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
-			// 	typeof previousPageData?.[previousPageData.length - 1]?.createdAt !==
-			// 		'undefined' ?? ''
+			let url = `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
 
-			// const lastCreationTime = isPrevPageCreatedAt || latestCreationTime
-			adjustedLatestCreationTime = addSecondsToDate(
-				previousPageData?.[previousPageData.length - 1]?.createdAt,
-				10
-			)
-			timeAgoLatestTime = timeAgo(adjustedLatestCreationTime)
-			setLatestCreationTime(adjustedLatestCreationTime)
+			if (pageIndex === 0 && previousPageData != null) {
+				return null
+			} else if (pageIndex === 0 && previousPageData === null) {
+				console.log({ url })
+				console.log({ pageIndex })
+				console.log({ previousPageData })
+				console.log({ dataArray })
+				return url
+			} else if (pageIndex !== 0) {
+				console.log({ previousPageData })
+				console.log({ pageIndex })
+				console.log({ dataArray })
 
-			console.log({ latestCreationTime })
-			console.log(`latestCreationTime: ${String(timeAgo(latestCreationTime))}`)
-			console.log({ timeAgoLatestTime })
-			console.log({ adjustedLatestCreationTime })
-			console.log('pageIndex:', pageIndex)
-			console.log('previousPageData:', previousPageData)
-		}
-		const url = `/api/creations?limit=${limit}&page=${
-			pageIndex + 1
-		}&username=${username}&generators=${generators}&earliestTime=${earliestCreationTime}&latestTime=${adjustedLatestCreationTime}`
+				const prevPageCreatedAt =
+					(previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
+						typeof previousPageData?.[previousPageData.length - 1]
+							?.createdAt !== 'undefined') ??
+					''
+				console.log({ prevPageCreatedAt })
 
-		return url
-	}
+				adjustedLatestCreationTime = addSecondsToDate(
+					previousPageData?.[previousPageData.length - 1]?.createdAt,
+					10
+				)
+				timeAgoLatestTime = timeAgo(adjustedLatestCreationTime)
+				setLatestCreationTime(adjustedLatestCreationTime)
 
-	const handleCreationClick = (creation: Creation, creationIndex): void => {
-		const index = dataArray.findIndex((c) => c._id === creation._id)
-		if (index !== -1) {
-			setCurrentCreationIndex(creationIndex)
-			setCurrentCreationModalCreation(creation)
-		}
-	}
+				console.log({ latestCreationTime })
+				console.log(
+					`latestCreationTime: ${String(timeAgo(latestCreationTime))}`
+				)
+				console.log({ timeAgoLatestTime })
+				console.log({ adjustedLatestCreationTime })
+				console.log('pageIndex:', pageIndex)
+				console.log('previousPageData:', previousPageData)
+
+				url = `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
+
+				console.log({ url })
+
+				return url
+			}
+		},
+		[username, generators, limit]
+	)
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSWRInfinite(getKey, fetcher)
+	console.log({ data, size })
 
-	const dataArray = data?.[0] ?? []
-	console.log({ dataArray, size })
+	const dataArray = data != null ? data.flat() : []
+	// console.log({ dataArray, size })
 
 	const isLoadingMore =
 		isLoading ||
@@ -142,49 +142,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		const newDate = new Date(newDateTime).toISOString()
 		return newDate
 	}
-
-	// Update the useEffect hook to set the latest creation time
-	useEffect(() => {
-		console.log('FIRST USE EFFECT -- DATA ARRAY')
-		console.log({ dataArray })
-
-		if (dataArray[size - 1]?.length > 0 && !isLoading && !isReachingEnd) {
-			// your existing logic to set uniqueCreations
-			if (data == null) return
-
-			const newData = data.flat()
-			const uniqueCreations = getUniqueCreations(newData)
-			console.log({ uniqueCreations })
-
-			if (uniqueCreations.length > 0) {
-				// Create a new set of IDs from the existing creationsData state
-				const existingCreationsIds = new Set(
-					creationsData.map((creation) => creation._id)
-				)
-
-				// Filter out the creations that are already present in the creationsData state
-				const newCreations = uniqueCreations.filter(
-					(creation) => !existingCreationsIds.has(creation._id)
-				)
-				console.log({ newCreations })
-				setNewCreations(newCreations)
-
-				// Update the latest creation time state
-				const lastCreationTime = newCreations[newCreations.length - 1].createdAt
-				setLatestCreationTime(lastCreationTime)
-			}
-		}
-	}, [dataArray, dataArray[size - 1], isLoading, isReachingEnd])
-
-	useEffect(() => {
-		if (newCreations.length > 0 && setCreationsData != null) {
-			// If there are new creations, update the creationsData state
-			console.log('Updating creationsData state!!!')
-			setCreationsData((prevCreations: Creation[]) => {
-				return [...prevCreations, ...newCreations]
-			})
-		}
-	}, [newCreations, setCreationsData])
 
 	const lastElementRef = useCallback(
 		(node) => {
@@ -209,15 +166,22 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		[isLoadingMore, isReachingEnd]
 	)
 
+	const handleCreationClick = (creation: Creation, creationIndex): void => {
+		const index = dataArray.findIndex((c) => c._id === creation._id)
+		if (index !== -1) {
+			setCurrentCreationIndex(creationIndex)
+			setCurrentCreationModalCreation(creation)
+		}
+	}
+
 	const isCreator =
 		typeof creator !== 'undefined' && creator?.user?.username !== ''
-
-	console.log({ creationsData })
 
 	return (
 		<>
 			{isScrollAnalytics ? (
 				<CreationsGridAnalytics
+					creationsData={dataArray}
 					size={size}
 					isLoadingMore={isLoadingMore}
 					isReachingEnd={isReachingEnd}
@@ -229,6 +193,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			) : null}
 
 			<CreationsMasonry
+				creationsData={dataArray}
 				appWidth={width}
 				onCreationClick={handleCreationClick}
 				creator={isCreator ? creator : emptyCreatorProfile}
