@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import type Creation from '../../../../interfaces/Creation'
 import React from 'react'
 
 import timeAgo from '../../../../util/timeAgo'

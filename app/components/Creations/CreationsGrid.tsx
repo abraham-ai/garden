@@ -1,6 +1,7 @@
 'use client'
 
 import type { FC } from 'react'
+import type CreatorProfile from '../../../interfaces/CreatorProfile'
 import type Creation from '../../../interfaces/Creation'
 import React, {
 	useState,
@@ -12,9 +13,10 @@ import React, {
 } from 'react'
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
-
-import useWindowDimensions from '../../../hooks/useWindowDimensions'
 import getUniqueCreations from '../../../util/getUniqueCreations'
+
+import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
+import useWindowDimensions from '../../../hooks/useWindowDimensions'
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 
@@ -61,10 +63,10 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const creationsData = context?.creationsData ?? []
 	const setCreationsData = context?.setCreationsData ?? (() => {})
 
-	console.log({ latestCreationTime })
-	console.log({ earliestCreationTime })
+	// console.log({ latestCreationTime })
+	// console.log({ earliestCreationTime })
 
-	const fetcher = async (url: string): Creation[] => {
+	const fetcher = async (url: string): Promise<Creation[]> => {
 		console.log({ url })
 		const res = await fetch(url)
 		const data = await res.json()
@@ -72,7 +74,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		return data
 	}
 
-	const getKey = (pageIndex, previousPageData): string => {
+	const getKey = (pageIndex, previousPageData): string | null => {
 		if (pageIndex !== 0 && previousPageData === null) {
 			return null
 		}
@@ -97,12 +99,12 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			setEarliestCreationTime(adjustedLatestCreationTime)
 		}
 
-		console.log({ latestCreationTime })
-		console.log({ adjustedLatestCreationTime })
+		// console.log({ latestCreationTime })
+		// console.log({ adjustedLatestCreationTime })
 
 		const url = `/api/creations?limit=${limit}&page=${
 			pageIndex + 1
-		}&username=${username}&generators=${generators}&earliestTime=${adjustedLatestCreationTime}&latestTime=${''}`
+		}&username=${username}&generators=${generators}&earliestTime=${earliestCreationTime}&latestTime=${adjustedLatestCreationTime}`
 
 		return url
 	}
@@ -119,6 +121,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		useSWRInfinite(getKey, fetcher)
 
 	const dataArray = data?.[0] ?? []
+	console.log({ dataArray, size })
 
 	const isLoadingMore =
 		isLoading ||
@@ -140,6 +143,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 		const newData = data.flat()
 		const uniqueCreations = getUniqueCreations(newData)
+		console.log({ uniqueCreations })
 
 		if (uniqueCreations.length > 0) {
 			// Create a new set of IDs from the existing creationsData state
@@ -186,6 +190,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		[isLoadingMore, isReachingEnd]
 	)
 
+	const isCreator =
+		typeof creator !== 'undefined' && creator?.user?.username !== ''
+
 	return (
 		<>
 			{isScrollAnalytics ? (
@@ -201,9 +208,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			) : null}
 
 			<CreationsMasonry
-				creations={creationsData}
 				appWidth={width}
 				onCreationClick={handleCreationClick}
+				creator={isCreator ? creator : emptyCreatorProfile}
 			/>
 
 			<Row

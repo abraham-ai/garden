@@ -1,7 +1,7 @@
 import type Creation from '../interfaces/Creation'
 
 const getUniqueCreations = (creations: Creation[]): Creation[] => {
-	const uniqueCreations = []
+	const uniqueCreations: Creation[] = []
 	const ids = new Set()
 
 	for (const creation of creations) {

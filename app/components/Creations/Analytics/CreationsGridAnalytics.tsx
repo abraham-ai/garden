@@ -42,7 +42,7 @@ const CurrentCreationModalCreation: FC<CurrentCreationModalCreationProps> = ({
 
 	const isCurrentCreationModal = textInput !== ''
 
-	console.log(isCurrentCreationModal ? { textInput } : 'Creation Modal Empty')
+	// console.log(isCurrentCreationModal ? { textInput } : 'Creation Modal Empty')
 
 	return (
 		<Col style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -91,17 +91,13 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 	const isCurrentCreationModalCreationEmpty =
 		currentCreationModalCreation._id === ''
 
-	console.log({ currentCreationIndex })
-	console.log(
-		isCurrentCreationModalCreationEmpty
-			? 'Creation Modal Emtpy'
-			: { currentCreationModalCreation }
-	)
-	console.log({ creationsData })
-
-	useEffect(() => {
-		console.log('creationsData changed:', creationsData)
-	}, [creationsData])
+	// console.log({ currentCreationIndex })
+	// console.log(
+	// 	isCurrentCreationModalCreationEmpty
+	// 		? 'Creation Modal Emtpy'
+	// 		: { currentCreationModalCreation }
+	// )
+	// console.log({ creationsData })
 
 	return (
 		<ConfigProvider theme={themeDark}>

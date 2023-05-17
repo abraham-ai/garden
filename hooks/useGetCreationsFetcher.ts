@@ -1,6 +1,6 @@
 import type Creation from '../interfaces/Creation'
 
-const useGetCreationsFetcher = async (url: string): Creation[] => {
+const useGetCreationsFetcher = async (url: string): Promise<Creation[]> => {
 	console.log({ url })
 	const res = await fetch(url)
 

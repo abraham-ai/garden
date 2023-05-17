@@ -143,7 +143,7 @@ const CreationModal: FC<CreationModalProps> = ({
 		height: isMobile ? '100%' : 'auto',
 	}
 
-	const crTextDataWrapperPadding: string = useMemo(() => {
+	const crTextDataWrapperPadding: string | undefined = useMemo(() => {
 		if (isCrIdPage) {
 			if (isOverlay) {
 				return styles.overlayPadding

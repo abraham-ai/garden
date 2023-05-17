@@ -16,7 +16,6 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { Spin, Row } from 'antd'
 
 interface CreationsMasonryProps {
-	creations: Creation[]
 	appWidth: number
 	onCreationClick: (creation: Creation, index: number) => void
 	creator: CreatorProfile
@@ -25,21 +24,18 @@ interface CreationsMasonryProps {
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const CreationsMasonry: FC<CreationsMasonryProps> = ({
-	creations,
 	appWidth,
 	onCreationClick,
 	creator,
 }) => {
 	const context = useContext(AppContext)
+	const creationsData = context?.creationsData ?? []
 	const currentTheme = context?.currentTheme ?? 'light'
 
-	const isCreations =
-		typeof creations !== 'undefined' &&
-		creations != null &&
-		creations.length > 0
+	const isCreations = creationsData.length > 0
 
-	console.log({ creations })
-	console.log(`CreationsMasonry - Creations Data Length: ${creations.length}`)
+	// console.log({ creations })
+	// console.log(`CreationsMasonry - Creations Data Length: ${creations.length}`)
 
 	const isMobile = appWidth < 768
 
@@ -54,7 +50,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 						className={styles.crGridMasonry}
 						columnClassName={styles.crGridMasonryColumn}
 					>
-						{creations?.map((creation: Creation, i: number) => {
+						{creationsData?.map((creation: Creation, i: number) => {
 							// console.log({ creation })
 							const generatorName = creation?.task?.generator?.generatorName
 							if (

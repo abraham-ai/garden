@@ -183,54 +183,6 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		}
 	}
 
-	const contextValues = {
-		authToken,
-		setAuthToken,
-		isWalletConnected,
-		setIsWalletConnected,
-		isSignedIn,
-		setIsSignedIn,
-		userId,
-		setUserId,
-		userAddress,
-		setUserAddress,
-		creationsLoading,
-		creationsData,
-		setCreationsData,
-		updateCreationsData,
-		onCreationClick,
-		creationsMore,
-		earliestCreationTime,
-		setEarliestCreationTime,
-		latestCreationTime,
-		setLatestCreationTime,
-		currentCreationIndex,
-		setCurrentCreationIndex,
-		collections,
-		setCollections,
-		selectedCollection,
-		setSelectedCollection,
-		collectionModalView,
-		setCollectionModalView,
-		isCollectionModalOpen,
-		setIsCollectionModalOpen,
-		currentModalCollection,
-		setCurrentModalCollection,
-		isSaveCreationModalOpen,
-		setIsSaveCreationModalOpen,
-		currentTheme,
-		setCurrentTheme,
-		firstSignInRequest,
-		setFirstSignInRequest,
-		isSignInModalOpen,
-		setIsSignInModalOpen,
-		creations: [] as unknown as [],
-		creationIndex: 0,
-		currentCreationModalCreation,
-		setCurrentCreationModalCreation,
-		handleCollectionAction,
-	}
-
 	const { defaultAlgorithm, darkAlgorithm } = theme
 
 	// routing progress bar
@@ -262,7 +214,55 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	return (
 		<>
-			<AppContext.Provider value={contextValues}>
+			<AppContext.Provider
+				value={{
+					authToken,
+					setAuthToken,
+					isWalletConnected,
+					setIsWalletConnected,
+					isSignedIn,
+					setIsSignedIn,
+					userId,
+					setUserId,
+					userAddress,
+					setUserAddress,
+					creationsLoading,
+					creationsData,
+					setCreationsData,
+					updateCreationsData,
+					onCreationClick,
+					creationsMore,
+					earliestCreationTime,
+					setEarliestCreationTime,
+					latestCreationTime,
+					setLatestCreationTime,
+					currentCreationIndex,
+					setCurrentCreationIndex,
+					collections,
+					setCollections,
+					selectedCollection,
+					setSelectedCollection,
+					collectionModalView,
+					setCollectionModalView,
+					isCollectionModalOpen,
+					setIsCollectionModalOpen,
+					currentModalCollection,
+					setCurrentModalCollection,
+					isSaveCreationModalOpen,
+					setIsSaveCreationModalOpen,
+					currentTheme,
+					setCurrentTheme,
+					firstSignInRequest,
+					setFirstSignInRequest,
+					isSignInModalOpen,
+					setIsSignInModalOpen,
+					creations: [] as unknown as [],
+					creationIndex: 0,
+					currentCreationModalCreation,
+					setCurrentCreationModalCreation,
+					handleCollectionAction,
+				}}
+			>
 				<WagmiConfig client={wagmiClient}>
 					<RainbowKitProvider avatar={CustomAvatar} chains={chains}>
 						<ReactionProvider>

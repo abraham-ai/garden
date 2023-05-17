@@ -27,10 +27,10 @@ interface AppContext {
 	setCreationsData: Dispatch<SetStateAction<Creation[]>>
 	creationsLoading: boolean
 	creationsMore: boolean
-	earliestCreationTime: number
-	setEarliestCreationTime: Dispatch<SetStateAction<number>>
-	latestCreationTime: number
-	setLatestCreationTime: Dispatch<SetStateAction<number>>
+	earliestCreationTime: string | number
+	setEarliestCreationTime: Dispatch<SetStateAction<string | number>>
+	latestCreationTime: string | number
+	setLatestCreationTime: Dispatch<SetStateAction<string | number>>
 	updateCreationsData: (data: Creation[]) => void
 	// creationsLoad: () => void
 
