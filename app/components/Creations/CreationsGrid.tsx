@@ -15,6 +15,7 @@ import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 import getUniqueCreations from '../../../util/getUniqueCreations'
 
+import timeAgo from '../../../util/timeAgo'
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
 import CreationsMasonry from './CreationsMasonry'
@@ -45,6 +46,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const [username, setUsername] = useState<string | string>('')
 	const [generators, setGenerators] = useState<string | string>('create')
 	const [limit, setLimit] = useState<number>(10)
+	const [newCreations, setNewCreations] = useState<Creation[]>([])
 
 	const { width } = useWindowDimensions()
 
@@ -54,7 +56,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const earliestCreationTime = context?.earliestCreationTime ?? ''
 	const latestCreationTime = context?.latestCreationTime ?? ''
-	const setEarliestCreationTime = context?.setEarliestCreationTime ?? (() => {})
+	// const setEarliestCreationTime = context?.setEarliestCreationTime ?? (() => {})
 	const setLatestCreationTime = context?.setLatestCreationTime ?? (() => {})
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const setCurrentCreationModalCreation =
@@ -63,14 +65,10 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const creationsData = context?.creationsData ?? []
 	const setCreationsData = context?.setCreationsData ?? (() => {})
 
-	// console.log({ latestCreationTime })
-	// console.log({ earliestCreationTime })
-
 	const fetcher = async (url: string): Promise<Creation[]> => {
 		console.log({ url })
 		const res = await fetch(url)
 		const data = await res.json()
-		// console.log('Fetched data:', data)
 		return data
 	}
 
@@ -80,10 +78,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		}
 
 		let adjustedLatestCreationTime = ''
+		let timeAgoLatestTime = ''
 
-		if (pageIndex === 0) {
-			adjustedLatestCreationTime = ''
-		} else {
+		if (pageIndex !== 0) {
 			// Use the last creation's createdAt value from previousPageData if available
 
 			// const prevPageCreatedAt =
@@ -96,12 +93,16 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 				previousPageData?.[previousPageData.length - 1]?.createdAt,
 				10
 			)
+			timeAgoLatestTime = timeAgo(adjustedLatestCreationTime)
 			setLatestCreationTime(adjustedLatestCreationTime)
+
+			console.log({ latestCreationTime })
+			console.log(`latestCreationTime: ${String(timeAgo(latestCreationTime))}`)
+			console.log({ timeAgoLatestTime })
+			console.log({ adjustedLatestCreationTime })
+			console.log('pageIndex:', pageIndex)
+			console.log('previousPageData:', previousPageData)
 		}
-
-		// console.log({ latestCreationTime })
-		// console.log({ adjustedLatestCreationTime })
-
 		const url = `/api/creations?limit=${limit}&page=${
 			pageIndex + 1
 		}&username=${username}&generators=${generators}&earliestTime=${earliestCreationTime}&latestTime=${adjustedLatestCreationTime}`
@@ -131,7 +132,12 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		isEmpty || (data != null && data[data.length - 1]?.length < limit)
 	const isRefreshing = isValidating && data != null && data.length === size
 
+	console.log({ isLoading, isReachingEnd })
+
 	const addSecondsToDate = (date, seconds): string => {
+		if (date === '') {
+			return null
+		}
 		const newDateTime = new Date(date).getTime() - seconds
 		const newDate = new Date(newDateTime).toISOString()
 		return newDate
@@ -139,41 +145,53 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	// Update the useEffect hook to set the latest creation time
 	useEffect(() => {
-		if (data == null) return
+		console.log('FIRST USE EFFECT -- DATA ARRAY')
+		console.log({ dataArray })
 
-		const newData = data.flat()
-		const uniqueCreations = getUniqueCreations(newData)
-		console.log({ uniqueCreations })
+		if (dataArray[size - 1]?.length > 0 && !isLoading && !isReachingEnd) {
+			// your existing logic to set uniqueCreations
+			if (data == null) return
 
-		if (uniqueCreations.length > 0) {
-			// Create a new set of IDs from the existing creationsData state
-			const existingCreationsIds = new Set(
-				creationsData.map((creation) => creation._id)
-			)
+			const newData = data.flat()
+			const uniqueCreations = getUniqueCreations(newData)
+			console.log({ uniqueCreations })
 
-			// Filter out the creations that are already present in the creationsData state
-			const newCreations = uniqueCreations.filter(
-				(creation) => !existingCreationsIds.has(creation._id)
-			)
-			console.log({ newCreations })
+			if (uniqueCreations.length > 0) {
+				// Create a new set of IDs from the existing creationsData state
+				const existingCreationsIds = new Set(
+					creationsData.map((creation) => creation._id)
+				)
 
-			if (newCreations.length > 0) {
-				// If there are new creations, update the creationsData state
-				if (setCreationsData != null) {
-					setCreationsData((prevCreations: Creation[]) => {
-						return [...prevCreations, ...newCreations]
-					})
-				}
+				// Filter out the creations that are already present in the creationsData state
+				const newCreations = uniqueCreations.filter(
+					(creation) => !existingCreationsIds.has(creation._id)
+				)
+				console.log({ newCreations })
+				setNewCreations(newCreations)
 
 				// Update the latest creation time state
 				const lastCreationTime = newCreations[newCreations.length - 1].createdAt
 				setLatestCreationTime(lastCreationTime)
 			}
 		}
-	}, [data, size])
+	}, [dataArray, dataArray[size - 1], isLoading, isReachingEnd])
+
+	useEffect(() => {
+		if (newCreations.length > 0 && setCreationsData != null) {
+			// If there are new creations, update the creationsData state
+			console.log('Updating creationsData state!!!')
+			setCreationsData((prevCreations: Creation[]) => {
+				return [...prevCreations, ...newCreations]
+			})
+		}
+	}, [newCreations, setCreationsData])
 
 	const lastElementRef = useCallback(
 		(node) => {
+			console.log('isLoadingMore:', isLoadingMore)
+			console.log('isReachingEnd:', isReachingEnd)
+			console.log('node:', node)
+
 			if (isLoadingMore || isReachingEnd) return
 			if (observer.current != null) observer.current.disconnect()
 			observer.current = new IntersectionObserver((entries) => {
@@ -193,6 +211,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const isCreator =
 		typeof creator !== 'undefined' && creator?.user?.username !== ''
+
+	console.log({ creationsData })
 
 	return (
 		<>
@@ -214,13 +234,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 				creator={isCreator ? creator : emptyCreatorProfile}
 			/>
 
-			<Row
-				ref={lastElementRef}
-				className={styles.loadMore}
-				style={{ display: 'flex', justifyContent: 'center' }}
-			>
+			<div ref={lastElementRef} className={styles.loadMore}>
 				<Spin indicator={antIcon} />
-			</Row>
+			</div>
 		</>
 	)
 }
