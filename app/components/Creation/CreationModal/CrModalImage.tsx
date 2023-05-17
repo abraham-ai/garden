@@ -23,12 +23,16 @@ const CrModalImage: FC<CrModalImageProps> = ({
 		creation?.task?.config?.width > creation?.task?.config?.height
 	const isPortrait =
 		creation?.task?.config?.width < creation?.task?.config?.height
+	const isSquare =
+		creation?.task?.config?.width === creation?.task?.config?.height
 
 	const imageStyles = useMemo(() => {
 		if (isLandscape) {
 			return styles.crImageLandscape
 		} else if (isPortrait) {
 			return styles.crImagePortrait
+		} else if (isSquare) {
+			return styles.crImageSquare
 		}
 	}, [creation])
 

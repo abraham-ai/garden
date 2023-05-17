@@ -54,8 +54,10 @@ const CurrentCreationModalCreation: FC<CurrentCreationModalCreationProps> = ({
 					height={50}
 				/>
 			) : null}
-			<Text strong>{'Current Creation Modal Creation'}</Text>
-			{isCurrentCreationModal ? <Text>{textInput}</Text> : null}
+			<Col>
+				<Text strong>{'Current Creation Modal Creation'}</Text>
+				{isCurrentCreationModal ? <Text>{textInput}</Text> : null}
+			</Col>
 		</Col>
 	)
 }

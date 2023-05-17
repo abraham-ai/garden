@@ -70,7 +70,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		console.log({ url })
 		const res = await fetch(url)
 		const data = await res.json()
-		console.log('Fetched data:', data)
+		// console.log('Fetched data:', data)
 		return data
 	}
 
@@ -94,9 +94,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			// const lastCreationTime = isPrevPageCreatedAt || latestCreationTime
 			adjustedLatestCreationTime = addSecondsToDate(
 				previousPageData?.[previousPageData.length - 1]?.createdAt,
-				1
+				10
 			)
-			setEarliestCreationTime(adjustedLatestCreationTime)
+			setLatestCreationTime(adjustedLatestCreationTime)
 		}
 
 		// console.log({ latestCreationTime })
@@ -155,6 +155,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			const newCreations = uniqueCreations.filter(
 				(creation) => !existingCreationsIds.has(creation._id)
 			)
+			console.log({ newCreations })
 
 			if (newCreations.length > 0) {
 				// If there are new creations, update the creationsData state
@@ -166,7 +167,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 				// Update the latest creation time state
 				const lastCreationTime = newCreations[newCreations.length - 1].createdAt
-				setEarliestCreationTime(lastCreationTime)
+				setLatestCreationTime(lastCreationTime)
 			}
 		}
 	}, [data, size])

@@ -17,14 +17,14 @@ const handler = async (
 	console.log({ generators: [generators] })
 
 	try {
-		const filter = { limit }
-		Object.assign(filter, username !== 'null' ? { username } : {})
+		const filter = {}
+		Object.assign(filter, username != null ? { username } : {})
 		Object.assign(
 			filter,
-			generators !== 'null' ? { generators: [generators] } : {}
+			generators != null ? { generators: [generators] } : {}
 		)
-		Object.assign(filter, earliestTime !== 'null' ? { earliestTime } : {})
-		Object.assign(filter, latestTime !== 'null' ? { latestTime } : {})
+		Object.assign(filter, earliestTime != null ? { earliestTime } : {})
+		Object.assign(filter, latestTime != null ? { latestTime } : {})
 		Object.assign(filter, limit != null ? { limit } : {})
 
 		console.log({ filter })

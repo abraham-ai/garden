@@ -9,6 +9,10 @@
 	height: auto;
 	/* border: 3px solid red; */
 }
+.crImageSquare {
+	width: auto;
+	height: 100%;
+}
 
 /*  ADDRESS  */
 .displayAddress {
