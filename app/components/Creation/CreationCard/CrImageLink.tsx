@@ -66,7 +66,7 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 		}
 	}, [creation])
 
-	// console.log(imageStyles)
+	console.log({ creation })
 	// console.log({ currentCreationIndex })
 	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationModalCreation.task.config.text_input)
@@ -94,7 +94,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				}}
 			/>
 			<Image
-				className={styles.crImageBlurMask}
+				id='crImage'
+				className={imageStyles}
 				src={creation?.thumbnail}
 				height={creation?.task?.config?.height}
 				width={creation?.task?.config?.width}
@@ -105,7 +106,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 			/>
 
 			<Image
-				className={imageStyles}
+				id='crImageBlur'
+				className={styles.crImageBlurMask}
 				src={creation?.thumbnail}
 				height={creation?.task?.config?.height}
 				width={creation?.task?.config?.width}

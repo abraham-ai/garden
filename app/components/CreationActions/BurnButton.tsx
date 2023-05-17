@@ -433,15 +433,15 @@ const BurnButton: FC<BurnButtonProps> = ({
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			}
 		} else {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			}
 		}
 	}, [appWidth, page, layout, currentTheme])
@@ -489,7 +489,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 				>
 					{isBurned || isBurnHovering ? burnFilled : burnGray}
 				</span>
-				<Text
+				<p
 					className={`${countColor}`}
 					style={{
 						filter:
@@ -501,7 +501,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 					}}
 				>
 					{isNaN(burns) ? 0 : burns}
-				</Text>
+				</p>
 			</Button>
 		</div>
 	)

@@ -492,15 +492,15 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			}
 		} else {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				return isThemeLight ? styles.textWhite : styles.textWhite
 			}
 		}
 	}, [appWidth, page, layout, currentTheme])

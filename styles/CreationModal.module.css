@@ -1,8 +1,22 @@
+/* IMAGE */
+.crImagePortrait {
+	width: auto;
+	height: 100%;
+	/* border: 3px solid lime; */
+}
+.crImageLandscape {
+	width: 100%;
+	height: auto;
+	/* border: 3px solid red; */
+}
+
+/*  ADDRESS  */
 .displayAddress {
 	color: white;
 	font-weight: bold;
 	font-family: 'Courier New', Courier, monospace;
 }
+
 /* PROMPT TEXT DATA WRAPPER */
 .overlayPadding {
 	padding: 40px 0;
