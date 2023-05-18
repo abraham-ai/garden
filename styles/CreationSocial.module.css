@@ -15,19 +15,41 @@
 	margin: 20px 0;
 }
 
+/* TEXT COLOR */
 .textWhite {
 	color: white;
 }
 .textBlack {
 	color: black;
 }
+/* TEXT WEIGHT */
+.textWeightReg {
+	font-weight: 400;
+}
+.textWeightBold {
+	font-weight: 800;
+}
+
+/*  TEXT SIZE */
+.textSizeMobile {
+	font-size: 1rem;
+}
+.textSizeTablet {
+	font-size: 1.2rem;
+}
+.texSizeDesktop {
+	font-size: 1rem;
+}
 
 /* OVERLAY BUTTON  */
+.overlayBtn {
+	background: rgba(0, 0, 0, 0.5);
+}
 .overlayBtnWidth {
-	width: 50px;
+	width: 50px !important;
 }
 .overlayBtnHeight {
-	height: 70px;
+	height: 70px !important;
 }
 @media (min-width: 768px) {
 	.overlayBtnHeight {
@@ -47,6 +69,9 @@
 }
 
 /* RELATIVE BUTTON */
+.relativeBtn {
+	background: transparent;
+}
 .relativeBtnWidth {
 	width: 70px;
 }
@@ -116,6 +141,42 @@
 }
 
 /* SAVE SHARE */
+.buttonSizeMobile {
+	width: 20px;
+	height: 20px;
+}
+.buttonSizeTablet {
+	width: 30px;
+	height: 30px;
+}
+.buttonSizeDesktop {
+	width: 50px !important;
+	height: 50px !important;
+}
+
+/* SAVE SHARE ICON | SIZE & COLOR */
+
+.iconSizeMobile {
+	width: 20px;
+	height: 20px;
+}
+.iconSizeTablet {
+	width: 20px;
+	height: 20px;
+}
+.iconSizeDesktop {
+	width: 35px;
+	height: 35px;
+}
+.iconColorBlack {
+	color: black;
+}
+.iconColorWhite {
+	color: white;
+}
+
+/* SAVE SHARE WRAPPER */
+
 .crSaveShare {
 	display: flex;
 	flex-direction: row;
@@ -156,11 +217,11 @@
 	width: 100%;
 }
 .mainSocialWrapper {
-	display: flex;
 	/* flex-direction: column; */
+	/* background: rgba(0, 0, 0, 0.5); */
+	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
-	/* background: rgba(0, 0, 0, 0.5); */
 	width: 100%;
 	height: 100%;
 	padding: 10px;
@@ -174,8 +235,5 @@
 	display: none;
 }
 .crSocialIcon {
-	color: white;
-	min-height: 32px;
-	min-width: 32px;
 	/* filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4)); */
 }

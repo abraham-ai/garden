@@ -132,257 +132,321 @@ const ShareButton: FC<ShareButtonProps> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const buttonSize = useMemo(() => {
+	const buttonBg: string = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 'small'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'small'
+					return styles.relativeBtn
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 'small'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'small'
+					return styles.relativeBtn
 				}
 			} else {
 				if (isOverlay) {
-					return 'small'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'small'
+					return styles.relativeBtn
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 'default'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'default'
+					return styles.relativeBtn
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 'default'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'default'
+					return styles.relativeBtn
 				}
 			} else {
 				if (isOverlay) {
-					return 'default'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'default'
+					return styles.relativeBtn
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 'large'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'large'
+					return styles.relativeBtn
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 'large'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'large'
+					return styles.relativeBtn
 				}
 			} else {
 				if (isOverlay) {
-					return 'large'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'large'
+					return styles.relativeBtn
 				}
 			}
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const buttonWidth = useMemo(() => {
+	// const buttonSize = useMemo(() => {
+	// 	if (isMobile) {
+	// 		if (isCrIdPage) {
+	// 			if (isOverlay) {
+	// 				return 'small'
+	// 			} else if (isRelative) {
+	// 				return 'small'
+	// 			}
+	// 		} else if (isCreationsPage) {
+	// 			if (isOverlay) {
+	// 				return 'small'
+	// 			} else if (isRelative) {
+	// 				return 'small'
+	// 			}
+	// 		} else {
+	// 			if (isOverlay) {
+	// 				return 'small'
+	// 			} else if (isRelative) {
+	// 				return 'small'
+	// 			}
+	// 		}
+	// 	} else if (isTablet) {
+	// 		if (isCrIdPage) {
+	// 			if (isOverlay) {
+	// 				return 'default'
+	// 			} else if (isRelative) {
+	// 				return 'default'
+	// 			}
+	// 		} else if (isCreationsPage) {
+	// 			if (isOverlay) {
+	// 				return 'default'
+	// 			} else if (isRelative) {
+	// 				return 'default'
+	// 			}
+	// 		} else {
+	// 			if (isOverlay) {
+	// 				return 'default'
+	// 			} else if (isRelative) {
+	// 				return 'default'
+	// 			}
+	// 		}
+	// 	} else {
+	// 		if (isCrIdPage) {
+	// 			if (isOverlay) {
+	// 				return 'large'
+	// 			} else if (isRelative) {
+	// 				return 'large'
+	// 			}
+	// 		} else if (isCreationsPage) {
+	// 			if (isOverlay) {
+	// 				return 'large'
+	// 			} else if (isRelative) {
+	// 				return 'large'
+	// 			}
+	// 		} else {
+	// 			if (isOverlay) {
+	// 				return 'large'
+	// 			} else if (isRelative) {
+	// 				return 'large'
+	// 			}
+	// 		}
+	// 	}
+	// }, [isMobile, isTablet, layout, page])
+
+	const buttonSize: string = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.buttonSizeMobile
 				} else if (isRelative) {
-					return 30
+					return styles.buttonSizeMobile
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.buttonSizeMobile
 				} else if (isRelative) {
-					return 30
+					return styles.buttonSizeMobile
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.buttonSizeMobile
 				} else if (isRelative) {
-					return 30
+					return styles.buttonSizeMobile
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.buttonSizeTablet
 				} else if (isRelative) {
-					return 30
+					return styles.buttonSizeTablet
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.buttonSizeTablet
 				} else if (isRelative) {
-					return 30
+					return styles.buttonSizeTablet
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.buttonSizeTablet
 				} else if (isRelative) {
-					return 30
+					return styles.buttonSizeTablet
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 50
+					return styles.buttonSizeDesktop
 				} else if (isRelative) {
-					return 50
+					return styles.buttonSizeDesktop
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return styles.buttonSizeDesktop
 				} else if (isRelative) {
-					return 50
+					return styles.buttonSizeDesktop
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return styles.buttonSizeDesktop
 				} else if (isRelative) {
-					return 50
+					return styles.buttonSizeDesktop
 				}
 			}
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const buttonHeight = useMemo(() => {
+	const iconColor: string = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 30
+					return styles.iconColorBlack
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 30
+					return styles.iconColorBlack
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 30
+					return styles.iconColorBlack
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 30
+					return styles.iconColorBlack
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 30
+					return styles.iconColorBlack
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 30
+					return styles.iconColorBlack
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 50
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 50
+					return styles.iconColorBlack
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 50
+					return styles.iconColorBlack
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return styles.iconColorWhite
 				} else if (isRelative) {
-					return 50
+					return styles.iconColorBlack
 				}
 			}
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const iconSize = useMemo(() => {
+	const iconSize: string = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 15
+					return styles.iconSizeMobile
 				} else if (isRelative) {
-					return 15
+					return styles.iconSizeMobile
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 15
+					return styles.iconSizeMobile
 				} else if (isRelative) {
-					return 15
+					return styles.iconSizeMobile
 				}
 			} else {
 				if (isOverlay) {
-					return 15
+					return styles.iconSizeMobile
 				} else if (isRelative) {
-					return 15
+					return styles.iconSizeMobile
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 18
+					return styles.iconSizeTablet
 				} else if (isRelative) {
-					return 18
+					return styles.iconSizeTablet
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 18
+					return styles.iconSizeTablet
 				} else if (isRelative) {
-					return 18
+					return styles.iconSizeTablet
 				}
 			} else {
 				if (isOverlay) {
-					return 18
+					return styles.iconSizeTablet
 				} else if (isRelative) {
-					return 18
+					return styles.iconSizeTablet
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 25
+					return styles.iconSizeDesktop
 				} else if (isRelative) {
-					return 25
+					return styles.iconSizeDesktop
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 25
+					return styles.iconSizeDesktop
 				} else if (isRelative) {
-					return 25
+					return styles.iconSizeDesktop
 				}
 			} else {
 				if (isOverlay) {
-					return 25
+					return styles.iconSizeDesktop
 				} else if (isRelative) {
-					return 25
+					return styles.iconSizeDesktop
 				}
 			}
 		}
@@ -400,23 +464,26 @@ const ShareButton: FC<ShareButtonProps> = ({
 
 	return (
 		<div
-			className='crSocialsMain'
-			style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				justifyContent: 'center',
+				margin: 'unset',
+				height: '100%',
+			}}
 			onMouseOver={handleMouseOver}
 			onMouseOut={handleMouseOut}
 		>
 			<span>
 				<Button
-					className='btn'
+					className={`btn ${buttonSize} ${buttonBg}`}
 					shape='circle'
 					type='link'
 					style={{
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
-						background: isMobileThemeLight ? 'transparent' : bgHoverStyles,
-						width: buttonWidth,
-						height: buttonHeight,
 						border: 'none',
 						transition: '300ms',
 					}}
@@ -430,15 +497,12 @@ const ShareButton: FC<ShareButtonProps> = ({
 				>
 					{isShareHovering ? (
 						<IoIosShareAlt
-							className={styles.crSocialIcon}
+							className={`${styles.crSocialIcon} ${iconSize}`}
 							size={18}
 							style={{
 								// bottom: isMobile ? 6 : 12,
-								position: 'absolute',
 								// left: isMobile ? 6 : 12,
-								fontSize: '1rem',
-								minWidth: iconSize,
-								minHeight: iconSize,
+								position: 'absolute',
 								transform: 'scaleX(1)',
 								color: 'rgb(0, 186, 124)',
 								filter: isMobileThemeLight
@@ -448,17 +512,13 @@ const ShareButton: FC<ShareButtonProps> = ({
 						/>
 					) : (
 						<BiShare
-							className={styles.crSocialIcon}
+							className={`${styles.crSocialIcon} ${iconSize} ${iconColor}`}
 							size={18}
 							style={{
 								// bottom: isMobile ? 6 : 12,
-								position: 'absolute',
 								// left: isMobile ? 6 : 12,
-								fontSize: '1rem',
-								minWidth: iconSize,
-								minHeight: iconSize,
+								position: 'absolute',
 								transform: 'scaleX(-1)',
-								color: isMobileThemeLight ? 'black' : 'white',
 								filter: isMobileThemeLight
 									? 'transparent'
 									: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',

@@ -155,65 +155,129 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const buttonSize = useMemo(() => {
+	const buttonBg: string = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 'small'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'small'
+					return styles.relativeBtn
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 'small'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'small'
+					return styles.relativeBtn
 				}
 			} else {
 				if (isOverlay) {
-					return 'small'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'small'
+					return styles.relativeBtn
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 'default'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'default'
+					return styles.relativeBtn
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 'default'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'default'
+					return styles.relativeBtn
 				}
 			} else {
 				if (isOverlay) {
-					return 'default'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'default'
+					return styles.relativeBtn
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 'large'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'large'
+					return styles.relativeBtn
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 'large'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'large'
+					return styles.relativeBtn
 				}
 			} else {
 				if (isOverlay) {
-					return 'large'
+					return styles.overlayBtn
 				} else if (isRelative) {
-					return 'large'
+					return styles.relativeBtn
+				}
+			}
+		}
+	}, [isMobile, isTablet, layout, page])
+
+	const buttonSize: string = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.buttonSizeMobile
+				} else if (isRelative) {
+					return styles.buttonSizeMobile
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.buttonSizeMobile
+				} else if (isRelative) {
+					return styles.buttonSizeMobile
+				}
+			} else {
+				if (isOverlay) {
+					return styles.buttonSizeMobile
+				} else if (isRelative) {
+					return styles.buttonSizeMobile
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.buttonSizeTablet
+				} else if (isRelative) {
+					return styles.buttonSizeTablet
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.buttonSizeTablet
+				} else if (isRelative) {
+					return styles.buttonSizeTablet
+				}
+			} else {
+				if (isOverlay) {
+					return styles.buttonSizeTablet
+				} else if (isRelative) {
+					return styles.buttonSizeTablet
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.buttonSizeDesktop
+				} else if (isRelative) {
+					return styles.buttonSizeDesktop
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.buttonSizeDesktop
+				} else if (isRelative) {
+					return styles.buttonSizeDesktop
+				}
+			} else {
+				if (isOverlay) {
+					return styles.buttonSizeDesktop
+				} else if (isRelative) {
+					return styles.buttonSizeDesktop
 				}
 			}
 		}
@@ -347,65 +411,65 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const iconSize = useMemo(() => {
+	const iconSize: string = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 15
+					return styles.iconSizeMobile
 				} else if (isRelative) {
-					return 15
+					return styles.iconSizeMobile
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 15
+					return styles.iconSizeMobile
 				} else if (isRelative) {
-					return 15
+					return styles.iconSizeMobile
 				}
 			} else {
 				if (isOverlay) {
-					return 15
+					return styles.iconSizeMobile
 				} else if (isRelative) {
-					return 15
+					return styles.iconSizeMobile
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 18
+					return styles.iconSizeTablet
 				} else if (isRelative) {
-					return 18
+					return styles.iconSizeTablet
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 18
+					return styles.iconSizeTablet
 				} else if (isRelative) {
-					return 18
+					return styles.iconSizeTablet
 				}
 			} else {
 				if (isOverlay) {
-					return 18
+					return styles.iconSizeTablet
 				} else if (isRelative) {
-					return 18
+					return styles.iconSizeTablet
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 25
+					return styles.iconSizeDesktop
 				} else if (isRelative) {
-					return 25
+					return styles.iconSizeDesktop
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 25
+					return styles.iconSizeDesktop
 				} else if (isRelative) {
-					return 25
+					return styles.iconSizeDesktop
 				}
 			} else {
 				if (isOverlay) {
-					return 25
+					return styles.iconSizeDesktop
 				} else if (isRelative) {
-					return 25
+					return styles.iconSizeDesktop
 				}
 			}
 		}
@@ -420,6 +484,70 @@ const SaveButton: FC<SaveButtonTypes> = ({
 	// console.log({ iconSize })
 	// console.log({ buttonWidth, buttonHeight, iconSize })
 
+	const iconColor: string = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			} else {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			} else {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			} else {
+				if (isOverlay) {
+					return styles.iconColorWhite
+				} else if (isRelative) {
+					return styles.iconColorBlack
+				}
+			}
+		}
+	}, [isMobile, isTablet, layout, page])
+
 	return (
 		<>
 			<span
@@ -428,13 +556,15 @@ const SaveButton: FC<SaveButtonTypes> = ({
 					display: 'flex',
 					width: '100%',
 					justifyContent: 'space-between',
-					margin: isMobile ? '0 0 5px 25px' : 'unset',
+					height: '100%',
+					alignItems: 'center',
+					// margin: isMobile ? '0 0 5px 25px' : 'unset',
 				}}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>
 				<Button
-					className='btn'
+					className={`btn ${buttonSize} ${buttonBg}`}
 					shape={'circle'}
 					size={'large'}
 					type='link'
@@ -445,32 +575,17 @@ const SaveButton: FC<SaveButtonTypes> = ({
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
-						background: isMobileThemeLight ? 'transparent' : bgHoverStyles,
-						width: buttonWidth,
-						height: buttonHeight,
 						border: 'none',
 						transition: '300ms',
 					}}
 				>
 					{isBookmarked || isSaveHovering ? (
 						<RiBookmarkFill
-							className={styles.crSocialIcon}
-							style={{
-								fontSize: textSize,
-								minWidth: iconSize,
-								minHeight: iconSize,
-								color: '#1a73e8',
-							}}
+							className={`${styles.crSocialIcon} ${iconSize} ${iconColor}`}
 						/>
 					) : (
 						<RiBookmarkLine
-							className={styles.crSocialIcon}
-							style={{
-								fontSize: textSize,
-								minWidth: iconSize,
-								minHeight: iconSize,
-								color: isMobileThemeLight ? 'black' : 'white',
-							}}
+							className={`${styles.crSocialIcon} ${iconSize} ${iconColor}`}
 						/>
 					)}
 				</Button>

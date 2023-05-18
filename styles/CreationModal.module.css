@@ -6,6 +6,7 @@
 	overflow: hidden;
 	align-items: center;
 	display: flex;
+	border-radius: 15px;
 }
 .crModalImageWrapperMobile {
 	flex: 1 0 500px;
@@ -20,7 +21,7 @@
 .crModalImageWrapperDesktop {
 	flex: 1 0 900px;
 	max-width: 900px;
-	max-height: 900px;
+	max-height: 700px;
 }
 .crModalImageWrapperDesktopLg {
 	flex: 1 0 700px;

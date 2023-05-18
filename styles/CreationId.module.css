@@ -11,6 +11,14 @@
 	}
 }
 
+/* TEXT WEIGHT */
+.textWeightReg {
+	font-weight: 400;
+}
+.textWeightBold {
+	font-weight: 800;
+}
+
 /*** CR ID ***/
 .crId {
 	margin-top: 100px;
@@ -345,7 +353,6 @@
 }
 /*** CR-SOCIAL ICON **/
 .crSocialIcon {
-	color: white;
 	min-height: 32px;
 	min-width: 32px;
 	filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4));

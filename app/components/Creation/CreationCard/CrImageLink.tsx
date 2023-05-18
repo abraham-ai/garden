@@ -71,6 +71,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationModalCreation.task.config.text_input)
 
+	const isDebug = false
+
 	return (
 		<section
 			className={styles.crLink}
@@ -115,20 +117,22 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				// style={{ background: crBgColor }}
 			/>
 
-			<div
-				style={{
-					color: 'white',
-					position: 'absolute',
-					top: 0,
-					zIndex: 100,
-					fontWeight: 'bold',
-					display: 'flex',
-					flexDirection: 'column',
-				}}
-			>
-				<span>{`Creation Index: ${creationIndex}`}</span>
-				<span>{`Creation ID: ${creation?._id}`}</span>
-			</div>
+			{isDebug ? (
+				<div
+					style={{
+						color: 'white',
+						position: 'absolute',
+						top: 0,
+						zIndex: 100,
+						fontWeight: 'bold',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<span>{`Creation Index: ${creationIndex}`}</span>
+					<span>{`Creation ID: ${creation?._id}`}</span>
+				</div>
+			) : null}
 		</section>
 	)
 }

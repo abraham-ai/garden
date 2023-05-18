@@ -58,9 +58,9 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 				} else if (creation.task.config.height > 450) {
 					prompt = abbreviateText(creationTextInput, 30) // 100
 				} else if (creation.task.config.height > 400) {
-					prompt = abbreviateText(creationTextInput, 25) // 100
+					prompt = abbreviateText(creationTextInput, 30) // 100
 				} else {
-					prompt = abbreviateText(creationTextInput, 20) // 100
+					prompt = abbreviateText(creationTextInput, 30) // 100
 				}
 			}
 		}

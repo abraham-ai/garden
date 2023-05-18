@@ -51,43 +51,80 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const isOverlay = layout === 'overlay'
 	const isRelative = layout === 'relative'
 	const isCrIdPage = page === 'creationId'
+	const isCreationsPage = page === 'creations'
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
-	const creatorColorStyles = useMemo(() => {
+	console.log({ isMobile, isTablet })
+	console.log({ layout })
+	console.log({ page })
+
+	const creatorColor: string = useMemo(() => {
 		if (isMobile) {
-			if (isOverlay) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
-			} else if (isRelative) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
-			} else if (isCrIdPage) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
 			} else {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
 			}
 		} else if (isTablet) {
-			if (isOverlay) {
-				return isThemeLight ? styles.crCreatorWhite : styles.crCreatorWhite
-			} else if (isRelative) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
-			} else if (isCrIdPage) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
 			} else {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
 			}
 		} else {
-			if (isOverlay) {
-				return isThemeLight ? styles.crCreatorWhite : styles.crCreatorWhite
-			} else if (isRelative) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
-			} else if (isCrIdPage) {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorBlack
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
 			} else {
-				return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				if (isOverlay) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+				}
 			}
 		}
 	}, [appWidth])
+
+	console.log(creatorColor)
 
 	const creatorSizeStyles = useMemo(() => {
 		if (isMobile) {
@@ -116,6 +153,70 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 			}
 		}
 	}, [appWidth])
+
+	const creatorWeight: string = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			}
+		}
+	}, [appWidth, page, layout, currentTheme])
 
 	const isCreator =
 		typeof creator?.user.username !== 'undefined' &&
@@ -163,6 +264,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	// console.log({ isCrIdPage })
 	// console.log({ isThemeLight })
 
+	console.log({ creatorWeight })
+
 	return (
 		<section
 			style={{
@@ -182,6 +285,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 				onMouseOut={handleMouseOut}
 				style={{
 					textDecoration: isHovering ? 'underline' : 'unset',
+					marginRight: '1rem',
 				}}
 			>
 				<Avatar size={50} icon={<Blockies scale={6} seed={creatorAddress} />} />
@@ -191,10 +295,9 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					onMouseOut={handleMouseOut}
 				>
 					<Text
-						className={`${creatorColorStyles} ${creatorSizeStyles}`}
+						className={`${creatorColor} ${creatorSizeStyles} ${creatorWeight}`}
 						style={{
 							textDecoration: isHovering ? 'underline' : 'unset',
-							fontWeight: isMobile ? 'bold' : 'regular',
 						}}
 					>
 						{isCreator ? creatorUsername : creatorDisplay}
