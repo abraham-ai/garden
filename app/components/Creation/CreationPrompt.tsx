@@ -46,7 +46,11 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		if (isMobile) {
 			prompt = abbreviateText(creationTextInput, 100)
 		} else if (isTablet) {
-			prompt = abbreviateText(creationTextInput, 100)
+			if (isCrModal) {
+				prompt = creationTextInput
+			} else {
+				prompt = abbreviateText(creationTextInput, 100)
+			}
 		} else {
 			if (isCrIdPage) {
 				prompt = creationTextInput

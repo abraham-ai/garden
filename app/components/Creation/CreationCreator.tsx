@@ -64,19 +64,19 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
@@ -84,19 +84,19 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
@@ -104,19 +104,19 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crcrCreatorWhite
+					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
 					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}

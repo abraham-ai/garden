@@ -477,16 +477,10 @@ const ShareButton: FC<ShareButtonProps> = ({
 		>
 			<span>
 				<Button
-					className={`btn ${buttonSize} ${buttonBg}`}
+					className={`${styles.socialBtn} ${buttonSize} ${buttonBg}`}
 					shape='circle'
 					type='link'
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						border: 'none',
-						transition: '300ms',
-					}}
+					style={{}}
 					onClick={async () => {
 						await copyToClipBoard(
 							`garden.eden.art/creation/${String(creationId)}`

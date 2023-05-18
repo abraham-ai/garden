@@ -197,6 +197,7 @@ const CreationModal: FC<CreationModalProps> = ({
 	// console.log(creation)
 	// console.log({ praises, praised, burns, burned })
 
+	const isDebug = false
 	return (
 		<Modal
 			className={'crModal'}
@@ -229,11 +230,14 @@ const CreationModal: FC<CreationModalProps> = ({
 								className={`${String(crTextDataWrapperPadding)}`}
 								style={headerPromptWrapperStyles}
 							>
-								<span>{`Creations Data Length: ${creationsData.length}`}</span>
-								<span>{`Creation Index: ${currentCreationIndex}`}</span>
-								<span>{`Creation ID: ${creation?._id}`}</span>
-								<span>{`Creation Prompt: ${creation?.task.config.text_input}`}</span>
-
+								{isDebug ? (
+									<div>
+										<span>{`Creations Data Length: ${creationsData.length}`}</span>
+										<span>{`Creation Index: ${currentCreationIndex}`}</span>
+										<span>{`Creation ID: ${creation?._id}`}</span>
+										<span>{`Creation Prompt: ${creation?.task.config.text_input}`}</span>
+									</div>
+								) : null}
 								<CrModalHeader
 									layout={isMobile ? layout : 'relative'}
 									creation={creation}

@@ -564,7 +564,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 				onMouseOut={handleMouseOut}
 			>
 				<Button
-					className={`btn ${buttonSize} ${buttonBg}`}
+					className={`${styles.socialBtn} ${buttonSize} ${buttonBg}`}
 					shape={'circle'}
 					size={'large'}
 					type='link'
