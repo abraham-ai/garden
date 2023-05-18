@@ -37,7 +37,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 	const [username, setUsername] = useState<string | string>('')
 	const [generators, setGenerators] = useState<string | string>('create')
-	const [limit, setLimit] = useState<number>(20)
+	const [limit, setLimit] = useState<number>(10)
 
 	const { width } = useWindowDimensions()
 
@@ -122,7 +122,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	console.log({ data, size })
 
 	const dataArray = data != null ? data.flat() : []
-	// console.log({ dataArray, size })
+	console.log({ dataArray, size })
 
 	const isLoadingMore =
 		isLoading ||

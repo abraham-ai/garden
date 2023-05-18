@@ -498,7 +498,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			}
 		} else {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textWhite
+				return isThemeLight ? styles.textBlack : styles.textBlack
 			} else {
 				return isThemeLight ? styles.textWhite : styles.textWhite
 			}
@@ -527,7 +527,8 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
-					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
+					background:
+						isMobile || isCrIdPage ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
 					border: 'none',
 					transition: '1s',
 				}}
