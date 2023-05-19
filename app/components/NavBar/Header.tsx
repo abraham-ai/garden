@@ -202,11 +202,7 @@ const Header: FC = () => {
 							/>
 						</Space>
 					) : null
-				) : (
-					<ActiveLink href='/'>
-						<Text>{'Garden'}</Text>
-					</ActiveLink>
-				)}
+				) : null}
 			</ul>
 
 			<section className={styles.authSectionStyle}>
