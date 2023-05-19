@@ -51,6 +51,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const isOverlay = layout === 'overlay'
 	const isRelative = layout === 'relative'
 	const isCrIdPage = page === 'creationId'
+	const isCrModalPage = page === 'modal'
 	const isCreationsPage = page === 'creations'
 
 	const isMobile = appWidth < 768
@@ -207,6 +208,12 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
 					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCrModalPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
 				}
 			} else {
 				if (isOverlay) {

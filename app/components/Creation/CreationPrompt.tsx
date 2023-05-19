@@ -54,6 +54,8 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		} else {
 			if (isCrIdPage) {
 				prompt = creationTextInput
+			} else if (isCrModal) {
+				prompt = creationTextInput
 			} else {
 				if (creation.task.config.height > 550) {
 					prompt = abbreviateText(creationTextInput, 80) // 100
