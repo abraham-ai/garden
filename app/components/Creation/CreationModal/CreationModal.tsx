@@ -125,7 +125,7 @@ const CreationModal: FC<CreationModalProps> = ({
 		alignItems: 'center',
 		justifyContent: 'center',
 		maxWidth: handleModalMaxWidth,
-		height: '90vh',
+		// height: '90vh',
 		// padding: isMobile ? 0 : 20,
 	}
 

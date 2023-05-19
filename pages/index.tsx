@@ -51,7 +51,7 @@ const Index: FC = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<>
-				<main className={stylesHeader.headerWrapper}>
+				<main>
 					<Header />
 				</main>
 
