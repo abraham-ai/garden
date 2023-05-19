@@ -26,7 +26,9 @@ const ShareButton: FC<ShareButtonProps> = ({
 	layout = 'relative',
 }) => {
 	const [isShareHovering, setIsShareHovering] = useState(false)
-	const [copyResult, setCopyResult] = useState('')
+	const [copyResult, setCopyResult] = useState(
+		'Creation URL Copied to Clipboard'
+	)
 	const [messageApi, contextHolder] = message.useMessage()
 
 	const context = useContext(AppContext)
@@ -64,7 +66,6 @@ const ShareButton: FC<ShareButtonProps> = ({
 			setCopyResult('Creaton URL Copied to Clipboard!')
 		} catch (err) {
 			setCopyResult('Failed to copy!')
-			messageResult()
 		}
 	}
 
