@@ -15,7 +15,7 @@ import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
+import CreationsGrid from '../../app/components/Creations/CreationsGrid'
 // import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
@@ -109,8 +109,8 @@ const Creator: FC<CreatorPageProps> = () => {
 
 						{isCreatorCreationsData ? (
 							<section className={stylesCreationsGrid.creationsWrapper}>
-								<CreationsGridSimple
-									creations={creatorCreationsData?.creations ?? []}
+								<CreationsGrid
+									// creationsData={creatorCreationsData?.creations ?? []}
 									appWidth={width}
 									creator={
 										creatorCreationsData?.creator ?? emptyCreatorCreations

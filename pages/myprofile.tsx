@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import React, { useContext } from 'react'
 import AppContext from '../context/AppContext'
 
+import useWindowDimensions from '../hooks/useWindowDimensions'
 import useGetProfile from '../hooks/useGetProfile'
 import useGetMyProfile from '../hooks/useGetMyProfile'
 
@@ -26,29 +27,10 @@ const MyProfile: FC = () => {
 
 	const creator = useGetProfile(userId)
 
+	const { width: appWidth } = useWindowDimensions()
+
 	const isMyProfileData =
 		myProfileData !== null && typeof myProfileData !== 'undefined'
-
-	const createProfileCreationsUrl = (
-		limit,
-		pageIndex,
-		username,
-		generators,
-		earliestTime,
-		latestTime
-	): string => {
-		const profileUsername = creator?.user?.username ?? ''
-
-		console.log({ profileUsername })
-
-		return `/api/creations?limit=${String(limit)}&page=${String(
-			pageIndex
-		)}&username=${String(profileUsername)}&generators=${String(
-			generators
-		)}&earliestTime=${String(earliestTime)}&latestTime=${String(latestTime)}`
-	}
-
-	console.log({ createProfileCreationsUrl })
 
 	return (
 		<>
@@ -57,11 +39,9 @@ const MyProfile: FC = () => {
 			</main>
 
 			<CreatorHeader creator={creator} creatorRoute='creations' />
+
 			{isMyProfileData ? (
-				<CreationsGrid
-					createUrl={createProfileCreationsUrl}
-					creator={creator}
-				/>
+				<CreationsGrid creator={creator} appWidth={appWidth} />
 			) : (
 				<Row style={{ display: 'flex', justifyContent: 'center' }}>
 					<Spin indicator={antIcon} />

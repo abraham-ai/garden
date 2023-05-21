@@ -9,7 +9,7 @@ import type Creation from '../../interfaces/Creation'
 import styles from '../../styles/Collection.module.css'
 
 import Header from '../../app/components/NavBar/Header'
-import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
+import CreationsGrid from '../../app/components/Creations/CreationsGrid'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 
 import useGetCollection from '../../hooks/useGetCollection'
@@ -107,8 +107,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 							</>
 						) : null}
 						{isCollectionCreations === true ? (
-							<CreationsGridSimple
-								creations={collectionCreations}
+							<CreationsGrid
 								appWidth={width}
 								creator={collectionData?.creator}
 								onCreationClick={(creation) => null}

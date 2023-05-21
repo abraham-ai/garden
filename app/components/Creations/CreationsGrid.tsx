@@ -9,7 +9,6 @@ import useSWRInfinite from 'swr/infinite'
 
 import timeAgo from '../../../util/timeAgo'
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
-import useWindowDimensions from '../../../hooks/useWindowDimensions'
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 
@@ -30,16 +29,20 @@ interface CreationsGridProps {
 		latestTime: string
 	) => string
 	creator: CreatorProfile
+	appWidth: number
+	onCreationClick: () => void
 }
 
-const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
+const CreationsGrid: FC<CreationsGridProps> = ({
+	createUrl,
+	creator,
+	appWidth,
+}) => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(true)
 
 	const [username, setUsername] = useState<string | string>('')
 	const [generators, setGenerators] = useState<string | string>('create')
 	const [limit, setLimit] = useState<number>(10)
-
-	const { width } = useWindowDimensions()
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
@@ -51,6 +54,14 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
+
+	const handleCreationClick = (creation: Creation, creationIndex): void => {
+		const index = dataArray.findIndex((c) => c._id === creation._id)
+		if (index !== -1) {
+			setCurrentCreationIndex(creationIndex)
+			setCurrentCreationModalCreation(creation)
+		}
+	}
 
 	const fetcher = async (url: string): Promise<Creation[]> => {
 		console.log({ url })
@@ -166,14 +177,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 		[isLoadingMore, isReachingEnd]
 	)
 
-	const handleCreationClick = (creation: Creation, creationIndex): void => {
-		const index = dataArray.findIndex((c) => c._id === creation._id)
-		if (index !== -1) {
-			setCurrentCreationIndex(creationIndex)
-			setCurrentCreationModalCreation(creation)
-		}
-	}
-
 	const isCreator =
 		typeof creator !== 'undefined' && creator?.user?.username !== ''
 
@@ -194,7 +197,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 
 			<CreationsMasonry
 				creationsData={dataArray}
-				appWidth={width}
+				appWidth={appWidth}
 				onCreationClick={handleCreationClick}
 				creator={isCreator ? creator : emptyCreatorProfile}
 			/>
