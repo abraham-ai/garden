@@ -44,7 +44,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	creationsData,
 	index,
 	creation,
-	creator,
+	creatorProfile,
 	layout = 'overlay',
 	appWidth,
 	currentTheme,

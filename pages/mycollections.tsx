@@ -49,7 +49,7 @@ const MyCollections: FC = () => {
 		name: '',
 	}
 
-	const creator = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId)
 
 	const {
 		collectionsCreationsData: myCollectionsCreationsData,
@@ -108,7 +108,7 @@ const MyCollections: FC = () => {
 		currentMyCollectionsCreations?.collections.length > 0 ?? null
 
 	console.log({ myCollectionsCreationsData, isLoading, error })
-	console.log({ creator })
+	console.log({ creatorProfile })
 	// console.log({ myCollections })
 	// console.log({ currentMyCollections })
 
@@ -136,7 +136,10 @@ const MyCollections: FC = () => {
 			</main>
 
 			<Col style={collectionWrapperStyles}>
-				<CreatorHeader creatorProfile={creator} creatorRoute='collections' />
+				<CreatorHeader
+					creatorProfile={creatorProfile}
+					creatorRoute='collections'
+				/>
 
 				{isCurrentMyCollectionsCreations ? (
 					<Col className={styles.collectionsWrapper}>

@@ -40,7 +40,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 
 			<CreationCreator
 				creation={creation}
-				creatorProfile={creator}
+				creatorProfile={creatorProfile}
 				layout={layout}
 				page={page}
 				appWidth={appWidth}
