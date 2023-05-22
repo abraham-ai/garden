@@ -60,7 +60,10 @@ const Index: FC = () => {
 				<CreationSaveModal />
 
 				<section className={styles.creationsWrapper}>
-					<CreationsGrid creator={emptyCreatorProfile} appWidth={appWidth} />
+					<CreationsGrid
+						creatorProfile={emptyCreatorProfile}
+						appWidth={appWidth}
+					/>
 				</section>
 			</>
 		</>

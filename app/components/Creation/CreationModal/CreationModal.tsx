@@ -245,7 +245,7 @@ const CreationModal: FC<CreationModalProps> = ({
 									reactionCountList={reactionCountList}
 									page={page}
 									currentTheme={currentTheme}
-									creator={emptyCreatorProfile}
+									creatorProfile={emptyCreatorProfile}
 								/>
 
 								<CreationPrompt

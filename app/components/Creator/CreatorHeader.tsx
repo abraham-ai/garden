@@ -17,12 +17,12 @@ const { Title } = Typography
 type CreatorRoute = 'creations' | 'collections' | 'editprofile'
 
 interface CreatorHeaderProps {
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 	creatorRoute: CreatorRoute
 }
 
 const CreatorHeader: FC<CreatorHeaderProps> = ({
-	creator,
+	creatorProfile,
 	creatorRoute = 'creations',
 }) => {
 	const router = useRouter()
@@ -31,19 +31,20 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 	const [userName, setUserName] = useState<string>('')
 	const [isHovering, setIsHovering] = useState<boolean>(false)
 
-	const isCreator = typeof creator !== 'undefined' && creator !== null
+	const isCreator =
+		typeof creatorProfile !== 'undefined' && creatorProfile !== null
 	const isCreatorUser =
-		typeof creator?.user?.username !== 'undefined' &&
-		creator?.user?.username !== null
+		typeof creatorProfile?.user?.username !== 'undefined' &&
+		creatorProfile?.user?.username !== null
 
-	// console.log(creator?.user?.userId)
+	// console.log(creatorProfile?.user?.userId)
 
 	useEffect(() => {
 		if (isCreator && isCreatorUser) {
-			setUserAddress(creator?.user?.userId ?? '')
-			setUserName(creator?.user?.username ?? '')
+			setUserAddress(creatorProfile?.user?.userId ?? '')
+			setUserName(creatorProfile?.user?.username ?? '')
 		}
-	}, [creator])
+	}, [creatorProfile])
 
 	const isCollectionsRoute = creatorRoute === 'collections'
 	const isCreationsRoute = creatorRoute === 'creations'

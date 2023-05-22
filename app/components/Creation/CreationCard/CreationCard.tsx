@@ -32,7 +32,7 @@ interface CreationCardProps {
 	creationsData: Creation[]
 	index: number
 	creation: Creation
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 	layout: string
 	appWidth: number
 	currentTheme: string
@@ -224,7 +224,7 @@ const CreationCard: FC<CreationCardProps> = ({
 												{isMobile ? (
 													<CrCardMobile
 														creation={creation}
-														creator={creator}
+														creatorProfile={creatorProfile}
 														appWidth={appWidth}
 														currentTheme={currentTheme}
 														page={page}
@@ -233,7 +233,7 @@ const CreationCard: FC<CreationCardProps> = ({
 												) : (
 													<CrCardDesktop
 														creation={creation}
-														creator={creator}
+														creatorProfile={creatorProfile}
 														appWidth={appWidth}
 														currentTheme={currentTheme}
 														page={page}

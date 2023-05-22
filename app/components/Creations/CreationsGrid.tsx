@@ -20,13 +20,13 @@ import styles from '../../../styles/CreationsGrid.module.css'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 interface CreationsGridProps {
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 	appWidth: number
 	collectionId?: string
 }
 
 const CreationsGrid: FC<CreationsGridProps> = ({
-	creator,
+	creatorProfile,
 	appWidth,
 	collectionId,
 }) => {
@@ -35,9 +35,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 	const [generators, setGenerators] = useState<string | string>('create')
 	const [limit, setLimit] = useState<number>(10)
 
-	const username = creator?.user?.username ?? ''
+	const username = creatorProfile?.user?.username ?? ''
 
-	console.log({ creator })
+	console.log({ creatorProfile })
 	console.log({ username })
 
 	const observer = useRef<IntersectionObserver | null>(null)
@@ -180,7 +180,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 	)
 
 	const isCreator =
-		typeof creator !== 'undefined' && creator?.user?.username !== ''
+		typeof creatorProfile !== 'undefined' &&
+		creatorProfile?.user?.username !== ''
 
 	return (
 		<>
@@ -201,7 +202,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 				creationsData={dataArray}
 				appWidth={appWidth}
 				onCreationClick={handleCreationClick}
-				creator={isCreator ? creator : emptyCreatorProfile}
+				creatorProfile={isCreator ? creatorProfile : emptyCreatorProfile}
 			/>
 
 			<div ref={lastElementRef} className={styles.loadMore}>

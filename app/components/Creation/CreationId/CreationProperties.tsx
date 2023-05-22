@@ -18,7 +18,7 @@ const { Text } = Typography
 interface CreationPropertiesProps {
 	creationData: {
 		creation: Creation
-		creator: CreatorProfile
+		creatorProfile: CreatorProfile
 	}
 	appWidth: number
 }

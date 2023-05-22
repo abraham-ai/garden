@@ -10,7 +10,8 @@ import axios from 'axios'
 
 const useGetCreation = (creationId: string): CreationCreator => {
 	const [creation, setCreation] = useState<Creation>(emptyCreation)
-	const [creator, setCreator] = useState<CreatorProfile>(emptyCreatorProfile)
+	const [creatorProfile, setCreatorProfile] =
+		useState<CreatorProfile>(emptyCreatorProfile)
 
 	const isCreationId =
 		typeof creationId !== 'undefined' &&
@@ -23,13 +24,13 @@ const useGetCreation = (creationId: string): CreationCreator => {
 			creationId,
 		})
 
-		const { creation, creator } = response.data
+		const { creation, creatorProfile } = response.data
 		console.log(response.data)
 
 		console.log('useGetCreation: response.data:')
 
 		setCreation(creation)
-		setCreator(creator)
+		setCreatorProfile(creatorProfile)
 	}, [])
 
 	useEffect(() => {
@@ -47,8 +48,8 @@ const useGetCreation = (creationId: string): CreationCreator => {
 	console.log({ isCreationCreator })
 
 	return isCreationCreator
-		? { creation, creator }
-		: { creation: emptyCreation, creator: emptyCreatorProfile }
+		? { creation, creatorProfile }
+		: { creation: emptyCreation, creatorProfile: emptyCreatorProfile }
 }
 
 export default useGetCreation

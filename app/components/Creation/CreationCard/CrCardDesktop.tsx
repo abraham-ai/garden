@@ -11,7 +11,7 @@ interface CrCardDesktopProps {
 	creation: Creation
 	currentTheme: string
 	appWidth: number
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 	page: string
 	layout: string
 }
@@ -20,7 +20,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 	creation,
 	appWidth,
 	currentTheme,
-	creator,
+	creatorProfile,
 	page,
 	layout,
 }) => {
@@ -40,7 +40,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 
 			<CreationCreator
 				creation={creation}
-				creator={creator}
+				creatorProfile={creator}
 				layout={layout}
 				page={page}
 				appWidth={appWidth}

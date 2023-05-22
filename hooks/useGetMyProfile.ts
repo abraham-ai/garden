@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const emptyCreatorCreations = {
 	creations: [],
-	creator: emptyCreatorProfile,
+	creatorProfile: emptyCreatorProfile,
 }
 
 const useGetMyProfile = (userId: string): CreatorCreations => {

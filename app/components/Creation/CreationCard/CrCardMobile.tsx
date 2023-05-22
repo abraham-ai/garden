@@ -9,7 +9,7 @@ import CreationPrompt from '../CreationPrompt'
 
 interface CrCardMobileProps {
 	creation: Creation
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 	currentTheme: string
 	appWidth: number
 	page: string
@@ -18,7 +18,7 @@ interface CrCardMobileProps {
 
 const CrCardMobile: FC<CrCardMobileProps> = ({
 	creation,
-	creator,
+	creatorProfile,
 	currentTheme,
 	appWidth,
 	page,
@@ -34,7 +34,7 @@ const CrCardMobile: FC<CrCardMobileProps> = ({
 		<div style={crCreatorPromptWrapperStyles}>
 			<CreationCreator
 				creation={creation}
-				creator={creator}
+				creatorProfile={creatorProfile}
 				appWidth={appWidth}
 				layout={layout}
 				currentTheme={currentTheme}

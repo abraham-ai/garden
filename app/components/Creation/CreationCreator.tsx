@@ -23,7 +23,7 @@ interface CreationCreatorProps {
 	creation: Creation
 	appWidth: number
 	currentTheme: string
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 }
 
 const CreationCreator: FC<CreationCreatorProps> = ({
@@ -32,7 +32,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	creation,
 	appWidth,
 	currentTheme,
-	creator,
+	creatorProfile,
 }) => {
 	const [isHovering, setIsHovering] = useState<boolean>(true)
 
@@ -60,7 +60,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	console.log({ isMobile, isTablet })
 	console.log({ layout })
 	console.log({ page })
-	console.log({ creator })
+	console.log({ creatorProfile })
 
 	const creatorColor: string | undefined = useMemo(() => {
 		if (isMobile) {
@@ -227,15 +227,15 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	}, [appWidth, page, layout, currentTheme])
 
 	const isCreator =
-		typeof creator?.user?.username !== 'undefined' &&
-		creator?.user?.username !== null &&
-		creator?.user?.username !== ''
+		typeof creatorProfile?.user?.username !== 'undefined' &&
+		creatorProfile?.user?.username !== null &&
+		creatorProfile?.user?.username !== ''
 
 	console.log({ isCreator })
 
 	const handleCreatorDisplay = (): string => {
 		if (isCreator) {
-			return creator?.user?.username
+			return creatorProfile?.user?.username
 		} else {
 			return abbreviateAddress(creation?.user ?? '')
 		}
@@ -243,13 +243,13 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 
 	const handleCreatorAddress = (): string => {
 		if (isCreator) {
-			return creator?.user?.username
+			return creatorProfile?.user?.username
 		} else {
 			return creation?.user ?? ''
 		}
 	}
 
-	const creatorUsername = creator?.user?.username ?? ''
+	const creatorUsername = creatorProfile?.user?.username ?? ''
 	const creatorDisplay = handleCreatorDisplay()
 	const creatorAddress = handleCreatorAddress()
 

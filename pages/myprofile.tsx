@@ -26,24 +26,24 @@ const MyProfile: FC = () => {
 	const myProfileData = useGetMyProfile(userId)
 	console.log({ myProfileData })
 
-	const creator = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId)
 
 	const { width: appWidth } = useWindowDimensions()
 
 	const isMyProfileData =
 		myProfileData !== null && typeof myProfileData !== 'undefined'
 
-	console.log({ creator })
+	console.log({ creatorProfile })
 	return (
 		<>
 			<main className={stylesHeader.headerWrapper}>
 				<Header />
 			</main>
 
-			<CreatorHeader creator={creator} creatorRoute='creations' />
+			<CreatorHeader creatorProfile={creatorProfile} creatorRoute='creations' />
 
 			{isMyProfileData ? (
-				<CreationsGrid creator={creator} appWidth={appWidth} />
+				<CreationsGrid creatorProfile={creatorProfile} appWidth={appWidth} />
 			) : (
 				<Row style={{ display: 'flex', justifyContent: 'center' }}>
 					<Spin indicator={antIcon} />

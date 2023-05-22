@@ -91,9 +91,9 @@ const CreatorPage: FC<CreatorPageProps> = () => {
 							<Header />
 						</main>
 						<CreatorHeader
-							creator={
+							creatorProfile={
 								creatorCreationsData?.creatorProfile ??
-								emptyCreatorCreations.creator
+								emptyCreatorCreations.creatorProfile
 							}
 							creatorRoute={'creations'}
 						/>
@@ -105,7 +105,7 @@ const CreatorPage: FC<CreatorPageProps> = () => {
 								<CreationsGrid
 									// creationsData={creatorCreationsData?.creations ?? []}
 									appWidth={appWidth}
-									creator={
+									creatorProfile={
 										creatorCreationsData?.creatorProfile ??
 										emptyCreatorCreations
 									}

@@ -18,14 +18,14 @@ interface CreationsMasonryProps {
 	creationsData: Creation[]
 	appWidth: number
 	onCreationClick: (creation: Creation, index: number) => void
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 }
 
 const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	creationsData,
 	appWidth,
 	onCreationClick,
-	creator,
+	creatorProfile,
 }) => {
 	const context = useContext(AppContext)
 	const currentTheme = context?.currentTheme ?? 'light'
@@ -66,7 +66,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 									creationsData={creationsData}
 									layout={isMobile ? 'relative' : 'overlay'}
 									creation={creation}
-									creator={creator}
+									creatorProfile={creatorProfile}
 									key={creation._id}
 									index={i}
 									appWidth={appWidth}

@@ -2,7 +2,7 @@ import emptyCreatorProfile from './emptyCreatorProfile'
 
 const emptyCreatorCreations = {
 	creations: [],
-	creator: emptyCreatorProfile,
+	creatorProfile: emptyCreatorProfile,
 }
 
 export default emptyCreatorCreations

@@ -60,7 +60,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 
 	const isCollectionData = collectionData !== null
 	console.log({ isCollectionData })
-	const isUser = collectionData?.creator?.user?.userId !== undefined
+	const isUser = collectionData?.creatorProfile?.user?.userId !== undefined
 	console.log('isUser', isUser)
 
 	const isCollectionArray = Array.isArray(collectionData?.creations)
@@ -96,7 +96,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 						{isUser ? (
 							<>
 								<CreatorHeader
-									creator={collectionData?.creator}
+									creatorProfile={collectionData?.creatorProfile}
 									creatorRoute='collections'
 								/>
 								<Col style={collectionStyles.col}>
@@ -109,7 +109,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 						{isCollectionCreations === true ? (
 							<CreationsGrid
 								appWidth={width}
-								creator={collectionData?.creator}
+								creatorProfile={collectionData?.creatorProfile}
 							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

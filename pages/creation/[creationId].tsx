@@ -154,7 +154,9 @@ const Creation: FC<CreationPageProps> = ({
 								<article className={styles.crHeader}>
 									<CreationCreator
 										creation={creationData.creation}
-										creator={creationData?.creator ?? emptyCreatorProfile}
+										creatorProfile={
+											creationData?.creatorProfile ?? emptyCreatorProfile
+										}
 										layout='relative'
 										page='creationId'
 										appWidth={appWidth}

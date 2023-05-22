@@ -136,7 +136,7 @@ const MyCollections: FC = () => {
 			</main>
 
 			<Col style={collectionWrapperStyles}>
-				<CreatorHeader creator={creator} creatorRoute='collections' />
+				<CreatorHeader creatorProfile={creator} creatorRoute='collections' />
 
 				{isCurrentMyCollectionsCreations ? (
 					<Col className={styles.collectionsWrapper}>
