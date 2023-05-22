@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import type CreationResponse from '../../interfaces/CreationResponse'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/CreationId.module.css'
@@ -16,7 +16,7 @@ import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
 import CreationsGrid from '../../app/components/Creations/CreationsGrid'
-// import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
+import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 
@@ -34,17 +34,17 @@ interface CreatorPageProps {
 	size?: string
 }
 
-const Creator: FC<CreatorPageProps> = () => {
+const CreatorPage: FC<CreatorPageProps> = () => {
 	const router = useRouter()
 
-	// const [isFollowing, setIsFollowing] = useState(false)
+	const [isFollowing, setIsFollowing] = useState(false)
 
 	// const queryCreatorId = router.query.creatorId
-
 	// console.log(creatorId)
-	// console.log(router.query)
 
-	const { width } = useWindowDimensions()
+	console.log(router.query)
+
+	const { width: appWidth } = useWindowDimensions()
 
 	const queryCreatorId = Array.isArray(router.query.creatorId)
 		? router.query.creatorId[0]
@@ -57,7 +57,7 @@ const Creator: FC<CreatorPageProps> = () => {
 	}
 	const creatorCreationsData = useGetCreatorCreations(queryCreatorId)
 
-	// const { creatorCreationsData, creatorId } = data
+	console.log({ creatorCreationsData })
 
 	// console.log({ creatorCreationsData })
 
@@ -77,14 +77,6 @@ const Creator: FC<CreatorPageProps> = () => {
 		console.log(creatorCreationsData)
 	}
 
-	// const handleFollow = (): void => {
-	// 	setIsFollowing(!isFollowing)
-	// }
-
-	const handleCreationClick = (): void => {
-		console.log('handleCreationClick')
-	}
-
 	const isCreatorCreationsData =
 		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null
 
@@ -100,20 +92,22 @@ const Creator: FC<CreatorPageProps> = () => {
 						</main>
 						<CreatorHeader
 							creator={
-								creatorCreationsData?.creator ?? emptyCreatorCreations.creator
+								creatorCreationsData?.creatorProfile ??
+								emptyCreatorCreations.creator
 							}
 							creatorRoute={'creations'}
 						/>
 
-						{/* <CreatorDashboard profileAddress={creatorId ?? ''} /> */}
+						<CreatorDashboard profileAddress={queryCreatorId ?? ''} />
 
 						{isCreatorCreationsData ? (
 							<section className={stylesCreationsGrid.creationsWrapper}>
 								<CreationsGrid
 									// creationsData={creatorCreationsData?.creations ?? []}
-									appWidth={width}
+									appWidth={appWidth}
 									creator={
-										creatorCreationsData?.creator ?? emptyCreatorCreations
+										creatorCreationsData?.creatorProfile ??
+										emptyCreatorCreations
 									}
 								/>
 							</section>
@@ -133,4 +127,4 @@ const Creator: FC<CreatorPageProps> = () => {
 	)
 }
 
-export default Creator
+export default CreatorPage

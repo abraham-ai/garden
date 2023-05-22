@@ -51,16 +51,16 @@ const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
 	}
 
 	const fetcher = async (url: string): Promise<Creation[]> => {
-		console.log({ url })
+		// console.log({ url })
 		const res = await fetch(url)
 		const data = await res.json()
-		console.log({ data })
+		// console.log({ data })
 		return data
 	}
 
 	const getKey = useCallback(
 		(pageIndex, previousPageData): string | null => {
-			console.log('getKey')
+			// console.log('getKey')
 
 			let adjustedLatestCreationTime = ''
 			let timeAgoLatestTime = ''
@@ -74,22 +74,22 @@ const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
 			if (pageIndex === 0 && previousPageData != null) {
 				return null
 			} else if (pageIndex === 0 && previousPageData === null) {
-				console.log({ url })
-				console.log({ pageIndex })
-				console.log({ previousPageData })
-				console.log({ dataArray })
+				// console.log({ url })
+				// console.log({ pageIndex })
+				// console.log({ previousPageData })
+				// console.log({ dataArray })
 				return url
 			} else if (pageIndex !== 0) {
-				console.log({ previousPageData })
-				console.log({ pageIndex })
-				console.log({ dataArray })
+				// console.log({ previousPageData })
+				// console.log({ pageIndex })
+				// console.log({ dataArray })
 
 				const prevPageCreatedAt =
 					(previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
 						typeof previousPageData?.[previousPageData.length - 1]
 							?.createdAt !== 'undefined') ??
 					''
-				console.log({ prevPageCreatedAt })
+				// console.log({ prevPageCreatedAt })
 
 				adjustedLatestCreationTime = addSecondsToDate(
 					previousPageData?.[previousPageData.length - 1]?.createdAt,
@@ -109,7 +109,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
 
 				url = `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
 
-				console.log({ url })
+				// console.log({ url })
 
 				return url
 			} else {
@@ -121,10 +121,10 @@ const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSWRInfinite(getKey, fetcher)
-	console.log({ data, size })
+	// console.log({ data, size })
 
 	const dataArray = data != null ? data.flat() : []
-	console.log({ dataArray, size })
+	// console.log({ dataArray, size })
 
 	const isLoadingMore =
 		isLoading ||
@@ -134,7 +134,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
 		isEmpty || (data != null && data[data.length - 1]?.length < limit)
 	const isRefreshing = isValidating && data != null && data.length === size
 
-	console.log({ isLoading, isReachingEnd })
+	// console.log({ isLoading, isReachingEnd })
 
 	const addSecondsToDate = (date, seconds): string => {
 		if (date === '') {
@@ -147,9 +147,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
 
 	const lastElementRef = useCallback(
 		(node) => {
-			console.log('isLoadingMore:', isLoadingMore)
-			console.log('isReachingEnd:', isReachingEnd)
-			console.log('node:', node)
+			// console.log('isLoadingMore:', isLoadingMore)
+			// console.log('isReachingEnd:', isReachingEnd)
+			// console.log('node:', node)
 
 			if (isLoadingMore || isReachingEnd) return
 			if (observer.current != null) observer.current.disconnect()

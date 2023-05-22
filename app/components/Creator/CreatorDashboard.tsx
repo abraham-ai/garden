@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import type { FC } from 'react'
 
-import { Row, Typography, Button } from 'antd' // Button,
-const { Text } = Typography
+import { Row, Button } from 'antd' // Button,
 
 interface CreatorDashboardProps {
 	profileAddress: string
@@ -104,8 +103,6 @@ const CreatorDashboard: FC<CreatorDashboardProps> = ({ profileAddress }) => {
 					</div>
 				</Row>
 			) : null}
-
-			<Text>{profileAddress}</Text>
 		</Row>
 	)
 }

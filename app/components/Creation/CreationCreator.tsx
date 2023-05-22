@@ -60,6 +60,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	console.log({ isMobile, isTablet })
 	console.log({ layout })
 	console.log({ page })
+	console.log({ creator })
 
 	const creatorColor: string | undefined = useMemo(() => {
 		if (isMobile) {
@@ -230,6 +231,8 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		creator?.user?.username !== null &&
 		creator?.user?.username !== ''
 
+	console.log({ isCreator })
+
 	const handleCreatorDisplay = (): string => {
 		if (isCreator) {
 			return creator?.user?.username
@@ -240,7 +243,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 
 	const handleCreatorAddress = (): string => {
 		if (isCreator) {
-			return creator?.user?.userId
+			return creator?.user?.username
 		} else {
 			return creation?.user ?? ''
 		}
@@ -302,7 +305,9 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 					onMouseOut={handleMouseOut}
 				>
 					<Text
-						className={`${creatorColor} ${creatorSizeStyles} ${creatorWeight}`}
+						className={`${String(creatorColor)} ${creatorSizeStyles} ${String(
+							creatorWeight
+						)}`}
 						style={{
 							textDecoration: isHovering ? 'underline' : 'unset',
 						}}
