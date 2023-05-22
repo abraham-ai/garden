@@ -24,6 +24,7 @@ const MyProfile: FC = () => {
 	// const userAddress = context?.userAddress ?? ''
 
 	const myProfileData = useGetMyProfile(userId)
+	console.log({ myProfileData })
 
 	const creator = useGetProfile(userId)
 
@@ -32,6 +33,7 @@ const MyProfile: FC = () => {
 	const isMyProfileData =
 		myProfileData !== null && typeof myProfileData !== 'undefined'
 
+	console.log({ creator })
 	return (
 		<>
 			<main className={stylesHeader.headerWrapper}>

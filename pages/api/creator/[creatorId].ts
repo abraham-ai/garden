@@ -33,7 +33,9 @@ const handler = async (
 		console.log(creatorCreations.length)
 		console.log(creatorCreations)
 
-		const tempCreatorObj = { username: creatorId, userId: '', _id: '' }
+		const tempCreatorObj = {
+			user: { username: creatorId, userId: '', _id: '' },
+		}
 		const creatorProfile = tempCreatorObj
 
 		res.status(200).json({ creatorCreations, creatorProfile }) // creatorProfile

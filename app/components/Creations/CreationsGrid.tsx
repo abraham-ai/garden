@@ -22,14 +22,23 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 interface CreationsGridProps {
 	creator: CreatorProfile
 	appWidth: number
+	collectionId?: string
 }
 
-const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
+const CreationsGrid: FC<CreationsGridProps> = ({
+	creator,
+	appWidth,
+	collectionId,
+}) => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
-	const [username, setUsername] = useState<string | string>('')
 	const [generators, setGenerators] = useState<string | string>('create')
 	const [limit, setLimit] = useState<number>(10)
+
+	const username = creator?.user?.username ?? ''
+
+	console.log({ creator })
+	console.log({ username })
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
@@ -69,7 +78,9 @@ const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
 
 			let url = `/api/creations?limit=${limit}&page=${String(
 				pageIndex
-			)}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
+			)}&username=${username}&generators=${generators}&collectionId=${String(
+				collectionId
+			)}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
 
 			if (pageIndex === 0 && previousPageData != null) {
 				return null

@@ -33,14 +33,15 @@ const CreatorHeader: FC<CreatorHeaderProps> = ({
 
 	const isCreator = typeof creator !== 'undefined' && creator !== null
 	const isCreatorUser =
-		typeof creator?.username !== 'undefined' && creator?.username !== null
+		typeof creator?.user?.username !== 'undefined' &&
+		creator?.user?.username !== null
 
 	// console.log(creator?.user?.userId)
 
 	useEffect(() => {
 		if (isCreator && isCreatorUser) {
-			setUserAddress(creator?.username ?? '')
-			setUserName(creator?.username ?? '')
+			setUserAddress(creator?.user?.userId ?? '')
+			setUserName(creator?.user?.username ?? '')
 		}
 	}, [creator])
 
