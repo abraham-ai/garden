@@ -20,25 +20,12 @@ import styles from '../../../styles/CreationsGrid.module.css'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 interface CreationsGridProps {
-	createUrl: (
-		limit: number,
-		pageIndex: number,
-		username: string,
-		generators: string,
-		earliestTime: string | number,
-		latestTime: string
-	) => string
 	creator: CreatorProfile
 	appWidth: number
-	onCreationClick: () => void
 }
 
-const CreationsGrid: FC<CreationsGridProps> = ({
-	createUrl,
-	creator,
-	appWidth,
-}) => {
-	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(true)
+const CreationsGrid: FC<CreationsGridProps> = ({ creator, appWidth }) => {
+	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
 	const [username, setUsername] = useState<string | string>('')
 	const [generators, setGenerators] = useState<string | string>('create')
@@ -78,9 +65,11 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 			let adjustedLatestCreationTime = ''
 			let timeAgoLatestTime = ''
 
-			if (previousPageData != null && !previousPageData.length > 0) return null
+			if (previousPageData != null && previousPageData.length > 0) return null
 
-			let url = `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
+			let url = `/api/creations?limit=${limit}&page=${String(
+				pageIndex
+			)}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
 
 			if (pageIndex === 0 && previousPageData != null) {
 				return null
@@ -123,6 +112,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 				console.log({ url })
 
 				return url
+			} else {
+				return null
 			}
 		},
 		[username, generators, limit]
@@ -147,7 +138,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 
 	const addSecondsToDate = (date, seconds): string => {
 		if (date === '') {
-			return null
+			return ''
 		}
 		const newDateTime = new Date(date).getTime() - seconds
 		const newDate = new Date(newDateTime).toISOString()

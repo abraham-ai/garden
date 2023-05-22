@@ -61,7 +61,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	console.log({ layout })
 	console.log({ page })
 
-	const creatorColor: string = useMemo(() => {
+	const creatorColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -155,7 +155,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		}
 	}, [appWidth])
 
-	const creatorWeight: string = useMemo(() => {
+	const creatorWeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -226,7 +226,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	}, [appWidth, page, layout, currentTheme])
 
 	const isCreator =
-		typeof creator?.user.username !== 'undefined' &&
+		typeof creator?.user?.username !== 'undefined' &&
 		creator?.user?.username !== null &&
 		creator?.user?.username !== ''
 

@@ -76,7 +76,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 		}
 	}
 
-	const textSize: string = useMemo(() => {
+	const textSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -138,9 +138,9 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonWidth: string = useMemo(() => {
+	const buttonWidth: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -176,7 +176,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
 					return styles.relativeBtnWidth
 				}
@@ -202,9 +202,9 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonHeight: string = useMemo(() => {
+	const buttonHeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -266,9 +266,9 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonFlexJustify: string = useMemo(() => {
+	const buttonFlexJustify: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -330,9 +330,9 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonBg: string = useMemo(() => {
+	const buttonBg: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -394,9 +394,9 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const iconSize = useMemo(() => {
+	const iconSize: number | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -488,7 +488,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 
 	// console.log(isBurned)
 
-	const countColor: string = useMemo(() => {
+	const countColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -552,7 +552,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 		}
 	}, [appWidth, page, layout, currentTheme])
 
-	const countWeight: string = useMemo(() => {
+	const countWeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {

@@ -75,7 +75,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		}
 	}
 
-	const textSize: string = useMemo(() => {
+	const textSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -549,7 +549,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		setIsPraiseHovering(false)
 	}
 
-	const countColor: string = useMemo(() => {
+	const countColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -613,7 +613,7 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		}
 	}, [appWidth, page, layout, currentTheme])
 
-	const countWeight: string = useMemo(() => {
+	const countWeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {

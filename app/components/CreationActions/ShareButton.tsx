@@ -69,7 +69,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 		}
 	}
 
-	const textSize = useMemo(() => {
+	const textSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -133,7 +133,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const buttonBg: string = useMemo(() => {
+	const buttonBg: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -197,71 +197,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	// const buttonSize = useMemo(() => {
-	// 	if (isMobile) {
-	// 		if (isCrIdPage) {
-	// 			if (isOverlay) {
-	// 				return 'small'
-	// 			} else if (isRelative) {
-	// 				return 'small'
-	// 			}
-	// 		} else if (isCreationsPage) {
-	// 			if (isOverlay) {
-	// 				return 'small'
-	// 			} else if (isRelative) {
-	// 				return 'small'
-	// 			}
-	// 		} else {
-	// 			if (isOverlay) {
-	// 				return 'small'
-	// 			} else if (isRelative) {
-	// 				return 'small'
-	// 			}
-	// 		}
-	// 	} else if (isTablet) {
-	// 		if (isCrIdPage) {
-	// 			if (isOverlay) {
-	// 				return 'default'
-	// 			} else if (isRelative) {
-	// 				return 'default'
-	// 			}
-	// 		} else if (isCreationsPage) {
-	// 			if (isOverlay) {
-	// 				return 'default'
-	// 			} else if (isRelative) {
-	// 				return 'default'
-	// 			}
-	// 		} else {
-	// 			if (isOverlay) {
-	// 				return 'default'
-	// 			} else if (isRelative) {
-	// 				return 'default'
-	// 			}
-	// 		}
-	// 	} else {
-	// 		if (isCrIdPage) {
-	// 			if (isOverlay) {
-	// 				return 'large'
-	// 			} else if (isRelative) {
-	// 				return 'large'
-	// 			}
-	// 		} else if (isCreationsPage) {
-	// 			if (isOverlay) {
-	// 				return 'large'
-	// 			} else if (isRelative) {
-	// 				return 'large'
-	// 			}
-	// 		} else {
-	// 			if (isOverlay) {
-	// 				return 'large'
-	// 			} else if (isRelative) {
-	// 				return 'large'
-	// 			}
-	// 		}
-	// 	}
-	// }, [isMobile, isTablet, layout, page])
-
-	const buttonSize: string = useMemo(() => {
+	const buttonSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -325,7 +261,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const iconColor: string = useMemo(() => {
+	const iconColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -389,7 +325,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const iconSize: string = useMemo(() => {
+	const iconSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -452,16 +388,15 @@ const ShareButton: FC<ShareButtonProps> = ({
 			}
 		}
 	}, [isMobile, isTablet, layout, page])
-
-	// console.log({ iconSize })
 
 	const bgHoverStyles = isShareHovering
 		? 'rgb(0, 186, 124, 0.2)'
 		: 'rgba(0, 0, 0, 0.5)'
 
-	// console.log({ creationId })
-
 	const isMobileThemeLight = isMobile && currentTheme === 'light'
+
+	// console.log({ iconSize })
+	// console.log({ creationId })
 
 	return (
 		<div
@@ -492,7 +427,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 				>
 					{isShareHovering ? (
 						<IoIosShareAlt
-							className={`${styles.crSocialIcon} ${iconSize}`}
+							className={`${styles.crSocialIcon} ${String(iconSize)}`}
 							size={18}
 							style={{
 								// bottom: isMobile ? 6 : 12,
@@ -507,7 +442,9 @@ const ShareButton: FC<ShareButtonProps> = ({
 						/>
 					) : (
 						<BiShare
-							className={`${styles.crSocialIcon} ${iconSize} ${iconColor}`}
+							className={`${styles.crSocialIcon} ${String(
+								iconSize
+							)} ${iconColor}`}
 							size={18}
 							style={{
 								// bottom: isMobile ? 6 : 12,

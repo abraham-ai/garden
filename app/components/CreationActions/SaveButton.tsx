@@ -91,7 +91,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		setIsSaveHovering(false)
 	}
 
-	const textSize = useMemo(() => {
+	const textSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -150,76 +150,76 @@ const SaveButton: FC<SaveButtonTypes> = ({
 					return '.8rem'
 				} else if (isRelative) {
 					return '1rem'
+				}
+			}
+		}
+	}, [appWidth, layout, page])
+
+	const buttonBg: string | undefined = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
 				}
 			}
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const buttonBg: string = useMemo(() => {
-		if (isMobile) {
-			if (isCrIdPage) {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			} else if (isCreationsPage) {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			} else {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			}
-		} else if (isTablet) {
-			if (isCrIdPage) {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			} else if (isCreationsPage) {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			} else {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			}
-		} else {
-			if (isCrIdPage) {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			} else if (isCreationsPage) {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			} else {
-				if (isOverlay) {
-					return styles.overlayBtn
-				} else if (isRelative) {
-					return styles.relativeBtn
-				}
-			}
-		}
-	}, [isMobile, isTablet, layout, page])
-
-	const buttonSize: string = useMemo(() => {
+	const buttonSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -281,73 +281,73 @@ const SaveButton: FC<SaveButtonTypes> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonWidth = useMemo(() => {
+	const buttonWidth: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 30
+					return styles.relativeBtnWidth
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnWidth
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnWidth
 				}
 			} else {
 				if (isOverlay) {
-					return 50
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
-					return 50
+					return styles.relativeBtnWidth
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonHeight = useMemo(() => {
+	const buttonHeight: number | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -411,7 +411,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
-	const iconSize: string = useMemo(() => {
+	const iconSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -473,18 +473,13 @@ const SaveButton: FC<SaveButtonTypes> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
 	const bgHoverStyles = isSaveHovering
 		? 'rgb(26, 115, 232, 0.4)'
 		: 'rgba(0, 0, 0, 0.5)'
 
-	const isMobileThemeLight = isMobile && currentTheme === 'light'
-
-	// console.log({ iconSize })
-	// console.log({ buttonWidth, buttonHeight, iconSize })
-
-	const iconColor: string = useMemo(() => {
+	const iconColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -546,7 +541,10 @@ const SaveButton: FC<SaveButtonTypes> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
+
+	// console.log({ iconSize })
+	// console.log({ buttonWidth, buttonHeight, iconSize })
 
 	return (
 		<>
@@ -558,13 +556,14 @@ const SaveButton: FC<SaveButtonTypes> = ({
 					justifyContent: 'space-between',
 					height: '100%',
 					alignItems: 'center',
-					// margin: isMobile ? '0 0 5px 25px' : 'unset',
 				}}
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}
 			>
 				<Button
-					className={`${styles.socialBtn} ${buttonSize} ${buttonBg}`}
+					className={`${styles.socialBtn} ${String(buttonSize)} ${String(
+						buttonBg
+					)}`}
 					shape={'circle'}
 					size={'large'}
 					type='link'

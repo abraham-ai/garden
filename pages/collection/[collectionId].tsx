@@ -110,7 +110,6 @@ const Collection: FC<CollectionPageTypes> = () => {
 							<CreationsGrid
 								appWidth={width}
 								creator={collectionData?.creator}
-								onCreationClick={(creation) => null}
 							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

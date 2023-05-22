@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import type Creation from '../../../../interfaces/Creation'
 import type { FC } from 'react'
 
 import AppContext from '../../../../context/AppContext'
