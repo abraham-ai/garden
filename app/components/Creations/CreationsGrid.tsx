@@ -37,8 +37,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 
 	const username = creatorProfile?.user?.username ?? ''
 
-	console.log({ creatorProfile })
-	console.log({ username })
+	// console.log({ creatorProfile })
+	// console.log({ username })
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
