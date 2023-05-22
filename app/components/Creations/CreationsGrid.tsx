@@ -74,16 +74,18 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 			let adjustedLatestCreationTime = ''
 			let timeAgoLatestTime = ''
 
-			if (previousPageData != null) return null
+			if (previousPageData != null && !previousPageData.length) return null
 			// && !previousPageData.length > 0
 
-			let url = `/api/creations?limit=${limit}&page=${String(
+			const url = `/api/creations?limit=${limit}&page=${String(
 				pageIndex
 			)}&username=${username}&generators=${generators}&collectionId=${String(
 				collectionId
 			)}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
 
-			if (pageIndex === 0 && previousPageData != null) {
+			if (pageIndex === 0) {
+				return `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=${adjustedLatestCreationTime}`
+			} else if (pageIndex === 0 && previousPageData != null) {
 				return null
 			} else if (pageIndex === 0 && previousPageData === null) {
 				// console.log({ url })
@@ -91,52 +93,65 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 				// console.log({ previousPageData })
 				// console.log({ dataArray })
 				return url
-			} else if (pageIndex !== 0) {
+				// } else if (pageIndex !== 0) {
 				// console.log({ previousPageData })
 				// console.log({ pageIndex })
 				// console.log({ dataArray })
-
+			} else {
 				const prevPageCreatedAt =
-					(previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
-						typeof previousPageData?.[previousPageData.length - 1]
-							?.createdAt !== 'undefined') ??
-					''
-				// console.log({ prevPageCreatedAt })
-
-				adjustedLatestCreationTime = addSecondsToDate(
-					previousPageData?.[previousPageData.length - 1]?.createdAt,
-					10
-				)
+					previousPageData[previousPageData.length - 1]?.createdAt || ''
+				adjustedLatestCreationTime = addSecondsToDate(prevPageCreatedAt, 10)
 				timeAgoLatestTime = timeAgo(adjustedLatestCreationTime)
 				setLatestCreationTime(adjustedLatestCreationTime)
 
-				console.log({ latestCreationTime })
-				console.log(
-					`latestCreationTime: ${String(timeAgo(latestCreationTime))}`
-				)
-				console.log({ timeAgoLatestTime })
-				console.log({ adjustedLatestCreationTime })
-				console.log('pageIndex:', pageIndex)
-				console.log('previousPageData:', previousPageData)
-
-				url = `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
-
-				// console.log({ url })
-
-				return url
-			} else {
-				return null
+				return `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=&latestTime=${adjustedLatestCreationTime}`
 			}
 		},
+
+		// 		const prevPageCreatedAt =
+		// 			(previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
+		// 				typeof previousPageData?.[previousPageData.length - 1]
+		// 					?.createdAt !== 'undefined') ??
+		// 			''
+		// 		// console.log({ prevPageCreatedAt })
+
+		// 		adjustedLatestCreationTime = addSecondsToDate(
+		// 			previousPageData?.[previousPageData.length - 1]?.createdAt,
+		// 			10
+		// 		)
+		// 		timeAgoLatestTime = timeAgo(adjustedLatestCreationTime)
+		// 		setLatestCreationTime(adjustedLatestCreationTime)
+
+		// 		console.log({ latestCreationTime })
+		// 		console.log(
+		// 			`latestCreationTime: ${String(timeAgo(latestCreationTime))}`
+		// 		)
+		// 		console.log({ timeAgoLatestTime })
+		// 		console.log({ adjustedLatestCreationTime })
+		// 		console.log('pageIndex:', pageIndex)
+		// 		console.log('previousPageData:', previousPageData)
+
+		// 		url = `/api/creations?limit=${limit}&page=${String(
+		// 			pageIndex
+		// 		)}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
+
+		// 		// console.log({ url })
+
+		// 		return url
+		// 	} else {
+		// 		return null
+		// 	}
+		// },
 		[username, generators, limit]
 	)
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSWRInfinite(getKey, fetcher)
-	// console.log({ data, size })
+	console.log({ data, size })
 
 	const dataArray = data != null ? data.flat() : []
-	// console.log({ dataArray, size })
+	console.log({ dataArray, size })
+	console.log(dataArray.length)
 
 	const isLoadingMore =
 		isLoading ||
