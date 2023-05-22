@@ -74,7 +74,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 			let adjustedLatestCreationTime = ''
 			let timeAgoLatestTime = ''
 
-			if (previousPageData != null && !previousPageData.length > 0) return null
+			if (previousPageData != null) return null
+			// && !previousPageData.length > 0
 
 			let url = `/api/creations?limit=${limit}&page=${String(
 				pageIndex

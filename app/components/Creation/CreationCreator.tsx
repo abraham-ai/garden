@@ -57,10 +57,10 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
 
-	console.log({ isMobile, isTablet })
-	console.log({ layout })
-	console.log({ page })
-	console.log({ creatorProfile })
+	// console.log({ isMobile, isTablet })
+	// console.log({ layout })
+	// console.log({ page })
+	// console.log({ creatorProfile })
 
 	const creatorColor: string | undefined = useMemo(() => {
 		if (isMobile) {
@@ -126,7 +126,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		}
 	}, [appWidth])
 
-	console.log(creatorColor)
+	// console.log(creatorColor)
 
 	const creatorSizeStyles = useMemo(() => {
 		if (isMobile) {
@@ -231,7 +231,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		creatorProfile?.user?.username !== null &&
 		creatorProfile?.user?.username !== ''
 
-	console.log({ isCreator })
+	// console.log({ isCreator })
 
 	const handleCreatorDisplay = (): string => {
 		if (isCreator) {
@@ -273,8 +273,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	// console.log({ isRelative })
 	// console.log({ isCrIdPage })
 	// console.log({ isThemeLight })
-
-	console.log({ creatorWeight })
+	// console.log({ creatorWeight })
 
 	return (
 		<section
