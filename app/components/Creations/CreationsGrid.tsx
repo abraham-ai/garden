@@ -7,13 +7,12 @@ import React, { useState, useRef, useCallback, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
-import timeAgo from '../../../util/timeAgo'
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 
 import { LoadingOutlined } from '@ant-design/icons'
-import { Spin, Row } from 'antd'
+import { Spin } from 'antd'
 
 import styles from '../../../styles/CreationsGrid.module.css'
 
@@ -30,16 +29,11 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 	appWidth,
 	collectionId = '',
 }) => {
-	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
-
-	const [generators, setGenerators] = useState<string | string>('create')
-	const [limit, setLimit] = useState<number>(10)
+	const [isScrollAnalytics] = useState<boolean>(false)
+	const [generators] = useState<string>('create')
+	const [limit] = useState<number>(10)
 
 	const username = creatorProfile?.user?.username ?? ''
-
-	// console.log({ creatorProfile })
-	// console.log({ username })
-	console.log({ collectionId })
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
@@ -67,14 +61,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 
 	const getKey = useCallback(
 		(pageIndex, previousPageData): string | null => {
-			// console.log('getKey')
-
-			let lastCreationCreatedAt = ''
-			const timeAgoLatestTime = ''
-
-			// if (previousPageData != null) return null
-			// && !previousPageData.length > 0
-
 			let url = `/api/creations?limit=${limit}&page=${String(
 				pageIndex
 			)}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=`
@@ -82,41 +68,18 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 			if (pageIndex === 0 && previousPageData != null) {
 				return null
 			} else if (pageIndex === 0 && previousPageData === null) {
-				// console.log({ url })
-				// console.log({ pageIndex })
-				// console.log({ previousPageData })
-				// console.log({ dataArray })
 				return url
 			} else if (pageIndex !== 0) {
-				// console.log({ previousPageData })
-				// console.log({ pageIndex })
-				// console.log({ dataArray })
+				const lastCreationCreatedAt =
+					previousPageData?.[previousPageData.length - 1]?.createdAt
 
-				const prevPageCreatedAt =
-					(previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
-						typeof previousPageData?.[previousPageData.length - 1]
-							?.createdAt !== 'undefined') ??
-					''
-				// console.log({ prevPageCreatedAt })
-
-				lastCreationCreatedAt = addSecondsToDate(
-					previousPageData?.[previousPageData.length - 1]?.createdAt,
-					1
-				)
-
-				// console.log({ lastCreationCreatedAt })
-				// console.log(
-				// 	`latestCreationTime: ${String(timeAgo(lastCreationCreatedAt))}`
-				// )
-				// console.log({ lastCreationCreatedAt })
-				// console.log('pageIndex:', pageIndex)
-				// console.log('previousPageData:', previousPageData)
-
+				let lastCreationCreatedAtNew = ''
+				if (lastCreationCreatedAt != null) {
+					lastCreationCreatedAtNew = addSecondsToDate(lastCreationCreatedAt, 1)
+				}
 				url = `/api/creations?limit=${limit}&page=${String(
 					pageIndex
-				)}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=${lastCreationCreatedAt}`
-
-				// console.log({ url })
+				)}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=${lastCreationCreatedAtNew}`
 
 				return url
 			} else {
@@ -128,10 +91,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSWRInfinite(getKey, fetcher, { keepPreviousData: true })
-	// console.log({ data, size })
 
 	const dataArray = data != null ? data.flat() : []
-	// console.log({ dataArray, size })
 
 	const isLoadingMore =
 		isLoading ||
@@ -139,13 +100,21 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 	const isEmpty = data?.[0]?.length === 0
 	const isRefreshing = isValidating && data != null && data.length === size
 
-	const addSecondsToDate = (date, seconds): string => {
-		// console.log({ date, seconds })
+	const addSecondsToDate = (date: string, seconds: number): string => {
+		console.log({ date, seconds })
+		const newDateTime = new Date(date).getTime() - seconds
+		console.log({ newDateTime })
 
 		if (date === '') {
 			return ''
 		}
-		const newDateTime = new Date(date).getTime() - seconds
+
+		if (isNaN(newDateTime)) {
+			throw new Error(
+				`Invalid date or seconds. Date: ${date}, Seconds: ${seconds}`
+			)
+		}
+
 		const newDate = new Date(newDateTime).toISOString()
 		return newDate
 	}
