@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import AppContext from '../../../context/AppContext'
 
 import type { FC } from 'react'
@@ -30,6 +30,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 		'Creation URL Copied to Clipboard'
 	)
 	const [messageApi, contextHolder] = message.useMessage()
+	const [host, setHost] = useState<string>('')
 
 	const context = useContext(AppContext)
 	const currentTheme = context?.currentTheme ?? 'light'
@@ -59,7 +60,15 @@ const ShareButton: FC<ShareButtonProps> = ({
 		setIsShareHovering(false)
 	}
 
-	const copyToClipBoard = async (copyMe) => {
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			// to ensure we're on the client side
+			const url = new URL(window.location.href)
+			setHost(url.host)
+		}
+	}, [])
+
+	const copyToClipBoard = async (copyMe): Promise<void> => {
 		console.log('copy to clipboard')
 		try {
 			await navigator.clipboard.writeText(copyMe)
@@ -67,6 +76,16 @@ const ShareButton: FC<ShareButtonProps> = ({
 		} catch (err) {
 			setCopyResult('Failed to copy!')
 		}
+	}
+
+	const handleShareClick = async (): Promise<void> => {
+		await copyToClipBoard(`${host}/creation/${String(creationId)}`)
+			.then(() => {
+				messageResult()
+			})
+			.catch((err) => {
+				console.log(err)
+			})
 	}
 
 	const textSize: string | undefined = useMemo(() => {
@@ -417,12 +436,8 @@ const ShareButton: FC<ShareButtonProps> = ({
 					shape='circle'
 					type='link'
 					style={{}}
-					onClick={async () => {
-						await copyToClipBoard(
-							`garden.eden.art/creation/${String(creationId)}`
-						).then(() => {
-							messageResult()
-						})
+					onClick={() => {
+						handleShareClick()
 					}}
 				>
 					{isShareHovering ? (
