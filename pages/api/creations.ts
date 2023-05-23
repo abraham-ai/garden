@@ -26,7 +26,12 @@ const handler = async (
 	try {
 		const filter = {}
 
-		Object.assign(filter, username != null ? { username } : {})
+		if (collectionId !== '' && collectionId != null) {
+			Object.assign(filter, { collectionId })
+		} else {
+			Object.assign(filter, username != null ? { username } : {})
+		}
+
 		Object.assign(
 			filter,
 			generators != null ? { generators: [generators] } : {}
@@ -34,7 +39,6 @@ const handler = async (
 		Object.assign(filter, earliestTime != null ? { earliestTime } : {})
 		Object.assign(filter, latestTime != null ? { latestTime } : {})
 		Object.assign(filter, limit != null ? { limit } : {})
-		Object.assign(filter, collectionId != null ? { collectionId } : {})
 
 		console.log({ filter })
 

@@ -34,6 +34,11 @@ const CreationSaveModal: FC = () => {
 
 	const context = useContext(AppContext)
 
+	const isSignedIn = context?.isSignedIn ?? false
+	const isWalletConnected = context?.isWalletConnected ?? false
+	const authToken = context?.authToken ?? ''
+	const userId = context?.userId ?? ''
+
 	const collections = context?.collections ?? []
 	const setCollections = context?.setCollections ?? (() => {})
 
@@ -55,15 +60,7 @@ const CreationSaveModal: FC = () => {
 			? context.setIsSaveCreationModalOpen
 			: noop
 
-	// const inputCollectionRef = useRef<InputRef>(null)
-
-	const collectionsData = useGetCollections()
-
-	// console.log(collections)
-	// console.log(collectionsData)
-	// console.log(collectionModalView)
-	// console.log({ currentSavedCollection })
-	// console.log({ createdCollectionName })
+	const collectionsData = useGetCollections(isSignedIn, authToken, userId)
 
 	const createNotification = (placement: NotificationPlacement): void => {
 		api.info({
@@ -131,13 +128,10 @@ const CreationSaveModal: FC = () => {
 	}
 
 	useEffect(() => {
-		// console.log('USE-EFFECT')
-		// console.log({collectionsData})
 		if (
 			Array.isArray(collectionsData.collections) &&
 			collectionsData.collections.length > 0
 		) {
-			// console.log('SET COLLECTIONS!')
 			setCollections(collectionsData.collections)
 		}
 	}, [collectionsData, setCollections])
@@ -351,7 +345,7 @@ const CreationSaveModal: FC = () => {
 				<section className={styles.modalView1}>
 					{collectionModalView === 'first-modal' ? (
 						<article className={styles.modalView1}>
-							{collections.length > 0 ? (
+							{isSignedIn && collections.length > 0 ? (
 								<>
 									<Text className={styles.saveModalCollectionTitle}>
 										{'Your Collections:'}
@@ -418,6 +412,7 @@ const CreationSaveModal: FC = () => {
 									<Row>
 										<Button
 											type='link'
+											size='large'
 											className={styles.buttonLink}
 											onClick={() => {
 												setCollectionModalView('first-modal')
@@ -440,6 +435,7 @@ const CreationSaveModal: FC = () => {
 
 									<Button
 										type={'primary'}
+										size='large'
 										shape='round'
 										className={styles.buttonPrimary}
 										disabled={inputCollectionName === ''}

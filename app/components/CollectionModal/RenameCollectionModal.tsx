@@ -65,14 +65,12 @@ const RenameCollectionModal: FC<RenameCollectionModalProps> = ({
 	console.log(collection._id)
 	console.log(collection.name)
 
-	const displayRenameCollection =
-		inputCollectionName === '' ? collection.name : inputCollectionName
 	return (
 		<>
 			<Row className={styles.row} style={{ marginTop: 20, minWidth: 300 }}>
 				<span className={styles.textBold} style={textWrapperStyle}>
 					<Text>{'Rename Collection:'}</Text>
-					<Text style={textStyle}>{displayRenameCollection}</Text>
+					<Text style={textStyle}>{collection.name}</Text>
 				</span>
 			</Row>
 

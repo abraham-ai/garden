@@ -7,7 +7,6 @@ import React, { useState, useRef, useCallback, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
-import axios from 'axios'
 import timeAgo from '../../../util/timeAgo'
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
 import CreationsMasonry from './CreationsMasonry'
@@ -26,16 +25,6 @@ interface CreationsGridProps {
 	collectionId?: string
 }
 
-const fetchCreations = async (pageIndex, previousPageData, earliestTime) => {
-	if (previousPageData && !previousPageData.length) return []
-
-	const params = earliestTime ? { earliestTime, limit: 5 } : {}
-
-	const { data } = await axios.get('/api/creations', { params })
-
-	return data
-}
-
 const CreationsGrid: FC<CreationsGridProps> = ({
 	creatorProfile,
 	appWidth,
@@ -43,10 +32,14 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 }) => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
-	const [generators, setGenerators] = useState<string>('create')
-	const [limit, setLimit] = useState<number>(5)
+	const [generators, setGenerators] = useState<string | string>('create')
+	const [limit, setLimit] = useState<number>(10)
 
 	const username = creatorProfile?.user?.username ?? ''
+
+	// console.log({ creatorProfile })
+	// console.log({ username })
+	console.log({ collectionId })
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
@@ -64,7 +57,91 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 		}
 	}
 
+	const fetcher = async (url: string): Promise<Creation[]> => {
+		console.log({ url })
+		const res = await fetch(url)
+		const data = await res.json()
+		console.log({ data })
+		return data
+	}
+
+	const getKey = useCallback(
+		(pageIndex, previousPageData): string | null => {
+			// console.log('getKey')
+
+			let lastCreationCreatedAt = ''
+			const timeAgoLatestTime = ''
+
+			// if (previousPageData != null) return null
+			// && !previousPageData.length > 0
+
+			let url = `/api/creations?limit=${limit}&page=${String(
+				pageIndex
+			)}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=`
+
+			if (pageIndex === 0 && previousPageData != null) {
+				return null
+			} else if (pageIndex === 0 && previousPageData === null) {
+				// console.log({ url })
+				// console.log({ pageIndex })
+				// console.log({ previousPageData })
+				// console.log({ dataArray })
+				return url
+			} else if (pageIndex !== 0) {
+				// console.log({ previousPageData })
+				// console.log({ pageIndex })
+				// console.log({ dataArray })
+
+				const prevPageCreatedAt =
+					(previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
+						typeof previousPageData?.[previousPageData.length - 1]
+							?.createdAt !== 'undefined') ??
+					''
+				// console.log({ prevPageCreatedAt })
+
+				lastCreationCreatedAt = addSecondsToDate(
+					previousPageData?.[previousPageData.length - 1]?.createdAt,
+					1
+				)
+
+				// console.log({ lastCreationCreatedAt })
+				// console.log(
+				// 	`latestCreationTime: ${String(timeAgo(lastCreationCreatedAt))}`
+				// )
+				// console.log({ lastCreationCreatedAt })
+				// console.log('pageIndex:', pageIndex)
+				// console.log('previousPageData:', previousPageData)
+
+				url = `/api/creations?limit=${limit}&page=${String(
+					pageIndex
+				)}&username=${username}&generators=${generators}&earliestTime=&latestTime=${lastCreationCreatedAt}`
+
+				// console.log({ url })
+
+				return url
+			} else {
+				return null
+			}
+		},
+		[username, generators, limit]
+	)
+
+	const { data, mutate, size, setSize, isValidating, isLoading, error } =
+		useSWRInfinite(getKey, fetcher, { keepPreviousData: true })
+	// console.log({ data, size })
+
+	const dataArray = data != null ? data.flat() : []
+	// console.log({ dataArray, size })
+
+	const isLoadingMore =
+		isLoading ||
+		(size > 0 && data != null && typeof data[size - 1] === 'undefined')
+	const isEmpty = data?.[0]?.length === 0
+	const isRefreshing = isValidating && data != null && data.length === size
+
 	const addSecondsToDate = (date, seconds): string => {
+		// console.log({ date, seconds })
+
 		if (date === '') {
 			return ''
 		}
@@ -73,103 +150,24 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 		return newDate
 	}
 
-	// const getKey = useCallback(
-	// 	(pageIndex, previousPageData) => {
-	// 		console.log({ pageIndex, previousPageData })
+	const lastElementRef = useCallback(
+		(node) => {
+			// console.log('isLoadingMore:', isLoadingMore)
+			// console.log('node:', node)
 
-	// 		if (pageIndex === 0) {
-	// 			const url = `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=`
-	// 			console.log({ url })
-	// 			return url
-	// 		} else if (
-	// 			previousPageData == null ||
-	// 			previousPageData.length === 0 ||
-	// 			previousPageData?.[0]?.createdAt == null
-	// 		) {
-	// 			return null
-	// 		} else {
-	// 			const prevPageCreatedAt =
-	// 				previousPageData[previousPageData.length - 1]?.createdAt || ''
-	// 			const adjustedEarliestCreationTime = addSecondsToDate(
-	// 				prevPageCreatedAt,
-	// 				-1
-	// 			)
-
-	// 			const url = `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=${adjustedEarliestCreationTime}&latestTime=`
-	// 			console.log({ url })
-	// 			return url
-	// 		}
-	// 	},
-	// 	[username, generators, limit]
-	// )
-
-	const fetcher = async (url: string) => {
-		const response = await axios.get(url)
-		console.log({ response })
-		return response.data
-	}
-
-	const getKey = useCallback(
-		(index, previousPageData) => {
-			console.log({ index, previousPageData })
-			let lastCreationCreatedAt = ''
-
-			if (previousPageData && !previousPageData.length) return null
-
-			if (index === 0) {
-				const url = `/api/creations?limit=${10}&page=0&username=&generators=create&earliestTime=&latestTime=`
-				console.log({ url })
-				return url
-			} else if (index > 0) {
-				if (previousPageData && previousPageData.length > 0) {
-					lastCreationCreatedAt =
-						previousPageData[previousPageData.length - 1]?.createdAt ?? ''
+			if (isLoadingMore) return
+			if (observer.current != null) observer.current.disconnect()
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting) {
+					setSize((prevSize) => {
+						return prevSize + 1
+					})
 				}
-
-				console.log({ lastCreationCreatedAt })
-
-				const url = `/api/creations?limit=${limit}&page=${index}&username=${username}&generators=${generators}&earliestTime=${addSecondsToDate(
-					lastCreationCreatedAt,
-					1
-				)}&latestTime=`
-				console.log({ url })
-				return url
-			}
+			})
+			if (node) observer.current.observe(node)
 		},
-		[username, generators, limit]
+		[isLoadingMore]
 	)
-
-	const { data, mutate, size, setSize, isValidating, isLoading, error } =
-		useSWRInfinite(getKey, fetcher, {
-			keepPreviousData: true,
-		})
-
-	console.log({ data, size })
-
-	const dataArray = data != null ? data.flat() : []
-	console.log({ dataArray, size })
-	console.log(dataArray.length)
-
-	const isLoadingMore =
-		isLoading ||
-		(size > 0 && data != null && typeof data[size - 1] === 'undefined')
-	const isEmpty = data?.[0]?.length === 0
-	const isReachingEnd =
-		isEmpty || (data != null && data[data.length - 1]?.length < limit)
-	const isRefreshing = isValidating && data != null && data.length === size
-
-	const lastElementRef = (node) => {
-		if (isLoadingMore) return
-		if (observer.current != null) observer.current.disconnect()
-		observer.current = new IntersectionObserver((entries) => {
-			if (entries[0].isIntersecting) {
-				setSize((prevSize) => {
-					return prevSize + 1
-				})
-			}
-		})
-		if (node) observer.current.observe(node)
-	}
 
 	const isCreator =
 		typeof creatorProfile !== 'undefined' &&

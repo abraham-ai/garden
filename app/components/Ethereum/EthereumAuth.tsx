@@ -18,24 +18,10 @@ const EthereumAuth: FC<EthereumAuthProps> = ({ appWidth }) => {
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected ?? false
-
-	const setIsWalletConnected = useMemo(() => {
-		return context?.setIsWalletConnected != null
-			? context.setIsWalletConnected
-			: () => {}
-	}, [context?.setIsWalletConnected])
-
-	const setAuthToken = useMemo(() => {
-		return context?.setAuthToken != null ? context?.setAuthToken : () => {}
-	}, [context?.setAuthToken])
-
-	const setUserId = useMemo(() => {
-		return context?.setUserId != null ? context?.setUserId : () => {}
-	}, [context?.setUserId])
-
-	const setIsSignedIn = useMemo(() => {
-		return context?.setIsSignedIn != null ? context?.setIsSignedIn : () => {}
-	}, [context?.setIsSignedIn])
+	const setIsWalletConnected = context?.setIsWalletConnected ?? (() => {})
+	const setAuthToken = context?.setAuthToken != null ?? (() => {})
+	const setUserId = context?.setUserId != null ?? (() => {})
+	const setIsSignedIn = context?.setIsSignedIn != null ?? (() => {})
 
 	const [state, setState] = useState<{
 		address?: string
@@ -72,7 +58,6 @@ const EthereumAuth: FC<EthereumAuthProps> = ({ appWidth }) => {
 				}
 			} catch (error: unknown) {
 				console.info('error!', error)
-				// setEthMessage('Error authenticating')
 			}
 		},
 	})
@@ -107,7 +92,6 @@ const EthereumAuth: FC<EthereumAuthProps> = ({ appWidth }) => {
 			console.info('sign message 2')
 		} catch (error: unknown) {
 			console.log(error)
-			// setEthMessage('Error authenticating')
 		}
 	}
 
@@ -135,6 +119,7 @@ const EthereumAuth: FC<EthereumAuthProps> = ({ appWidth }) => {
 				}
 			} catch (_error) {}
 		}
+
 		// 1. page loads
 		handler()
 			.then(() => {

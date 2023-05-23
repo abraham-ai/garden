@@ -29,22 +29,14 @@ const EthereumAccount: FC<EthereumAccountProps> = ({
 
 	const isWalletConnected = context?.isWalletConnected ?? false
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
-
-	const setAuthToken = useMemo(() => {
-		return context?.setAuthToken != null ? context.setAuthToken : () => {}
-	}, [context?.setAuthToken])
-
+	const setAuthToken = context?.setAuthToken ?? (() => {})
 	const userId = context?.userId ?? ''
-
 	const isSignedIn = context?.isSignedIn ?? false
-
-	const isMobile = appWidth < 768
-
-	const setIsSignedIn = useMemo(() => {
-		return context?.setIsSignedIn != null ? context.setIsSignedIn : () => {}
-	}, [context?.setIsSignedIn])
+	const setIsSignedIn = context?.setIsSignedIn ?? (() => {})
 
 	const { disconnect } = useDisconnect()
+
+	const isMobile = appWidth < 768
 
 	const handleDisconnect = (): void => {
 		const disconnectResult = disconnect()

@@ -56,10 +56,6 @@ const CreationModal: FC<CreationModalProps> = ({
 	const [currentCreationIndex, setCurrentCreationIndex] =
 		useState<number>(creationIndex)
 
-	// const currentCreationModalCreation =
-	// 	context?.currentCreationModalCreation ?? {}
-	const currentCreationModalCreation =
-		context?.currentCreationModalCreation ?? emptyCreation
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 

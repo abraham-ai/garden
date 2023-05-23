@@ -57,7 +57,7 @@ const EditProfile: FC = () => {
 	const userId = context?.userId ?? ''
 	// const userAddress = context?.userAddress ?? ''
 
-	const creator = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId)
 
 	const onFormLayoutChange = ({ disabled }: { disabled: boolean }): void => {
 		setComponentDisabled(disabled)

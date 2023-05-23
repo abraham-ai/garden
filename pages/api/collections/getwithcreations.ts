@@ -40,7 +40,7 @@ const handler = async (
 
 				const collectionCreations = await eden.getCreations({
 					collectionId,
-					limit: 4,
+					limit: 10,
 				})
 
 				console.log(collectionCreations)
