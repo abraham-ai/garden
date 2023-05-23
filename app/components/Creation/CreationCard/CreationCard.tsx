@@ -119,16 +119,16 @@ const CreationCard: FC<CreationCardProps> = ({
 	const handleCreationUpdate = useCallback(
 		(currentCreation, currentCreationIndex) => {
 			if (isCurrentCreation) {
-				setUri(currentCreation.uri)
-				setCreatedAt(currentCreation.createdAt)
-				setGeneratorName(currentCreation.task.generator.generatorName)
-				setWidth(currentCreation.task.config.width)
-				setHeight(currentCreation.task.config.height)
-				setTextInput(currentCreation.task.config.text_input)
-				setUser(currentCreation.user)
-				setThumbnail(currentCreation.thumbnail)
-				setId(currentCreation._id)
-				setStatus(currentCreation.task.status)
+				setUri(currentCreation?.uri ?? '')
+				setCreatedAt(currentCreation?.createdAt ?? '')
+				setGeneratorName(currentCreation?.task?.generator?.generatorName ?? '')
+				setWidth(currentCreation?.task?.config?.width ?? 0)
+				setHeight(currentCreation?.task?.config?.height ?? 0)
+				setTextInput(currentCreation?.task?.config?.text_input ?? '')
+				setUser(currentCreation?.user ?? '')
+				setThumbnail(currentCreation?.thumbnail ?? '')
+				setId(currentCreation?._id ?? '')
+				setStatus(currentCreation?.task?.status ?? '')
 			}
 		},
 		[]

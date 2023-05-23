@@ -9,7 +9,14 @@ const handler = async (
 	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	const { limit, username, generators, earliestTime, latestTime } = req.query
+	const {
+		limit,
+		username,
+		generators,
+		earliestTime,
+		latestTime,
+		collectionId,
+	} = req.query
 
 	console.log(req.query)
 	console.log({ generators })
@@ -18,6 +25,7 @@ const handler = async (
 
 	try {
 		const filter = {}
+
 		Object.assign(filter, username != null ? { username } : {})
 		Object.assign(
 			filter,
@@ -26,11 +34,11 @@ const handler = async (
 		Object.assign(filter, earliestTime != null ? { earliestTime } : {})
 		Object.assign(filter, latestTime != null ? { latestTime } : {})
 		Object.assign(filter, limit != null ? { limit } : {})
+		Object.assign(filter, collectionId != null ? { collectionId } : {})
 
 		console.log({ filter })
 
 		const creations = await eden.getCreations(filter)
-
 		console.log(creations.length)
 
 		res.status(200).json(creations)

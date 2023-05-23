@@ -110,6 +110,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 							<CreationsGrid
 								appWidth={width}
 								creatorProfile={collectionData?.creatorProfile}
+								collectionId={queryCollectionId}
 							/>
 						) : (
 							<Text style={{ fontSize: '1.4rem', margin: '20px 0' }}>

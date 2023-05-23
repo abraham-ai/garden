@@ -13,20 +13,19 @@ const handler = async (
 	res: NextApiResponse
 ): Promise<void> => {
 	console.log('CREATOR ROUTE GET CREATIONS -------------------------------')
-	const { creatorId } = req.body
-	console.log({ creatorId })
+	const { username, userId } = req.body
+	console.log({ username, userId })
 
 	try {
 		const filter = {}
-		Object.assign(filter, creatorId !== 'null' ? { username: creatorId } : {})
+		Object.assign(filter, userId !== null ? { username } : {})
 		Object.assign(filter, { limit: 10 })
 		console.log({ filter })
 
-		const creator = await eden.getCreator(creatorId)
+		const creator = await eden.getCreator(userId)
 		// const creatorProfile = await creator.getProfile()
 
 		console.log(creator)
-		// console.log(creatorProfile)
 
 		const creatorCreations = await eden.getCreations(filter)
 		console.log({ creatorId })
@@ -34,11 +33,11 @@ const handler = async (
 		console.log(creatorCreations)
 
 		const tempCreatorObj = {
-			user: { username: creatorId, userId: '', _id: '' },
+			user: { username, userId: creatorId, _id: '' },
 		}
 		const creatorProfile = tempCreatorObj
 
-		res.status(200).json({ creatorCreations, creatorProfile }) // creatorProfile
+		res.status(200).json({ creatorCreations, creatorProfile })
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.log(error)

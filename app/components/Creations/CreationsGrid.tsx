@@ -7,6 +7,7 @@ import React, { useState, useRef, useCallback, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
+import axios from 'axios'
 import timeAgo from '../../../util/timeAgo'
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
 import CreationsMasonry from './CreationsMasonry'
@@ -25,28 +26,34 @@ interface CreationsGridProps {
 	collectionId?: string
 }
 
+const fetchCreations = async (pageIndex, previousPageData, earliestTime) => {
+	if (previousPageData && !previousPageData.length) return []
+
+	const params = earliestTime ? { earliestTime, limit: 10 } : {}
+
+	const { data } = await axios.get('/api/creations', { params })
+
+	return data
+}
+
 const CreationsGrid: FC<CreationsGridProps> = ({
 	creatorProfile,
 	appWidth,
-	collectionId,
+	collectionId = '',
 }) => {
 	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
 
 	const [generators, setGenerators] = useState<string | string>('create')
 	const [limit, setLimit] = useState<number>(10)
 
-	const username = creatorProfile?.user?.username ?? ''
+	const [latestCreationTime, setLatestCreationTime] = useState<string>('')
 
-	// console.log({ creatorProfile })
-	// console.log({ username })
+	const username = creatorProfile?.user?.username ?? ''
 
 	const observer = useRef<IntersectionObserver | null>(null)
 
 	const context = useContext(AppContext)
 
-	const latestCreationTime = context?.latestCreationTime ?? ''
-	// const setEarliestCreationTime = context?.setEarliestCreationTime ?? (() => {})
-	const setLatestCreationTime = context?.setLatestCreationTime ?? (() => {})
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
@@ -72,9 +79,10 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 			// console.log('getKey')
 
 			let adjustedLatestCreationTime = ''
-			let timeAgoLatestTime = ''
 
-			if (previousPageData != null && !previousPageData.length) return null
+			console.log({ previousPageData })
+			console.log({ pageIndex })
+
 			// && !previousPageData.length > 0
 
 			const url = `/api/creations?limit=${limit}&page=${String(
@@ -85,68 +93,49 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 
 			if (pageIndex === 0) {
 				return `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=${adjustedLatestCreationTime}`
-			} else if (pageIndex === 0 && previousPageData != null) {
+			} else if (
+				previousPageData == null ||
+				previousPageData.length === 0 ||
+				previousPageData?.[0]?.createdAt == null
+			) {
 				return null
-			} else if (pageIndex === 0 && previousPageData === null) {
-				// console.log({ url })
-				// console.log({ pageIndex })
-				// console.log({ previousPageData })
-				// console.log({ dataArray })
-				return url
-				// } else if (pageIndex !== 0) {
-				// console.log({ previousPageData })
-				// console.log({ pageIndex })
-				// console.log({ dataArray })
 			} else {
+				// 		console.log({ latestCreationTime })
+				// 		console.log(
+				// 			`latestCreationTime: ${String(timeAgo(latestCreationTime))}`
+				// 		)
+				// 		console.log({ timeAgoLatestTime })
+				// 		console.log({ adjustedLatestCreationTime })
+				// 		console.log('pageIndex:', pageIndex)
+				// 		console.log('previousPageData:', previousPageData)
+
 				const prevPageCreatedAt =
 					previousPageData[previousPageData.length - 1]?.createdAt || ''
 				adjustedLatestCreationTime = addSecondsToDate(prevPageCreatedAt, 10)
-				timeAgoLatestTime = timeAgo(adjustedLatestCreationTime)
-				setLatestCreationTime(adjustedLatestCreationTime)
 
 				return `/api/creations?limit=${limit}&page=${pageIndex}&username=${username}&generators=${generators}&earliestTime=&latestTime=${adjustedLatestCreationTime}`
 			}
 		},
-
-		// 		const prevPageCreatedAt =
-		// 			(previousPageData?.[previousPageData.length - 1]?.createdAt !== '' &&
-		// 				typeof previousPageData?.[previousPageData.length - 1]
-		// 					?.createdAt !== 'undefined') ??
-		// 			''
-		// 		// console.log({ prevPageCreatedAt })
-
-		// 		adjustedLatestCreationTime = addSecondsToDate(
-		// 			previousPageData?.[previousPageData.length - 1]?.createdAt,
-		// 			10
-		// 		)
-		// 		timeAgoLatestTime = timeAgo(adjustedLatestCreationTime)
-		// 		setLatestCreationTime(adjustedLatestCreationTime)
-
-		// 		console.log({ latestCreationTime })
-		// 		console.log(
-		// 			`latestCreationTime: ${String(timeAgo(latestCreationTime))}`
-		// 		)
-		// 		console.log({ timeAgoLatestTime })
-		// 		console.log({ adjustedLatestCreationTime })
-		// 		console.log('pageIndex:', pageIndex)
-		// 		console.log('previousPageData:', previousPageData)
-
-		// 		url = `/api/creations?limit=${limit}&page=${String(
-		// 			pageIndex
-		// 		)}&username=${username}&generators=${generators}&earliestTime=${''}&latestTime=${adjustedLatestCreationTime}`
-
-		// 		// console.log({ url })
-
-		// 		return url
-		// 	} else {
-		// 		return null
-		// 	}
-		// },
 		[username, generators, limit]
 	)
 
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
-		useSWRInfinite(getKey, fetcher)
+		useSWRInfinite(
+			async (index, previousPageData) => {
+				// If it's the first page, we don't need the earliestTime.
+				if (index === 0) {
+					return await fetchCreations(index, previousPageData)
+				}
+
+				// For the other pages, we fetch data using the earliestTime from the last creation of the previous page.
+				const lastCreation = previousPageData[previousPageData.length - 1]
+				return await fetchCreations(index, previousPageData, lastCreation.time)
+			},
+			{
+				keepPreviousData: true,
+				// fallbackData: props.data,
+			}
+		)
 	console.log({ data, size })
 
 	const dataArray = data != null ? data.flat() : []
@@ -172,28 +161,25 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 		return newDate
 	}
 
-	const lastElementRef = useCallback(
-		(node) => {
-			// console.log('isLoadingMore:', isLoadingMore)
-			// console.log('isReachingEnd:', isReachingEnd)
-			// console.log('node:', node)
+	const lastElementRef = useCallback((node) => {
+		// console.log('isLoadingMore:', isLoadingMore)
+		// console.log('isReachingEnd:', isReachingEnd)
+		// console.log('node:', node)
 
-			if (isLoadingMore || isReachingEnd) return
-			if (observer.current != null) observer.current.disconnect()
-			observer.current = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting && !isReachingEnd) {
-					setSize((prevSize) => {
-						if (!isReachingEnd) {
-							return prevSize + 1
-						}
-						return prevSize
-					})
-				}
-			})
-			if (node) observer.current.observe(node)
-		},
-		[isLoadingMore, isReachingEnd]
-	)
+		if (isLoadingMore || isReachingEnd) return
+		if (observer.current != null) observer.current.disconnect()
+		observer.current = new IntersectionObserver((entries) => {
+			if (entries[0].isIntersecting && !isReachingEnd) {
+				setSize((prevSize) => {
+					if (!isReachingEnd) {
+						return prevSize + 1
+					}
+					return prevSize
+				})
+			}
+		})
+		if (node) observer.current.observe(node)
+	}, [])
 
 	const isCreator =
 		typeof creatorProfile !== 'undefined' &&
