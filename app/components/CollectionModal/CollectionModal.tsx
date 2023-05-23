@@ -17,9 +17,15 @@ const emptyCollection: Collection = {
 
 interface CollectionModalProps {
 	collection: Collection
+	refetchTrigger: number
+	setRefetchTrigger: () => void
 }
 
-const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
+const CollectionModal: FC<CollectionModalProps> = ({
+	collection,
+	refetchTrigger,
+	setRefetchTrigger,
+}) => {
 	const context = useContext(AppContext)
 
 	const isCollectionModalOpen = context?.isCollectionModalOpen ?? false
@@ -62,6 +68,8 @@ const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
 					handleCollectionCancel={handleCollectionCancel}
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
 					setCollectionModalView={setCollectionModalView}
+					refetchTrigger={refetchTrigger}
+					setRefetchTrigger={setRefetchTrigger}
 				/>
 			) : null}
 
@@ -75,6 +83,8 @@ const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
 					setCollectionModalView={setCollectionModalView}
 					currentModalCollection={emptyCollection}
 					setCurrentModalCollection={setCurrentModalCollection}
+					refetchTrigger={refetchTrigger}
+					setRefetchTrigger={setRefetchTrigger}
 				/>
 			) : null}
 
@@ -85,6 +95,8 @@ const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
 					setCollectionModalView={setCollectionModalView}
 					setCurrentModalCollection={setCurrentModalCollection}
+					refetchTrigger={refetchTrigger}
+					setRefetchTrigger={setRefetchTrigger}
 				/>
 			) : null}
 		</Modal>

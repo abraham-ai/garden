@@ -36,14 +36,13 @@ const MyCollections: FC = () => {
 
 	const [myCollectionsCreations, setMyCollectionsCreations] =
 		useState<CollectionsCreations>(emtpyCollectionsCreations)
+	const [refetchTrigger, setRefetchTrigger] = useState(0)
 
 	const isContext =
 		typeof context !== 'undefined' && context !== null && 'userId' in context
 	const userId = isContext ? String(context.userId) : ''
 	const userAddress = context?.userAddress ?? ''
-
 	const currentTheme = context?.currentTheme ?? ''
-
 	const currentModalCollection = context?.currentModalCollection ?? {
 		_id: '',
 		name: '',
@@ -55,7 +54,7 @@ const MyCollections: FC = () => {
 		collectionsCreationsData: myCollectionsCreationsData,
 		isLoading,
 		error,
-	} = useGetCollectionsCreations()
+	} = useGetCollectionsCreations(refetchTrigger)
 
 	const isMyCollectionsCreations =
 		myCollectionsCreations !== null &&
@@ -146,7 +145,11 @@ const MyCollections: FC = () => {
 						<Row style={collectionInnerWrapperStyles}>
 							<CreateCollectionButton currentTheme={currentTheme} />
 
-							<CollectionModal collection={currentModalCollection} />
+							<CollectionModal
+								collection={currentModalCollection}
+								refetchTrigger={refetchTrigger}
+								setRefetchTrigger={setRefetchTrigger}
+							/>
 
 							<Row style={{ justifyContent: 'center' }}>
 								{currentMyCollectionsCreations.collections?.map(

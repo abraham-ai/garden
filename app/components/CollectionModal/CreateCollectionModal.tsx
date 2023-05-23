@@ -30,6 +30,8 @@ interface CreateCollectionModalProps {
 	setCollectionModalView: Dispatch<SetStateAction<string>>
 	currentModalCollection: Collection
 	setCurrentModalCollection: Dispatch<SetStateAction<Collection>>
+	refetchTrigger: number
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const CreateCollectionModal: FC<CreateCollectionModalProps> = ({
@@ -40,6 +42,8 @@ const CreateCollectionModal: FC<CreateCollectionModalProps> = ({
 	setCollectionModalView,
 	currentModalCollection,
 	setCurrentModalCollection,
+	refetchTrigger,
+	setRefetchTrigger,
 }) => {
 	const context = useContext(AppContext)
 
@@ -89,6 +93,7 @@ const CreateCollectionModal: FC<CreateCollectionModalProps> = ({
 											'New Collection Name'
 										)
 										handleCollectionCancel()
+										setRefetchTrigger(refetchTrigger + 1)
 									})
 									.catch((error) => {
 										console.error('Error creating collection:', error)

@@ -13,12 +13,16 @@ interface CollectionItemButton {
 	collectionCreations: Creation[]
 	isCollectionHovering: boolean
 	currentTheme: string
+	refetchTrigger: number
+	setRefetchTrigger: () => void
 }
 
 const CollectionItemDeleteButton: FC<CollectionItemButton> = ({
 	collection,
 	collectionCreations,
 	currentTheme,
+	refetchTrigger,
+	setRefetchTrigger,
 }) => {
 	const context = useContext(AppContext)
 

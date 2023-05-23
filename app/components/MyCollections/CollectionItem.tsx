@@ -1,16 +1,15 @@
 import type { FC, MouseEvent, CSSProperties } from 'react'
 import type Collection from '../../../interfaces/Collection'
+import type Creation from '../../../interfaces/Creation'
+
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-
-import type Creation from '../../../interfaces/Creation'
 
 import CollectionItemRenameButton from './CollectionItemRenameButton'
 import CollectionItemDeleteButton from './CollectionItemDeleteButton'
 
 import styles from '../../../styles/MyCollections.module.css'
-
 import {
 	Typography,
 	Button,
@@ -19,22 +18,24 @@ import {
 	theme,
 	type ThemeConfig,
 } from 'antd'
-
 const themeDark = { algorithm: theme.darkAlgorithm }
 const themeDefault = { algorithm: theme.defaultAlgorithm }
-
 const { Text } = Typography
 
 interface CollectionItemProps {
 	collection: Collection
 	currentTheme: string
 	collectionCreations: Creation[]
+	refetchTrigger: number
+	setRefetchTrigger: () => void
 }
 
 const CollectionItem: FC<CollectionItemProps> = ({
 	collection,
 	currentTheme,
 	collectionCreations,
+	refetchTrigger,
+	setRefetchTrigger,
 }) => {
 	const router = useRouter()
 

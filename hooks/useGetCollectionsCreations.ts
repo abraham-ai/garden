@@ -1,5 +1,6 @@
-import useSWR from 'swr'
 import type CollectionsCreations from '../interfaces/CollectionsCreations'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const emptyCollectionsCreations = {
 	collections: [],
@@ -15,30 +16,39 @@ const fetcher = async (url: string): Promise<CollectionsCreations> => {
 	return data
 }
 
-export const useGetCollectionsCreations = (): {
-	collectionsCreationsData: CollectionsCreations | null
+export const useGetCollectionsCreations = (
+	refetchTrigger: number
+): {
+	collectionsCreationsData: CollectionsCreations
 	isLoading: boolean
 	error: any
-	isValidating: boolean
 } => {
-	const { data, error } = useSWR<CollectionsCreations>(
-		`/api/collections/getwithcreations`,
-		fetcher
-	)
+	const [collectionsCreationsData, setCollectionsCreationsData] =
+		useState<CollectionsCreations>(emptyCollectionsCreations)
+	const [isLoading, setIsLoading] = useState(false)
+	const [error, setError] = useState(null)
 
-	const isLoading = data == null && error !== false
-	const collectionsCreationsData: CollectionsCreations =
-		data ?? emptyCollectionsCreations
-
-	// console.log('USE GET-COLLECTIONS')
-	// console.log(data)
-
-	return {
-		collectionsCreationsData,
-		error,
-		isLoading,
-		isValidating: !isLoading && error !== false,
+	const fetchData = async (): Promise<void> => {
+		setIsLoading(true)
+		try {
+			const response = await axios.post('/api/collections/getwithcreations')
+			setCollectionsCreationsData(response.data)
+		} catch (err) {
+			setError(err)
+		} finally {
+			setIsLoading(false)
+		}
 	}
+
+	console.log({ refetchTrigger })
+
+	useEffect(() => {
+		fetchData().catch((err) => {
+			console.error(err)
+		})
+	}, [refetchTrigger])
+
+	return { collectionsCreationsData, isLoading, error }
 }
 
 export default useGetCollectionsCreations
