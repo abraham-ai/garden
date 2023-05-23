@@ -151,7 +151,7 @@ const EditProfile: FC = () => {
 					creatorProfile={creatorProfile}
 					creatorRoute='editprofile'
 				/>
-				<Row style={styles.editProfileTitleWrapper}>
+				<Row className={styles.editProfileTitleWrapper}>
 					<Title>{'Edit Profile'}</Title>
 				</Row>
 

@@ -60,7 +60,14 @@ const CreationSaveModal: FC = () => {
 			? context.setIsSaveCreationModalOpen
 			: noop
 
-	const collectionsData = useGetCollections(isSignedIn, authToken, userId)
+	console.log({ isSignedIn, isWalletConnected, authToken, userId })
+
+	const collectionsData = useGetCollections(
+		isSignedIn,
+		authToken,
+		userId,
+		isWalletConnected
+	)
 
 	const createNotification = (placement: NotificationPlacement): void => {
 		api.info({

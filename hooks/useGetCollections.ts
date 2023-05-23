@@ -13,12 +13,14 @@ const fetcher = async (url: string): Promise<Collection[]> => {
 	return data.result
 }
 
-const useGetCollections = ({
+const useGetCollections = (
 	isSignedIn,
 	userId,
 	authToken,
-	isWalletConnected,
-}): CollectionsResponse => {
+	isWalletConnected
+): CollectionsResponse => {
+	console.log({ isSignedIn, userId, authToken, isWalletConnected })
+
 	const getKey = useCallback(() => {
 		if (isSignedIn && isWalletConnected) {
 			return `/api/collections/get`

@@ -47,14 +47,14 @@ const Collection: FC<CollectionPageTypes> = () => {
 			<Header />
 
 			<section className={styles.collectionWrapper}>
-				{isCollectionData && isUser ? (
+				{isUser ? (
 					<>
 						<CreatorHeader
 							creatorProfile={collectionData?.creatorProfile}
 							creatorRoute='collections'
 						/>
-						<Col style={styles.collectionNameWrapper}>
-							<Text style={styles.collectionName}>
+						<Col className={styles.collectionNameWrapper}>
+							<Text className={styles.collectionName}>
 								{collectionData?.collection?.name}
 							</Text>
 						</Col>
