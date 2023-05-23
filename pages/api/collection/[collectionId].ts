@@ -9,7 +9,7 @@ const handler = async (
 	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	const { collectionId } = req.query
+	const { collectionId, limit } = req.query
 
 	try {
 		const collection = await eden.getCollection(collectionId)

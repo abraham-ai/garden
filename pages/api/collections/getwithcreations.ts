@@ -1,10 +1,9 @@
 import type { NextApiResponse } from 'next/types'
 import type { ExtendedApiRequest } from '../../../util/withSession'
-import { withSessionRoute } from '../../../util/withSession'
-
-import { EdenClient } from 'eden-sdk'
-
 import type Collection from '../../../interfaces/Collection'
+
+import { withSessionRoute } from '../../../util/withSession'
+import { EdenClient } from 'eden-sdk'
 
 const eden = new EdenClient()
 
@@ -43,7 +42,11 @@ const handler = async (
 					limit: 10,
 				})
 
-				console.log(collectionCreations)
+				console.log(
+					`Collection Name ${String(collection.name)}, Creations Length: ${
+						collectionCreations.length
+					}`
+				)
 				// console.log(collection.name, collectionCreations.length)
 
 				return collectionCreations

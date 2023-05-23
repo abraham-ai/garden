@@ -1,7 +1,7 @@
-import useSWR from 'swr'
 import type CollectionsResponse from '../interfaces/CollectionsResponse'
 import type Collection from '../interfaces/Collection'
 
+import useSWR from 'swr'
 import { useCallback } from 'react'
 
 const fetcher = async (url: string): Promise<Collection[]> => {
@@ -13,7 +13,7 @@ const fetcher = async (url: string): Promise<Collection[]> => {
 	return data.result
 }
 
-export const useGetCollections = ({
+const useGetCollections = ({
 	isSignedIn,
 	userId,
 	authToken,

@@ -114,7 +114,7 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 
 				url = `/api/creations?limit=${limit}&page=${String(
 					pageIndex
-				)}&username=${username}&generators=${generators}&earliestTime=&latestTime=${lastCreationCreatedAt}`
+				)}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=${lastCreationCreatedAt}`
 
 				// console.log({ url })
 

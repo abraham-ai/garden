@@ -47,17 +47,21 @@ const Collection: FC<CollectionPageTypes> = () => {
 			<Header />
 
 			<section className={styles.collectionWrapper}>
-				<CreatorHeader
-					creatorProfile={collectionData?.creatorProfile}
-					creatorRoute='collections'
-				/>
-				<Col style={styles.collectionNameWrapper}>
-					<Text style={styles.collectionName}>
-						{collectionData?.collection?.name}
-					</Text>
-				</Col>
+				{isCollectionData && isUser ? (
+					<>
+						<CreatorHeader
+							creatorProfile={collectionData?.creatorProfile}
+							creatorRoute='collections'
+						/>
+						<Col style={styles.collectionNameWrapper}>
+							<Text style={styles.collectionName}>
+								{collectionData?.collection?.name}
+							</Text>
+						</Col>
+					</>
+				) : null}
 
-				{isCollectionId ? (
+				{isCollectionId && isCollectionData ? (
 					<CreationsGrid
 						appWidth={appWidth}
 						creatorProfile={collectionData?.creatorProfile}

@@ -26,13 +26,13 @@ const TransitionCreationModalButton: FC<TransitionCreationModalButtonProps> = ({
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
-	console.log({ creationIndex })
-	console.log({ direction })
-	console.log(creationsData[creationIndex])
+	// console.log({ creationIndex })
+	// console.log({ direction })
+	// console.log(creationsData[creationIndex])
 
 	const handleModalTransition = (direction: string): void => {
-		console.log(`click ${direction}`)
-		console.log(creationIndex)
+		// console.log(`click ${direction}`)
+		// console.log(creationIndex)
 
 		if (direction === 'next') {
 			setCreationIndex(creationIndex + 1)
