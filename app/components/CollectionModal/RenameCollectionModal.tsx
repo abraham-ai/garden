@@ -1,5 +1,5 @@
 import type Collection from '../../../interfaces/Collection'
-import type { FC, CSSProperties, Dispatch, SetStateAction } from 'react'
+import type { FC, Dispatch, SetStateAction } from 'react'
 
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'

@@ -2,7 +2,7 @@
 
 import { useEffect, useContext, useMemo } from 'react'
 import AppContext from '../../../context/AppContext'
-import { useAccount } from 'wagmi'
+import { useAccount, watchAccount } from 'wagmi'
 
 const EthereumVerify = (): JSX.Element | null => {
 	const context = useContext(AppContext)
@@ -80,6 +80,17 @@ const EthereumVerify = (): JSX.Element | null => {
 		window.addEventListener('focus', handleFocus)
 		return () => {
 			window.removeEventListener('focus', handleFocus)
+		}
+
+		const unwatch = watchAccount((newWalletAddress: string) => {
+			if (newWalletAddress !== address) {
+				setUserAddress(newWalletAddress ?? '')
+				setIsWalletConnected(true)
+			}
+		})
+
+		return () => {
+			unwatch()
 		}
 	}, [
 		isWalletConnected,

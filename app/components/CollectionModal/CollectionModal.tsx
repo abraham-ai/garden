@@ -1,8 +1,8 @@
+import type { FC, Dispatch, SetStateAction } from 'react'
+import type Collection from '../../../interfaces/Collection'
+
 import React, { useState, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
-import type { FC } from 'react'
-
-import type Collection from '../../../interfaces/Collection'
 
 import RenameCollectionModal from './RenameCollectionModal'
 import CreateCollectionModal from './CreateCollectionModal'
@@ -18,7 +18,7 @@ const emptyCollection: Collection = {
 interface CollectionModalProps {
 	collection: Collection
 	refetchTrigger: number
-	setRefetchTrigger: () => void
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const CollectionModal: FC<CollectionModalProps> = ({

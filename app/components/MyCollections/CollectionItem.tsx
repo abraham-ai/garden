@@ -27,7 +27,7 @@ interface CollectionItemProps {
 	currentTheme: string
 	collectionCreations: Creation[]
 	refetchTrigger: number
-	setRefetchTrigger: () => void
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const CollectionItem: FC<CollectionItemProps> = ({

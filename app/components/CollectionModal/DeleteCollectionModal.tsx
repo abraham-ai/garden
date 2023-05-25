@@ -30,7 +30,7 @@ interface DeleteCollectionModalProps {
 	setCollectionModalView: Dispatch<SetStateAction<string>>
 	setCurrentModalCollection: Dispatch<SetStateAction<Collection>>
 	refetchTrigger: number
-	setRefetchTrigger: () => void
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const DeleteCollectionModal: FC<DeleteCollectionModalProps> = ({
