@@ -3,7 +3,10 @@ import type CreatorProfile from '../interfaces/CreatorProfile'
 
 import axios from 'axios'
 
-const useGetCreator = (userId: string): CreatorProfile | null => {
+const useGetCreator = (
+	userId: string,
+	username: string
+): CreatorProfile | null => {
 	const [creator, setCreator] = useState<CreatorProfile | null>(null)
 
 	const handleGetCreator = useCallback(async (userId: string) => {
@@ -34,7 +37,7 @@ const useGetCreator = (userId: string): CreatorProfile | null => {
 		if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
 			void fetchCreator()
 		}
-	}, [creatorId, handleGetCreator])
+	}, [userId, handleGetCreator])
 
 	console.log({ userId })
 	console.log({ creator })

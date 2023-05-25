@@ -28,12 +28,12 @@ const handler = async (
 		console.log(creator)
 
 		const creatorCreations = await eden.getCreations(filter)
-		console.log({ creatorId })
+		console.log({ userId })
 		console.log(creatorCreations.length)
 		console.log(creatorCreations)
 
 		const tempCreatorObj = {
-			user: { username, userId: creatorId, _id: '' },
+			user: { username, userId, _id: '' },
 		}
 		const creatorProfile = tempCreatorObj
 

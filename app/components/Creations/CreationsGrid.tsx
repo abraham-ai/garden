@@ -149,7 +149,6 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 					creationsData={dataArray}
 					size={size}
 					isLoadingMore={isLoadingMore}
-					isReachingEnd={isReachingEnd}
 					isRefreshing={isRefreshing}
 					mutate={mutate}
 					setSize={setSize}

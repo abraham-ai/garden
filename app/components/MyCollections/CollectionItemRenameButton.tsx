@@ -1,11 +1,11 @@
-import type { FC } from 'react'
+import type { FC, Dispatch, SetStateAction } from 'react'
 import type Collection from '../../../interfaces/Collection'
 import type Creation from '../../../interfaces/Creation'
+
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 
 import { Button } from 'antd'
-
 import { AiTwotoneEdit } from 'react-icons/ai'
 
 interface CollectionItemButton {
@@ -13,6 +13,8 @@ interface CollectionItemButton {
 	collectionCreations: Creation[]
 	isCollectionHovering: boolean
 	currentTheme: string
+	refetchTrigger: number
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const CollectionItemRenameButton: FC<CollectionItemButton> = ({

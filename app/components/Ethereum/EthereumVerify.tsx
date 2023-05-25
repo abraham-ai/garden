@@ -2,37 +2,19 @@
 
 import { useEffect, useContext, useMemo } from 'react'
 import AppContext from '../../../context/AppContext'
-import { useAccount, watchAccount } from 'wagmi'
+import { useAccount } from 'wagmi'
+import type { GetAccountResult, Provider } from '@wagmi/core'
+import { watchAccount } from '@wagmi/core'
 
 const EthereumVerify = (): JSX.Element | null => {
 	const context = useContext(AppContext)
 
 	const isWalletConnected = context?.isWalletConnected ?? false
-
-	const setIsWalletConnected = useMemo(
-		() => context?.setIsWalletConnected ?? (() => {}),
-		[context?.setIsWalletConnected]
-	)
-
-	const setAuthToken = useMemo(
-		() => context?.setAuthToken ?? (() => {}),
-		[context?.setAuthToken]
-	)
-
-	const setUserId = useMemo(
-		() => context?.setUserId ?? (() => {}),
-		[context?.setUserId]
-	)
-
-	const setUserAddress = useMemo(
-		() => context?.setUserAddress ?? (() => {}),
-		[context?.setUserAddress]
-	)
-
-	const setIsSignedIn = useMemo(
-		() => context?.setIsSignedIn ?? (() => {}),
-		[context?.setIsSignedIn]
-	)
+	const setIsWalletConnected = context?.setIsWalletConnected ?? (() => {})
+	const setAuthToken = context?.setAuthToken ?? (() => {})
+	const setUserId = context?.setUserId ?? (() => {})
+	const setUserAddress = context?.setUserAddress ?? (() => {})
+	const setIsSignedIn = context?.setIsSignedIn ?? (() => {})
 
 	const { address, isConnected } = useAccount()
 
@@ -82,7 +64,8 @@ const EthereumVerify = (): JSX.Element | null => {
 			window.removeEventListener('focus', handleFocus)
 		}
 
-		const unwatch = watchAccount((newWalletAddress: string) => {
+		const unwatch = watchAccount((data: GetAccountResult<Provider>) => {
+			const newWalletAddress = data.address
 			if (newWalletAddress !== address) {
 				setUserAddress(newWalletAddress ?? '')
 				setIsWalletConnected(true)

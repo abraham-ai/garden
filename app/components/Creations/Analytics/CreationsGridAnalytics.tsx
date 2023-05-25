@@ -68,7 +68,6 @@ interface CreationsGridAnalyticsProps {
 	setSize: (size: number) => void
 	mutate: () => void
 	isLoadingMore: boolean
-	isReachingEnd: boolean
 	// handleLoadMore: () => void
 	isRefreshing: boolean
 	isEmpty: boolean
@@ -80,7 +79,6 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 	setSize,
 	mutate,
 	isLoadingMore,
-	isReachingEnd,
 	// handleLoadMore,
 	isRefreshing,
 	isEmpty,
@@ -135,16 +133,12 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 
 					<span style={{ display: 'flex' }}>
 						<Button
-							disabled={isLoadingMore || isReachingEnd}
+							disabled={isLoadingMore}
 							// onClick={() => {
 							//     handleLoadMore()
 							// }}
 						>
-							{isLoadingMore
-								? 'Loading...'
-								: isReachingEnd
-								? 'no more creations'
-								: 'load more'}
+							{isLoadingMore ? 'Loading...' : 'load more'}
 						</Button>
 						<Button
 							disabled={isRefreshing}
@@ -164,7 +158,7 @@ const CreationsGridAnalytics: FC<CreationsGridAnalyticsProps> = ({
 						</Button>
 					</span>
 				</div>
-				{isEmpty ? <p>No creations found.</p> : null}
+				{isEmpty ? <p>{'End of the creations.'}</p> : null}
 				<CreationsTable creations={creationsData} />
 			</Card>
 		</ConfigProvider>

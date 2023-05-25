@@ -24,7 +24,9 @@ interface CollectionPageTypes {
 const Collection: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 
-	const queryCollectionId = router.query.collectionId ?? ''
+	const queryCollectionId = Array.isArray(router.query.collectionId)
+		? router.query.collectionId[0]
+		: router.query.collectionId ?? ''
 
 	const { width: appWidth } = useWindowDimensions()
 

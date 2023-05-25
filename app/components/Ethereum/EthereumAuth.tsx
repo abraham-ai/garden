@@ -19,9 +19,9 @@ const EthereumAuth: FC<EthereumAuthProps> = ({ appWidth }) => {
 
 	const isWalletConnected = context?.isWalletConnected ?? false
 	const setIsWalletConnected = context?.setIsWalletConnected ?? (() => {})
-	const setAuthToken = context?.setAuthToken != null ?? (() => {})
-	const setUserId = context?.setUserId != null ?? (() => {})
-	const setIsSignedIn = context?.setIsSignedIn != null ?? (() => {})
+	const setAuthToken = context?.setAuthToken ?? (() => {})
+	const setUserId = context?.setUserId ?? (() => {})
+	const setIsSignedIn = context?.setIsSignedIn ?? (() => {})
 
 	const [state, setState] = useState<{
 		address?: string

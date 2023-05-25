@@ -1,4 +1,10 @@
-import type { FC, MouseEvent, CSSProperties } from 'react'
+import type {
+	FC,
+	Dispatch,
+	SetStateAction,
+	MouseEvent,
+	CSSProperties,
+} from 'react'
 import type Collection from '../../../interfaces/Collection'
 import type Creation from '../../../interfaces/Creation'
 
@@ -136,6 +142,8 @@ const CollectionItem: FC<CollectionItemProps> = ({
 							currentTheme={currentTheme}
 							isCollectionHovering={isCollectionHovering}
 							collectionCreations={collectionCreations}
+							refetchTrigger={refetchTrigger}
+							setRefetchTrigger={setRefetchTrigger}
 						/>
 					</Row>
 					<Row style={deleteWrapperStyles}>
@@ -144,6 +152,8 @@ const CollectionItem: FC<CollectionItemProps> = ({
 							currentTheme={currentTheme}
 							isCollectionHovering={isCollectionHovering}
 							collectionCreations={collectionCreations}
+							refetchTrigger={refetchTrigger}
+							setRefetchTrigger={setRefetchTrigger}
 						/>
 					</Row>
 				</>
