@@ -48,7 +48,7 @@ const MyCollections: FC = () => {
 		name: '',
 	}
 
-	const creatorProfile = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId, refetchTrigger)
 
 	const {
 		collectionsCreationsData: myCollectionsCreationsData,
@@ -164,6 +164,8 @@ const MyCollections: FC = () => {
 														index
 													]
 												}
+												refetchTrigger={refetchTrigger}
+												setRefetchTrigger={setRefetchTrigger}
 											/>
 										)
 									}

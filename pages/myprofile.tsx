@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import AppContext from '../context/AppContext'
 
 import useWindowDimensions from '../hooks/useWindowDimensions'
@@ -18,6 +18,8 @@ import stylesHeader from '../styles/Header.module.css'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const MyProfile: FC = () => {
+	const [refetchTrigger, setRefetchTrigger] = useState(0)
+
 	const context = useContext(AppContext)
 	const userId = context?.userId ?? ''
 	const latestCreationTime = context?.latestCreationTime ?? ''
@@ -26,7 +28,7 @@ const MyProfile: FC = () => {
 	const myProfileData = useGetMyProfile(userId)
 	console.log({ myProfileData })
 
-	const creatorProfile = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId, refetchTrigger)
 
 	const { width: appWidth } = useWindowDimensions()
 
