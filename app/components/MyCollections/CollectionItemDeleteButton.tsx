@@ -1,4 +1,5 @@
-import type { FC } from 'react'
+import type { FC, Dispatch, SetStateAction } from 'react'
+
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 
@@ -13,12 +14,16 @@ interface CollectionItemButton {
 	collectionCreations: Creation[]
 	isCollectionHovering: boolean
 	currentTheme: string
+	refetchTrigger: number
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const CollectionItemDeleteButton: FC<CollectionItemButton> = ({
 	collection,
 	collectionCreations,
 	currentTheme,
+	refetchTrigger,
+	setRefetchTrigger,
 }) => {
 	const context = useContext(AppContext)
 

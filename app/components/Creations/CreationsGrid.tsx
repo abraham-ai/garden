@@ -1,183 +1,154 @@
 'use client'
 
 import type { FC } from 'react'
-import type Creation from '../../../interfaces/Creation'
 import type CreatorProfile from '../../../interfaces/CreatorProfile'
-import React, {
-	useState,
-	useEffect,
-	useRef,
-	useCallback,
-	useMemo,
-	useContext,
-} from 'react'
+import type Creation from '../../../interfaces/Creation'
+import React, { useState, useRef, useCallback, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
-import useWindowDimensions from '../../../hooks/useWindowDimensions'
-import useGetCreationsFetcher from '../../../hooks/useGetCreationsFetcher'
-import addSecondsToDate from '../../../util/addSecondsToDate'
-import useCreationsGridParams from '../../../hooks/useCreationsGridParams'
-
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
 import CreationsMasonry from './CreationsMasonry'
-import CreationsGridAnalytics from './CreationsGridAnalytics'
+import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 
 import { LoadingOutlined } from '@ant-design/icons'
-import { Spin, Row } from 'antd'
+import { Spin } from 'antd'
 
 import styles from '../../../styles/CreationsGrid.module.css'
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 interface CreationsGridProps {
-	createUrl: (
-		limit: number,
-		pageIndex: number,
-		username: string,
-		generators: string,
-		earliestTime: string | number,
-		latestTime: string
-	) => string
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
+	appWidth: number
+	collectionId?: string
 }
 
-const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
-	const [isScrollAnalytics, setIsScrollAnalytics] = useState<boolean>(false)
+const CreationsGrid: FC<CreationsGridProps> = ({
+	creatorProfile,
+	appWidth,
+	collectionId = '',
+}) => {
+	const [isScrollAnalytics] = useState<boolean>(false)
+	const [generators] = useState<string>('create')
+	const [limit] = useState<number>(10)
 
-	const { username, generators, earliestTime, limit } = useCreationsGridParams()
+	const username = creatorProfile?.user?.username ?? ''
+
+	const observer = useRef<IntersectionObserver | null>(null)
 
 	const context = useContext(AppContext)
 
 	const setCurrentCreationIndex = context?.setCurrentCreationIndex ?? (() => {})
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
-	const creationsData = context?.creationsData ?? []
-	const setCreationsData = context?.setCreationsData ?? (() => {})
 
-	const { width: appWidth } = useWindowDimensions()
-
-	const [latestCreationTime, setLatestCreationTime] = useState<number | string>(
-		() => {
-			const now = new Date()
-			now.setMinutes(now.getMinutes() - 1)
-			return now.toISOString()
+	const handleCreationClick = (creation: Creation, creationIndex): void => {
+		const index = dataArray.findIndex((c) => c._id === creation._id)
+		if (index !== -1) {
+			setCurrentCreationIndex(creationIndex)
+			setCurrentCreationModalCreation(creation)
 		}
-	)
-
-	const observer = useRef<IntersectionObserver | null>(null)
-
-	const getKey = (pageIndex, previousPageData) => {
-		if (pageIndex !== 0 && previousPageData === null) {
-			return null
-		}
-
-		let adjustedLatestCreationTime = ''
-
-		if (pageIndex === 0) {
-			adjustedLatestCreationTime = ''
-		} else {
-			const lastCreationTime =
-				previousPageData?.[previousPageData.length - 1]?.createdAt ||
-				latestCreationTime
-			adjustedLatestCreationTime = addSecondsToDate(lastCreationTime, 1)
-		}
-
-		return createUrl(
-			limit,
-			pageIndex + 1,
-			username,
-			generators,
-			earliestTime,
-			adjustedLatestCreationTime
-		)
 	}
 
+	const fetcher = async (url: string): Promise<Creation[]> => {
+		console.log({ url })
+		const res = await fetch(url)
+		const data = await res.json()
+		console.log({ data })
+		return data
+	}
+
+	const getKey = useCallback(
+		(pageIndex, previousPageData): string | null => {
+			let url = `/api/creations?limit=${limit}&page=${String(
+				pageIndex
+			)}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=`
+
+			if (pageIndex === 0 && previousPageData != null) {
+				return null
+			} else if (pageIndex === 0 && previousPageData === null) {
+				return url
+			} else if (pageIndex !== 0) {
+				const lastCreationCreatedAt =
+					previousPageData?.[previousPageData.length - 1]?.createdAt
+
+				let lastCreationCreatedAtNew = ''
+				if (lastCreationCreatedAt != null) {
+					lastCreationCreatedAtNew = addSecondsToDate(lastCreationCreatedAt, 1)
+				}
+				url = `/api/creations?limit=${limit}&page=${String(
+					pageIndex
+				)}&username=${username}&generators=${generators}&collectionId=${collectionId}&earliestTime=&latestTime=${lastCreationCreatedAtNew}`
+
+				return url
+			} else {
+				return null
+			}
+		},
+		[username, generators, limit]
+	)
+
 	const { data, mutate, size, setSize, isValidating, isLoading, error } =
-		useSWRInfinite(getKey, useGetCreationsFetcher)
+		useSWRInfinite(getKey, fetcher, { keepPreviousData: true })
+
+	const dataArray = data != null ? data.flat() : []
 
 	const isLoadingMore =
 		isLoading ||
 		(size > 0 && data != null && typeof data[size - 1] === 'undefined')
 	const isEmpty = data?.[0]?.length === 0
-	const isReachingEnd =
-		isEmpty || (data != null && data[data.length - 1]?.length < limit)
 	const isRefreshing = isValidating && data != null && data.length === size
 
-	const allCreationsData = useMemo(() => {
-		if (data == null) return []
-		return data.flat()
-	}, [data])
+	const addSecondsToDate = (date: string, seconds: number): string => {
+		console.log({ date, seconds })
+		const newDateTime = new Date(date).getTime() - seconds
+		console.log({ newDateTime })
+
+		if (date === '') {
+			return ''
+		}
+
+		if (isNaN(newDateTime)) {
+			throw new Error(
+				`Invalid date or seconds. Date: ${date}, Seconds: ${seconds}`
+			)
+		}
+
+		const newDate = new Date(newDateTime).toISOString()
+		return newDate
+	}
 
 	const lastElementRef = useCallback(
 		(node) => {
-			if (isLoadingMore || isReachingEnd) return
+			// console.log('isLoadingMore:', isLoadingMore)
+			// console.log('node:', node)
+
+			if (isLoadingMore) return
 			if (observer.current != null) observer.current.disconnect()
 			observer.current = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting && !isReachingEnd) {
+				if (entries[0].isIntersecting) {
 					setSize((prevSize) => {
-						if (!isReachingEnd) {
-							return prevSize + 1
-						}
-						return prevSize
+						return prevSize + 1
 					})
 				}
 			})
 			if (node) observer.current.observe(node)
 		},
-		[isLoadingMore, isReachingEnd]
+		[isLoadingMore]
 	)
 
-	const handleCreationClick = (creation: Creation, index: number): void => {
-		setCurrentCreationIndex(index)
-		setCurrentCreationModalCreation(creation)
-	}
-
-	// console.log({ allCreationsData })
-	// console.log({ creationsData })
-
-	// Update the useEffect hook to set the latest creation time
-	useEffect(() => {
-		if (data == null) return
-
-		// console.log('Data changed:', data)
-
-		const newData = data.flat()
-		const uniqueCreations = newData.filter((newCreation: Creation) => {
-			return !creationsData.some(
-				(prevCreation) => prevCreation._id === newCreation._id
-			)
-		})
-
-		if (uniqueCreations.length > 0) {
-			if (setCreationsData != null) {
-				setCreationsData((prevCreations: Creation[]) => {
-					return [...prevCreations, ...uniqueCreations]
-				})
-			}
-
-			// Update the latest creation time state
-			const lastCreation = uniqueCreations[uniqueCreations.length - 1]
-			setLatestCreationTime(lastCreation.createdAt)
-		}
-	}, [data, creationsData, size])
-
-	// lastCreationEarliestTime !== ''
-
 	const isCreator =
-		typeof creator !== 'undefined' && creator?.user?.username !== ''
-
-	console.log({ creator })
+		typeof creatorProfile !== 'undefined' &&
+		creatorProfile?.user?.username !== ''
 
 	return (
 		<>
 			{isScrollAnalytics ? (
 				<CreationsGridAnalytics
-					// lastCreationEarliestTime={lastCreationEarliestTime}
+					creationsData={dataArray}
 					size={size}
-					creationsData={allCreationsData}
 					isLoadingMore={isLoadingMore}
-					isReachingEnd={isReachingEnd}
 					isRefreshing={isRefreshing}
 					mutate={mutate}
 					setSize={setSize}
@@ -186,19 +157,15 @@ const CreationsGrid: FC<CreationsGridProps> = ({ createUrl, creator }) => {
 			) : null}
 
 			<CreationsMasonry
-				creations={allCreationsData}
+				creationsData={dataArray}
 				appWidth={appWidth}
 				onCreationClick={handleCreationClick}
-				creator={isCreator ? creator : emptyCreatorProfile}
+				creatorProfile={isCreator ? creatorProfile : emptyCreatorProfile}
 			/>
 
-			<Row
-				ref={lastElementRef}
-				className={styles.loadMore}
-				style={{ display: 'flex', justifyContent: 'center' }}
-			>
+			<div ref={lastElementRef} className={styles.loadMore}>
 				<Spin indicator={antIcon} />
-			</Row>
+			</div>
 		</>
 	)
 }

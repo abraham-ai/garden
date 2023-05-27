@@ -14,6 +14,11 @@
 	width: 100vw;
 }
 /*** EDIT PROFILE WRAPPER ***/
+.editProfileTitleWrapper {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
 .editProfileFormWrapper {
 	width: 90%;
 	margin-bottom: 100px;
@@ -24,6 +29,13 @@
 	display: grid;
 	gap: 32px;
 }
+
+/* FORM SUBMIT WRAPPER */
+.formSubmitWrapper {
+	display: flex !important;
+	justify-content: center !important;
+}
+
 /*** FORM ROW ***/
 .formRow {
 	display: flex;
@@ -54,6 +66,7 @@
 	/*align-items: flex-end;*/
 	height: 90px;
 }
+
 /** FORM INFO **/
 .formInfo .ant-form-item-control {
 	min-width: 100%;
@@ -194,6 +207,7 @@
 		width: 100%;
 		max-width: unset;
 	}
+
 	/*** FORM SUBMIT ***/
 	.formSubmit {
 		width: 100%;

@@ -1,8 +1,8 @@
+import type { FC, Dispatch, SetStateAction } from 'react'
+import type Collection from '../../../interfaces/Collection'
+
 import React, { useState, useContext } from 'react'
 import AppContext from '../../../context/AppContext'
-import type { FC } from 'react'
-
-import type Collection from '../../../interfaces/Collection'
 
 import RenameCollectionModal from './RenameCollectionModal'
 import CreateCollectionModal from './CreateCollectionModal'
@@ -17,9 +17,15 @@ const emptyCollection: Collection = {
 
 interface CollectionModalProps {
 	collection: Collection
+	refetchTrigger: number
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
-const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
+const CollectionModal: FC<CollectionModalProps> = ({
+	collection,
+	refetchTrigger,
+	setRefetchTrigger,
+}) => {
 	const context = useContext(AppContext)
 
 	const isCollectionModalOpen = context?.isCollectionModalOpen ?? false
@@ -62,6 +68,8 @@ const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
 					handleCollectionCancel={handleCollectionCancel}
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
 					setCollectionModalView={setCollectionModalView}
+					refetchTrigger={refetchTrigger}
+					setRefetchTrigger={setRefetchTrigger}
 				/>
 			) : null}
 
@@ -75,6 +83,8 @@ const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
 					setCollectionModalView={setCollectionModalView}
 					currentModalCollection={emptyCollection}
 					setCurrentModalCollection={setCurrentModalCollection}
+					refetchTrigger={refetchTrigger}
+					setRefetchTrigger={setRefetchTrigger}
 				/>
 			) : null}
 
@@ -85,6 +95,8 @@ const CollectionModal: FC<CollectionModalProps> = ({ collection }) => {
 					setIsCollectionModalOpen={setIsCollectionModalOpen}
 					setCollectionModalView={setCollectionModalView}
 					setCurrentModalCollection={setCurrentModalCollection}
+					refetchTrigger={refetchTrigger}
+					setRefetchTrigger={setRefetchTrigger}
 				/>
 			) : null}
 		</Modal>

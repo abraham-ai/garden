@@ -1,7 +1,74 @@
+/* IMAGE WRAPPER */
+.crModalImageWrapper {
+	justify-content: center;
+	background: rgb(0, 0, 0);
+	position: relative;
+	overflow: hidden;
+	align-items: center;
+	display: flex;
+	border-radius: 15px;
+}
+.crModalImageWrapperMobile {
+	flex: 1 0 500px;
+	max-width: 500px;
+	max-height: 500px;
+}
+.crModalImageWrapperTablet {
+	flex: 1 0 800px;
+	max-width: 800px;
+	min-width: 800px;
+	max-height: 700px;
+}
+.crModalImageWrapperDesktop {
+	flex: 1 0 900px;
+	max-width: 900px;
+	/* min-width: 900px; */
+	max-height: 700px;
+}
+.crModalImageWrapperDesktopLg {
+	flex: 1 0 900px;
+	max-width: 900px;
+	max-height: 700px;
+}
+.crModalImageWrapperLandscape {
+}
+.crModalImageWrapperPortrait {
+}
+.crModalImageWrapperSquare {
+}
+
+/* IMAGE */
+.crImagePortrait {
+	width: auto;
+	height: 100%;
+	/* border: 3px solid lime; */
+}
+.crImageLandscape {
+	width: 100%;
+	height: auto;
+	/* border: 3px solid red; */
+}
+.crImageSquare {
+	width: auto;
+	height: 100%;
+}
+
+/*  ADDRESS  */
 .displayAddress {
 	color: white;
 	font-weight: bold;
 	font-family: 'Courier New', Courier, monospace;
+}
+
+/* PROMPT TEXT DATA WRAPPER */
+.overlayPadding {
+	padding: 40px 0;
+}
+.relativePadding {
+	padding: 20px 0;
+}
+.relativePaddingMobile {
+	padding: 20px 0 20px 20px;
 }
 
 /* PROMPT COMMAND */
@@ -28,7 +95,7 @@
 }
 
 .crPromptSizeSm {
-	font-size: 12px;
+	font-size: 1rem;
 }
 
 .crPromptSizeMd {

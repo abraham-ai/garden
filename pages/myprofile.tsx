@@ -1,8 +1,9 @@
 import type { FC } from 'react'
 
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import AppContext from '../context/AppContext'
 
+import useWindowDimensions from '../hooks/useWindowDimensions'
 import useGetProfile from '../hooks/useGetProfile'
 import useGetMyProfile from '../hooks/useGetMyProfile'
 
@@ -17,50 +18,34 @@ import stylesHeader from '../styles/Header.module.css'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 const MyProfile: FC = () => {
+	const [refetchTrigger, setRefetchTrigger] = useState(0)
+
 	const context = useContext(AppContext)
 	const userId = context?.userId ?? ''
+	const latestCreationTime = context?.latestCreationTime ?? ''
 	// const userAddress = context?.userAddress ?? ''
 
 	const myProfileData = useGetMyProfile(userId)
+	console.log({ myProfileData })
 
-	const creator = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId, refetchTrigger)
+
+	const { width: appWidth } = useWindowDimensions()
 
 	const isMyProfileData =
 		myProfileData !== null && typeof myProfileData !== 'undefined'
 
-	const createProfileCreationsUrl = (
-		limit,
-		pageIndex,
-		username,
-		generators,
-		earliestTime,
-		latestTime
-	): string => {
-		const profileUsername = creator?.user?.username ?? ''
-
-		console.log({ profileUsername })
-
-		return `/api/creations?limit=${String(limit)}&page=${String(
-			pageIndex
-		)}&username=${String(profileUsername)}&generators=${String(
-			generators
-		)}&earliestTime=${String(earliestTime)}&latestTime=${String(latestTime)}`
-	}
-
-	console.log({ createProfileCreationsUrl })
-
+	console.log({ creatorProfile })
 	return (
 		<>
 			<main className={stylesHeader.headerWrapper}>
 				<Header />
 			</main>
 
-			<CreatorHeader creator={creator} creatorRoute='creations' />
+			<CreatorHeader creatorProfile={creatorProfile} creatorRoute='creations' />
+
 			{isMyProfileData ? (
-				<CreationsGrid
-					createUrl={createProfileCreationsUrl}
-					creator={creator}
-				/>
+				<CreationsGrid creatorProfile={creatorProfile} appWidth={appWidth} />
 			) : (
 				<Row style={{ display: 'flex', justifyContent: 'center' }}>
 					<Spin indicator={antIcon} />

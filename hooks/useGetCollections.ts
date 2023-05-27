@@ -1,6 +1,8 @@
-import useSWR from 'swr'
 import type CollectionsResponse from '../interfaces/CollectionsResponse'
 import type Collection from '../interfaces/Collection'
+
+import useSWR from 'swr'
+import { useCallback } from 'react'
 
 const fetcher = async (url: string): Promise<Collection[]> => {
 	const response = await fetch(url, {
@@ -11,14 +13,25 @@ const fetcher = async (url: string): Promise<Collection[]> => {
 	return data.result
 }
 
-export const useGetCollections = (): CollectionsResponse => {
-	const { data, error } = useSWR<Collection[]>(`/api/collections/get`, fetcher)
+const useGetCollections = (
+	isSignedIn,
+	userId,
+	authToken,
+	isWalletConnected
+): CollectionsResponse => {
+	console.log({ isSignedIn, userId, authToken, isWalletConnected })
+
+	const getKey = useCallback(() => {
+		if (isSignedIn && isWalletConnected) {
+			return `/api/collections/get`
+		}
+		return null
+	}, [])
+
+	const { data, error } = useSWR<Collection[]>(getKey, fetcher)
 
 	const isLoading = data == null && error !== false
 	const collectionsData: Collection[] = data ?? []
-
-	// console.log('USE GET-COLLECTIONS')
-	// console.log(data)
 
 	return {
 		collections: collectionsData,

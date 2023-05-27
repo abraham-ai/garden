@@ -29,6 +29,8 @@ interface DeleteCollectionModalProps {
 	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
 	setCollectionModalView: Dispatch<SetStateAction<string>>
 	setCurrentModalCollection: Dispatch<SetStateAction<Collection>>
+	refetchTrigger: number
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const DeleteCollectionModal: FC<DeleteCollectionModalProps> = ({
@@ -37,6 +39,8 @@ const DeleteCollectionModal: FC<DeleteCollectionModalProps> = ({
 	setIsCollectionModalOpen,
 	setCollectionModalView,
 	setCurrentModalCollection,
+	refetchTrigger,
+	setRefetchTrigger,
 }) => {
 	const context = useContext(AppContext)
 
@@ -116,6 +120,7 @@ const DeleteCollectionModal: FC<DeleteCollectionModalProps> = ({
 											'Deleted Collection'
 										)
 										handleCollectionCancel()
+										setRefetchTrigger(refetchTrigger + 1)
 									})
 									.catch((error) => {
 										console.error('Error creating collection:', error)

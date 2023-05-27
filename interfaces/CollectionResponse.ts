@@ -7,5 +7,5 @@ export default interface CollectionResponse {
 		name: string
 	}
 	creations: Creation[]
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 }

@@ -36,26 +36,25 @@ const MyCollections: FC = () => {
 
 	const [myCollectionsCreations, setMyCollectionsCreations] =
 		useState<CollectionsCreations>(emtpyCollectionsCreations)
+	const [refetchTrigger, setRefetchTrigger] = useState(0)
 
 	const isContext =
 		typeof context !== 'undefined' && context !== null && 'userId' in context
 	const userId = isContext ? String(context.userId) : ''
 	const userAddress = context?.userAddress ?? ''
-
 	const currentTheme = context?.currentTheme ?? ''
-
 	const currentModalCollection = context?.currentModalCollection ?? {
 		_id: '',
 		name: '',
 	}
 
-	const creator = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId, refetchTrigger)
 
 	const {
 		collectionsCreationsData: myCollectionsCreationsData,
 		isLoading,
 		error,
-	} = useGetCollectionsCreations()
+	} = useGetCollectionsCreations(refetchTrigger)
 
 	const isMyCollectionsCreations =
 		myCollectionsCreations !== null &&
@@ -108,7 +107,7 @@ const MyCollections: FC = () => {
 		currentMyCollectionsCreations?.collections.length > 0 ?? null
 
 	console.log({ myCollectionsCreationsData, isLoading, error })
-	console.log({ creator })
+	console.log({ creatorProfile })
 	// console.log({ myCollections })
 	// console.log({ currentMyCollections })
 
@@ -136,14 +135,21 @@ const MyCollections: FC = () => {
 			</main>
 
 			<Col style={collectionWrapperStyles}>
-				<CreatorHeader creator={creator} creatorRoute='collections' />
+				<CreatorHeader
+					creatorProfile={creatorProfile}
+					creatorRoute='collections'
+				/>
 
 				{isCurrentMyCollectionsCreations ? (
 					<Col className={styles.collectionsWrapper}>
 						<Row style={collectionInnerWrapperStyles}>
 							<CreateCollectionButton currentTheme={currentTheme} />
 
-							<CollectionModal collection={currentModalCollection} />
+							<CollectionModal
+								collection={currentModalCollection}
+								refetchTrigger={refetchTrigger}
+								setRefetchTrigger={setRefetchTrigger}
+							/>
 
 							<Row style={{ justifyContent: 'center' }}>
 								{currentMyCollectionsCreations.collections?.map(
@@ -158,6 +164,8 @@ const MyCollections: FC = () => {
 														index
 													]
 												}
+												refetchTrigger={refetchTrigger}
+												setRefetchTrigger={setRefetchTrigger}
 											/>
 										)
 									}

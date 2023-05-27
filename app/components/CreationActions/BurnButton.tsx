@@ -76,71 +76,71 @@ const BurnButton: FC<BurnButtonProps> = ({
 		}
 	}
 
-	const textSize = useMemo(() => {
+	const textSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeMobile
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeMobile
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeMobile
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeMobile
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeMobile
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeMobile
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeTablet
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeTablet
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeTablet
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeTablet
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeTablet
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeTablet
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeDesktop
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeDesktop
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeDesktop
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeDesktop
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeDesktop
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeDesktop
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonWidth = useMemo(() => {
+	const buttonWidth: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -176,7 +176,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			} else {
 				if (isOverlay) {
-					return 30
+					return styles.overlayBtnWidth
 				} else if (isRelative) {
 					return styles.relativeBtnWidth
 				}
@@ -202,9 +202,9 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonHeight = useMemo(() => {
+	const buttonHeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -266,9 +266,9 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const buttonFlexJustify = useMemo(() => {
+	const buttonFlexJustify: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -330,9 +330,73 @@ const BurnButton: FC<BurnButtonProps> = ({
 				}
 			}
 		}
-	}, [isMobile, isTablet, layout, page])
+	}, [appWidth, layout, page])
 
-	const iconSize = useMemo(() => {
+	const buttonBg: string | undefined = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		}
+	}, [appWidth, layout, page])
+
+	const iconSize: number | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
@@ -401,47 +465,153 @@ const BurnButton: FC<BurnButtonProps> = ({
 
 	const burnGray = (
 		<span
+			className={`${textSize}`}
 			style={{
 				filter: 'grayscale(1)',
-				fontSize: textSize,
 			}}
 		>
 			{'🔥'}
 		</span>
 	)
 
-	const burnFilled = <span style={{ fontSize: textSize }}>{'🔥'}</span>
+	const burnFilled = <span className={`${textSize}`}>{'🔥'}</span>
 
 	const handleMouseOver = (): void => {
-		console.log('handleMouseOver')
+		// console.log('handleMouseOver')
 		setIsBurnHovering(true)
 	}
 
 	const handleMouseOut = (): void => {
-		console.log('handleMouseOut')
+		// console.log('handleMouseOut')
 		setIsBurnHovering(false)
 	}
 
 	// console.log(isBurned)
 
-	const countColor = useMemo(() => {
+	const countColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			}
 		} else {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
+			}
+		}
+	}, [appWidth, page, layout, currentTheme])
+
+	const countWeight: string | undefined = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
 			}
 		}
 	}, [appWidth, page, layout, currentTheme])
@@ -463,19 +633,18 @@ const BurnButton: FC<BurnButtonProps> = ({
 			}}
 		>
 			<Button
-				className={`${String(buttonWidth)} ${String(buttonHeight)} ${String(
+				className={`${buttonWidth} ${buttonHeight} ${String(
 					buttonFlexJustify
-				)}`}
+				)} ${buttonBg}`}
 				size={'large'}
 				type='text'
 				shape='round'
 				style={{
 					display: 'flex',
 					alignItems: 'center',
-					background: isMobile && isThemeLight ? 'transparent' : bgHoverStyles,
 					padding: isMobile ? '10px 0' : 10,
 					border: 'none',
-					transition: '1s',
+					transition: '300ms',
 				}}
 				onClick={async () => {
 					await handleBurn()
@@ -489,19 +658,18 @@ const BurnButton: FC<BurnButtonProps> = ({
 				>
 					{isBurned || isBurnHovering ? burnFilled : burnGray}
 				</span>
-				<Text
-					className={`${countColor}`}
+				<p
+					className={`${countColor} ${countWeight} ${textSize}`}
 					style={{
 						filter:
 							isMobile && isThemeLight
 								? 'transparent'
 								: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,
-						fontWeight: isMobile && isThemeLight ? 'regular' : 'bold',
 					}}
 				>
 					{isNaN(burns) ? 0 : burns}
-				</Text>
+				</p>
 			</Button>
 		</div>
 	)

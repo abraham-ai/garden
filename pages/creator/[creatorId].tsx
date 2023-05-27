@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import type CreationResponse from '../../interfaces/CreationResponse'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/CreationId.module.css'
@@ -15,8 +15,8 @@ import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
-import CreationsGridSimple from '../../app/components/Creations/CreationsGridSimple'
-// import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
+import CreationsGrid from '../../app/components/Creations/CreationsGrid'
+import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 
@@ -34,17 +34,17 @@ interface CreatorPageProps {
 	size?: string
 }
 
-const Creator: FC<CreatorPageProps> = () => {
+const CreatorPage: FC<CreatorPageProps> = () => {
 	const router = useRouter()
 
-	// const [isFollowing, setIsFollowing] = useState(false)
+	const [isFollowing, setIsFollowing] = useState(false)
 
 	// const queryCreatorId = router.query.creatorId
-
 	// console.log(creatorId)
-	// console.log(router.query)
 
-	const { width } = useWindowDimensions()
+	console.log(router.query)
+
+	const { width: appWidth } = useWindowDimensions()
 
 	const queryCreatorId = Array.isArray(router.query.creatorId)
 		? router.query.creatorId[0]
@@ -57,7 +57,7 @@ const Creator: FC<CreatorPageProps> = () => {
 	}
 	const creatorCreationsData = useGetCreatorCreations(queryCreatorId)
 
-	// const { creatorCreationsData, creatorId } = data
+	console.log({ creatorCreationsData })
 
 	// console.log({ creatorCreationsData })
 
@@ -77,14 +77,6 @@ const Creator: FC<CreatorPageProps> = () => {
 		console.log(creatorCreationsData)
 	}
 
-	// const handleFollow = (): void => {
-	// 	setIsFollowing(!isFollowing)
-	// }
-
-	const handleCreationClick = (): void => {
-		console.log('handleCreationClick')
-	}
-
 	const isCreatorCreationsData =
 		typeof creatorCreationsData !== 'undefined' && creatorCreationsData !== null
 
@@ -99,23 +91,24 @@ const Creator: FC<CreatorPageProps> = () => {
 							<Header />
 						</main>
 						<CreatorHeader
-							creator={
-								creatorCreationsData?.creator ?? emptyCreatorCreations.creator
+							creatorProfile={
+								creatorCreationsData?.creatorProfile ??
+								emptyCreatorCreations.creatorProfile
 							}
 							creatorRoute={'creations'}
 						/>
 
-						{/* <CreatorDashboard profileAddress={creatorId ?? ''} /> */}
+						<CreatorDashboard profileAddress={queryCreatorId ?? ''} />
 
 						{isCreatorCreationsData ? (
 							<section className={stylesCreationsGrid.creationsWrapper}>
-								<CreationsGridSimple
-									creations={creatorCreationsData?.creations ?? []}
-									appWidth={width}
-									creator={
-										creatorCreationsData?.creator ?? emptyCreatorCreations
+								<CreationsGrid
+									// creationsData={creatorCreationsData?.creations ?? []}
+									appWidth={appWidth}
+									creatorProfile={
+										creatorCreationsData?.creatorProfile ??
+										emptyCreatorCreations
 									}
-									onCreationClick={handleCreationClick}
 								/>
 							</section>
 						) : (
@@ -134,105 +127,4 @@ const Creator: FC<CreatorPageProps> = () => {
 	)
 }
 
-export default Creator
-
-// {/* <article
-// 	style={{
-// 		marginTop: '-90px',
-// 		zIndex: 150,
-// 		position: 'relative',
-// 		paddingLeft: 20,
-// 	}}
-// >
-// 	<span
-// 		className='profile-avatar-wrapper'
-// 		style={{ display: 'flex', flex: 1 }}
-// 	>
-// 		<Blockies scale={13} seed={displayAddress} />
-// 	</span>
-// </article>
-
-// <article
-// 	className='creator-header'
-// 	style={{
-// 		display: 'flex',
-// 		flex: 1,
-// 		justifyContent: 'space-between',
-// 	}}
-// >
-// 	<span
-// 		className='creator-profile'
-// 		style={{
-// 			width: '100%',
-// 			background: 'white',
-// 			display: 'flex',
-// 			flex: 2,
-// 			flexDirection: 'column',
-// 			alignItems: 'flex-start',
-// 			paddingLeft: 20,
-// 		}}
-// 	>
-// 		<Title level={1} className='profile-name'>
-// 			{queryCreatorId}
-// 		</Title>
-
-// 		<div
-// 			className='creator-profile-info'
-// 			style={{
-// 				display: 'flex',
-// 				flex: 1,
-// 				flexDirection: 'column',
-// 				alignItems: 'flex-start',
-// 			}}
-// 		>
-// 			<div className='profile-actions'>
-// 				{queryCreatorId === displayAddress ? null : (
-// 					<Button
-// 						size='large'
-// 						shape='round'
-// 						className={
-// 							isFollowing
-// 								? `${styles.following}`
-// 								: `${styles.notFollowing}`
-// 						}
-// 						onClick={() => {
-// 							handleFollow()
-// 						}}
-// 					>
-// 						{isFollowing ? 'Following' : 'Follow'}
-// 					</Button>
-// 				)}
-
-// 				{queryCreatorId === displayAddress ? (
-// 					<Link href='/profile'>
-// 						<Button shape='round' style={{ marginLeft: 20 }}>
-// 							<Text>{'Edit Profile'}</Text>
-// 						</Button>
-// 					</Link>
-// 				) : null}
-// 			</div>
-// 		</div>
-// 	</span>
-// </article>
-
-// <article className='creatorBody'>
-// 	<article className='creatorGridWrapper'>
-// 		<div className='creatorDashboardWrapper'>
-// 			<CreatorDashboard profileAddress={displayAddress} />
-// 		</div>
-// 		{isCreatorData ? (
-// 			<div className='creatorGrid'>
-// 				<CreationsGridSimple creations={creatorData.creations} />
-// 			</div>
-// 		) : (
-// 			<div className='noCreations'>
-// 				<Row
-// 					className={styles.loadMore}
-// 					style={{ display: 'flex', justifyContent: 'center' }}
-// 				>
-// 					<Spin indicator={antIcon} />
-// 				</Row>
-// 			</div>
-// 		)}
-// 	</article>
-// </article> */}
+export default CreatorPage

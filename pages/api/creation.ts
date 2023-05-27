@@ -27,7 +27,7 @@ const handler = async (
 		// console.log(creator)
 		// console.log(creation)
 
-		res.status(200).json({ creation, creator: emptyCreatorProfile })
+		res.status(200).json({ creation, creatorProfile: emptyCreatorProfile })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

@@ -13,10 +13,10 @@ const handler = async (
 	const userId = req.session.userId
 	const token = req.session.token
 
-	console.log('me.ts')
-	console.log(req.url)
-	console.log(req.session)
-	console.log({ userId })
+	// console.log('me.ts')
+	// console.log(req.url)
+	// console.log(req.session)
+	// console.log({ userId })
 
 	if (typeof userId === 'undefined' && userId === null) {
 		res.status(401).json({ message: 'Not authenticated' })

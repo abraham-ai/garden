@@ -5,14 +5,17 @@ import axios from 'axios'
 
 import emptyCreatorProfile from '../constants/emptyCreatorProfile'
 
-const useGetProfile = (creatorId: string): CreatorProfile => {
+const useGetProfile = (
+	userId: string,
+	refetchTrigger: number
+): CreatorProfile => {
 	const [creator, setCreator] = useState<CreatorProfile>(emptyCreatorProfile)
 
-	const handleGetProfile = useCallback(async (creatorId: string) => {
-		console.log(`useGetProfile: creatorId: ${creatorId}`)
+	const handleGetProfile = useCallback(async (userId: string) => {
+		console.log(`useGetProfile: userId: ${userId}`)
 		try {
 			const response = await axios.post(`/api/profile/get`, {
-				creatorId,
+				userId,
 			})
 
 			console.log(response.data.creatorProfile)
@@ -26,22 +29,18 @@ const useGetProfile = (creatorId: string): CreatorProfile => {
 	useEffect(() => {
 		const fetchProfile = async (): Promise<void> => {
 			try {
-				await handleGetProfile(creatorId)
+				await handleGetProfile(userId)
 			} catch (error) {
 				console.error('Error fetching creator:', error)
 			}
 		}
 
-		if (
-			typeof creatorId !== 'undefined' &&
-			creatorId !== null &&
-			creatorId !== ''
-		) {
+		if (typeof userId === 'string' && userId !== '') {
 			void fetchProfile()
 		}
-	}, [creatorId, handleGetProfile])
+	}, [userId, handleGetProfile, refetchTrigger])
 
-	console.log({ creatorId })
+	console.log({ userId })
 	console.log({ creator })
 
 	return typeof creator !== 'undefined' ? creator : emptyCreatorProfile

@@ -5,42 +5,39 @@ import { withSessionRoute } from '../../../util/withSession'
 import { EdenClient } from 'eden-sdk'
 const eden = new EdenClient()
 
+// console.log(req.body)
+// const { creatorId: queryCreatorId } = req.query
+
 const handler = async (
 	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	// const { creatorId: queryCreatorId } = req.query
-	const { creatorId } = req.body
-
-	// Save the user data in the session
-	// const session = req.session
-	// const userId = session?.userId ?? ''
-	// const authToken = session?.token ?? ''
-	// console.log({ queryCreatorId })
-	// console.log({ authToken })
-
-	console.log({ creatorId })
+	console.log('CREATOR ROUTE GET CREATIONS -------------------------------')
+	const { username, userId } = req.body
+	console.log({ username, userId })
 
 	try {
 		const filter = {}
-		Object.assign(filter, creatorId !== 'null' ? { userId: creatorId } : {})
+		Object.assign(filter, userId !== null ? { username } : {})
 		Object.assign(filter, { limit: 10 })
 		console.log({ filter })
 
-		const creator = await eden.getCreator(creatorId)
+		const creator = await eden.getCreator(userId)
+		// const creatorProfile = await creator.getProfile()
+
 		console.log(creator)
 
-		// const creatorProfile = await creator.getProfile() // 404
-		// console.log(creatorProfile)
-
 		const creatorCreations = await eden.getCreations(filter)
+		console.log({ userId })
 		console.log(creatorCreations.length)
 		console.log(creatorCreations)
 
-		res.status(200).json({ creatorCreations, creatorId }) // creatorProfile
-		return
-		// }
-		// return res.status(200).json(null)
+		const tempCreatorObj = {
+			user: { username, userId, _id: '' },
+		}
+		const creatorProfile = tempCreatorObj
+
+		res.status(200).json({ creatorCreations, creatorProfile })
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.log(error)

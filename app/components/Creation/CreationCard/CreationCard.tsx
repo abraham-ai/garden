@@ -16,6 +16,7 @@ import { ColorExtractor } from 'react-color-extractor'
 import useGetReactionCount from '../../../../hooks/useGetReactionCount'
 import { useReaction } from '../../../../context/ReactionContext'
 
+import emptyCreation from '../../../../constants/emptyCreation'
 import CreationModal from '../CreationModal/CreationModal'
 import CreationSocial from '../CreationSocial'
 
@@ -28,9 +29,10 @@ import styles from '../../../../styles/CreationCard.module.css'
 import { Skeleton } from 'antd'
 
 interface CreationCardProps {
+	creationsData: Creation[]
 	index: number
 	creation: Creation
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 	layout: string
 	appWidth: number
 	currentTheme: string
@@ -39,9 +41,10 @@ interface CreationCardProps {
 }
 
 const CreationCard: FC<CreationCardProps> = ({
+	creationsData,
 	index,
 	creation,
-	creator,
+	creatorProfile,
 	layout = 'overlay',
 	appWidth,
 	currentTheme,
@@ -50,10 +53,8 @@ const CreationCard: FC<CreationCardProps> = ({
 }) => {
 	const context = useContext(AppContext)
 	const currentCreationIndex = context?.currentCreationIndex ?? 0
-	const creationsData = useMemo(
-		() => context?.creationsData ?? [],
-		[context?.creationsData]
-	)
+	const currentCreationModalCreation =
+		context?.currentCreationModalCreation ?? emptyCreation
 
 	const [modalOpen, setModalOpen] = useState<boolean>(false)
 	const [currentCreation, setCurrentCreation] = useState<Creation>(
@@ -82,11 +83,16 @@ const CreationCard: FC<CreationCardProps> = ({
 	const { reactionState, updateReactionState } = useReaction()
 	// console.log(reactionCountList)
 
+	const isCurrentCreation =
+		typeof currentCreation !== 'undefined' && currentCreation != null
+
 	const isReactionCountListState =
 		reactionCountList != null &&
 		typeof reactionState[creation._id] === 'undefined'
 
 	const isMobile = appWidth < 768
+
+	const isCreationsPage = page === 'creations'
 
 	const showModal = (): void => {
 		setModalOpen(true)
@@ -112,49 +118,28 @@ const CreationCard: FC<CreationCardProps> = ({
 
 	const handleCreationUpdate = useCallback(
 		(currentCreation, currentCreationIndex) => {
-			if (
-				typeof currentCreation !== 'undefined' &&
-				currentCreationIndex !== 0
-			) {
-				setUri(currentCreation.uri)
-				setCreatedAt(currentCreation.createdAt)
-				setGeneratorName(currentCreation.task.generator.generatorName)
-				setWidth(currentCreation.task.config.width)
-				setHeight(currentCreation.task.config.height)
-				setTextInput(currentCreation.task.config.text_input)
-				setUser(currentCreation.user)
-				setThumbnail(currentCreation.thumbnail)
-				setId(currentCreation._id)
-				setStatus(currentCreation.task.status)
+			if (isCurrentCreation) {
+				setUri(currentCreation?.uri ?? '')
+				setCreatedAt(currentCreation?.createdAt ?? '')
+				setGeneratorName(currentCreation?.task?.generator?.generatorName ?? '')
+				setWidth(currentCreation?.task?.config?.width ?? 0)
+				setHeight(currentCreation?.task?.config?.height ?? 0)
+				setTextInput(currentCreation?.task?.config?.text_input ?? '')
+				setUser(currentCreation?.user ?? '')
+				setThumbnail(currentCreation?.thumbnail ?? '')
+				setId(currentCreation?._id ?? '')
+				setStatus(currentCreation?.task?.status ?? '')
 			}
 		},
-		[
-			setCurrentCreation,
-			setId,
-			setUser,
-			setTextInput,
-			setThumbnail,
-			setUri,
-			setCreatedAt,
-			setGeneratorName,
-			setWidth,
-			setHeight,
-		]
+		[]
 	)
 
 	useEffect(() => {
-		setCurrentCreation(creation)
 		handleCreationUpdate(
 			creationsData[currentCreationIndex],
 			currentCreationIndex
 		)
-	}, [
-		creation,
-		creationsData,
-		handleCreationUpdate,
-		currentCreation,
-		currentCreationIndex,
-	])
+	}, [creation, handleCreationUpdate])
 
 	const handleMouseOver = (): void => {
 		setIsCreationHovering(true)
@@ -239,7 +224,7 @@ const CreationCard: FC<CreationCardProps> = ({
 												{isMobile ? (
 													<CrCardMobile
 														creation={creation}
-														creator={creator}
+														creatorProfile={creatorProfile}
 														appWidth={appWidth}
 														currentTheme={currentTheme}
 														page={page}
@@ -248,7 +233,7 @@ const CreationCard: FC<CreationCardProps> = ({
 												) : (
 													<CrCardDesktop
 														creation={creation}
-														creator={creator}
+														creatorProfile={creatorProfile}
 														appWidth={appWidth}
 														currentTheme={currentTheme}
 														page={page}
@@ -313,11 +298,8 @@ const CreationCard: FC<CreationCardProps> = ({
 			</section>
 
 			<CreationModal
-				creation={
-					isCreationDataCreationIndex
-						? creation
-						: creationsData[currentCreationIndex]
-				}
+				creationsData={creationsData}
+				creation={currentCreationModalCreation}
 				setModalOpen={setModalOpen}
 				modalOpen={modalOpen}
 				creationIndex={index}
@@ -328,8 +310,8 @@ const CreationCard: FC<CreationCardProps> = ({
 					burns: reactionState[creation._id]?.burns ?? 0,
 					burned: reactionState[creation._id]?.burned ?? false,
 				}}
-				page={page}
-				layout={layout}
+				page={isCreationsPage ? 'modal' : page}
+				layout={isMobile ? layout : 'relative'}
 			/>
 		</>
 	)

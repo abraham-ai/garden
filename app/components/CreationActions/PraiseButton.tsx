@@ -75,65 +75,65 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		}
 	}
 
-	const textSize = useMemo(() => {
+	const textSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeMobile
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeMobile
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeMobile
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeMobile
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeMobile
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeMobile
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeTablet
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeTablet
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeTablet
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeTablet
 				}
 			} else {
 				if (isOverlay) {
-					return '.8rem'
+					return styles.textSizeTablet
 				} else if (isRelative) {
-					return '1rem'
+					return styles.textSizeTablet
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return '1.4rem'
+					return styles.textSizeDesktop
 				} else if (isRelative) {
-					return '1.4rem'
+					return styles.textSizeDesktop
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return '1.4rem'
+					return styles.textSizeDesktop
 				} else if (isRelative) {
-					return '1.4rem'
+					return styles.textSizeDesktop
 				}
 			} else {
 				if (isOverlay) {
-					return '1.4rem'
+					return styles.textSizeDesktop
 				} else if (isRelative) {
-					return '1.4rem'
+					return styles.textSizeDesktop
 				}
 			}
 		}
@@ -459,11 +459,75 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		}
 	}, [isMobile, isTablet, layout, page])
 
+	const buttonBg = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			} else {
+				if (isOverlay) {
+					return styles.overlayBtn
+				} else if (isRelative) {
+					return styles.relativeBtn
+				}
+			}
+		}
+	}, [isMobile, isTablet, layout, page])
+
 	const praiseGray = (
 		<span
+			className={`${textSize}`}
 			style={{
 				filter: 'grayscale(1)',
-				fontSize: textSize,
 				marginBottom: 6,
 			}}
 		>
@@ -472,7 +536,9 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 	)
 
 	const praiseFilled = (
-		<span style={{ fontSize: textSize, marginBottom: 6 }}>{'🙌'}</span>
+		<span className={`${textSize}`} style={{ marginBottom: 6 }}>
+			{'🙌'}
+		</span>
 	)
 
 	const handleMouseOver = (): void => {
@@ -483,29 +549,136 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 		setIsPraiseHovering(false)
 	}
 
-	const countColor = useMemo(() => {
+	const countColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			}
 		} else {
 			if (isCrIdPage) {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			} else {
-				return isThemeLight ? styles.textWhite : styles.textBlack
+				if (isOverlay) {
+					return isThemeLight ? styles.textWhite : styles.textWhite
+				} else if (isRelative) {
+					return isThemeLight ? styles.textBlack : styles.textWhite
+				}
 			}
 		}
 	}, [appWidth, page, layout, currentTheme])
 
-	console.log({ countColor })
+	const countWeight: string | undefined = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			}
+		} else {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			} else {
+				if (isOverlay) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				} else if (isRelative) {
+					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+				}
+			}
+		}
+	}, [appWidth, page, layout, currentTheme])
+
+	// console.log({ countWeight })
+	// console.log({ countColor })
 
 	return (
 		<div
@@ -520,14 +693,13 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 			<Button
 				className={`${String(buttonWidth)} ${String(buttonHeight)} ${String(
 					buttonFlexJustify
-				)}`}
+				)} ${String(buttonBg)}`}
 				shape='round'
 				size={'large'}
 				style={{
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
-					background: isMobile ? 'transparent' : 'rgba(0, 0, 0, 0.5)',
 					border: 'none',
 					transition: '1s',
 				}}
@@ -544,14 +716,13 @@ const PraiseButton: FC<PraiseButtonProps> = ({
 					{isPraised || isPraiseHovering ? praiseFilled : praiseGray}
 				</span>
 				<Text
-					className={`${countColor}`}
+					className={`${countColor} ${countWeight} ${textSize}`}
 					style={{
 						filter:
 							isMobile && isThemeLight
 								? 'transparent'
 								: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,
-						fontWeight: isMobile && isThemeLight ? 'regular' : 'bold',
 					}}
 				>
 					{isNaN(praises) ? 0 : praises}

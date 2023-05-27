@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
 import type { FC, ChangeEvent } from 'react'
+
+import React, { useState, useEffect, useContext } from 'react'
 import AppContext from '../context/AppContext'
 
 import useGetProfile from '../hooks/useGetProfile'
@@ -8,7 +9,6 @@ import Header from '../app/components/NavBar/Header'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 
 import styles from '../styles/EditProfile.module.css'
-
 import {
 	Button,
 	Card,
@@ -53,11 +53,12 @@ const EditProfile: FC = () => {
 		newUsername: '',
 		newDiscordId: '',
 	})
+	const [refetchTrigger, setRefetchTrigger] = useState(0)
 
 	const userId = context?.userId ?? ''
 	// const userAddress = context?.userAddress ?? ''
 
-	const creator = useGetProfile(userId)
+	const creatorProfile = useGetProfile(userId, refetchTrigger)
 
 	const onFormLayoutChange = ({ disabled }: { disabled: boolean }): void => {
 		setComponentDisabled(disabled)
@@ -88,6 +89,8 @@ const EditProfile: FC = () => {
 				'Profile updated successfully!',
 				'Your profile has been updated.'
 			)
+
+			setRefetchTrigger(refetchTrigger + 1)
 		} catch (error) {
 			openNotificationWithIcon('error', 'Error updating profile', error.message)
 		} finally {
@@ -116,8 +119,11 @@ const EditProfile: FC = () => {
 		console.log(handleSaveChangesType())
 	}, [formValues])
 
+	const isFormValid =
+		formValues.newUsername !== '' || formValues.newDiscordId !== ''
+
 	const handleSaveChangesType = (): 'primary' | 'default' => {
-		if (formValues.newUsername !== '' || formValues.newDiscordId !== '') {
+		if (isFormValid) {
 			return 'primary'
 		} else {
 			return 'default'
@@ -141,12 +147,14 @@ const EditProfile: FC = () => {
 			<Header />
 
 			<Content className={styles.contentWrapper}>
-				<CreatorHeader creator={creator} creatorRoute='editprofile' />
-				<Row
-					style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
-				>
+				<CreatorHeader
+					creatorProfile={creatorProfile}
+					creatorRoute='editprofile'
+				/>
+				<Row className={styles.editProfileTitleWrapper}>
 					<Title>{'Edit Profile'}</Title>
 				</Row>
+
 				<Card className={styles.editProfileFormWrapper}>
 					<Form
 						className={styles.profileForm}
@@ -216,15 +224,13 @@ const EditProfile: FC = () => {
 							</Col>
 						</Row>
 
-						<Form.Item
-							className={styles.formSubmit}
-							style={{ display: 'flex', justifyContent: 'center' }}
-						>
+						<Form.Item className={styles.formSubmitWrapper}>
 							<Button
 								type={handleSaveChangesType()}
 								onClick={() => {
 									setFormSubmitting(true)
 								}}
+								disabled={!isFormValid}
 								shape='round'
 								size='large'
 							>

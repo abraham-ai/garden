@@ -13,81 +13,72 @@ import CreationCard from '../Creation/CreationCard/CreationCard'
 
 import styles from '../../../styles/CreationsGrid.module.css'
 import { LoadingOutlined } from '@ant-design/icons'
-import { Spin, Row } from 'antd'
 
 interface CreationsMasonryProps {
-	creations: Creation[]
+	creationsData: Creation[]
 	appWidth: number
 	onCreationClick: (creation: Creation, index: number) => void
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 }
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-
 const CreationsMasonry: FC<CreationsMasonryProps> = ({
-	creations,
+	creationsData,
 	appWidth,
 	onCreationClick,
-	creator,
+	creatorProfile,
 }) => {
 	const context = useContext(AppContext)
 	const currentTheme = context?.currentTheme ?? 'light'
 
-	const isCreations =
-		typeof creations !== 'undefined' &&
-		creations != null &&
-		creations.length > 0
+	const isCreations = creationsData.length > 0
 
-	console.log({ creations })
+	// console.log({ creationsData })
+	// console.log(`CreationsMasonry - Creations Data Length: ${creations.length}`)
 
 	const isMobile = appWidth < 768
 
-	console.log({ creator })
+	// console.log({ creator })
 
 	return (
 		<>
-			{
-				isCreations ? (
-					<Masonry
-						breakpointCols={breakpointColumnsObj}
-						className={styles.crGridMasonry}
-						columnClassName={styles.crGridMasonryColumn}
-					>
-						{creations?.map((creation: Creation, i: number) => {
-							console.log({ creation })
-							const generatorName = creation?.task?.generator?.generatorName
-							if (
-								generatorName === 'tts' ||
-								generatorName === 'complete' ||
-								generatorName === 'interrogate' ||
-								generatorName === 'wav2lip' ||
-								generatorName === 'interpolate' ||
-								generatorName === 'real2real' ||
-								generatorName === 'remix'
-							) {
-								return null
-							} else {
-								return (
-									<CreationCard
-										layout={isMobile ? 'relative' : 'overlay'}
-										creation={creation}
-										creator={creator}
-										key={creation._id}
-										index={i}
-										appWidth={appWidth}
-										currentTheme={currentTheme}
-										page='creations'
-										onCreationClick={onCreationClick}
-									/>
-								)
-							}
-						})}
-					</Masonry>
-				) : null
-				// <Row style={{ display: 'flex', justifyContent: 'center' }}>
-				// 	<Spin indicator={antIcon} />
-				// </Row>
-			}
+			{isCreations ? (
+				<Masonry
+					breakpointCols={breakpointColumnsObj}
+					className={styles.crGridMasonry}
+					columnClassName={styles.crGridMasonryColumn}
+				>
+					{creationsData?.map((creation: Creation, i: number) => {
+						// console.log({ creation })
+						const generatorName = creation?.task?.generator?.generatorName
+						if (
+							generatorName === 'tts' ||
+							generatorName === 'complete' ||
+							generatorName === 'interrogate' ||
+							generatorName === 'wav2lip' ||
+							generatorName === 'interpolate' ||
+							generatorName === 'real2real' ||
+							generatorName === 'remix'
+						) {
+							return null
+						} else {
+							return (
+								<CreationCard
+									creationsData={creationsData}
+									layout={isMobile ? 'relative' : 'overlay'}
+									creation={creation}
+									creatorProfile={creatorProfile}
+									key={creation._id}
+									index={i}
+									appWidth={appWidth}
+									currentTheme={currentTheme}
+									page='creations'
+									onCreationClick={onCreationClick}
+								/>
+							)
+						}
+					})}
+				</Masonry>
+			) : null}
 		</>
 	)
 }

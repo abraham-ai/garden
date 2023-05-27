@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import type Creation from '../../../../interfaces/Creation'
 
-import React, { useContext } from 'react'
+import React, { useState, useContext, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import AppContext from '../../../../context/AppContext'
 import Image from 'next/image'
@@ -37,20 +37,41 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
+	const [localCreation, setLocalCreation] = useState(
+		currentCreationModalCreation
+	)
+	const [localIndex, setLocalIndex] = useState(currentCreationIndex)
+
 	const isMobile = appWidth < 768
 
 	const handleCrLinkClick = (e): void => {
 		e.preventDefault()
 		showModal()
-		onCreationClick(creation, creationIndex)
-		setCurrentCreationModalCreation(creation)
-		setCurrentCreationIndex(creationIndex)
+		setLocalCreation(creation)
+		setLocalIndex(creationIndex)
+		onCreationClick(creation, creationIndex) // this should handle setting currentCreationModalCreation and currentCreationIndex in context
 		window.history.replaceState(null, '', `/creation/${String(creation._id)}`)
 	}
 
-	console.log({ currentCreationIndex })
-	console.log({ currentCreationModalCreation })
+	const isLandscape =
+		creation?.task?.config?.width > creation?.task?.config?.height
+	const isPortrait =
+		creation?.task?.config?.width < creation?.task?.config?.height
+
+	const imageStyles = useMemo(() => {
+		if (isLandscape) {
+			return styles.crImageLandscape
+		} else if (isPortrait) {
+			return styles.crImagePortrait
+		}
+	}, [creation])
+
+	// console.log({ creation })
+	// console.log({ currentCreationIndex })
+	// console.log({ currentCreationModalCreation })
 	// console.log(currentCreationModalCreation.task.config.text_input)
+
+	const isDebug = false
 
 	return (
 		<section
@@ -75,7 +96,8 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 				}}
 			/>
 			<Image
-				className={styles.crImageBlurMask}
+				id='crImage'
+				className={imageStyles}
 				src={creation?.thumbnail}
 				height={creation?.task?.config?.height}
 				width={creation?.task?.config?.width}
@@ -86,13 +108,31 @@ const CrImageLink: FC<CrImageLinkProps> = ({
 			/>
 
 			<Image
-				className={styles.crImageMain}
+				id='crImageBlur'
+				className={styles.crImageBlurMask}
 				src={creation?.thumbnail}
 				height={creation?.task?.config?.height}
 				width={creation?.task?.config?.width}
 				alt={creation?.task?.config?.text_input}
 				// style={{ background: crBgColor }}
 			/>
+
+			{isDebug ? (
+				<div
+					style={{
+						color: 'white',
+						position: 'absolute',
+						top: 0,
+						zIndex: 100,
+						fontWeight: 'bold',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<span>{`Creation Index: ${creationIndex}`}</span>
+					<span>{`Creation ID: ${creation?._id}`}</span>
+				</div>
+			) : null}
 		</section>
 	)
 }

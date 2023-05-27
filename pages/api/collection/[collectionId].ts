@@ -9,20 +9,15 @@ const handler = async (
 	req: ExtendedApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	const { collectionId } = req.query
-
-	// Safely retrieve the session data
-	const authToken = req.session.token ?? ''
+	const { collectionId, limit } = req.query
 
 	try {
-		eden.setAuthToken(authToken)
-
 		const collection = await eden.getCollection(collectionId)
-		const profile = await eden.getProfile()
+		const creatorProfile = await eden.getProfile()
 
-		const creations = await eden.getCreations({ collectionId, limit: 12 })
+		const creations = await eden.getCreations({ collectionId, limit })
 
-		res.status(200).json({ collection, creations, profile })
+		res.status(200).json({ collection, creations, creatorProfile })
 		return
 	} catch (error: unknown) {
 		if (error instanceof Error) {

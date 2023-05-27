@@ -23,7 +23,7 @@ interface CrModalHeaderProps {
 	reactionCountList: ReactionCountList
 	page: string
 	currentTheme: string
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 }
 
 const CrModalHeader: FC<CrModalHeaderProps> = ({
@@ -33,7 +33,7 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 	reactionCountList,
 	page,
 	currentTheme,
-	creator,
+	creatorProfile,
 }) => {
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
@@ -52,6 +52,7 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 		display: 'flex',
 		flexDirection: crProfileActionsFlex,
 		justifyContent: 'space-between',
+		margin: '20px 0 20px 0',
 	}
 
 	const socialWrapperStyles: CSSProperties = {
@@ -59,10 +60,9 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 		display: 'block',
 		height: 'auto',
 		padding: 0,
-		margin: '20px 0 20px 0',
 	}
 
-	console.log({ layout })
+	// console.log({ layout })
 
 	return (
 		<section style={headerSocialWrapperStyles}>
@@ -72,11 +72,12 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 				appWidth={appWidth}
 				page={page}
 				currentTheme={currentTheme}
-				creator={creator}
+				creatorProfile={creatorProfile}
 			/>
 			<Row style={socialWrapperStyles}>
 				<CreationSocial
 					layout={layout}
+					page={'modal'}
 					creation={creation}
 					creationId={creation._id}
 					reactionCountList={reactionCountList}

@@ -1,5 +1,18 @@
 .collectionWrapper {
-	display: flex;
 	justify-content: center;
 	flex-direction: column;
+}
+
+/* COLLECTION NAME WRAPPER */
+.collectionNameWrapper {
+	display: flex;
+	justify-content: center;
+	background: white;
+	font-weight: bold;
+}
+
+/* COLLECTION NAME */
+.collectionName {
+	fontsize: 1.4rem;
+	margin: 20px 0;
 }

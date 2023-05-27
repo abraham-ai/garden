@@ -1,13 +1,12 @@
-import type { FC, CSSProperties, Dispatch, SetStateAction } from 'react'
+import type Collection from '../../../interfaces/Collection'
+import type { FC, Dispatch, SetStateAction } from 'react'
+
 import React, { useContext } from 'react'
 import AppContext from '../../../context/AppContext'
-
-import type Collection from '../../../interfaces/Collection'
 
 import styles from '../../../styles/CreationSaveModal.module.css'
 
 import { Row, Button, Typography, Input, notification } from 'antd'
-
 const { Text } = Typography
 
 const openNotificationWithIcon = (
@@ -29,6 +28,8 @@ interface RenameCollectionModalProps {
 	handleCollectionCancel: () => void
 	setIsCollectionModalOpen: Dispatch<SetStateAction<boolean>>
 	setCollectionModalView: Dispatch<SetStateAction<string>>
+	refetchTrigger: number
+	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
 
 const RenameCollectionModal: FC<RenameCollectionModalProps> = ({
@@ -38,6 +39,8 @@ const RenameCollectionModal: FC<RenameCollectionModalProps> = ({
 	handleCollectionCancel,
 	setIsCollectionModalOpen,
 	setCollectionModalView,
+	refetchTrigger,
+	setRefetchTrigger,
 }) => {
 	const context = useContext(AppContext)
 
@@ -47,43 +50,27 @@ const RenameCollectionModal: FC<RenameCollectionModalProps> = ({
 			await Promise.resolve()
 		})
 
-	const textWrapperStyle: CSSProperties = {
-		display: 'flex',
-		alignItems: 'center',
-		flexDirection: 'column',
-		justifyContent: 'center',
-		width: '100%',
-	}
-	const textStyle: CSSProperties = {
-		color: '#1677ff',
-		fontWeight: 600,
-		fontSize: '1rem',
-		margin: '0 10px',
-	}
-
 	console.log({ collection })
 	console.log(collection._id)
 	console.log(collection.name)
 
-	const displayRenameCollection =
-		inputCollectionName === '' ? collection.name : inputCollectionName
 	return (
 		<>
-			<Row className={styles.row} style={{ marginTop: 20, minWidth: 300 }}>
-				<span className={styles.textBold} style={textWrapperStyle}>
+			<Row className={styles.renameRow}>
+				<span className={`${styles.textBold} ${styles.textWrapper}`}>
 					<Text>{'Rename Collection:'}</Text>
-					<Text style={textStyle}>{displayRenameCollection}</Text>
+					<Text className={styles.text}>{collection.name}</Text>
 				</span>
 			</Row>
 
 			<Input
-				style={{ margin: '10px 0' }}
+				className={styles.input}
 				onChange={(e) => {
 					setInputCollectionName(e.target.value)
 				}}
 			/>
 
-			<span style={{ display: 'flex', flex: 1, justifyContent: 'flex-end' }}>
+			<span className={styles.renameButtonWrapper}>
 				<Button
 					type={'primary'}
 					shape='round'
@@ -104,6 +91,7 @@ const RenameCollectionModal: FC<RenameCollectionModalProps> = ({
 									'New Collection Name'
 								)
 								handleCollectionCancel()
+								setRefetchTrigger(refetchTrigger + 1)
 							})
 							.catch((error) => {
 								console.error('Error creating collection:', error)

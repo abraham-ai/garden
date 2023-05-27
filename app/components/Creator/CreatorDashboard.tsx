@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
 import type { FC } from 'react'
 
-import { Row, Typography } from 'antd' // Button,
-const { Text } = Typography
+import { Row, Button } from 'antd' // Button,
 
 interface CreatorDashboardProps {
 	profileAddress: string
 }
 
 const CreatorDashboard: FC<CreatorDashboardProps> = ({ profileAddress }) => {
-	// const [isFollowing, setIsFollowing] = useState<boolean>(false)
+	const [isFollowing, setIsFollowing] = useState<boolean>(false)
 
-	// const handleFollow = (): void => {
-	// 	setIsFollowing(!isFollowing)
-	// }
+	const handleFollow = (): void => {
+		setIsFollowing(!isFollowing)
+	}
 
 	const isCreator = false
 
@@ -25,7 +24,7 @@ const CreatorDashboard: FC<CreatorDashboardProps> = ({ profileAddress }) => {
 				justifyContent: 'center',
 			}}
 		>
-			{/* <Row style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+			<Row style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
 				<Button
 					size='large'
 					type={isFollowing ? 'default' : 'primary'}
@@ -36,7 +35,7 @@ const CreatorDashboard: FC<CreatorDashboardProps> = ({ profileAddress }) => {
 				>
 					{isFollowing ? 'Following' : 'Follow'}
 				</Button>
-			</Row> */}
+			</Row>
 
 			{isCreator ? (
 				<Row
@@ -104,8 +103,6 @@ const CreatorDashboard: FC<CreatorDashboardProps> = ({ profileAddress }) => {
 					</div>
 				</Row>
 			) : null}
-
-			<Text>{profileAddress}</Text>
 		</Row>
 	)
 }

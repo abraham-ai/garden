@@ -8,8 +8,8 @@ import Header from '../app/components/NavBar/Header'
 import CreationsGrid from '../app/components/Creations/CreationsGrid'
 import CreationSaveModal from '../app/components/Creation/CreationSaveModal/CreationSaveModal'
 
-import stylesHeader from '../styles/Header.module.css'
-import stylesCreationsGrid from '../styles/CreationsGrid.module.css'
+import useWindowDimensions from '../hooks/useWindowDimensions'
+import styles from '../styles/CreationsGrid.module.css'
 
 const Index: FC = () => {
 	const createGardenCreationsUrl = (
@@ -20,6 +20,8 @@ const Index: FC = () => {
 		earliestTime,
 		latestTime
 	): string => {
+		console.log({ pageIndex })
+
 		return `/api/creations?limit=${String(limit)}&page=${String(
 			pageIndex
 		)}&username=${String(username)}&generators=${String(
@@ -27,7 +29,7 @@ const Index: FC = () => {
 		)}&earliestTime=${String(earliestTime)}&latestTime=${String(latestTime)}`
 	}
 
-	console.log({ createGardenCreationsUrl })
+	const { width: appWidth } = useWindowDimensions()
 
 	return (
 		<>
@@ -51,16 +53,16 @@ const Index: FC = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<>
-				<main className={stylesHeader.headerWrapper}>
+				<main>
 					<Header />
 				</main>
 
 				<CreationSaveModal />
 
-				<section className={stylesCreationsGrid.creationsWrapper}>
+				<section className={styles.creationsWrapper}>
 					<CreationsGrid
-						createUrl={createGardenCreationsUrl}
-						creator={emptyCreatorProfile}
+						creatorProfile={emptyCreatorProfile}
+						appWidth={appWidth}
 					/>
 				</section>
 			</>

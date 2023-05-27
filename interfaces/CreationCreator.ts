@@ -3,7 +3,7 @@ import type CreatorProfile from './CreatorProfile'
 
 interface CreationCreator {
 	creation: Creation
-	creator: CreatorProfile
+	creatorProfile: CreatorProfile
 }
 
 export default CreationCreator

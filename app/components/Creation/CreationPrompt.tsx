@@ -29,17 +29,13 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 
 	const isOverlay = layout === 'overlay'
 	const isRelative = layout === 'relative'
-	const isCrIdPage = page === 'creationId'
 
-	// console.log({ isOverlay })
-	// console.log({ isRelative })
+	const isCrModal = page === 'modal'
+	const isCreationsPage = page === 'creations'
+	const isCrIdPage = page === 'creationId'
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
-
-	// console.log({ isMobile })
-	// console.log({ isTablet })
-	console.log({ isCrIdPage })
 
 	const GeneratorName = creation?.task?.generator?.generatorName ?? 'create'
 
@@ -50,9 +46,15 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		if (isMobile) {
 			prompt = abbreviateText(creationTextInput, 100)
 		} else if (isTablet) {
-			prompt = abbreviateText(creationTextInput, 100)
+			if (isCrModal) {
+				prompt = creationTextInput
+			} else {
+				prompt = abbreviateText(creationTextInput, 100)
+			}
 		} else {
 			if (isCrIdPage) {
+				prompt = creationTextInput
+			} else if (isCrModal) {
 				prompt = creationTextInput
 			} else {
 				if (creation.task.config.height > 550) {
@@ -62,15 +64,15 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 				} else if (creation.task.config.height > 450) {
 					prompt = abbreviateText(creationTextInput, 30) // 100
 				} else if (creation.task.config.height > 400) {
-					prompt = abbreviateText(creationTextInput, 25) // 100
+					prompt = abbreviateText(creationTextInput, 30) // 100
 				} else {
-					prompt = abbreviateText(creationTextInput, 20) // 100
+					prompt = abbreviateText(creationTextInput, 30) // 100
 				}
 			}
 		}
 	}
 
-	const promptSize = useMemo(() => {
+	const promptSize: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
 				return styles.crPromptSizeSm
@@ -93,7 +95,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		return '12px'
 	}, [appWidth])
 
-	const promptColor = useMemo(() => {
+	const promptColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
 				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
@@ -114,7 +116,6 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 			if (isOverlay) {
 				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
 			} else if (isRelative) {
-				console.log('isRelative:', isThemeLight)
 				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
 			} else {
 				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
@@ -122,7 +123,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth, currentTheme])
 
-	const promptWrapper = useMemo(() => {
+	const promptWrapper: string | undefined = useMemo(() => {
 		if (isCrIdPage) {
 			return styles.crPromptText
 		} else {
@@ -130,17 +131,76 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth])
 
-	const promptWeight = useMemo(() => {
-		if (isCrIdPage) {
-			return styles.crPromptReg
+	const promptWeight: string | undefined = useMemo(() => {
+		if (isMobile) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.crPromptReg
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			} else if (isCrModal) {
+				if (isOverlay) {
+					return styles.crPromptReg
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.crPromptBold
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			}
+		} else if (isTablet) {
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.crPromptReg
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			} else if (isCrModal) {
+				if (isOverlay) {
+					return styles.crPromptReg
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.weightBold
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			}
 		} else {
-			return styles.crPromptBold
+			if (isCrIdPage) {
+				if (isOverlay) {
+					return styles.crPromptReg
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			} else if (isCrModal) {
+				if (isOverlay) {
+					return styles.crPromptReg
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			} else if (isCreationsPage) {
+				if (isOverlay) {
+					return styles.weightBold
+				} else if (isRelative) {
+					return styles.crPromptReg
+				}
+			}
 		}
 	}, [appWidth])
 
 	// console.log({ isThemeLight })
 	// console.log({ isMobile, isTablet })
+	// console.log({ isOverlay })
 	// console.log({ isRelative })
+	// console.log({ isCrIdPage })
+
 	// console.log({ promptColor })
 	// console.log({ prompt })
 	// console.log({ creationTextInput })
@@ -161,12 +221,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 					fontWeight: isMobile ? 'bold' : 'regular',
 				}}
 			>{`/${String(GeneratorName)} `}</Text>
-			<Text
-				className={`${promptColor} ${promptSize} ${promptWeight}`}
-				style={{
-					fontWeight: isMobile ? 'bold' : 'regular',
-				}}
-			>
+			<Text className={`${promptColor} ${promptSize} ${promptWeight}`}>
 				{prompt}
 			</Text>
 		</Col>

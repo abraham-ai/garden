@@ -87,7 +87,7 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
+	/* background: rgba(0, 0, 0, 0.5); */
 	z-index: 100;
 }
 .crImageBlurMask {
@@ -98,6 +98,16 @@
 	/* -webkit-mask-image: linear-gradient(to top, transparent 20%, black 100%); */
 	z-index: 100;
 	background: rgba(0, 0, 0, 1);
+}
+.crImagePortrait {
+	width: auto;
+	height: 100%;
+	/* border: 3px solid lime; */
+}
+.crImageLandscape {
+	width: 100%;
+	height: auto;
+	/* border: 3px solid red; */
 }
 .crImageMain {
 	position: absolute;
@@ -210,10 +220,6 @@
 	padding: 10px;
 	border-radius: 10px;
 	/* mask-image: linear-gradient(transparent, transparent 50%); */
-}
-.crDate {
-	color: white;
-	padding-left: 10px;
 }
 .crPromptCommand {
 	font-weight: bold;
