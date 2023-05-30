@@ -1,0 +1,23 @@
+/*  CREATE BUTTON */
+
+/* 768 */
+@media (max-width: 666px) {
+	.createButton {
+		display: flex;
+		align-items: center;
+		margin-right: 15px;
+	}
+}
+.createButton {
+	display: none;
+}
+
+.createIconWrapper {
+}
+.createIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	margin-right: 0.5rem;
+}

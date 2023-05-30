@@ -1,14 +1,14 @@
 import type { FC } from 'react'
 import React from 'react'
-import SettingsMenuPopOver from './SettingsMenuPopOver'
+import MannaMenuPopOver from './MannaMenuPopOver'
 
-import abbreviateText from '../../../util/abbreviateText'
+import abbreviateText from '../../../../util/abbreviateText'
 
 import { Button, Badge, Popover, Tooltip, Typography } from 'antd'
-import { BsGear } from 'react-icons/bs'
+import { RiHandCoinLine } from 'react-icons/ri'
 const { Text } = Typography
 
-interface SettingsMenuProps {
+interface MannaMenuProps {
 	appWidth: number
 	isWalletConnected: boolean
 	userId: string
@@ -18,7 +18,7 @@ interface SettingsMenuProps {
 	isMounted: boolean
 }
 
-const SettingsMenu: FC<SettingsMenuProps> = ({
+const MannaMenu: FC<MannaMenuProps> = ({
 	appWidth,
 	isWalletConnected,
 	userId,
@@ -53,7 +53,7 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
 		>
 			<Popover
 				content={
-					<SettingsMenuPopOver
+					<MannaMenuPopOver
 						isWalletConnected={isWalletConnected}
 						userId={userId}
 						displayAddress={displayAddress}
@@ -66,10 +66,10 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
 				trigger='click'
 				placement='bottom'
 			>
-				<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
+				<Tooltip placement='bottom' title={'Manna'}>
 					<Button type='link' shape='circle' style={{ marginRight: 10 }}>
 						<Badge count={handleBadgeCount()}>
-							<BsGear style={{ fontSize: '1.5rem' }} />
+							<RiHandCoinLine style={{ fontSize: '1.5rem' }} />
 						</Badge>
 					</Button>
 				</Tooltip>
@@ -78,4 +78,4 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
 	)
 }
 
-export default SettingsMenu
+export default MannaMenu

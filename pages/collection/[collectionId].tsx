@@ -9,6 +9,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions'
 import styles from '../../styles/Collection.module.css'
 
 import Header from '../../app/components/NavBar/Header'
+import MobileBar from '../../app/components/NavBar/MobileBar'
 import CreationsGrid from '../../app/components/Creations/CreationsGrid'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
 
@@ -21,7 +22,7 @@ interface CollectionPageTypes {
 	size?: string
 }
 
-const Collection: FC<CollectionPageTypes> = () => {
+const CollectionPage: FC<CollectionPageTypes> = () => {
 	const router = useRouter()
 
 	const queryCollectionId = Array.isArray(router.query.collectionId)
@@ -47,6 +48,7 @@ const Collection: FC<CollectionPageTypes> = () => {
 	return (
 		<>
 			<Header />
+			<MobileBar />
 
 			<section className={styles.collectionWrapper}>
 				{isUser ? (
@@ -75,4 +77,4 @@ const Collection: FC<CollectionPageTypes> = () => {
 	)
 }
 
-export default Collection
+export default CollectionPage

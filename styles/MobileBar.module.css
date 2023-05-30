@@ -1,0 +1,51 @@
+/* MAIN WRAPPER */
+.mobileBarWrapper {
+	display: none;
+	@media (max-width: 768px) {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		z-index: 250;
+	}
+}
+
+/* BACKGROUND */
+.bgLight {
+	background-color: #fff;
+}
+.bgDark {
+	background-color: #000;
+}
+
+/* BUTTON */
+.mobileMenuBtn {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 60px;
+	padding: 0 8px;
+}
+
+/* TEXT */
+.mobileMenuText {
+	font-size: 11px;
+}
+
+/* ICON */
+.mobileMenuIcon {
+	font-size: 24px;
+}
+.mobileMenuCreateIcon {
+	font-size: 20px;
+}
+
+/* CREATE BUTTON */
+.mobileMenuCreateBtn {
+	height: 25px;
+	min-width: 40px;
+	margin: 0 1px;
+}

@@ -1,11 +1,12 @@
 import type { FC } from 'react'
 
 import React from 'react'
-import EthereumAuth from '../Ethereum/EthereumAuth'
+import EthereumAuth from '../../Ethereum/EthereumAuth'
+import ThemeSelect from './ThemeSelect'
 
-import styles from '../../../styles/Header.module.css'
+import styles from '../../../../styles/SettingsPopover.module.css'
 
-import { Typography } from 'antd'
+import { Typography, Col } from 'antd'
 const { Text } = Typography
 
 interface SettingsMenuPopOverTypes {
@@ -37,7 +38,9 @@ const SettingsMenuPopOver: FC<SettingsMenuPopOverTypes> = ({
 	})
 
 	return (
-		<>
+		<Col className={styles.settingsPopOver}>
+			<ThemeSelect />
+
 			{isWalletConnected ? <EthereumAuth appWidth={appWidth} /> : null}
 
 			{isWalletConnected && typeof userId !== 'undefined' ? (
@@ -77,7 +80,7 @@ const SettingsMenuPopOver: FC<SettingsMenuPopOverTypes> = ({
 					</span>
 				)}
 			</div>
-		</>
+		</Col>
 	)
 }
 

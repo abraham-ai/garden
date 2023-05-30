@@ -8,6 +8,7 @@ import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
+import CreationsSorter from './CreationsSorter'
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 
@@ -155,6 +156,8 @@ const CreationsGrid: FC<CreationsGridProps> = ({
 					isEmpty={isEmpty}
 				/>
 			) : null}
+
+			<CreationsSorter appWidth={appWidth} />
 
 			<CreationsMasonry
 				creationsData={dataArray}

@@ -7,80 +7,31 @@ import AppContext from '../../../context/AppContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { useRouter } from 'next/router'
-
+import { useRouter, usePathname } from 'next/navigation'
 import useWindowDimensions from '../../../hooks/useWindowDimensions'
-
-import ConnectButtonCustom from './ConnectButtonCustom'
 
 import styles from '../../../styles/Header.module.css'
 
-// import SettingsMenuPopOver from './SettingsMenuPopOver'
-import SignInModal from './SignInModal'
-// import SettingsMenu from './SettingsMenu'
+import MobileBar from './MobileBar'
+import DesktopMenu from './DesktopMenu'
+import MenuButton from './MenuButton'
+import CreateButton from './CreateButton'
+import MannaMenu from './MannaMenu/MannaMenu'
+import MannaMenuPopOver from './MannaMenu/MannaMenuPopOver'
+import SettingsMenu from './SettingsMenu/SettingsMenu'
+import SettingsMenuPopOver from './SettingsMenu/SettingsMenuPopOver'
+import MyProfileButton from './MyProfileButton'
+
+import ConnectButtonCustom from './ConnectButtonCustom'
 import EthereumVerify from '../Ethereum/EthereumVerify'
+import SignInModal from './SignInModal'
+import CreateModal from '../Create/CreateModal'
 // import EthereumAuth from '../Ethereum/EthereumAuth'
 
-import { Typography, Button, Select, Space, Row } from 'antd'
-// import { BsGear } from 'react-icons/bs'
-
+import { Typography, Select, Space, Row, theme } from 'antd'
+const themeDark = { algorithm: theme.darkAlgorithm }
+const themeDefault = { algorithm: theme.defaultAlgorithm }
 const { Text } = Typography
-
-interface ActiveLinkProps {
-	children: ReactNode
-	href: string
-}
-
-const ActiveLink: FC<ActiveLinkProps> = ({ children, href }) => {
-	const router = useRouter()
-	const { asPath } = router
-
-	const context = useContext(AppContext)
-	const isSignedIn = context?.isSignedIn ?? false
-	const isWalletConnected = context?.isWalletConnected ?? false
-	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
-
-	const { openConnectModal } = useConnectModal()
-
-	const linkStyle = {
-		marginRight: 10,
-		color: asPath === href ? 'purple' : 'gray',
-		fontWeight: asPath === href ? 'bolder' : 'regular',
-	}
-
-	const handleClick = (e: MouseEvent<HTMLAnchorElement>): void => {
-		console.log('handle Nav Link 🔖!')
-		// console.log({ isSignedIn })
-		if (!isSignedIn && !isWalletConnected) {
-			openConnectModal?.() ?? (() => null)()
-		} else if (!isSignedIn && isWalletConnected) {
-			setIsSignInModalOpen(true)
-		} else if (isSignedIn && !isWalletConnected) {
-			openConnectModal?.() ?? (() => null)()
-		} else if (isSignedIn && isWalletConnected) {
-			console.log('handle Nav Link 🔖!')
-			router.push(href).then(() => {
-				window.scrollTo(0, 0)
-			})
-		}
-	}
-
-	// console.log({ isSignedIn, isWalletConnected })
-
-	return (
-		<Button
-			type='text'
-			size='large'
-			shape='round'
-			onClick={(e) => {
-				handleClick(e)
-			}}
-			style={linkStyle}
-		>
-			{children}
-		</Button>
-	)
-}
 
 const Header: FC = () => {
 	const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -129,26 +80,27 @@ const Header: FC = () => {
 	}
 
 	const handleDefaultSelectValue = (): string => {
-		const { asPath } = router
+		const pathname = usePathname()
 
 		// const { collection } = router.query
 		// console.log('handleDefaultSelectValue')
 		// console.log({ asPath })
 		// console.log({ collection })
 
-		if (asPath === '/') {
-			return 'garden'
-		} else if (asPath === '/editprofile') {
-			return 'editprofile'
-		} else if (asPath === '/myprofile') {
-			return 'myprofile'
-		} else if (asPath === '/mycollections') {
-			return 'mycollections'
-		} else if (asPath.includes('/collection')) {
-			return 'mycollections'
-		} else {
-			return 'garden'
-		}
+		// if (pathname === '/') {
+		// 	return 'garden'
+		// } else if (pathname === '/editprofile') {
+		// 	return 'editprofile'
+		// } else if (pathname === '/myprofile') {
+		// 	return 'myprofile'
+		// } else if (pathname === '/mycollections') {
+		// 	return 'mycollections'
+		// } else if (pathname.includes('/collection')) {
+		// 	return 'mycollections'
+		// } else {
+		// 	return 'garden'
+		// }
+		return 'garden'
 	}
 
 	const handleSelectOptions = (): Array<{ value: string; label: string }> => {
@@ -172,56 +124,77 @@ const Header: FC = () => {
 	// console.log({ firstSignInRequest })
 	// console.log({ userId })
 
-	return (
-		<header className={styles.headerWrapper}>
-			<ul className={styles.linksWrapper}>
-				<EthereumVerify />
+	const rowStyle = { display: 'flex', alignItems: 'center' }
 
-				{isMounted && appWidth > 1280 ? (
-					<>
-						{isUserId ? (
-							<>
-								<ActiveLink href='/myprofile'>
+	return (
+		<>
+			<header className={styles.headerWrapper}>
+				<ul className={styles.linksWrapper}>
+					<EthereumVerify />
+
+					{isMounted && appWidth > 1280 ? (
+						<>
+							{isUserId ? (
+								<>
+									{/* <ActiveLink href='/myprofile'>
 									<Text style={textThemeColor}>{'My Profile'}</Text>
 								</ActiveLink>
 								<ActiveLink href='/mycollections'>
 									<Text style={textThemeColor}>{'My Collections'}</Text>
-								</ActiveLink>
-							</>
-						) : null}
-					</>
-				) : isMounted && isSignedIn ? (
-					isWalletConnected ? (
-						<Space wrap>
-							<Select
-								className='navbarSelect'
-								defaultValue={handleDefaultSelectValue()}
-								style={{ width: 150, border: 'none', textAlign: 'center' }}
-								onChange={handleChange}
-								options={handleSelectOptions()}
+								</ActiveLink> */}
+								</>
+							) : null}
+						</>
+					) : isMounted && isSignedIn ? (
+						isWalletConnected ? (
+							<Space wrap>
+								<Select
+									className='navbarSelect'
+									defaultValue={handleDefaultSelectValue()}
+									style={{ width: 150, border: 'none', textAlign: 'center' }}
+									onChange={handleChange}
+									options={handleSelectOptions()}
+								/>
+							</Space>
+						) : null
+					) : null}
+				</ul>
+
+				<section className={styles.authSectionStyle}>
+					<Row style={rowStyle}>
+						<Link href='/' style={{ zIndex: 100 }}>
+							<Image
+								src={'/eden-logo-512x512.png'}
+								width={40}
+								height={40}
+								alt={'Eden logo'}
 							/>
-						</Space>
-					) : null
-				) : null}
-			</ul>
+						</Link>
 
-			<section className={styles.authSectionStyle}>
-				<Link href='/' style={{ zIndex: 100 }}>
-					<Image
-						src={'/eden-logo-512x512.png'}
-						width={40}
-						height={40}
-						alt={'Eden logo'}
-					/>
-				</Link>
+						<DesktopMenu />
+					</Row>
 
-				<Row className={styles.popoverConnectWrapper}>
-					<ConnectButtonCustom appWidth={appWidth} isMounted={isMounted} />
-				</Row>
-			</section>
+					<Row>
+						<CreateButton />
+						<MannaMenu content={<MannaMenuPopOver />} />
+						<SettingsMenu content={<SettingsMenuPopOver />} />
+						{isMounted && isSignedIn && isWalletConnected ? (
+							<MyProfileButton />
+						) : (
+							<Row className={styles.popoverConnectWrapper}>
+								<ConnectButtonCustom
+									appWidth={appWidth}
+									isMounted={isMounted}
+								/>
+							</Row>
+						)}
+					</Row>
+				</section>
 
-			<SignInModal isMounted={isMounted} appWidth={appWidth} />
-		</header>
+				<CreateModal isMounted={isMounted} appWidth={appWidth} />
+				<SignInModal isMounted={isMounted} appWidth={appWidth} />
+			</header>
+		</>
 	)
 }
 

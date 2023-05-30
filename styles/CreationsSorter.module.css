@@ -1,0 +1,12 @@
+.sortBtn {
+	margin-right: 10px;
+}
+.sortSelectedDark {
+	color: #fff;
+}
+.sortSelected {
+	color: #000;
+}
+.sortIcon {
+	font-size: 1.5rem;
+}

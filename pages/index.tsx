@@ -1,9 +1,9 @@
 import React from 'react'
 import type { FC } from 'react'
+import emptyCreatorProfile from '../constants/emptyCreatorProfile'
 
 import Head from 'next/head'
-
-import emptyCreatorProfile from '../constants/emptyCreatorProfile'
+import MobileBar from '../../app/components/NavBar/MobileBar'
 import Header from '../app/components/NavBar/Header'
 import CreationsGrid from '../app/components/Creations/CreationsGrid'
 import CreationSaveModal from '../app/components/Creation/CreationSaveModal/CreationSaveModal'
@@ -55,6 +55,7 @@ const Index: FC = () => {
 			<>
 				<main>
 					<Header />
+					<MobileBar />
 				</main>
 
 				<CreationSaveModal />

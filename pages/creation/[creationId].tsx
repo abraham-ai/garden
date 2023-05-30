@@ -13,7 +13,11 @@ import emptyCreatorProfile from '../../constants/emptyCreatorProfile'
 
 import styles from '../../styles/CreationId.module.css'
 
+import CreateModal from '../../app/components/Create/CreateModal'
+import CreateDrawer from '../../app/components/Create/CreateDrawer'
+
 import Header from '../../app/components/NavBar/Header'
+import MobileBar from '../../app/components/NavBar/MobileBar'
 import CreationSocial from '../../app/components/Creation/CreationSocial'
 import CreationSaveModal from '../../app/components/Creation/CreationSaveModal/CreationSaveModal'
 import CreationCreator from '../../app/components/Creation/CreationCreator'
@@ -141,7 +145,9 @@ const Creation: FC<CreationPageProps> = ({
 	return (
 		<>
 			<Header />
-
+			<MobileBar />
+			<CreateModal />
+			<CreateDrawer />
 			<CreationSaveModal />
 
 			<section style={crIdWrapperStyles}>

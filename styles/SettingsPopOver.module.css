@@ -1,0 +1,4 @@
+.settingsPopOver {
+	display: flex;
+	flex-direction: column;
+}

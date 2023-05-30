@@ -15,6 +15,7 @@ import useGetCreatorCreations from '../../hooks/useGetCreatorCreations'
 
 // import Blockies from 'react-blockies'
 import Header from '../../app/components/NavBar/Header'
+import MobileBar from '../../app/components/NavBar/MobileBar'
 import CreationsGrid from '../../app/components/Creations/CreationsGrid'
 import CreatorDashboard from '../../app/components/Creator/CreatorDashboard'
 import CreatorHeader from '../../app/components/Creator/CreatorHeader'
@@ -82,8 +83,7 @@ const CreatorPage: FC<CreatorPageProps> = () => {
 
 	return (
 		<>
-			<Header />
-
+			<MobileBar />
 			<section className={styles.creationWrapper} style={{ marginTop: 90 }}>
 				{isCreatorCreationsData ? (
 					<>

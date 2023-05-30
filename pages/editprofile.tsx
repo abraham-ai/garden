@@ -6,6 +6,7 @@ import AppContext from '../context/AppContext'
 import useGetProfile from '../hooks/useGetProfile'
 
 import Header from '../app/components/NavBar/Header'
+import MobileBar from '../../app/components/NavBar/MobileBar'
 import CreatorHeader from '../app/components/Creator/CreatorHeader'
 
 import styles from '../styles/EditProfile.module.css'
@@ -145,6 +146,7 @@ const EditProfile: FC = () => {
 	return (
 		<>
 			<Header />
+			<MobileBar />
 
 			<Content className={styles.contentWrapper}>
 				<CreatorHeader
