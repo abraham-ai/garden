@@ -1,12 +1,12 @@
 import type { FC } from 'react'
 import React, { useContext, useMemo, useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import AppContext from '../../../context/AppContext'
+import AppContext from '../../../../context/AppContext'
 import { Button, ConfigProvider, theme, Typography, Row } from 'antd'
 
-import themeDefault from '../../../themes/themeDefault'
-import themeDark from '../../../themes/themeDark'
-import styles from '../../../styles/CreationsSorter.module.css'
+import themeDefault from '../../../../themes/themeDefault'
+import themeDark from '../../../../themes/themeDark'
+import styles from '../../../../styles/CreationsSorter.module.css'
 import { BiTrendingUp } from 'react-icons/bi'
 
 const { Text } = Typography
@@ -15,7 +15,7 @@ interface SortButtonProps {
 	title: string
 	currentSort: string
 	setCurrentSort: (currentSort: string) => void
-	currentTheme: string
+	appTheme: string
 	appWidth: number
 	appTheme: string
 }
@@ -100,14 +100,14 @@ const SortButton: FC<SortButtonProps> = ({
 		[currentSort]
 	)
 
-	const colorPrimary = (): string => {
-		switch (currentTheme) {
+	const handleColorPrimary = useMemo((): string => {
+		switch (appTheme) {
 			case 'light':
 				return '#f2f2f2'
 			case 'dark':
-				return '#f2f2f2'
+				return '#272727'
 		}
-	}
+	}, [appTheme])
 
 	const burnGray = (
 		<span
@@ -125,6 +125,7 @@ const SortButton: FC<SortButtonProps> = ({
 		setCurrentSort(title.toLowerCase())
 	}
 
+	console.log({ appTheme })
 	console.log({ isLight })
 	console.log({ title })
 	console.log({ isSelected })
@@ -132,7 +133,6 @@ const SortButton: FC<SortButtonProps> = ({
 	console.log(sortIcon)
 	console.log(currentSort)
 	console.log({ pathname })
-	console.log({ colorPrimary })
 
 	return (
 		<div>
@@ -140,7 +140,7 @@ const SortButton: FC<SortButtonProps> = ({
 				theme={{
 					// algorithm: currentTheme,
 					token: {
-						colorPrimary: isLight ? '#f2f2f2' : '#272727',
+						colorPrimary: isLight ? 'lightgray' : '#f2f2f2',
 					},
 				}}
 			>
@@ -157,43 +157,4 @@ const SortButton: FC<SortButtonProps> = ({
 	)
 }
 
-const CreationsSorter: FC = ({ appWidth }) => {
-	const context = useContext(AppContext)
-	const currentSort = context?.currentSort ?? 'latest'
-	const setCurrentSort = context?.setCurrentSort ?? (() => {})
-
-	const appTheme = context?.currentTheme ?? 'light'
-	const isLight = appTheme === 'light'
-
-	const themeDark = {
-		// algorithm: theme.darkAlgorithm,
-		token: {
-			colorPrimary: isLight ? 'blue' : '#fff', // deep purple #724db5
-		},
-	}
-	const themeDefault = { algorithm: theme.defaultAlgorithm }
-	const currentTheme = isLight ? themeDefault : themeDark
-
-	const textSize: string = useMemo(() => {
-		return styles.sortText
-	}, [])
-
-	const sortList = ['Latest', 'Praises', 'Burns', 'Trending']
-
-	return (
-		<Row>
-			{sortList.map((title, index) => (
-				<SortButton
-					key={index}
-					title={title}
-					isLight={isLight}
-					currentSort={currentSort}
-					setCurrentSort={setCurrentSort}
-					currentTheme={currentTheme}
-				/>
-			))}
-		</Row>
-	)
-}
-
-export default CreationsSorter
+export default SortButton

@@ -31,7 +31,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 	const isSignedIn = context?.isSignedIn ?? false
 	const isWalletConnected = context?.isWalletConnected ?? false
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
-	const currentTheme = context?.currentTheme ?? 'light'
+	const appTheme = context?.appTheme ?? 'light'
 
 	const { openConnectModal } = useConnectModal()
 
@@ -39,7 +39,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
-	const isThemeLight = currentTheme === 'light'
+	const isLight = appTheme === 'light'
 
 	const isCrIdPage = page === 'creationId'
 	const isCreationsPage = page === 'creations'
@@ -492,129 +492,129 @@ const BurnButton: FC<BurnButtonProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWhite : styles.textWhite
+					return isLight ? styles.textWhite : styles.textWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.textBlack : styles.textWhite
+					return isLight ? styles.textBlack : styles.textWhite
 				}
 			}
 		}
-	}, [appWidth, page, layout, currentTheme])
+	}, [appWidth, page, layout, appTheme])
 
 	const countWeight: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			}
 		}
-	}, [appWidth, page, layout, currentTheme])
+	}, [appWidth, page, layout, appTheme])
 
 	const bgHoverStyles = isBurnHovering ? '#f8a4b080' : 'rgba(0, 0, 0, 0.5)'
 
@@ -662,7 +662,7 @@ const BurnButton: FC<BurnButtonProps> = ({
 					className={`${countColor} ${countWeight} ${textSize}`}
 					style={{
 						filter:
-							isMobile && isThemeLight
+							isMobile && isLight
 								? 'transparent'
 								: 'drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4))',
 						marginLeft: 10,

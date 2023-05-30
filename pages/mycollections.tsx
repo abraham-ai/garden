@@ -42,7 +42,7 @@ const MyCollections: FC = () => {
 		typeof context !== 'undefined' && context !== null && 'userId' in context
 	const userId = isContext ? String(context.userId) : ''
 	const userAddress = context?.userAddress ?? ''
-	const currentTheme = context?.currentTheme ?? ''
+	const appTheme = context?.appTheme ?? ''
 	const currentModalCollection = context?.currentModalCollection ?? {
 		_id: '',
 		name: '',
@@ -143,7 +143,7 @@ const MyCollections: FC = () => {
 				{isCurrentMyCollectionsCreations ? (
 					<Col className={styles.collectionsWrapper}>
 						<Row style={collectionInnerWrapperStyles}>
-							<CreateCollectionButton currentTheme={currentTheme} />
+							<CreateCollectionButton appTheme={appTheme} />
 
 							<CollectionModal
 								collection={currentModalCollection}
@@ -158,7 +158,7 @@ const MyCollections: FC = () => {
 											<CollectionItem
 												key={collection._id}
 												collection={collection}
-												currentTheme={currentTheme}
+												appTheme={appTheme}
 												collectionCreations={
 													currentMyCollectionsCreations?.collectionsCreations[
 														index

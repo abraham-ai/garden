@@ -59,7 +59,7 @@ const CreationModal: FC<CreationModalProps> = ({
 	const setCurrentCreationModalCreation =
 		context?.setCurrentCreationModalCreation ?? (() => {})
 
-	const currentTheme = context?.currentTheme ?? 'light'
+	const appTheme = context?.appTheme ?? 'light'
 
 	const isCreationsPage = page === 'creations'
 	const isCrIdPage = page === 'creationId'
@@ -240,7 +240,7 @@ const CreationModal: FC<CreationModalProps> = ({
 									appWidth={appWidth}
 									reactionCountList={reactionCountList}
 									page={page}
-									currentTheme={currentTheme}
+									appTheme={appTheme}
 									creatorProfile={emptyCreatorProfile}
 								/>
 
@@ -248,7 +248,7 @@ const CreationModal: FC<CreationModalProps> = ({
 									layout={isMobile ? layout : 'relative'}
 									creation={creation}
 									appWidth={appWidth}
-									currentTheme={currentTheme}
+									appTheme={appTheme}
 									page={page}
 								/>
 

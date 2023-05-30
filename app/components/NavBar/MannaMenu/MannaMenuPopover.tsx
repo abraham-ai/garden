@@ -36,17 +36,20 @@ const MannaMenuPopOver: FC<MannaMenuPopOverTypes> = ({
 		isWalletConnected,
 	})
 	const mannaCount = 99
+
+	const columnStyle = { display: 'flex', flexDirection: 'column' }
+
 	return (
-		<Col>
-			<Col>
+		<Col style={columnStyle}>
+			<Col style={columnStyle}>
 				<Text>{`You have ${mannaCount} Manna`}</Text>
 				<Text>{'Learn how you can earn Manna.'}</Text>
 			</Col>
 
 			<Divider />
 
-			<Col>
-				<Text>{'Buy Manna'}</Text>
+			<Col style={{ display: 'flex', flexDirection: 'column' }}>
+				<Text strong>{'Buy Manna'}</Text>
 				<Button type='text'>{'1,000 Manna for 0.01 ETH'}</Button>
 				<Button type='text'>{'10,000 Manna for 0.1 ETH'}</Button>
 				<Button type='text'>{'100,000 Manna for 1.0 ETH'}</Button>

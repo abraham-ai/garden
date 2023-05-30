@@ -33,7 +33,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 	const [host, setHost] = useState<string>('')
 
 	const context = useContext(AppContext)
-	const currentTheme = context?.currentTheme ?? 'light'
+	const appTheme = context?.appTheme ?? 'light'
 
 	const isMobile = appWidth < 768
 	const isTablet = appWidth >= 768 && appWidth <= 1024
@@ -412,7 +412,7 @@ const ShareButton: FC<ShareButtonProps> = ({
 		? 'rgb(0, 186, 124, 0.2)'
 		: 'rgba(0, 0, 0, 0.5)'
 
-	const isMobileThemeLight = isMobile && currentTheme === 'light'
+	const isMobileThemeLight = isMobile && appTheme === 'light'
 
 	// console.log({ iconSize })
 	// console.log({ creationId })

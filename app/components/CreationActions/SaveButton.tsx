@@ -54,7 +54,7 @@ const SaveButton: FC<SaveButtonTypes> = ({
 	const setCollectionModalView = context?.setCollectionModalView ?? (() => null)
 	const collections = context?.collections ?? []
 	const setCollections = context?.setCollections ?? (() => {})
-	const currentTheme = context?.currentTheme ?? 'light'
+	const appTheme = context?.appTheme ?? 'light'
 
 	const setIsSaveCreationModalOpen =
 		context?.setIsSaveCreationModalOpen ?? (() => {})

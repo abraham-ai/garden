@@ -111,7 +111,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [isCollectionModalOpen, setIsCollectionModalOpen] =
 		useState<boolean>(false)
 
-	const [currentTheme, setCurrentTheme] = useState<string>('')
+	const [appTheme, setAppTheme] = useState<string>('')
 
 	// creation context function
 	const onCreationClick = (creation, index): void => {
@@ -201,7 +201,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const currentThemeOnLoad = themeOnLoad()
 	// console.log({ currentThemeOnLoad })
 
-	const isThemeLight = currentTheme === 'light'
+	const isLight = appTheme === 'light'
 
 	useEffect(() => {
 		setIsWalletConnected(isConnected)
@@ -209,7 +209,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	}, [isConnected, setIsWalletConnected, address, setUserId, userId])
 
 	useEffect(() => {
-		setCurrentTheme(currentThemeOnLoad)
+		setAppTheme(currentThemeOnLoad)
 	}, [currentThemeOnLoad])
 
 	return (
@@ -250,8 +250,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 					setCurrentModalCollection,
 					isSaveCreationModalOpen,
 					setIsSaveCreationModalOpen,
-					currentTheme,
-					setCurrentTheme,
+					appTheme,
+					setAppTheme,
 					firstSignInRequest,
 					setFirstSignInRequest,
 					isSignInModalOpen,
@@ -268,7 +268,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 						<ReactionProvider>
 							<ConfigProvider
 								theme={{
-									algorithm: isThemeLight ? defaultAlgorithm : darkAlgorithm,
+									algorithm: isLight ? defaultAlgorithm : darkAlgorithm,
 								}}
 							>
 								<Component {...pageProps} />

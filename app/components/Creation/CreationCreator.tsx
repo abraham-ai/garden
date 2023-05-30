@@ -22,7 +22,7 @@ interface CreationCreatorProps {
 	page: string
 	creation: Creation
 	appWidth: number
-	currentTheme: string
+	appTheme: string
 	creatorProfile: CreatorProfile
 }
 
@@ -31,7 +31,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	page,
 	creation,
 	appWidth,
-	currentTheme,
+	appTheme,
 	creatorProfile,
 }) => {
 	const [isHovering, setIsHovering] = useState<boolean>(true)
@@ -46,7 +46,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		setIsHovering(false)
 	}
 
-	const isThemeLight = currentTheme === 'light'
+	const isLight = appTheme === 'light'
 
 	const isOverlay = layout === 'overlay'
 	const isRelative = layout === 'relative'
@@ -61,61 +61,61 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
+					return isLight ? styles.crCreatorWhite : styles.crcrCreatorWhite
 				} else if (isRelative) {
-					return isThemeLight ? styles.crCreatorBlack : styles.crCreatorWhite
+					return isLight ? styles.crCreatorBlack : styles.crCreatorWhite
 				}
 			}
 		}
@@ -153,71 +153,71 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 		if (isMobile) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			}
 		} else if (isTablet) {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				}
 			}
 		} else {
 			if (isCrIdPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightBold
+					return isLight ? styles.textWeightReg : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else if (isCreationsPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			} else if (isCrModalPage) {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				}
 			} else {
 				if (isOverlay) {
-					return isThemeLight ? styles.textWeightBold : styles.textWeightBold
+					return isLight ? styles.textWeightBold : styles.textWeightBold
 				} else if (isRelative) {
-					return isThemeLight ? styles.textWeightReg : styles.textWeightReg
+					return isLight ? styles.textWeightReg : styles.textWeightReg
 				}
 			}
 		}
-	}, [appWidth, page, layout, currentTheme])
+	}, [appWidth, page, layout, appTheme])
 
 	const isCreator =
 		typeof creatorProfile?.user?.username !== 'undefined' &&
@@ -246,7 +246,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 	const creatorDisplay = handleCreatorDisplay()
 	const creatorAddress = handleCreatorAddress()
 
-	// console.log({ currentTheme })
+	// console.log({ appTheme })
 	// console.log({ layout})
 
 	// console.log('Creation User', creation?.user)
@@ -265,7 +265,7 @@ const CreationCreator: FC<CreationCreatorProps> = ({
 
 	// console.log({ isRelative })
 	// console.log({ isCrIdPage })
-	// console.log({ isThemeLight })
+	// console.log({ isLight })
 	// console.log({ creatorWeight })
 
 	// console.log({ isMobile, isTablet })

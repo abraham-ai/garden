@@ -65,8 +65,8 @@ interface AppContext {
 		collectionName: string | null
 	) => Promise<void>
 
-	currentTheme: string
-	setCurrentTheme: Dispatch<SetStateAction<string>>
+	appTheme: string
+	setAppTheme: Dispatch<SetStateAction<string>>
 }
 
 export default AppContext

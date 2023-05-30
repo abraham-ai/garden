@@ -24,9 +24,9 @@ const MenuButton: FC<MenuButtonProps> = ({ title, pathname }) => {
 	const context = useContext(AppContext)
 	const router = useRouter()
 
-	const currentTheme = context?.currentTheme ?? 'light'
-	const isLight = currentTheme === 'light'
-	const appTheme = isLight ? themeDefault : themeDark
+	const appTheme = context?.appTheme ?? 'light'
+	const isLight = appTheme === 'light'
+	const currentTheme = isLight ? themeDefault : themeDark
 
 	const isCreator = title === 'creator'
 	const isCreations = title === 'creations'
@@ -58,7 +58,7 @@ const MenuButton: FC<MenuButtonProps> = ({ title, pathname }) => {
 	console.log({ isSelected })
 
 	return (
-		<ConfigProvider theme={appTheme}>
+		<ConfigProvider theme={currentTheme}>
 			<Button type={isSelected ? 'primary' : 'text'} icon={menuIcon}>
 				{title}
 			</Button>

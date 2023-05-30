@@ -12,7 +12,7 @@ interface CollectionItemButton {
 	collection: Collection
 	collectionCreations: Creation[]
 	isCollectionHovering: boolean
-	currentTheme: string
+	appTheme: string
 	refetchTrigger: number
 	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
@@ -20,7 +20,7 @@ interface CollectionItemButton {
 const CollectionItemRenameButton: FC<CollectionItemButton> = ({
 	collection,
 	collectionCreations,
-	currentTheme,
+	appTheme,
 }) => {
 	const renameStyles = {
 		display: 'flex',
@@ -55,7 +55,7 @@ const CollectionItemRenameButton: FC<CollectionItemButton> = ({
 		// console.log('currentTheme:', currentTheme)
 		// console.log('isCollectionEmpty:', isCollectionEmpty)
 
-		if (currentTheme === 'light') {
+		if (appTheme === 'light') {
 			return isCollectionEmpty ? 'black' : 'white'
 		} else {
 			return 'white'

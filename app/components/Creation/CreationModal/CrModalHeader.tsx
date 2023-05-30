@@ -22,7 +22,7 @@ interface CrModalHeaderProps {
 	appWidth: number
 	reactionCountList: ReactionCountList
 	page: string
-	currentTheme: string
+	appTheme: string
 	creatorProfile: CreatorProfile
 }
 
@@ -32,7 +32,7 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 	appWidth,
 	reactionCountList,
 	page,
-	currentTheme,
+	appTheme,
 	creatorProfile,
 }) => {
 	const isMobile = appWidth < 768
@@ -71,7 +71,7 @@ const CrModalHeader: FC<CrModalHeaderProps> = ({
 				creation={creation}
 				appWidth={appWidth}
 				page={page}
-				currentTheme={currentTheme}
+				appTheme={appTheme}
 				creatorProfile={creatorProfile}
 			/>
 			<Row style={socialWrapperStyles}>

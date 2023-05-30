@@ -8,7 +8,7 @@ import AppContext from '../../../context/AppContext'
 import useSWRInfinite from 'swr/infinite'
 
 import emptyCreatorProfile from '../../../constants/emptyCreatorProfile'
-import CreationsSorter from './CreationsSorter'
+import CreationsSorter from './CreationsSorter/CreationsSorter'
 import CreationsMasonry from './CreationsMasonry'
 import CreationsGridAnalytics from './Analytics/CreationsGridAnalytics'
 

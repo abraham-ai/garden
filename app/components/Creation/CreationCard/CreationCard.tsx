@@ -35,7 +35,7 @@ interface CreationCardProps {
 	creatorProfile: CreatorProfile
 	layout: string
 	appWidth: number
-	currentTheme: string
+	appTheme: string
 	page: string
 	onCreationClick: (creation: Creation, index: number) => void
 }
@@ -47,7 +47,7 @@ const CreationCard: FC<CreationCardProps> = ({
 	creatorProfile,
 	layout = 'overlay',
 	appWidth,
-	currentTheme,
+	appTheme,
 	page,
 	onCreationClick,
 }) => {
@@ -226,7 +226,7 @@ const CreationCard: FC<CreationCardProps> = ({
 														creation={creation}
 														creatorProfile={creatorProfile}
 														appWidth={appWidth}
-														currentTheme={currentTheme}
+														appTheme={appTheme}
 														page={page}
 														layout={layout}
 													/>
@@ -235,7 +235,7 @@ const CreationCard: FC<CreationCardProps> = ({
 														creation={creation}
 														creatorProfile={creatorProfile}
 														appWidth={appWidth}
-														currentTheme={currentTheme}
+														appTheme={appTheme}
 														page={page}
 														layout={layout}
 													/>

@@ -9,7 +9,7 @@ import styles from '../../../../styles/CreationCard.module.css'
 
 interface CrCardDesktopProps {
 	creation: Creation
-	currentTheme: string
+	appTheme: string
 	appWidth: number
 	creatorProfile: CreatorProfile
 	page: string
@@ -19,7 +19,7 @@ interface CrCardDesktopProps {
 const CrCardDesktop: FC<CrCardDesktopProps> = ({
 	creation,
 	appWidth,
-	currentTheme,
+	appTheme,
 	creatorProfile,
 	page,
 	layout,
@@ -35,7 +35,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 				layout={layout}
 				page={page}
 				appWidth={appWidth}
-				currentTheme={currentTheme}
+				appTheme={appTheme}
 			/>
 
 			<CreationCreator
@@ -44,7 +44,7 @@ const CrCardDesktop: FC<CrCardDesktopProps> = ({
 				layout={layout}
 				page={page}
 				appWidth={appWidth}
-				currentTheme={currentTheme}
+				appTheme={appTheme}
 			/>
 		</article>
 		// </div>

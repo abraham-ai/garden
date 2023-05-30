@@ -30,7 +30,7 @@ const { Text } = Typography
 
 interface CollectionItemProps {
 	collection: Collection
-	currentTheme: string
+	appTheme: string
 	collectionCreations: Creation[]
 	refetchTrigger: number
 	setRefetchTrigger: Dispatch<SetStateAction<number>>
@@ -38,7 +38,7 @@ interface CollectionItemProps {
 
 const CollectionItem: FC<CollectionItemProps> = ({
 	collection,
-	currentTheme,
+	appTheme,
 	collectionCreations,
 	refetchTrigger,
 	setRefetchTrigger,
@@ -67,9 +67,9 @@ const CollectionItem: FC<CollectionItemProps> = ({
 	}
 
 	const handleButtonTheme = (): ThemeConfig => {
-		if (currentTheme === 'light' && !isCollectionEmpty) {
+		if (appTheme === 'light' && !isCollectionEmpty) {
 			return themeDark
-		} else if (currentTheme === 'light' && isCollectionEmpty) {
+		} else if (appTheme === 'light' && isCollectionEmpty) {
 			return themeDefault
 		} else {
 			return themeDefault
@@ -139,7 +139,7 @@ const CollectionItem: FC<CollectionItemProps> = ({
 					<Row style={renameWrapperStyles}>
 						<CollectionItemRenameButton
 							collection={collection}
-							currentTheme={currentTheme}
+							appTheme={appTheme}
 							isCollectionHovering={isCollectionHovering}
 							collectionCreations={collectionCreations}
 							refetchTrigger={refetchTrigger}
@@ -149,7 +149,7 @@ const CollectionItem: FC<CollectionItemProps> = ({
 					<Row style={deleteWrapperStyles}>
 						<CollectionItemDeleteButton
 							collection={collection}
-							currentTheme={currentTheme}
+							appTheme={appTheme}
 							isCollectionHovering={isCollectionHovering}
 							collectionCreations={collectionCreations}
 							refetchTrigger={refetchTrigger}

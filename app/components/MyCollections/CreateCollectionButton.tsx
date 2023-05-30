@@ -10,11 +10,11 @@ import { Typography, Button, Row } from 'antd'
 const { Text } = Typography
 
 interface CreateCollectionButtonProps {
-	currentTheme: string
+	appTheme: string
 }
 
 const CreateCollectionButton: FC<CreateCollectionButtonProps> = ({
-	currentTheme,
+	appTheme,
 }) => {
 	const context = useContext(AppContext)
 

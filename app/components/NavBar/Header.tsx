@@ -47,7 +47,7 @@ const Header: FC = () => {
 	const firstSignInRequest = context?.firstSignInRequest ?? false
 	const setFirstSignInRequest = context?.setFirstSignInRequest ?? (() => {})
 	const setIsSignInModalOpen = context?.setIsSignInModalOpen ?? (() => {})
-	const currentTheme = context?.currentTheme ?? 'light'
+	const appTheme = context?.appTheme ?? 'light'
 
 	const { width: appWidth } = useWindowDimensions()
 
@@ -116,11 +116,11 @@ const Header: FC = () => {
 		}
 	}
 
-	const isThemeLight = currentTheme === 'light'
-	const textThemeColor = { color: isThemeLight ? 'black' : 'white' }
+	const isLight = appTheme === 'light'
+	const textThemeColor = { color: isLight ? 'black' : 'white' }
 	const isUserId = typeof userId !== 'undefined' && userId !== ''
 
-	// console.log({ isThemeLight })
+	// console.log({ isLight })
 	// console.log({ firstSignInRequest })
 	// console.log({ userId })
 

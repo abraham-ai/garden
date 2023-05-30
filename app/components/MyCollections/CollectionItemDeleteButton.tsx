@@ -13,7 +13,7 @@ interface CollectionItemButton {
 	collection: Collection
 	collectionCreations: Creation[]
 	isCollectionHovering: boolean
-	currentTheme: string
+	appTheme: string
 	refetchTrigger: number
 	setRefetchTrigger: Dispatch<SetStateAction<number>>
 }
@@ -21,7 +21,7 @@ interface CollectionItemButton {
 const CollectionItemDeleteButton: FC<CollectionItemButton> = ({
 	collection,
 	collectionCreations,
-	currentTheme,
+	appTheme,
 	refetchTrigger,
 	setRefetchTrigger,
 }) => {
@@ -51,10 +51,10 @@ const CollectionItemDeleteButton: FC<CollectionItemButton> = ({
 	}
 
 	const handleIconColor = (): string => {
-		// console.log('currentTheme:', currentTheme)
+		// console.log('currentTheme:', isLight)
 		// console.log('isCollectionEmpty:', isCollectionEmpty)
 
-		if (currentTheme === 'light') {
+		if (appTheme === 'light') {
 			return isCollectionEmpty ? 'black' : 'white'
 		} else {
 			return 'white'

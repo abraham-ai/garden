@@ -14,7 +14,7 @@ interface CreationPromptProps {
 	creation: Creation
 	layout: string
 	appWidth: number
-	currentTheme: string
+	appTheme: string
 	page: string
 }
 
@@ -22,10 +22,10 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	creation,
 	layout,
 	appWidth,
-	currentTheme,
+	appTheme,
 	page,
 }) => {
-	const isThemeLight = currentTheme === 'light'
+	const isLight = appTheme === 'light'
 
 	const isOverlay = layout === 'overlay'
 	const isRelative = layout === 'relative'
@@ -98,30 +98,30 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 	const promptColor: string | undefined = useMemo(() => {
 		if (isMobile) {
 			if (isOverlay) {
-				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
+				return isLight ? styles.crPromptWhite : styles.crPromptWhite
 			} else if (isRelative) {
-				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+				return isLight ? styles.crPromptBlack : styles.crPromptWhite
 			} else {
-				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+				return isLight ? styles.crPromptBlack : styles.crPromptWhite
 			}
 		} else if (isTablet) {
 			if (isOverlay) {
-				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
+				return isLight ? styles.crPromptWhite : styles.crPromptWhite
 			} else if (isRelative) {
-				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+				return isLight ? styles.crPromptBlack : styles.crPromptWhite
 			} else {
-				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+				return isLight ? styles.crPromptBlack : styles.crPromptWhite
 			}
 		} else {
 			if (isOverlay) {
-				return isThemeLight ? styles.crPromptWhite : styles.crPromptWhite
+				return isLight ? styles.crPromptWhite : styles.crPromptWhite
 			} else if (isRelative) {
-				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+				return isLight ? styles.crPromptBlack : styles.crPromptWhite
 			} else {
-				return isThemeLight ? styles.crPromptBlack : styles.crPromptWhite
+				return isLight ? styles.crPromptBlack : styles.crPromptWhite
 			}
 		}
-	}, [appWidth, currentTheme])
+	}, [appWidth, appTheme])
 
 	const promptWrapper: string | undefined = useMemo(() => {
 		if (isCrIdPage) {
@@ -195,7 +195,7 @@ const CreationPrompt: FC<CreationPromptProps> = ({
 		}
 	}, [appWidth])
 
-	// console.log({ isThemeLight })
+	// console.log({ isLight })
 	// console.log({ isMobile, isTablet })
 	// console.log({ isOverlay })
 	// console.log({ isRelative })

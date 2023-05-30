@@ -49,7 +49,7 @@ const Creation: FC<CreationPageProps> = ({
 	const router = useRouter()
 	const context = useContext(AppContext)
 
-	const currentTheme = context?.currentTheme ?? 'light'
+	const appTheme = context?.appTheme ?? 'light'
 
 	const queryCreationId = Array.isArray(router.query.creationId)
 		? router.query.creationId[0]
@@ -166,7 +166,7 @@ const Creation: FC<CreationPageProps> = ({
 										layout='relative'
 										page='creationId'
 										appWidth={appWidth}
-										currentTheme={currentTheme}
+										appTheme={appTheme}
 									/>
 								</article>
 
@@ -191,7 +191,7 @@ const Creation: FC<CreationPageProps> = ({
 								layout={'relative'}
 								page={'creationId'}
 								appWidth={appWidth}
-								currentTheme={currentTheme}
+								appTheme={appTheme}
 							/>
 
 							<Col className={styles.crPromptProperties}>

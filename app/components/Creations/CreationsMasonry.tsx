@@ -28,7 +28,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 	creatorProfile,
 }) => {
 	const context = useContext(AppContext)
-	const currentTheme = context?.currentTheme ?? 'light'
+	const appTheme = context?.appTheme ?? 'light'
 
 	const isCreations = creationsData.length > 0
 
@@ -70,7 +70,7 @@ const CreationsMasonry: FC<CreationsMasonryProps> = ({
 									key={creation._id}
 									index={i}
 									appWidth={appWidth}
-									currentTheme={currentTheme}
+									appTheme={appTheme}
 									page='creations'
 									onCreationClick={onCreationClick}
 								/>

@@ -66,7 +66,7 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
 				trigger='click'
 				placement='bottom'
 			>
-				<Tooltip placement='bottom' title={<Text>{'Settings'}</Text>}>
+				<Tooltip placement='bottom' title={'Settings'}>
 					<Button type='link' shape='circle' style={{ marginRight: 10 }}>
 						<Badge count={handleBadgeCount()}>
 							<BsGear style={{ fontSize: '1.5rem' }} />
